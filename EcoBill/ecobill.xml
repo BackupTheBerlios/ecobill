@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="ecobill" default="init">
+
+    <property name="lib.dir" value="lib"/>
+    <property name="src.dir" value="src"/>
+    <property name="export.dir" value="export"/>
+    <property name="class.dir" value="classes"/>
+
+    <path id="class.path">
+        <fileset dir="${class.dir}">
+            <include name="**/*.class"/>
+        </fileset>
+        <fileset dir="${lib.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="init">
+        <mkdir dir="${export.dir}"/>
+    </target>
+
+    <target name="schemaexport" depends="init">
+        <taskdef name="schemaexport"
+                 classname="org.hibernate.tool.hbm2ddl.SchemaExportTask"
+                 classpathref="class.path"/>
+
+        <schemaexport
+                properties="${src.dir}/ecobill/config/hibernate.properties"
+                quiet="no"
+                text="no"
+                drop="no"
+                delimiter=";"
+                output="${export.dir}/schema-export.sql">
+            <fileset dir="src">
+                <include name="**/*.hbm.xml"/>
+            </fileset>
+        </schemaexport>
+    </target>
+
+    <target name="schemaupdate">
+        <taskdef name="schemaupdate"
+                 classname="org.hibernate.tool.hbm2ddl.SchemaUpdateTask"
+                 classpathref="class.path"/>
+
+        <schemaupdate
+                properties="${src.dir}/ecobill/config/hibernate.properties"
+                quiet="no">
+            <fileset dir="src">
+                <include name="**/*.hbm.xml"/>
+            </fileset>
+        </schemaupdate>
+    </target>
+
+</project>

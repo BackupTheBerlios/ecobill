@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<!--
+ User: rro
+ Date: 21.07.2005
+ Time: 13:37:24
+
+ @author Roman R&auml;dle
+ @version $Id: DeliveryOrder.hbm.xml,v 1.1 2005/07/28 20:51:31 raedler Exp $
+ @since EcoBill 1.0
+-->
+
+<hibernate-mapping default-lazy="false">
+
+    <class name="ecobill.module.base.domain.DeliveryOrder" table="BASE_DELIVERY_ORDER">
+
+        <id name="id" type="long" unsaved-value="-1">
+            <column name="ID" not-null="true"/>
+            <generator class="native"/>
+        </id>
+
+        <many-to-one name="businessPartner" class="ecobill.module.base.domain.BusinessPartner" column="BUSINESS_PARTNER_ID" lazy="true"/>
+
+        <property name="deliveryOrderNumber" type="long">
+            <column name="DELIVERY_ORDER_NUMBER" not-null="true"/>
+        </property>
+
+        <property name="deliveryOrderDate" type="date">
+            <column name="DELIVERY_ORDER_DATE" not-null="true"/>
+        </property>
+
+        <property name="characterisationType" type="string">
+            <column name="CHARACTERISATION_TYPE" not-null="true"/>
+        </property>
+
+        <property name="preparedBill" type="boolean">
+            <column name="PREPARED_BILL" not-null="true"/>
+        </property>
+
+        <set name="articles" table="BASE_REDUPLICATED_ARTICLE" lazy="false">
+            <key column="DELIVERY_ORDER_ID"/>
+            <one-to-many class="ecobill.module.base.domain.ReduplicatedArticle"/>
+        </set>
+
+    </class>
+
+</hibernate-mapping>

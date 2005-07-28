@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        
+<!--
+ User: rro
+ Date: 26.07.2005
+ Time: 21:13:18
+ 
+ @author Roman R&auml;dle
+ @version $Id: ArticleDescription.hbm.xml,v 1.1 2005/07/28 21:03:51 raedler Exp $
+ @since EcoBill 1.0
+-->
+
+<hibernate-mapping default-lazy="false">
+
+    <class name="ecobill.module.base.domain.ArticleDescription" table="BASE_ARTICLE_DESCRIPTION">
+
+        <id name="id" type="long" unsaved-value="-1">
+            <column name="ID" not-null="true"/>
+            <generator class="native"/>
+        </id>
+
+        <property name="description" type="string">
+            <column name="DESCRIPTION" length="4000" not-null="true"/>
+        </property>
+
+        <many-to-one name="systemLocale" class="ecobill.module.base.domain.SystemLocale" column="SYSTEM_LOCALE_KEY" property-ref="key" cascade="none"/>
+
+    </class>
+
+</hibernate-mapping>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<!--
+ User: rro
+ Date: 21.07.2005
+ Time: 13:37:24
+
+ @author Roman R&auml;dle
+ @version $Id: Address.hbm.xml,v 1.1 2005/07/28 20:51:30 raedler Exp $
+ @since EcoBill 1.0
+-->
+
+<hibernate-mapping default-lazy="false">
+
+    <class name="ecobill.module.base.domain.Address" table="BASE_ADDRESS">
+
+        <id name="id" type="long" unsaved-value="-1">
+            <column name="ID" not-null="true"/>
+            <generator class="native"/>
+        </id>
+
+        <property name="street" type="string">
+            <column name="STREET" not-null="true"/>
+        </property>
+
+        <property name="zipCode" type="string">
+            <column name="ZIP_CODE" not-null="true"/>
+        </property>
+
+        <property name="city" type="string">
+            <column name="CITY" not-null="true"/>
+        </property>
+
+        <property name="county" type="string">
+            <column name="COUNTY" not-null="true"/>
+        </property>
+
+        <property name="country" type="string">
+            <column name="COUNTRY" not-null="true"/>
+        </property>
+
+    </class>
+
+</hibernate-mapping>
