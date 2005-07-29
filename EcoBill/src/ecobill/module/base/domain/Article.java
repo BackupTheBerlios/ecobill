@@ -23,10 +23,15 @@ import java.util.List;
  * Time: 00:37:27
  *
  * @author Roman R&auml;dle
- * @version $Id: Article.java,v 1.1 2005/07/28 21:03:48 raedler Exp $
+ * @version $Id: Article.java,v 1.2 2005/07/29 20:59:07 raedler Exp $
  * @since EcoBill 1.0
  */
 public final class Article extends AbstractDomain {
+
+    /**
+     * Die Artikelnummer des Artikels.
+     */
+    private String articleNumber;
 
     /**
      * Dieser Schlüssel gibt einen Schlüssel einer Einheit an.
@@ -63,6 +68,25 @@ public final class Article extends AbstractDomain {
      * somit kann die landesspezifische Beschreibung herausgefiltert werden.
      */
     private Set<ArticleDescription> descriptions;
+
+    /**
+     * Gibt die Artikelnummer des Artikels zurück.
+     * Diese Nummer sollte eindeutig sein.
+     *
+     * @return Die Artikelnummer des Artikels.
+     */
+    public String getArticleNumber() {
+        return articleNumber;
+    }
+
+    /**
+     * Setzt die Artikelnummer des Artikels.
+     *
+     * @param articleNumber Die Artikelnummer des Artikels.
+     */
+    public void setArticleNumber(String articleNumber) {
+        this.articleNumber = articleNumber;
+    }
 
     /**
      * Gibt den Schlüssel unter diesem man in den
@@ -187,7 +211,7 @@ public final class Article extends AbstractDomain {
      *
      * @return Die landesspezifische Beschreibung von diesem Artikel.
      */
-    public String getLocalizedDescription() throws LocalizerException {
+    public String getLocalizedDescription() {
 
         /*
          * Hier wird die eingestellte <code>Locale</code> aus der <code>WorkArea</code>
@@ -200,12 +224,28 @@ public final class Article extends AbstractDomain {
          * Hole die landesspezifische Beschreibung die der <code>Locale</code> am meisten
          * ähnelt.
          */
-        ArticleDescription articleDescription = (ArticleDescription) LocalizerUtils.getLocalizedObject(this.getDescriptions(), locale);
+        ArticleDescription articleDescription = null;
+        try {
+            articleDescription = (ArticleDescription) LocalizerUtils.getLocalizedObject(this.getDescriptions(), locale);
+        }
+        catch (LocalizerException e) {
+            // Es kann keine Localized Beschreibung gefunden werden.
+        }
 
         /*
-         * Hier wird die Beschreibung zurückgegeben.
+         * Falls es eine Localized Beschreibung gibt wird der Rückgabe <code>String</code> mit
+         * der landesspezifischen Beschreibung ersetzt, ansonsten wird eine leerer <code>String</code>
+         * zurückgegeben.
          */
-        return articleDescription.getDescription();
+        String returnDescription = "";
+        if (articleDescription != null) {
+            returnDescription = articleDescription.getDescription();
+        }
+
+        /*
+        * Hier wird die Beschreibung zurückgegeben.
+        */
+        return returnDescription;
     }
 
     /**

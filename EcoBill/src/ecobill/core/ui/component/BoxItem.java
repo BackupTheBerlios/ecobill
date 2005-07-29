@@ -25,11 +25,6 @@ public class BoxItem {
     private String name;
 
     /**
-     * Das länderspezifische Properties File.
-     */
-    private static Properties props;
-
-    /**
      * Ein neues <code>BoxItem</code> dem zugleich der
      * Name übergeben werden muss.
      *
@@ -55,6 +50,28 @@ public class BoxItem {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * Es wird dieses <code>BoxItem</code> mit dem eingehenden Objekt auf Gleichheit
+     * überprüft.
+     *
+     * @see Object#equals(Object)
+     */
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final BoxItem boxItem = (BoxItem) o;
+
+        return !(this.getName() != null ? !this.getName().equals(boxItem.getName()) : boxItem.getName() != null);
+    }
+
+    /**
+     * @see Object#hashCode()
+     */
+    public int hashCode() {
+        return (name != null ? name.hashCode() : 0);
     }
 
     /**

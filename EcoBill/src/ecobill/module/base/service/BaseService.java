@@ -16,7 +16,7 @@ import java.util.List;
  * Time: 12:30:55
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseService.java,v 1.1 2005/07/28 21:03:52 raedler Exp $
+ * @version $Id: BaseService.java,v 1.2 2005/07/29 20:59:07 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface BaseService {
@@ -57,5 +57,8 @@ public interface BaseService {
      */
     public void saveOrUpdateArticle(Article article);
 
+    /**
+     * @see ecobill.module.base.dao.BaseDao#getAllArticles() 
+     */
     public List getAllArticles();
 }

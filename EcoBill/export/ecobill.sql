@@ -3,7 +3,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET CHARACTER SET 'latin1' */;
+/*!40101 SET CHARACTER SET 'utf8' */;
 
 # Host: localhost    Database: ecobill
 # ------------------------------------------------------
@@ -21,8 +21,8 @@ INSERT INTO `base_address` (`ID`,`STREET`,`ZIP_CODE`,`CITY`,`COUNTY`,`COUNTRY`) 
 # Dumping data for table base_article
 #
 
-INSERT INTO `base_article` (`ID`,`UNIT_KEY`,`PRICE`,`IN_STOCK`,`BUNDLE_CAPACITY`,`BUNDLE_UNIT_KEY`) VALUES (1,'bag',24.95,43,25,'weight');
-INSERT INTO `base_article` (`ID`,`UNIT_KEY`,`PRICE`,`IN_STOCK`,`BUNDLE_CAPACITY`,`BUNDLE_UNIT_KEY`) VALUES (2,'piece',9.99,129,1,'litre');
+INSERT INTO `base_article` (`ID`,`UNIT_KEY`,`PRICE`,`IN_STOCK`,`BUNDLE_CAPACITY`,`BUNDLE_UNIT_KEY`) VALUES (1,'amount.bag',24.95,43,25,'weight.kg');
+INSERT INTO `base_article` (`ID`,`UNIT_KEY`,`PRICE`,`IN_STOCK`,`BUNDLE_CAPACITY`,`BUNDLE_UNIT_KEY`) VALUES (2,'amount.piece',9.99,129,1,'volume.l');
 
 #
 # Dumping data for table base_article_description
@@ -41,18 +41,19 @@ INSERT INTO `base_banking` (`ID`,`BANK_ESTABLISHMENT`,`ACCOUNT_NUMBER`,`BANK_IDE
 # Dumping data for table base_bill
 #
 
+INSERT INTO `base_bill` (`ID`,`BUSINESS_PARTNER_ID`,`BILL_NUMBER`,`BILL_DATE`) VALUES (1,1,9876,'2005-07-30');
 
 #
 # Dumping data for table base_business_partner
 #
 
-INSERT INTO `base_business_partner` (`ID`,`COMPANY_TITLE_KEY`,`COMPANY_NAME`,`PERSON_ID`,`ADDRESS_ID`,`BANKING_ID`) VALUES (1,'firm','Wilken',1,1,1);
+INSERT INTO `base_business_partner` (`ID`,`COMPANY_TITLE_KEY`,`COMPANY_NAME`,`PERSON_ID`,`ADDRESS_ID`,`BANKING_ID`) VALUES (1,'firm','JF 08/15',1,1,1);
 
 #
 # Dumping data for table base_delivery_order
 #
 
-INSERT INTO `base_delivery_order` (`ID`,`BUSINESS_PARTNER_ID`,`DELIVERY_ORDER_NUMBER`,`DELIVERY_ORDER_DATE`,`CHARACTERISATION_TYPE`,`PREPARED_BILL`) VALUES (1,1,2,'2005-07-28','DELIVERY_ORDER',0);
+INSERT INTO `base_delivery_order` (`ID`,`BUSINESS_PARTNER_ID`,`DELIVERY_ORDER_NUMBER`,`DELIVERY_ORDER_DATE`,`CHARACTERISATION_TYPE`,`PREPARED_BILL`,`BILL_ID`) VALUES (1,1,2,'2005-07-28','DELIVERY_ORDER',1,1);
 
 #
 # Dumping data for table base_person

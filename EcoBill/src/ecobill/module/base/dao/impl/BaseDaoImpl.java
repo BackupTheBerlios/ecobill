@@ -18,7 +18,7 @@ import java.util.Collections;
  * Time: 12:29:43
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDaoImpl.java,v 1.1 2005/07/28 21:03:47 raedler Exp $
+ * @version $Id: BaseDaoImpl.java,v 1.2 2005/07/29 20:59:07 raedler Exp $
  * @see BaseDao
  * @since EcoBill 1.0
  */
@@ -89,6 +89,15 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
         getHibernateTemplate().saveOrUpdate(article);
     }
 
+    /**
+     * Gibt eine <code>List</code> mit allen <code>Article</code> die in der Datenbank verfügbar
+     * sind zurück.
+     *
+     * @return Eine <code>List</code> mit allen <code>Article</code> in der Datenbank.
+     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
+     *                             auftritt.
+     * @see ecobill.module.base.dao.BaseDao#getAllArticles()
+     */
     public List getAllArticles() throws DataAccessException {
         return getHibernateTemplate().loadAll(Article.class);
     }

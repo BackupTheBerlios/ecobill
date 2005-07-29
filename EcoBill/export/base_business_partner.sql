@@ -3,7 +3,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET CHARACTER SET 'latin1' */;
+/*!40101 SET CHARACTER SET 'utf8' */;
 
 # Host: localhost    Database: ecobill
 # ------------------------------------------------------
@@ -15,7 +15,7 @@ USE `ecobill`;
 # Dumping data for table base_business_partner
 #
 
-INSERT INTO `base_business_partner` (`ID`,`COMPANY_TITLE_KEY`,`COMPANY_NAME`,`PERSON_ID`,`ADDRESS_ID`,`BANKING_ID`) VALUES (1,'firm','Wilken',1,1,1);
+INSERT INTO `base_business_partner` (`ID`,`COMPANY_TITLE_KEY`,`COMPANY_NAME`,`PERSON_ID`,`ADDRESS_ID`,`BANKING_ID`) VALUES (1,'firm','JF 08/15',1,1,1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

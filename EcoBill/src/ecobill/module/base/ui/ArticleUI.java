@@ -16,6 +16,7 @@ import java.util.List;
 
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
+import ecobill.core.ui.component.BoxItem;
 import ecobill.util.UnitUtils;
 import ecobill.util.exception.LocalizerException;
 import ecobill.module.base.service.BaseService;
@@ -32,7 +33,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.2 2005/07/29 14:11:28 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.3 2005/07/29 20:59:07 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JInternalFrame implements InitializingBean {
@@ -82,12 +83,14 @@ public class ArticleUI extends JInternalFrame implements InitializingBean {
     private JPanel overviewTopP = new JPanel(null);
     private TitledBorder dataBorder = new TitledBorder(new EtchedBorder());
     private TitledBorder bundleBorder = new TitledBorder(new EtchedBorder());
+    private TitledBorder descriptionBorder = new TitledBorder(new EtchedBorder());
 
     private JPanel descriptionsP = new JPanel(null);
 
     /**
      * Alle Labels die nötig sind um die GUI erklärend zu gestalten.
      */
+    private JLabel articleNumberL = new JLabel();
     private JLabel unitL = new JLabel();
     private JLabel priceL = new JLabel();
     private JLabel inStockL = new JLabel();
@@ -99,12 +102,19 @@ public class ArticleUI extends JInternalFrame implements InitializingBean {
     /**
      * Alle nötigen Eingabemasken, wie <code>JComboBox</code>, <code>JSpinner</code>,...
      */
-    private JComboBox unitCB = new JComboBox(UnitUtils.getAllUnits());
-    private JSpinner priceSp = new JSpinner(new SpinnerNumberModel(0, 0, Double.MAX_VALUE, 0.01));
-    private JSpinner inStockSp = new JSpinner(new SpinnerNumberModel(0, 0, Double.MAX_VALUE, 0.1));
-    private JComboBox bundleUnitCB = new JComboBox(UnitUtils.getAllUnits());
-    private JSpinner bundleCapacitySp = new JSpinner(new SpinnerNumberModel(0, 0, Double.MAX_VALUE, 0.1));
+    private JTextField articleNumberTF = new JTextField();
+    private ComboBoxModel unitCBModel = new DefaultComboBoxModel(UnitUtils.getAllUnits());
+    private JComboBox unitCB = new JComboBox(unitCBModel);
+    private SpinnerModel priceSpModel = new SpinnerNumberModel(0, 0, Double.MAX_VALUE, 0.01);
+    private JSpinner priceSp = new JSpinner(priceSpModel);
+    private SpinnerModel inStockSpModel = new SpinnerNumberModel(0, 0, Double.MAX_VALUE, 0.1);
+    private JSpinner inStockSp = new JSpinner(inStockSpModel);
+    private ComboBoxModel bundleUnitCBModel = new DefaultComboBoxModel(UnitUtils.getAllUnits());
+    private JComboBox bundleUnitCB = new JComboBox(bundleUnitCBModel);
+    private SpinnerModel bundleCapacitySpModel = new SpinnerNumberModel(0, 0, Double.MAX_VALUE, 0.1);
+    private JSpinner bundleCapacitySp = new JSpinner(bundleCapacitySpModel);
     private JTextArea descriptionTA = new JTextArea();
+    private JTextArea descriptionsTA = new JTextArea();
     private JComboBox languageCB = new JComboBox();
     private JComboBox countryCB = new JComboBox();
 
@@ -246,6 +256,10 @@ public class ArticleUI extends JInternalFrame implements InitializingBean {
          */
         dataBorder.setTitle(WorkArea.getMessage(Constants.DATA));
         bundleBorder.setTitle(WorkArea.getMessage(Constants.BUNDLE));
+        descriptionBorder.setTitle(WorkArea.getMessage(Constants.DESCRIPTION));
+
+        articleNumberL.setText(WorkArea.getMessage(Constants.ARTICLE_NR));
+        articleNumberL.setToolTipText(WorkArea.getMessage(Constants.ARTICLE_NR));
 
         unitL.setText(WorkArea.getMessage(Constants.UNIT));
         unitL.setToolTipText(WorkArea.getMessage(Constants.UNIT_TOOLTIP));
@@ -322,7 +336,7 @@ public class ArticleUI extends JInternalFrame implements InitializingBean {
         overviewTopP.setBorder(new EtchedBorder());
 
         // Setzt die Größe des Panels.
-        overviewTopP.setPreferredSize(new Dimension(300, 120));
+        overviewTopP.setPreferredSize(new Dimension(300, 320));
 
         // Ein Panel für den Artikel und die Hauptdaten.
         JPanel articleP = new JPanel(null);
@@ -334,26 +348,37 @@ public class ArticleUI extends JInternalFrame implements InitializingBean {
         bundleBorder.setTitleColor(Color.BLACK);
         articleBundleP.setBorder(bundleBorder);
 
+        // Ein Panel für die Beschreibung der eingestellten Sprache.
+        JPanel articleDescriptionP = new JPanel(null);
+        descriptionBorder.setTitleColor(Color.BLACK);
+        articleDescriptionP.setBorder(descriptionBorder);
+
         /*
-         * Setzt die Position der einzelnen Komponenten und hinzufügen
-         * auf das Artikel Panel.
-         */
-        unitL.setBounds(12, 20, 100, 20);
+        * Setzt die Position der einzelnen Komponenten und hinzufügen
+        * auf das Artikel Panel.
+        */
+        articleNumberL.setBounds(12, 20, 120, 20);
+        articleP.add(articleNumberL);
+
+        articleNumberTF.setBounds(10, 40, 200, 20);
+        articleP.add(articleNumberTF);
+
+        unitL.setBounds(12, 70, 100, 20);
         articleP.add(unitL);
 
-        unitCB.setBounds(10, 40, 100, 20);
+        unitCB.setBounds(10, 90, 100, 20);
         articleP.add(unitCB);
 
-        priceL.setBounds(122, 20, 100, 20);
+        priceL.setBounds(122, 70, 100, 20);
         articleP.add(priceL);
 
-        priceSp.setBounds(120, 40, 100, 20);
+        priceSp.setBounds(120, 90, 100, 20);
         articleP.add(priceSp);
 
-        inStockL.setBounds(232, 20, 100, 20);
+        inStockL.setBounds(232, 70, 100, 20);
         articleP.add(inStockL);
 
-        inStockSp.setBounds(230, 40, 100, 20);
+        inStockSp.setBounds(230, 90, 100, 20);
         articleP.add(inStockSp);
 
         /*
@@ -366,22 +391,41 @@ public class ArticleUI extends JInternalFrame implements InitializingBean {
         bundleUnitCB.setBounds(10, 40, 100, 20);
         articleBundleP.add(bundleUnitCB);
 
-        bundleCapacityL.setBounds(122, 20, 100, 20);
+        bundleCapacityL.setBounds(12, 70, 100, 20);
         articleBundleP.add(bundleCapacityL);
 
-        bundleCapacitySp.setBounds(120, 40, 100, 20);
+        bundleCapacitySp.setBounds(10, 90, 100, 20);
         articleBundleP.add(bundleCapacitySp);
 
-        articleP.setBounds(10, 10, 340, 75);
-        overviewTopP.add(articleP);
-
-        articleBundleP.setBounds(360, 10, 230, 75);
-        overviewTopP.add(articleBundleP);
+        /*
+         * Setzt die Position der Beschreibung <code>JTextArea</code>
+         * auf dem Beschreibung Panel. Desweiteren werden diverse Einstellungen
+         * der <code>JTextArea</code> vorgenommen.
+         */
+        descriptionTA.setWrapStyleWord(true);
+        descriptionTA.setLineWrap(true);
+        JScrollPane descriptionSP = new JScrollPane(descriptionTA);
+        descriptionSP.setBounds(10, 25, 450, 100);
+        descriptionSP.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        articleDescriptionP.add(descriptionSP);
 
         /*
-         * Setzt den Speichern/Ändern Button auf das Panel.
-         */
-        saveB.setBounds(10, 90, 100, 20);
+        * Setzt die Positionen der einzelnen Panels auf dem oberen Überblick
+        * Panel.
+        */
+        articleP.setBounds(10, 10, 340, 125);
+        overviewTopP.add(articleP);
+
+        articleBundleP.setBounds(360, 10, 120, 125);
+        overviewTopP.add(articleBundleP);
+
+        articleDescriptionP.setBounds(10, 140, 470, 140);
+        overviewTopP.add(articleDescriptionP);
+
+        /*
+        * Setzt den Speichern/Ändern Button auf das Panel.
+        */
+        saveB.setBounds(10, 290, 100, 20);
         overviewP.add(saveB);
     }
 
@@ -407,22 +451,10 @@ public class ArticleUI extends JInternalFrame implements InitializingBean {
 
                 Vector<Object> lineV = new Vector<Object>();
 
-                lineV.add(article.getId());
+                lineV.add(article.getArticleNumber());
                 lineV.add(WorkArea.getMessage(article.getUnitKey()));
                 lineV.add(article.getPrice());
-
-                try {
-                    lineV.add(article.getLocalizedDescription());
-                }
-                catch (LocalizerException e) {
-                    try {
-                        lineV.add(article.getDescriptions().iterator().next());
-                    }
-                    catch (Exception e1) {
-                        lineV.add("");
-                    }
-                }
-
+                lineV.add(article.getLocalizedDescription());
                 lineV.add(article.getInStock());
                 lineV.add(WorkArea.getMessage(article.getBundleUnitKey()));
                 lineV.add(article.getBundleCapacity());
@@ -465,23 +497,28 @@ public class ArticleUI extends JInternalFrame implements InitializingBean {
     private void showArticle(Long articleId) {
         Article article = baseService.getArticleById(articleId);
 
-        priceSp.setValue(article.getPrice());
-        inStockSp.setValue(article.getInStock());
+        articleNumberTF.setText(article.getArticleNumber());
+        unitCBModel.setSelectedItem(new BoxItem(article.getUnitKey()));
+        priceSpModel.setValue(article.getPrice());
+        inStockSpModel.setValue(article.getInStock());
+        bundleUnitCBModel.setSelectedItem(new BoxItem(article.getBundleUnitKey()));
+        bundleCapacitySpModel.setValue(article.getBundleCapacity());
+        descriptionTA.setText(article.getLocalizedDescription());
     }
 
     private void initDescriptionP() {
 
         descriptionsP.setBorder(new BevelBorder(BevelBorder.RAISED));
 
-        descriptionTA.setBorder(new BevelBorder(BevelBorder.LOWERED));
-        descriptionTA.setLineWrap(true);
-        descriptionTA.setWrapStyleWord(true);
-        //descriptionTA.setFont(descriptionTA.getFont().deriveFont(11));
+        descriptionsTA.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        descriptionsTA.setLineWrap(true);
+        descriptionsTA.setWrapStyleWord(true);
+        //descriptionsTA.setFont(descriptionsTA.getFont().deriveFont(11));
 
         languageL.setBounds(10, 120, 100, 20);
         countryL.setBounds(10, 145, 100, 20);
 
-        descriptionTA.setBounds(10, 10, 360, 100);
+        descriptionsTA.setBounds(10, 10, 360, 100);
         languageCB.setBounds(110, 120, 100, 20);
         countryCB.setBounds(110, 145, 100, 20);
         addDescriptionB.setBounds(240, 145, 100, 20);
@@ -489,7 +526,7 @@ public class ArticleUI extends JInternalFrame implements InitializingBean {
         descriptionsP.add(languageL);
         descriptionsP.add(countryL);
 
-        descriptionsP.add(descriptionTA);
+        descriptionsP.add(descriptionsTA);
         descriptionsP.add(languageCB);
         descriptionsP.add(countryCB);
         descriptionsP.add(addDescriptionB);

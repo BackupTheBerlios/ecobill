@@ -21,8 +21,8 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.1 2005/07/29 13:21:15 raedler Exp $
- * @since DAPS INTRA 1.0
+ * @version $Id: MainFrame.java,v 1.2 2005/07/29 20:59:07 raedler Exp $
+ * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
 
@@ -46,7 +46,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
 
     public void afterPropertiesSet() throws Exception {
-         //articleUI = ArticleUI.getInstance();
+        //articleUI = ArticleUI.getInstance();
         System.out.println("ARTICLE_UI: " + articleUI);
 
         this.setTitle("??? bundle title ???");

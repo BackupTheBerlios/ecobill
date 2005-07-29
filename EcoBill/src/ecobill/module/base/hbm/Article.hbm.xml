@@ -9,7 +9,7 @@
  Time: 13:37:24
 
  @author Roman R&auml;dle
- @version $Id: Article.hbm.xml,v 1.1 2005/07/28 21:03:51 raedler Exp $
+ @version $Id: Article.hbm.xml,v 1.2 2005/07/29 20:59:07 raedler Exp $
  @since EcoBill 1.0
 -->
 
@@ -21,6 +21,10 @@
             <column name="ID" not-null="true"/>
             <generator class="native"/>
         </id>
+
+        <property name="articleNumber" type="string">
+            <column name="ARTICLE_NUMBER" not-null="true" unique="true"/>
+        </property>
 
         <property name="unitKey" type="string">
             <column name="UNIT_KEY" not-null="true"/>

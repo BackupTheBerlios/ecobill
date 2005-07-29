@@ -16,7 +16,7 @@ import java.util.List;
  * Time: 12:31:05
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseServiceImpl.java,v 1.1 2005/07/28 21:03:52 raedler Exp $
+ * @version $Id: BaseServiceImpl.java,v 1.2 2005/07/29 20:59:07 raedler Exp $
  * @see BaseService
  * @since EcoBill 1.0
  */
@@ -78,6 +78,9 @@ public class BaseServiceImpl implements BaseService {
         baseDao.saveOrUpdateArticle(article);
     }
 
+    /**
+     * @see ecobill.module.base.dao.BaseDao#getAllArticles() 
+     */
     public List getAllArticles() {
         return baseDao.getAllArticles();
     }

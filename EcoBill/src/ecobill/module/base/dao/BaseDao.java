@@ -16,7 +16,7 @@ import java.util.List;
  * Time: 12:29:36
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDao.java,v 1.1 2005/07/28 21:03:47 raedler Exp $
+ * @version $Id: BaseDao.java,v 1.2 2005/07/29 20:59:07 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface BaseDao {
@@ -73,5 +73,13 @@ public interface BaseDao {
      */
     public void saveOrUpdateArticle(Article article) throws DataAccessException;
 
+    /**
+     * Gibt eine <code>List</code> mit allen <code>Article</code> die in der Datenbank verfügbar
+     * sind zurück.
+     *
+     * @return Eine <code>List</code> mit allen <code>Article</code> in der Datenbank.
+     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
+     *                             auftritt.
+     */
     public List getAllArticles() throws DataAccessException;
 }

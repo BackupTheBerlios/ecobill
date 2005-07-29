@@ -11,13 +11,15 @@ import ecobill.core.ui.component.BoxItem;
  * Time: 20:09:09
  *
  * @author Roman R&auml;dle
- * @version $Id: UnitUtils.java,v 1.1 2005/07/28 21:03:53 raedler Exp $
+ * @version $Id: UnitUtils.java,v 1.2 2005/07/29 20:59:07 raedler Exp $
  * @since DAPS INTRA 1.0
  */
 public class UnitUtils {
     public static Object[] getAllUnits() {
 
         return new Object[] {
+                new BoxItem("amount.bag"),
+                new BoxItem("amount.piece"),
                 new BoxItem("weight.mg"),
                 new BoxItem("weight.g"),
                 new BoxItem("weight.kg"),
