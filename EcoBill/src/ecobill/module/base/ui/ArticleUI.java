@@ -1,11 +1,16 @@
 package ecobill.module.base.ui;
 
 import javax.swing.*;
+import javax.swing.event.TableModelListener;
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.*;
 import java.util.List;
 
@@ -27,7 +32,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.1 2005/07/28 21:03:53 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.2 2005/07/29 14:11:28 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JInternalFrame implements InitializingBean {
@@ -296,6 +301,7 @@ public class ArticleUI extends JInternalFrame implements InitializingBean {
          * Hinzufügen der landesspezifischen Bezeichnungen in der richtigen
          * Reihenfolge.
          */
+        articleTableHeaderV.add(WorkArea.getMessage(Constants.ARTICLE_NR));
         articleTableHeaderV.add(WorkArea.getMessage(Constants.UNIT));
         articleTableHeaderV.add(WorkArea.getMessage(Constants.SINGLE_PRICE));
         articleTableHeaderV.add(WorkArea.getMessage(Constants.DESCRIPTION));
@@ -401,6 +407,7 @@ public class ArticleUI extends JInternalFrame implements InitializingBean {
 
                 Vector<Object> lineV = new Vector<Object>();
 
+                lineV.add(article.getId());
                 lineV.add(WorkArea.getMessage(article.getUnitKey()));
                 lineV.add(article.getPrice());
 
@@ -426,11 +433,40 @@ public class ArticleUI extends JInternalFrame implements InitializingBean {
 
         this.articleTableModel.setDataVector(articleTableDataV, createI18NTableHeader());
 
-        //this.articleTableModel.setDataVector(new Object[][]{{"a", "d"}, {"b", "e"}, {"c", "f"}, {"c", "f"}, {"c", "f"}, {"c", "f"}, {"c", "f"}, {"c", "f"}, {"c", "f"}, {"c", "f"}, {"c", "f"}, {"c", "f"}, {"c", "f"}, {"c", "f"}, {"c", "f"}, {"c", "f"}, {"c", "f"}, {"c", "f"}, {"c", "f"}}, new Object[]{"AFFE", "OTTO"});
+        this.articleTable.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                int row = ArticleUI.this.articleTable.getSelectedRow();
 
-        //this.articleTable.setAutoCreateColumnsFromModel(true);
-        //this.articleTable.setAutoscrolls(true);
-        //this.articleTable.setDragEnabled(true);
+                Object objId = ArticleUI.this.articleTableModel.getValueAt(row, 0);
+
+                Long id = null;
+                if (objId instanceof Long) {
+                    id = (Long) objId;
+                }
+
+                System.out.println("ID: " + id);
+
+                ArticleUI.this.showArticle(id);
+            }
+        });
+
+        this.articleTableModel.addTableModelListener(new TableModelListener() {
+            public void tableChanged(TableModelEvent e) {
+                int row = e.getFirstRow();
+                int col = e.getColumn();
+
+                TableModel clazz = (TableModel) e.getSource();
+
+                System.out.println(row + " : " + col + " | ARTIKEL ID = " + clazz.getValueAt(row, 0));
+            }
+        });
+    }
+
+    private void showArticle(Long articleId) {
+        Article article = baseService.getArticleById(articleId);
+
+        priceSp.setValue(article.getPrice());
+        inStockSp.setValue(article.getInStock());
     }
 
     private void initDescriptionP() {
