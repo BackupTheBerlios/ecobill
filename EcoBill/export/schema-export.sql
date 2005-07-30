@@ -28,6 +28,7 @@ create table BASE_ADDRESS (
 ) type=InnoDB;
 create table BASE_ARTICLE (
     ID bigint not null auto_increment,
+    ITEM_NUMBER varchar(255) not null unique,
     UNIT_KEY varchar(255) not null,
     PRICE double precision not null,
     IN_STOCK double precision not null,
