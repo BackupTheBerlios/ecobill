@@ -3,6 +3,10 @@ package ecobill.module.base.dao;
 import ecobill.module.base.domain.Article;
 import ecobill.module.base.domain.Person;
 import ecobill.module.base.domain.BusinessPartner;
+import ecobill.module.base.domain.SystemLocale;
+import ecobill.module.base.dao.exception.NoSuchSystemLocaleException;
+import ecobill.module.base.dao.exception.NonUniqueHibernateResultException;
+import ecobill.module.base.dao.exception.NoSuchArticleException;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
@@ -16,10 +20,39 @@ import java.util.List;
  * Time: 12:29:36
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDao.java,v 1.2 2005/07/29 20:59:07 raedler Exp $
+ * @version $Id: BaseDao.java,v 1.3 2005/07/30 11:18:03 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface BaseDao {
+
+    /**
+     * Gibt die <code>SystemLocale</code>, deren localeKey des Parameter localeKey entspricht,
+     * zurück.
+     *
+     * @param systemLocaleKey Der Schlüssel unter dem eine <code>SystemLocale</code> gefunden werden
+     *                        soll.
+     * @return Die <code>SystemLocale</code> die unter diesem localeKey gefunden wurde.
+     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
+     *                             aufgetritt.
+     * @throws ecobill.module.base.dao.exception.NoSuchSystemLocaleException Diese wird geworfen falls keine <code>SystemLocale</code>
+     *                                     unter diesem Schlüssel gefunden wurde.
+     * @throws ecobill.module.base.dao.exception.NonUniqueHibernateResultException
+     *                                     Diese wird geworfen falls mehr als eine <code>SystemLocale</code>
+     *                                     zurückgeliefert wird und das Ergebnis somit nicht eindeutig ist.
+     * @see NoSuchArticleException
+     * @see NonUniqueHibernateResultException
+     */
+    public SystemLocale getSystemLocaleBySystemLocaleKey(String systemLocaleKey) throws DataAccessException, NoSuchSystemLocaleException, NonUniqueHibernateResultException;
+
+    /**
+     * Gibt eine <code>List</code> mit allen <code>SystemLocale</code> die in der Datenbank verfügbar
+     * sind zurück.
+     *
+     * @return Eine <code>List</code> mit allen <code>SystemLocale</code> in der Datenbank.
+     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
+     *                             auftritt.
+     */
+    public List getAllSystemLocales() throws DataAccessException;
 
     /**
      * Gibt den <code>BusinessPartner</code>, dessen ID der Parameter ID entspricht, zurück.
@@ -41,7 +74,7 @@ public interface BaseDao {
      * - vorhanden und existiert in der Datenbank bedeutet ändern.
      *
      * @param bp Der <code>BusinessPartner</code> der in der Datenbank bespeichert oder geändert
-     * werden soll.
+     *           werden soll.
      * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
      *                             aufgetritt.
      */
@@ -57,6 +90,26 @@ public interface BaseDao {
      *                             aufgetritt.
      */
     public Article getArticleById(Long id) throws DataAccessException;
+
+    /**
+     * Gibt den <code>Article</code>, dessen Artikelnummer dem <code>String</code> articleNumber
+     * entspricht zurück.
+     *
+     * @param articleNumber Die eindeutitge Artikelnummer unter der ein Artikel in der
+     *                      Datenbank abgelegt ist.
+     * @return Der <code>Article</code> der unter dieser Artikelnummer gefunden wurde.
+     * @throws DataAccessException org.springframework.dao.DataAccessException
+     *                             Diese wird geworfen falls ein Fehler beim Datenzugriff
+     *                             aufgetritt.
+     * @throws NoSuchArticleException Diese wird geworfen falls kein <code>Article</code>
+     *                                     unter dieser articleNumber gefunden wurde.
+     * @throws NonUniqueHibernateResultException
+     *                                     Diese wird geworfen falls mehr als ein <code>Article</code>
+     *                                     zurückgeliefert wird und das Ergebnis somit nicht eindeutig ist.
+     * @see NoSuchArticleException
+     * @see NonUniqueHibernateResultException
+     */
+    public Article getArticleByArticleNumber(String articleNumber) throws DataAccessException, NoSuchArticleException, NonUniqueHibernateResultException;
 
     /**
      * Speichert einen <code>Article</code> falls dieser in der Datenbank noch nicht existiert,

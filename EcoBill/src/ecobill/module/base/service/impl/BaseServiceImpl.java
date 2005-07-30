@@ -2,11 +2,17 @@ package ecobill.module.base.service.impl;
 
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.dao.BaseDao;
-import ecobill.module.base.domain.Article;
-import ecobill.module.base.domain.Person;
-import ecobill.module.base.domain.BusinessPartner;
+import ecobill.module.base.dao.exception.NoSuchSystemLocaleException;
+import ecobill.module.base.dao.exception.NoSuchArticleException;
+import ecobill.module.base.domain.*;
+import ecobill.util.LocalizerUtils;
+import ecobill.util.exception.LocalizerException;
 
 import java.util.List;
+import java.util.Set;
+import java.util.Locale;
+
+import org.springframework.dao.DataAccessException;
 
 /**
  * Das <code>BaseServiceImpl</code> ist eine Implementation des Interfaces <code>BaseService</code>.
@@ -16,7 +22,7 @@ import java.util.List;
  * Time: 12:31:05
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseServiceImpl.java,v 1.2 2005/07/29 20:59:07 raedler Exp $
+ * @version $Id: BaseServiceImpl.java,v 1.3 2005/07/30 11:18:03 raedler Exp $
  * @see BaseService
  * @since EcoBill 1.0
  */
@@ -51,6 +57,61 @@ public class BaseServiceImpl implements BaseService {
     }
 
     /**
+     * @see BaseService#getSystemLocaleBySystemLocaleKey(String)
+     */
+    public SystemLocale getSystemLocaleBySystemLocaleKey(String systemLocaleKey) {
+        return baseDao.getSystemLocaleBySystemLocaleKey(systemLocaleKey);
+    }
+
+    /**
+     * Gibt die <code>SystemLocale</code>, die der <code>Locale</code> am ähnlichsten ist,
+     * zurück.
+     *
+     * @param locale Eine <code>Locale</code> um die <code>SystemLocale</code> zu erhalten.
+     * @return Die <code>SystemLocale</code> die der <code>Locale</code> am ähnlichsten ist.
+     * @see BaseService#getSystemLocaleByLocale(java.util.Locale)
+     */
+    public SystemLocale getSystemLocaleByLocale(Locale locale) throws NoSuchSystemLocaleException {
+        List systemLocaleList = getAllSystemLocales();
+
+        /*
+         * Es wird versucht aus der <code>List</code> mit <code>SystemLocale</code> die <code>SystemLocale</code>
+         * herauszufiltern, die der <code>Locale</code> am ähnlichsten ist.
+         * -> Ähnlich bedeutet, dass die Priorität in <code>LocalizerUtils</code> gegen 1 gehen muss.
+         */
+        Object o;
+        try {
+            o = LocalizerUtils.getLocalizedObject(systemLocaleList, locale);
+        }
+        catch (LocalizerException e) {
+            throw new NoSuchSystemLocaleException("Es wurde keine SystemLocale gefunden die der Locale [language = " + locale.getLanguage() + " | country = " + locale.getCountry() + " | variant = " + locale.getVariant() + "] ähnelt.");
+        }
+
+        /*
+         * Erneuter Test, um sicher zu gehen, dass das zurückgelieferte <code>Object</code> auch wirklich
+         * eine <code>SystemLocale</code> ist. Falls es sich nicht um eine <code>SystemLocale</code>
+         * gehandelt hat wird abschließend eine erneute <code>NoSuchSystemLocaleException</code> geworfen.
+         */
+        SystemLocale systemLocale = null;
+        if (o instanceof SystemLocale) {
+            systemLocale = (SystemLocale) o;
+        }
+
+        if (systemLocale == null) {
+            throw new NoSuchSystemLocaleException("Es wurde keine SystemLocale gefunden die der Locale [language = " + locale.getLanguage() + " | country = " + locale.getCountry() + " | variant = " + locale.getVariant() + "] ähnelt.");
+        }
+
+        return systemLocale;
+    }
+
+    /**
+     * @see BaseService#getAllSystemLocales()
+     */
+    public List getAllSystemLocales() {
+        return baseDao.getAllSystemLocales();
+    }
+
+    /**
      * @see BaseService#getBusinessPartnerById(Long)
      */
     public BusinessPartner getBusinessPartnerById(Long id) {
@@ -72,14 +133,41 @@ public class BaseServiceImpl implements BaseService {
     }
 
     /**
+     * @see BaseService#getArticleByArticleNumber(String)
+     */
+    public Article getArticleByArticleNumber(String articleNumber) {
+        return baseDao.getArticleByArticleNumber(articleNumber);
+    }
+
+    /**
      * @see BaseService#saveOrUpdateArticle(ecobill.module.base.domain.Article)
      */
     public void saveOrUpdateArticle(Article article) {
+
+        /*
+        * Es wird überprüft ob sich schon ein Artikel mit dieser Artikelnummer in der
+        * Datenbank befindet. Sollte schon ein Artikel vorhanden sein wird dessen ID
+        * an den zu speichernden übergeben um den alten Artikel und somit die alten
+        * Werte mit den neuen Werten und dem neuen Artikel zu überschreiben.
+        */
+        Article savedArticle = null;
+        try {
+            savedArticle = baseDao.getArticleByArticleNumber(article.getArticleNumber());
+        }
+        catch (NoSuchArticleException nsae) {
+            // Unternehme nichts, da savedArticle ja dann sowieso null ist.
+        }
+
+        // @todo Evtl muss man sich hier um die restlichen (schon vorhandenen) Artikelbeschreibungen kümmern.
+        if (savedArticle != null) {
+            article.setId(savedArticle.getId());
+        }
+
         baseDao.saveOrUpdateArticle(article);
     }
 
     /**
-     * @see ecobill.module.base.dao.BaseDao#getAllArticles() 
+     * @see ecobill.module.base.dao.BaseDao#getAllArticles()
      */
     public List getAllArticles() {
         return baseDao.getAllArticles();

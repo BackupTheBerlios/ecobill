@@ -15,7 +15,7 @@ import java.util.Locale;
  * Time: 16:07:00
  *
  * @author Roman R&auml;dle
- * @version $Id: LocalizerUtils.java,v 1.1 2005/07/28 21:03:53 raedler Exp $
+ * @version $Id: LocalizerUtils.java,v 1.2 2005/07/30 11:18:03 raedler Exp $
  * @since EcoBill 1.0
  */
 public class LocalizerUtils {
@@ -115,7 +115,20 @@ public class LocalizerUtils {
 
                 SystemLocale systemLocale = localizable.getSystemLocale();
 
-                if (systemLocale.compareTo(locale) < priority) {
+                int systemLocalePriority;
+                if ((systemLocalePriority = systemLocale.compareTo(locale)) < priority) {
+                    priority = systemLocalePriority;
+
+                    localizedObject = o;
+                }
+            }
+            else if (o instanceof SystemLocale) {
+                SystemLocale systemLocale = (SystemLocale) o;
+
+                int systemLocalePriority;
+                if ((systemLocalePriority = systemLocale.compareTo(locale)) < priority) {
+                    priority = systemLocalePriority;
+
                     localizedObject = o;
                 }
             }

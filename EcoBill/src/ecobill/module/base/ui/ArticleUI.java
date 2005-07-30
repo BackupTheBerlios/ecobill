@@ -9,8 +9,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.*;
 import java.util.List;
 
@@ -21,6 +20,8 @@ import ecobill.util.UnitUtils;
 import ecobill.util.exception.LocalizerException;
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.Article;
+import ecobill.module.base.domain.ArticleDescription;
+import ecobill.module.base.domain.SystemLocale;
 import org.springframework.beans.factory.InitializingBean;
 
 // @todo document me!
@@ -33,7 +34,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.3 2005/07/29 20:59:07 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.4 2005/07/30 11:18:03 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JInternalFrame implements InitializingBean {
@@ -410,9 +411,9 @@ public class ArticleUI extends JInternalFrame implements InitializingBean {
         articleDescriptionP.add(descriptionSP);
 
         /*
-        * Setzt die Positionen der einzelnen Panels auf dem oberen Überblick
-        * Panel.
-        */
+         * Setzt die Positionen der einzelnen Panels auf dem oberen Überblick
+         * Panel.
+         */
         articleP.setBounds(10, 10, 340, 125);
         overviewTopP.add(articleP);
 
@@ -423,12 +424,24 @@ public class ArticleUI extends JInternalFrame implements InitializingBean {
         overviewTopP.add(articleDescriptionP);
 
         /*
-        * Setzt den Speichern/Ändern Button auf das Panel.
-        */
+         * Setzt den Speichern/Ändern Button auf das Panel.
+         */
         saveB.setBounds(10, 290, 100, 20);
         overviewP.add(saveB);
+
+        saveB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ArticleUI.this.saveOrUpdateArticle();
+                ArticleUI.this.renewArticleTableModel();
+            }
+        });
     }
 
+    /**
+     * Initialisieren des unteren Teils des Übersicht Panels mit der
+     * darin enthaltenen Artikeltabelle und den zugehörigen Listenern
+     * der Tabelle.
+     */
     private void initOverviewBottomP() {
 
         /*
@@ -436,21 +449,82 @@ public class ArticleUI extends JInternalFrame implements InitializingBean {
          */
         articleTableSP.setViewportView(articleTable);
         articleTable.setModel(articleTableModel);
-    }
 
+        /*
+         * Fügt der Artikeltabelle einen <code>MouseListener</code> hinzu,
+         * der darauf wartet bis die linke Taste der Maus gedrückt wird und
+         * dann den markierten Artikel auf den Eingabefeldern anzeigt.
+         */
+        this.articleTable.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+
+                /*
+                 * Achtet darauf, dass wirklich nur dann ein Artikel angezeigt
+                 * wird wenn auch nur die linke Maustaste gedrückt wird.
+                 * Alle anderen werden ignoriert.
+                 */
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    ArticleUI.this.showArticle(getArticleNumberOfSelectedRow());
+                }
+            }
+        });
+
+        /*
+         * Fügt der Artikeltabelle einen <code>KeyListener</code> hinzu,
+         * der darauf wartet bis die Pfeiltaste nach oben oder nach unten
+         * gedrückt wird und dann den markierten Artikel auf den Eingabefeldern
+         * anzeigt.
+         */
+        this.articleTable.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+
+                /*
+                 * Achtet darauf, dass auch wirklich nur dann ein Artikel angezeigt
+                 * wird wenn ein neuer Artikel selektiert wird. Dies geschieht hier
+                 * nur wenn die Pfeiltaste nach oben oder nach unten gedrückt wird.
+                 */
+                if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    ArticleUI.this.showArticle(getArticleNumberOfSelectedRow());
+                }
+            }
+        });
+    }
 
     // @todo Mache hier mit diesem Tabellen Framework das auf der Galileoseite angegeben ist weiter.
     private void renewArticleTableModel() {
 
+        /*
+         * Entfernt alle schon vorhandenen Artikel von diesem <code>Vector</code>
+         * Dies muss gemacht werden, das sonst alle Einträge die schon vorhanden
+         * sind auch nochmal angezeigt werden.
+         */
+        articleTableDataV.removeAllElements();
+
+        /*
+         * Gibt eine <code>List</code> mit allen <code>Article</code> die in der
+         * Datenbank gespeichert sind zurück.
+         */
         List articles = baseService.getAllArticles();
 
+        /*
+         * Iteriert über die Artikel Liste und fügt jeden <code>Article</code> dem
+         * Daten <code>Vector</code> hinzu.
+         */
         for (Object o : articles) {
+
+            /*
+             * Sicherheitsabfrage ob es sich bei diesem <code>Object</code> auch wirklich
+             * um eine Instanz der Klasse <code>Article</code> handelt.
+             */
             if (o instanceof Article) {
 
+                // Ein Artikel aus der erhaltenen Liste der Datenbank.
                 Article article = (Article) o;
 
+                // Ein neuer <code>Vector</code> stellt eine Zeile der Tabelle dar.
                 Vector<Object> lineV = new Vector<Object>();
 
+                // Setzen der Werte eines <code>Article</code> im Zeilen Datenvektor.
                 lineV.add(article.getArticleNumber());
                 lineV.add(WorkArea.getMessage(article.getUnitKey()));
                 lineV.add(article.getPrice());
@@ -459,44 +533,77 @@ public class ArticleUI extends JInternalFrame implements InitializingBean {
                 lineV.add(WorkArea.getMessage(article.getBundleUnitKey()));
                 lineV.add(article.getBundleCapacity());
 
+                // Fügt die Zeile dem Datenvektor hinzu.
                 articleTableDataV.add(lineV);
             }
         }
 
-        this.articleTableModel.setDataVector(articleTableDataV, createI18NTableHeader());
+        // Setzt den Datenvektor und somit die Daten in die Artikeltabelle.
+        this.articleTableModel.setDataVector(articleTableDataV, this.createI18NTableHeader());
 
-        this.articleTable.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                int row = ArticleUI.this.articleTable.getSelectedRow();
-
-                Object objId = ArticleUI.this.articleTableModel.getValueAt(row, 0);
-
-                Long id = null;
-                if (objId instanceof Long) {
-                    id = (Long) objId;
-                }
-
-                System.out.println("ID: " + id);
-
-                ArticleUI.this.showArticle(id);
-            }
-        });
-
+        // @todo wird das noch benötigit?
         this.articleTableModel.addTableModelListener(new TableModelListener() {
             public void tableChanged(TableModelEvent e) {
+                /*
                 int row = e.getFirstRow();
                 int col = e.getColumn();
 
                 TableModel clazz = (TableModel) e.getSource();
 
                 System.out.println(row + " : " + col + " | ARTIKEL ID = " + clazz.getValueAt(row, 0));
+                */
             }
         });
     }
 
-    private void showArticle(Long articleId) {
-        Article article = baseService.getArticleById(articleId);
+    /**
+     * Gibt die Artikelnummer des markierten Artikels in der Tabelle
+     * zurück.
+     *
+     * @return Die <code>String</code> Artikelnummer des markierten
+     *         Artikels in der Tabelle.
+     */
+    private String getArticleNumberOfSelectedRow() {
 
+        // Die markierte Reihe in der Artikeltabelle.
+        int row = articleTable.getSelectedRow();
+
+        /*
+         * Gibt das <code>Object</code> zurück das im <code>TableModel</code>
+         * der Tabelle an der Stelle der markierten Reihe und Spalte 0 steht.
+         *
+         */
+        Object objId = ArticleUI.this.articleTableModel.getValueAt(row, 0);
+
+        /*
+         * Da das zurückgelieferte <code>Object</code> ein <code>String</code>
+         * sein sollte wird es nach der Sicherheitsabfrage in einen <code>String</code>
+         * gecastet und zurückgegeben.
+         * Jeder Artikel muss eine eindeutige Artikelnummer besitzen, somit kann
+         * es auch nicht passieren, dass der <code>String</code> null annehmen
+         * kann.
+         */
+        String articleNumber = null;
+        if (objId instanceof String) {
+            articleNumber = (String) objId;
+        }
+
+        return articleNumber;
+    }
+
+    /**
+     * Zeigt den Artikel mit der übergebenen Artikelnummer auf dem oberen Teil
+     * des Übersichts Panels an. Dadurch kann bspw ein Artikel verändert werden.
+     */
+    private void showArticle(String articleNumber) {
+
+        /*
+         * Der <code>Article</code> der unter der übergebenen Artikelnummer
+         * gefunden wurde.
+         */
+        Article article = baseService.getArticleByArticleNumber(articleNumber);
+
+        // Setzen der einzelnen Werte des Artikels auf die Eingabefelder.
         articleNumberTF.setText(article.getArticleNumber());
         unitCBModel.setSelectedItem(new BoxItem(article.getUnitKey()));
         priceSpModel.setValue(article.getPrice());
@@ -504,6 +611,38 @@ public class ArticleUI extends JInternalFrame implements InitializingBean {
         bundleUnitCBModel.setSelectedItem(new BoxItem(article.getBundleUnitKey()));
         bundleCapacitySpModel.setValue(article.getBundleCapacity());
         descriptionTA.setText(article.getLocalizedDescription());
+    }
+
+    /**
+     * Speichert einen neuen Artikel oder ändert einen in der Datenbank schon
+     * vorhandenen Artikel. Die Werte dazu werden aus den Eingabefeldern
+     * gelesen. Die zu der eingestellten <code>Locale</code> gehörigen Beschreibung
+     * wird gespeichert, nachem zu der <code>Locale</code> gehörigen
+     * <code>SystemLocale</code> gefunden wurde.
+     */
+    private void saveOrUpdateArticle() {
+
+        Article article = new Article();
+        ArticleDescription localeArticleDescription = new ArticleDescription();
+
+        article.setArticleNumber(articleNumberTF.getText());
+        article.setUnitKey(((BoxItem) unitCBModel.getSelectedItem()).getName());
+        article.setPrice((Double) priceSpModel.getValue());
+        article.setInStock((Double) inStockSpModel.getValue());
+        article.setBundleUnitKey(((BoxItem) bundleUnitCBModel.getSelectedItem()).getName());
+        article.setBundleCapacity((Double) bundleCapacitySpModel.getValue());
+
+        localeArticleDescription.setDescription(descriptionTA.getText());
+
+        SystemLocale systemLocale = baseService.getSystemLocaleByLocale(WorkArea.getLocale());
+
+        System.out.println("SystemLocale: " + systemLocale);
+
+        localeArticleDescription.setSystemLocale(systemLocale);
+
+        article.addArticleDescription(localeArticleDescription);
+
+        baseService.saveOrUpdateArticle(article);
     }
 
     private void initDescriptionP() {

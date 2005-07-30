@@ -14,7 +14,7 @@ import java.text.Collator;
  * Time: 16:09:34
  *
  * @author Roman R&auml;dle
- * @version $Id: SystemLocale.java,v 1.1 2005/07/28 21:03:51 raedler Exp $
+ * @version $Id: SystemLocale.java,v 1.2 2005/07/30 11:18:03 raedler Exp $
  * @since EcoBill 1.0
  */
 public final class SystemLocale extends AbstractDomain {
@@ -196,5 +196,12 @@ public final class SystemLocale extends AbstractDomain {
         result = 29 * result + (this.getCountry() != null ? this.getCountry().hashCode() : 0);
         result = 29 * result + (this.getVariant() != null ? this.getVariant().hashCode() : 0);
         return result;
+    }
+
+    /**
+     * @see Object#toString()
+     */
+    public String toString() {
+        return "key = " + key + " | country = " + country + " | variant = " + variant;
     }
 }

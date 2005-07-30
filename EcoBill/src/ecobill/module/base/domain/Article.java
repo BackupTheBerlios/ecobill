@@ -4,10 +4,7 @@ import ecobill.util.LocalizerUtils;
 import ecobill.util.exception.LocalizerException;
 import ecobill.core.system.WorkArea;
 
-import java.util.Set;
-import java.util.Locale;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Ein <code>Article</code> beinhaltet alle Informationen über eine bestimmten Artikel. Es sind
@@ -23,7 +20,7 @@ import java.util.List;
  * Time: 00:37:27
  *
  * @author Roman R&auml;dle
- * @version $Id: Article.java,v 1.2 2005/07/29 20:59:07 raedler Exp $
+ * @version $Id: Article.java,v 1.3 2005/07/30 11:18:03 raedler Exp $
  * @since EcoBill 1.0
  */
 public final class Article extends AbstractDomain {
@@ -185,6 +182,23 @@ public final class Article extends AbstractDomain {
      */
     public void setBundleUnitKey(String bundleUnitKey) {
         this.bundleUnitKey = bundleUnitKey;
+    }
+
+    /**
+     * Fügt dem Artikel Beschreibungs <code>Set</code> eine <code>ArticleDescription</code>
+     * hinzu, falls diese in diesem <code>Set</code> noch nicht vorhanden ist.
+     *
+     * @param articleDescription Eine <code>ArticleDescription</code> die die landesspezifische
+     *                           Beschreibung für einen Artikel enthält.
+     */
+    public void addArticleDescription(ArticleDescription articleDescription) {
+        if (descriptions == null) {
+            descriptions = new HashSet<ArticleDescription>();
+        }
+
+        if (!descriptions.contains(articleDescription)) {
+            descriptions.add(articleDescription);
+        }
     }
 
     /**
