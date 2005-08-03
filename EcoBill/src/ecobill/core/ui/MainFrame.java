@@ -23,7 +23,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.7 2005/08/03 15:06:34 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.8 2005/08/03 15:15:07 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean  {
@@ -93,10 +93,13 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         jtab.addTab("Bill", tab3);
 
         JLabel lab = new JLabel(new ImageIcon("Startbild.jpg"));
+        lab.setToolTipText("Copyright @ JFuckers");
         lab.setVisible(true);
-        JLabel lab1 = new JLabel("Copyright @ JFuckers");
-        tab0.add(lab);
-        tab0.add(lab1);
+        JLabel descrip = new JLabel("Effiziente und Effektive Kunden-, Artikel- und " +
+                "Rechnungsverwaltung mit Economy Bill Agenda");
+       
+        tab0.add(lab, BorderLayout.CENTER);
+        tab0.add(descrip, BorderLayout.SOUTH);
         this.getContentPane().add(jtab, BorderLayout.CENTER);
     }
 
