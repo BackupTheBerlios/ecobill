@@ -24,7 +24,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.9 2005/08/03 15:28:44 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.10 2005/08/03 17:00:00 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean  {
@@ -89,9 +89,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         JComponent tab3 = new JPanel();
 
         jtab.addTab("Start", tab0);
-        jtab.addTab("Article", tab1);
-        jtab.addTab("Customer", tab2);
-        jtab.addTab("Bill", tab3);
+        jtab.addTab("Artikel", tab1);
+        jtab.addTab("Kunden", tab2);
+        jtab.addTab("Rechnungen", tab3);
 
 
         JLabel lab1 = new JLabel(new ImageIcon("Startbild.jpg"));
