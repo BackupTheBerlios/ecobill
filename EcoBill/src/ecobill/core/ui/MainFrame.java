@@ -22,7 +22,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.4 2005/08/03 13:06:09 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.5 2005/08/03 13:12:16 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -45,53 +45,19 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         this.context = applicationContext;
     }
 
+    public MainFrame() throws HeadlessException {
+        super();
+    }
 
-    public void afterPropertiesSet() throws Exception {        
+    public void afterPropertiesSet() throws Exception {
         this.setTitle("Economy Bill Agenda");
         this.setSize(new Dimension(800, 600));
         this.getContentPane().setLayout(new BorderLayout());
-        this.initDesktopPane();
-        //this.initButton();
         this.tabPane();
         this.quitButton();
         this.setVisible(true);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
-
-
-    boolean visible = false;
-
-    public MainFrame() throws HeadlessException {
-        super();
-    }
-
-    private void initDesktopPane() {
-
-        JDesktopPane desktopPane = new JDesktopPane();
-
-        this.getContentPane().add(desktopPane, BorderLayout.CENTER);
-
-        // auskommentiert zwecks MainFrame anschauen
-        //desktopPane.add(articleUI);
-    }
-
-    /*      private void initButton() {
-         JButton button = new JButton("Klick mich");
-
-         button.addActionListener(new ActionListener() {
-             public void actionPerformed(ActionEvent e) {
-
-                 /*
-                  * Setzt die <code>ArtikelUI</code> sichtbar.
-                  */
-    /*          visible = !visible;
-
-              MainFrame.this.articleUI.setVisible(visible);
-          }
-      });
-
-      this.getContentPane().add(button, BorderLayout.SOUTH);
-  } */
 
     private void quitButton() {
         JButton qbutton = new JButton("Quit");
@@ -136,7 +102,12 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     }
 
     public static void main(String[] args) {
-
-        new MainFrame();
+        MainFrame frame = new MainFrame();
+        try {
+            frame.afterPropertiesSet();
+        }
+        catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     }
 }
