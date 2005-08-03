@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
+import java.awt.event.InputEvent;
 
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationContext;
@@ -24,7 +24,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.10 2005/08/03 17:00:00 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.11 2005/08/03 17:44:21 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean  {
@@ -129,13 +129,19 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         menuBar.add(file);
         file.setMnemonic(KeyEvent.VK_F);
 
+
          // erstellt DateiMenü
-        file.add("New Product");
-        file.add("New Customer");
-        file.add("Open");
+        JMenuItem product = new JMenuItem("New Product", 'R');
+        JMenuItem customer = new JMenuItem("New Customer", 'S');
+        JMenuItem open = new JMenuItem("Open", 'O');
+        JMenuItem save = new JMenuItem("Save", 'S');
+        JMenuItem saveas = new JMenuItem("Save As", 'A');
+        file.add(product);
+        file.add(customer);
+        file.add(open);
         file.addSeparator();
-        file.add("Save");
-        file.add("Save As");
+        file.add(save);
+        file.add(saveas);
 
         // Quit Action Listener
         file.add(new AbstractAction("Quit") {
@@ -153,14 +159,20 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         edit.setMnemonic(KeyEvent.VK_E);
 
         // erstellt BearbeitenMenü
-        edit.add("Undo");
-        edit.add("Redo");
+        JMenuItem undo = new JMenuItem("Undo", 'U');
+        JMenuItem redo = new JMenuItem("Redo", 'R');
+        JMenuItem cut = new JMenuItem("Cut", 'T');
+        JMenuItem copy = new JMenuItem("Copy", 'C');
+        JMenuItem paste = new JMenuItem("Paste", 'P');
+        JMenuItem delete = new JMenuItem("Delete", 'D');
+        edit.add(undo);
+        edit.add(redo);
         edit.addSeparator();
-        edit.add("Cut");
-        edit.add("Copy");
-        edit.add("Paste");
+        edit.add(cut);
+        edit.add(copy);
+        edit.add(paste);
         edit.addSeparator();
-        edit.add("Delete");
+        edit.add(delete);
 
         // erstellt MenuItem Hilfe
         JMenu help = new JMenu("Help");
@@ -168,8 +180,10 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         help.setMnemonic(KeyEvent.VK_H);
 
         // erstellt HilfeMenü
-        help.add("Help Topics");
-        help.add("About");
+        JMenuItem ht = new JMenuItem("Help Topics", 'H');
+        JMenuItem about = new JMenuItem("About", 'A');
+        help.add(ht);
+        help.add(about);
 
         // erstellt MenuItem Sprache
         JMenu language = new JMenu("Language");
@@ -181,9 +195,11 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         JCheckBoxMenuItem german = new JCheckBoxMenuItem("German");
         german.setState(true);
         german.setMnemonic(KeyEvent.VK_G);
+        german.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G,InputEvent.CTRL_MASK));
         JCheckBoxMenuItem english = new JCheckBoxMenuItem("English");
         english.setState(false);
         english.setMnemonic(KeyEvent.VK_E);
+        english.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,InputEvent.CTRL_MASK));
         lang.add(german);
         lang.add(english);
         language.add(german);
