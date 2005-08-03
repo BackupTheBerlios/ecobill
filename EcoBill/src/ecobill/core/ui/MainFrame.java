@@ -24,7 +24,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.15 2005/08/03 20:04:18 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.16 2005/08/03 20:40:32 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -259,14 +259,19 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         language.add(english);
 
     }
+
+    private boolean visible = false;
+
      // wird aufgerufen bei About
-    public void about() {
+    public void about(){
 
          // macht neues Label About
-        JLabel about = new JLabel(new ImageIcon("About.jpg"));
-        about.setVisible(true);
-        this.getContentPane().add(about, BorderLayout.EAST);
-        validate();
+         JLabel about = new JLabel(new ImageIcon("About.jpg"));
+         visible =! visible;
+         about.setVisible(visible);
+
+         this.getContentPane().add(about, BorderLayout.EAST);
+         validate();
     }
 
     public static void main(String[] args) {
