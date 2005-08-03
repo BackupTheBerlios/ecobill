@@ -22,7 +22,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.5 2005/08/03 13:12:16 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.6 2005/08/03 13:19:09 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -81,22 +81,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         JComponent tab3 = new JPanel();
 
         jtab.addTab("Start", tab0);
-        jtab.addTab("Article", articleUI);
+        jtab.addTab("Article", tab1);
         jtab.addTab("Customer", tab2);
         jtab.addTab("Bill", tab3);
-
-        ButtonGroup language = new ButtonGroup();
-        JRadioButton german = new JRadioButton();
-        JRadioButton english = new JRadioButton();
-
-        german.setText("German");
-        english.setText("English");
-
-        language.add(german);
-        language.add(english);
-
-        tab0.add(german);
-        tab0.add(english);
 
         this.getContentPane().add(jtab, BorderLayout.CENTER);
     }
