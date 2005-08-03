@@ -24,7 +24,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.12 2005/08/03 17:56:18 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.13 2005/08/03 18:12:59 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -65,13 +65,13 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     private void quitButton() {
 
         //erstellt Quit Button
-        JButton qbutton = new JButton("Quit");
+        JButton qbutton = new JButton("Exit");
 
         // Quit Button Action Listener
         qbutton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
-                if (e.getActionCommand().equals("Quit"))
+                if (e.getActionCommand().equals("Exit"))
                     System.exit(0);
             }
         });
@@ -132,10 +132,15 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // erstellt DateiMenü
         JMenuItem product = new JMenuItem("New Product", 'R');
-        JMenuItem customer = new JMenuItem("New Customer", 'S');
+        JMenuItem customer = new JMenuItem("New Customer", 'M');
         JMenuItem open = new JMenuItem("Open", 'O');
         JMenuItem save = new JMenuItem("Save", 'S');
-        JMenuItem saveas = new JMenuItem("Save As", 'A');
+        JMenuItem saveas = new JMenuItem("Save As");
+        product.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_MASK));
+        customer.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_MASK));
+        open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
+        save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
+        saveas.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
         file.add(product);
         file.add(customer);
         file.add(open);
@@ -144,12 +149,13 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         file.add(saveas);
 
         // Quit Action Listener
-        JMenuItem quit = new JMenuItem("Quit", 'Q');
-        
+        JMenuItem quit = new JMenuItem("Exit", 'X');
+        quit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
+
         quit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
-                if (e.getActionCommand().equals("Quit"))
+                if (e.getActionCommand().equals("Exit"))
                     System.exit(0);
             }
         });
@@ -168,13 +174,18 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         JMenuItem copy = new JMenuItem("Copy", 'C');
         JMenuItem paste = new JMenuItem("Paste", 'P');
         JMenuItem delete = new JMenuItem("Delete", 'D');
+        undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_MASK));
+        redo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, InputEvent.CTRL_MASK));
+        cut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
+        copy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK));
+        paste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_MASK));
+        delete.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, InputEvent.ALT_DOWN_MASK));
         edit.add(undo);
         edit.add(redo);
         edit.addSeparator();
         edit.add(cut);
         edit.add(copy);
         edit.add(paste);
-        edit.addSeparator();
         edit.add(delete);
 
         // erstellt MenuItem Hilfe
@@ -185,7 +196,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // erstellt HilfeMenü
         JMenuItem ht = new JMenuItem("Help Topics", 'H');
         JMenuItem about = new JMenuItem("About", 'A');
+        ht.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_MASK));
         help.add(ht);
+        about.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
         help.add(about);
 
         // erstellt MenuItem Sprache
