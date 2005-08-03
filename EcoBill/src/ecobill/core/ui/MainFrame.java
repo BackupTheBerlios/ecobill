@@ -24,7 +24,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.16 2005/08/03 20:40:32 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.17 2005/08/03 20:52:52 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -163,7 +163,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // erstellt exit MenüItem
         JMenuItem exit = new JMenuItem("Exit", 'X');
-        exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
 
         // Exit Action Listener
         exit.addActionListener(new ActionListener() {
@@ -226,8 +225,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             }
         });
 
-
-        about.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
+        about.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_MASK));
         help.add(about);
 
         // erstellt MenuItem Sprache
@@ -260,6 +258,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
     }
 
+    // wird von about abwechselnd auf true/false gesetzt
     private boolean visible = false;
 
      // wird aufgerufen bei About
@@ -269,7 +268,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
          JLabel about = new JLabel(new ImageIcon("About.jpg"));
          visible =! visible;
          about.setVisible(visible);
-
          this.getContentPane().add(about, BorderLayout.EAST);
          validate();
     }
