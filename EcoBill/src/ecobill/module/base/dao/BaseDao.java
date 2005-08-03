@@ -20,7 +20,7 @@ import java.util.List;
  * Time: 12:29:36
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDao.java,v 1.3 2005/07/30 11:18:03 raedler Exp $
+ * @version $Id: BaseDao.java,v 1.4 2005/08/03 13:06:09 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface BaseDao {
@@ -53,6 +53,16 @@ public interface BaseDao {
      *                             auftritt.
      */
     public List getAllSystemLocales() throws DataAccessException;
+
+    /**
+     * Gibt eine <code>List</code> mit allen <code>SystemUnit</code> die in der Datenbank verfügbar
+     * sind zurück.
+     *
+     * @return Eine <code>List</code> mit allen <code>SystemUnit</code> in der Datenbank.
+     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
+     *                             auftritt.
+     */
+    public List getAllSystemUnits() throws DataAccessException;
 
     /**
      * Gibt den <code>BusinessPartner</code>, dessen ID der Parameter ID entspricht, zurück.

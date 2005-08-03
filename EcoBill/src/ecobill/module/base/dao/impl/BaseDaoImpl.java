@@ -7,6 +7,7 @@ import ecobill.module.base.dao.exception.NoSuchArticleException;
 import ecobill.module.base.domain.Article;
 import ecobill.module.base.domain.BusinessPartner;
 import ecobill.module.base.domain.SystemLocale;
+import ecobill.module.base.domain.SystemUnit;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.dao.DataAccessException;
 
@@ -20,7 +21,7 @@ import java.util.List;
  * Time: 12:29:43
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDaoImpl.java,v 1.3 2005/07/30 11:18:03 raedler Exp $
+ * @version $Id: BaseDaoImpl.java,v 1.4 2005/08/03 13:06:09 raedler Exp $
  * @see BaseDao
  * @since EcoBill 1.0
  */
@@ -64,6 +65,19 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
      */
     public List getAllSystemLocales() throws DataAccessException {
         return getHibernateTemplate().loadAll(SystemLocale.class);
+    }
+
+    /**
+     * Gibt eine <code>List</code> mit allen <code>SystemUnit</code> die in der Datenbank verfügbar
+     * sind zurück.
+     *
+     * @return Eine <code>List</code> mit allen <code>SystemUnit</code> in der Datenbank.
+     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
+     *                             auftritt.
+     * @see ecobill.module.base.dao.BaseDao#getAllSystemUnits()
+     */
+    public List getAllSystemUnits() throws DataAccessException {
+        return getHibernateTemplate().loadAll(SystemUnit.class);
     }
 
     /**

@@ -10,7 +10,7 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.1 2005/07/29 13:21:15 raedler Exp $
+ * @version $Id: Constants.java,v 1.2 2005/08/03 13:06:09 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {
@@ -45,18 +45,26 @@ public interface Constants {
     public final static String DESCRIPTIONS_TOOLTIP = "descriptions.tooltip";
     public final static String IN_STOCK = "in_stock";
     public final static String IN_STOCK_TOOLTIP = "in_stock.tooltip";
+    public final static String KEY = "key";
+    public final static String KEY_TOOLTIP = "key.tooltip";
     public final static String LANGUAGE = "language";
     public final static String LANGUAGE_TOOLTIP = "language.tooltip";
+    public final static String LOCALE_SETTING = "locale_setting";
+    public final static String LOCALE_SETTING_TOOLTIP = "locale_setting.tooltip";
     public final static String OVERVIEW = "overview";
     public final static String OVERVIEW_TOOLTIP = "overview.tooltip";
     public final static String PRICE = "price";
     public final static String PRICE_TOOLTIP = "price.tooltip";
+    public final static String RESIDUAL_DESCRIPTIONS = "residual_descriptions";
+    public final static String RESIDUAL_DESCRIPTIONS_TOOLTIP = "residual_descriptions.tooltip";
     public final static String SINGLE_PRICE = "single_price";
     public final static String SINGLE_PRICE_TOOLTIP = "single_price.tooltip";
     public final static String SAVE = "save";
     public final static String SAVE_TOOLTIP = "save.tooltip";
     public final static String UNIT = "unit";
     public final static String UNIT_TOOLTIP = "unit.tooltip";
+    public final static String VARIANT = "variant";
+    public final static String VARIANT_TOOLTIP = "variant.tooltip";
 
     /**
      * Alle Schlüssel der einzelnen Einheiten.

@@ -17,7 +17,7 @@ import ecobill.util.exception.LocalizerException;
  * Time: 23:45:45
  *
  * @author Roman R&auml;dle
- * @version $Id: PersistenceTest.java,v 1.1 2005/07/28 21:03:54 raedler Exp $
+ * @version $Id: PersistenceTest.java,v 1.2 2005/08/03 13:06:09 raedler Exp $
  * @since EcoBill 1.0
  */
 public class PersistenceTest extends TestCase {
@@ -92,11 +92,11 @@ public class PersistenceTest extends TestCase {
          * Der erste Vergleich.
          */
         Assert.assertNotNull(article);
-        Assert.assertTrue("bag".equals(article.getUnitKey()));
+        Assert.assertTrue("bag".equals(article.getSystemUnit().getKey()));
         Assert.assertTrue(article.getPrice() == 24.95);
         Assert.assertTrue(article.getInStock() == 43.);
         Assert.assertTrue(article.getBundleCapacity() == 25.);
-        Assert.assertTrue("weight".equals(article.getBundleUnitKey()));
+        Assert.assertTrue("weight".equals(article.getBundleSystemUnit().getKey()));
         Assert.assertTrue("Fliesurit Flex (deutsch)".equals(article.getLocalizedDescription()));
 
         /*

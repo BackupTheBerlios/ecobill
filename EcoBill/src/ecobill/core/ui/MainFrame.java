@@ -22,7 +22,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.3 2005/08/03 12:20:45 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.4 2005/08/03 13:06:09 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -46,26 +46,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     }
 
 
-    public void afterPropertiesSet() throws Exception {
-        //articleUI = ArticleUI.getInstance();
-        System.out.println("ARTICLE_UI: " + articleUI);
-
-        this.setTitle("??? bundle title ???");
-
-        this.setSize(new Dimension(800, 600));
-        this.getContentPane().setLayout(new BorderLayout());
-
-        this.initDesktopPane();
-        //this.initButton();
-
-        this.setVisible(true);
-    }
-
-
-    boolean visible = false;
-
-    public MainFrame() throws HeadlessException {
-        super();
+    public void afterPropertiesSet() throws Exception {        
         this.setTitle("Economy Bill Agenda");
         this.setSize(new Dimension(800, 600));
         this.getContentPane().setLayout(new BorderLayout());
@@ -75,6 +56,13 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         this.quitButton();
         this.setVisible(true);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+
+    boolean visible = false;
+
+    public MainFrame() throws HeadlessException {
+        super();
     }
 
     private void initDesktopPane() {
@@ -127,7 +115,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         JComponent tab3 = new JPanel();
 
         jtab.addTab("Start", tab0);
-        jtab.addTab("Article", tab1);
+        jtab.addTab("Article", articleUI);
         jtab.addTab("Customer", tab2);
         jtab.addTab("Bill", tab3);
 

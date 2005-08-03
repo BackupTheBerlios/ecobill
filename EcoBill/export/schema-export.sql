@@ -17,6 +17,7 @@ drop table if exists BASE_DELIVERY_ORDER;
 drop table if exists BASE_PERSON;
 drop table if exists BASE_REDUPLICATED_ARTICLE;
 drop table if exists BASE_SYSTEM_LOCALE;
+drop table if exists BASE_SYSTEM_UNIT;
 create table BASE_ADDRESS (
     ID bigint not null auto_increment,
     STREET varchar(255) not null,
@@ -28,12 +29,12 @@ create table BASE_ADDRESS (
 ) type=InnoDB;
 create table BASE_ARTICLE (
     ID bigint not null auto_increment,
-    ITEM_NUMBER varchar(255) not null unique,
-    UNIT_KEY varchar(255) not null,
+    ARTICLE_NUMBER varchar(255) not null unique,
+    SYSTEM_UNIT_KEY varchar(255),
     PRICE double precision not null,
     IN_STOCK double precision not null,
     BUNDLE_CAPACITY double precision,
-    BUNDLE_UNIT_KEY varchar(255),
+    BUNDLE_SYSTEM_UNIT_KEY varchar(255),
     primary key (ID)
 ) type=InnoDB;
 create table BASE_ARTICLE_DESCRIPTION (
@@ -102,6 +103,11 @@ create table BASE_SYSTEM_LOCALE (
     LANGUAGE varchar(255) not null,
     COUNTRY varchar(255) not null,
     VARIANT varchar(255),
+    primary key (ID)
+) type=InnoDB;
+create table BASE_SYSTEM_UNIT (
+    ID bigint not null auto_increment,
+    UNIT_KEY varchar(255) not null,
     primary key (ID)
 ) type=InnoDB;
 alter table BASE_ARTICLE_DESCRIPTION 

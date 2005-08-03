@@ -22,7 +22,7 @@ import org.springframework.dao.DataAccessException;
  * Time: 12:31:05
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseServiceImpl.java,v 1.3 2005/07/30 11:18:03 raedler Exp $
+ * @version $Id: BaseServiceImpl.java,v 1.4 2005/08/03 13:06:09 raedler Exp $
  * @see BaseService
  * @since EcoBill 1.0
  */
@@ -112,6 +112,13 @@ public class BaseServiceImpl implements BaseService {
     }
 
     /**
+     * @see ecobill.module.base.service.BaseService#getAllSystemUnit()
+     */
+    public List getAllSystemUnit() {
+        return baseDao.getAllSystemUnits();
+    }
+
+    /**
      * @see BaseService#getBusinessPartnerById(Long)
      */
     public BusinessPartner getBusinessPartnerById(Long id) {
@@ -145,22 +152,36 @@ public class BaseServiceImpl implements BaseService {
     public void saveOrUpdateArticle(Article article) {
 
         /*
-        * Es wird überprüft ob sich schon ein Artikel mit dieser Artikelnummer in der
-        * Datenbank befindet. Sollte schon ein Artikel vorhanden sein wird dessen ID
-        * an den zu speichernden übergeben um den alten Artikel und somit die alten
-        * Werte mit den neuen Werten und dem neuen Artikel zu überschreiben.
-        */
-        Article savedArticle = null;
-        try {
-            savedArticle = baseDao.getArticleByArticleNumber(article.getArticleNumber());
-        }
-        catch (NoSuchArticleException nsae) {
-            // Unternehme nichts, da savedArticle ja dann sowieso null ist.
-        }
+         * Bei einem neuen Artikel (ID ist nicht gesetzt bzw "-1") wird überprüft ob
+         * sich schon ein Artikel mit dieser Artikelnummer in der Datenbank befindet.
+         * Sollte schon ein Artikel vorhanden sein werden dessen Daten mit den Daten
+         * des Parameter Artikel überschrieben.
+         */
+        if (article.getId() < 0) {
+            Article savedArticle = null;
+            try {
+                savedArticle = baseDao.getArticleByArticleNumber(article.getArticleNumber());
+            }
+            catch (NoSuchArticleException nsae) {
+                // Unternehme nichts, da savedArticle ja dann sowieso null ist.
+            }
 
-        // @todo Evtl muss man sich hier um die restlichen (schon vorhandenen) Artikelbeschreibungen kümmern.
-        if (savedArticle != null) {
-            article.setId(savedArticle.getId());
+            /*
+             * Hier werden die Werte des Parameter <code>Article</code> in den vorhandenen
+             * Artikel in der Datenbank gesetzt und dieser dann wieder gespeichert.
+             * Hier wird das Problem mit zwei Objekten und der selben ID umgangen.
+             */
+            if (savedArticle != null) {
+                savedArticle.setArticleNumber(article.getArticleNumber());
+                savedArticle.setSystemUnit(article.getSystemUnit());
+                savedArticle.setPrice(article.getPrice());
+                savedArticle.setInStock(article.getInStock());
+                savedArticle.setBundleSystemUnit(article.getBundleSystemUnit());
+                savedArticle.setBundleCapacity(article.getBundleCapacity());
+
+                // @todo Evtl muss man sich hier um die restlichen (schon vorhandenen) Artikelbeschreibungen kümmern.
+                savedArticle.setDescriptions(article.getDescriptions());
+            }
         }
 
         baseDao.saveOrUpdateArticle(article);

@@ -2,6 +2,7 @@ package ecobill.core.system;
 
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.beans.BeansException;
 
 import java.util.Locale;
@@ -15,7 +16,7 @@ import java.util.Locale;
  * Time: 16:41:40
  *
  * @author Roman R&auml;dle
- * @version $Id: WorkArea.java,v 1.1 2005/07/29 13:21:15 raedler Exp $
+ * @version $Id: WorkArea.java,v 1.2 2005/08/03 13:06:09 raedler Exp $
  * @since EcoBill 1.0
  */
 public class WorkArea implements ApplicationContextAware {
@@ -64,12 +65,34 @@ public class WorkArea implements ApplicationContextAware {
 
     /**
      * Gibt den zu einem Schlüssel zugehörigen Wert aus einem <code>ResourceBundle</code>
-     * zurück.
+     * zurück. Wird dieser Schlüssel in keinem <code>ResourceBundle</code> gefunden, so
+     * wird einfach der Default Wert zurückgeliefert.
      *
-     * @param key Der Schlüssel der den Wert enthält.
+     * @param key            Der Schlüssel der den Wert enthält.
+     * @param defaultMessage Dieser Wert wird zurückgeliefert wenn der Schlüssel in keinem
+     *                       <code>ResourceBundle</code> gefunden wird.
      * @return Der zu einem Schlüssel zugehörige Wert.
+     * @see ApplicationContext#getMessage(String, Object[], String, java.util.Locale)
+     */
+    public static String getMessage(String key, String defaultMessage) {
+        return ac.getMessage(key, null, defaultMessage, locale);
+    }
+
+    /**
+     * Gibt den zu einem Schlüssel zugehörigen Wert aus einem <code>ResourceBundle</code>
+     * zurück. Wird dieser Schlüssel in keinem <code>ResourceBundle</code> gefunden, so
+     * wird einfach der Key zurückgeliefert.
+     *
+     * @param key            Der Schlüssel der den Wert enthält.
+     * @return Der zu einem Schlüssel zugehörige Wert.
+     * * @see ApplicationContext#getMessage(String, Object[], String, java.util.Locale)
      */
     public static String getMessage(String key) {
-        return ac.getMessage(key, null, locale);
+        try {
+            return ac.getMessage(key, null, locale);
+        }
+        catch (NoSuchMessageException e) {
+            return "??? " + key + " ???";
+        }
     }
 }

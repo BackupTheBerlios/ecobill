@@ -20,7 +20,7 @@ import java.util.*;
  * Time: 00:37:27
  *
  * @author Roman R&auml;dle
- * @version $Id: Article.java,v 1.3 2005/07/30 11:18:03 raedler Exp $
+ * @version $Id: Article.java,v 1.4 2005/08/03 13:06:09 raedler Exp $
  * @since EcoBill 1.0
  */
 public final class Article extends AbstractDomain {
@@ -31,12 +31,12 @@ public final class Article extends AbstractDomain {
     private String articleNumber;
 
     /**
-     * Dieser Schlüssel gibt einen Schlüssel einer Einheit an.
+     * Diese <code>SystemUnit</code> gibt die Einheit an des Artikels an.
      * <br/>
      * Bspw. "weight" -> Dieser Schlüssel ist in einem <code>ResourceBundle</code>
      * enthalten und kann somit darin landesspezifisch angegeben werden.
      */
-    private String unitKey;
+    private SystemUnit systemUnit;
 
     /**
      * Der Einzelpreis des Artikels.
@@ -54,9 +54,11 @@ public final class Article extends AbstractDomain {
     private double bundleCapacity;
 
     /**
-     * Die Gebindeeinheit des Artikels.
+     * Diese <code>SystemUnit</code> gibt die Gebindeeinheit des Artikels an.
+     *
+     * @see systemUnit
      */
-    private String bundleUnitKey;
+    private SystemUnit bundleSystemUnit;
 
     /**
      * Dieses <code>Set</code> beinhaltet alle Beschreibungen des Artikels.
@@ -86,30 +88,30 @@ public final class Article extends AbstractDomain {
     }
 
     /**
-     * Gibt den Schlüssel unter diesem man in den
-     * <code>ResourceBundle</code> den dazugehörigen Wert finden kann
+     * Gibt die <code>SystemUnit</code>, unter dessen Key man in einem
+     * <code>ResourceBundle</code> den dazugehörigen Wert finden kann,
      * zurück.
-     * Der unitKey weist auf eine landesspezifische Einheit wie bspw.
-     * (unit) Stück.
+     * Der <code>SystemUnit</code> Key weist auf eine landesspezifische
+     * Einheit wie bspw. (unit) Stück.
      *
-     * @return Der Schlüssel der auf den landesspezifischen Wert in
-     *         einem <code>ResourceBundle</code> zeigt.
+     * @return Die <code>SystemUnit</code> dessen Key auf den landesspezifischen
+     *         Wert in einem <code>ResourceBundle</code> zeigen kann.
      */
-    public String getUnitKey() {
-        return unitKey;
+    public SystemUnit getSystemUnit() {
+        return systemUnit;
     }
 
     /**
-     * Setzt den Schlüssel unter diesem man in den
+     * Setzt die <code>SystemUnit</code> unter dessen Key man in einem
      * <code>ResourceBundle</code> den dazugehörigen Wert finden kann.
-     * Der unitKey weist dann auf eine landesspezifischen Einheit wie
-     * bspw. (unit) Stück
+     * Der <code>SystemUnit</code> Key weist auf eine landesspezifische
+     * Einheit wie bspw. (unit) Stück.
      *
-     * @param unitKey Der Schlüssel der auf den landesspezifischen Wert
-     *                in einem <code>ResourceBundle</code> weist.
+     * @param systemUnit Die <code>SystemUnit</code> dessen Key auf den landesspezifischen
+     *         Wert in einem <code>ResourceBundle</code> zeigen kann.
      */
-    public void setUnitKey(String unitKey) {
-        this.unitKey = unitKey;
+    public void setSystemUnit(SystemUnit systemUnit) {
+        this.systemUnit = systemUnit;
     }
 
     /**
@@ -167,21 +169,23 @@ public final class Article extends AbstractDomain {
     }
 
     /**
-     * Gibt die Gebindeeinheit des Artikles zurück.
+     * Gibt die Gebinde <code>SystemUnit</code> des Artikles zurück.
      *
      * @return Die Gebindeeinheit des Artikels.
+     * @see this#getSystemUnit()
      */
-    public String getBundleUnitKey() {
-        return bundleUnitKey;
+    public SystemUnit getBundleSystemUnit() {
+        return bundleSystemUnit;
     }
 
     /**
-     * Setzt die Gebindeeinheit des Artikles.
+     * Setzt die Gebinde <code>SystemUnit</code> des Artikles.
      *
-     * @param bundleUnitKey Die Gebindeeinheit des Artikels.
+     * @param bundleSystemUnit Die Gebindeeinheit des Artikels.
+     * @see this#setSystemUnit(SystemUnit)
      */
-    public void setBundleUnitKey(String bundleUnitKey) {
-        this.bundleUnitKey = bundleUnitKey;
+    public void setBundleSystemUnit(SystemUnit bundleSystemUnit) {
+        this.bundleSystemUnit = bundleSystemUnit;
     }
 
     /**
@@ -295,12 +299,15 @@ public final class Article extends AbstractDomain {
 
         final Article article = (Article) o;
 
-        if (Double.compare(article.getBundleCapacity(), this.getBundleCapacity()) != 0) return false;
-        if (Double.compare(article.getInStock(), this.getInStock()) != 0) return false;
-        if (Double.compare(article.getPrice(), this.getPrice()) != 0) return false;
-        if (this.getBundleUnitKey() != null ? !this.getBundleUnitKey().equals(article.getBundleUnitKey()) : article.getBundleUnitKey() != null) return false;
-        if (this.getDescriptions() != null ? !this.getDescriptions().equals(article.getDescriptions()) : article.getDescriptions() != null) return false;
-        return !(this.getUnitKey() != null ? !this.getUnitKey().equals(article.getUnitKey()) : article.getUnitKey() != null);
+        if (Double.compare(article.bundleCapacity, bundleCapacity) != 0) return false;
+        if (Double.compare(article.inStock, inStock) != 0) return false;
+        if (Double.compare(article.price, price) != 0) return false;
+        if (articleNumber != null ? !articleNumber.equals(article.articleNumber) : article.articleNumber != null) return false;
+        if (bundleSystemUnit != null ? !bundleSystemUnit.equals(article.bundleSystemUnit) : article.bundleSystemUnit != null) return false;
+        if (descriptions != null ? !descriptions.equals(article.descriptions) : article.descriptions != null) return false;
+        if (systemUnit != null ? !systemUnit.equals(article.systemUnit) : article.systemUnit != null) return false;
+
+        return true;
     }
 
     /**
@@ -309,15 +316,16 @@ public final class Article extends AbstractDomain {
     public int hashCode() {
         int result;
         long temp;
-        result = (this.getUnitKey() != null ? this.getUnitKey().hashCode() : 0);
-        temp = this.getPrice() != +0.0d ? Double.doubleToLongBits(this.getPrice()) : 0L;
+        result = (articleNumber != null ? articleNumber.hashCode() : 0);
+        result = 29 * result + (systemUnit != null ? systemUnit.hashCode() : 0);
+        temp = price != +0.0d ? Double.doubleToLongBits(price) : 0L;
         result = 29 * result + (int) (temp ^ (temp >>> 32));
-        temp = this.getInStock() != +0.0d ? Double.doubleToLongBits(this.getInStock()) : 0L;
+        temp = inStock != +0.0d ? Double.doubleToLongBits(inStock) : 0L;
         result = 29 * result + (int) (temp ^ (temp >>> 32));
-        temp = this.getBundleCapacity() != +0.0d ? Double.doubleToLongBits(this.getBundleCapacity()) : 0L;
+        temp = bundleCapacity != +0.0d ? Double.doubleToLongBits(bundleCapacity) : 0L;
         result = 29 * result + (int) (temp ^ (temp >>> 32));
-        result = 29 * result + (this.getBundleUnitKey() != null ? this.getBundleUnitKey().hashCode() : 0);
-        result = 29 * result + (this.getDescriptions() != null ? this.getDescriptions().hashCode() : 0);
+        result = 29 * result + (bundleSystemUnit != null ? bundleSystemUnit.hashCode() : 0);
+        result = 29 * result + (descriptions != null ? descriptions.hashCode() : 0);
         return result;
     }
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        
+<!--
+ User: rro
+ Date: 31.07.2005
+ Time: 17:32:05
+ 
+ @author Roman R&auml;dle
+ @version $Id: SystemUnit.hbm.xml,v 1.1 2005/08/03 13:06:09 raedler Exp $
+ @since EcoBill 1.0
+-->
+
+<hibernate-mapping default-lazy="false">
+
+    <class name="ecobill.module.base.domain.SystemUnit" table="BASE_SYSTEM_UNIT">
+    
+        <id name="id" type="long" unsaved-value="-1">
+            <column name="ID" not-null="true"/>
+            <generator class="native"/>
+        </id>
+
+        <property name="key" type="string">
+            <column name="UNIT_KEY" not-null="true" unique="true"/>
+        </property>
+    
+    </class>
+
+</hibernate-mapping>
