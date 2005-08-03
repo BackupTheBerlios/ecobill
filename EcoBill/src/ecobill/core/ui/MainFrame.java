@@ -24,10 +24,10 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.11 2005/08/03 17:44:21 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.12 2005/08/03 17:56:18 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
-public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean  {
+public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
 
     // @todo document me!
     protected ApplicationContext context;
@@ -79,9 +79,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         this.getContentPane().add(qbutton, BorderLayout.SOUTH);
     }
 
-   private void tabPane() {
+    private void tabPane() {
 
-       // erstellt TabFeld
+        // erstellt TabFeld
         JTabbedPane jtab = new JTabbedPane();
         JComponent tab0 = new JPanel();
         JComponent tab1 = new JPanel();
@@ -99,7 +99,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         lab1.setVisible(true);
         JLabel descrip1 = new JLabel("Effiziente und Effektive Kunden-, Artikel- und " +
                 "Rechnungsverwaltung mit Economy Bill Agenda");
-       
+
         tab0.add(lab1, BorderLayout.CENTER);
         tab0.add(descrip1, BorderLayout.SOUTH);
 
@@ -130,7 +130,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         file.setMnemonic(KeyEvent.VK_F);
 
 
-         // erstellt DateiMenü
+        // erstellt DateiMenü
         JMenuItem product = new JMenuItem("New Product", 'R');
         JMenuItem customer = new JMenuItem("New Customer", 'S');
         JMenuItem open = new JMenuItem("Open", 'O');
@@ -144,7 +144,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         file.add(saveas);
 
         // Quit Action Listener
-        file.add(new AbstractAction("Quit") {
+        JMenuItem quit = new JMenuItem("Quit", 'Q');
+        
+        quit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("Quit"))
@@ -152,6 +154,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             }
         });
 
+        file.add(quit);
 
         // erstellt MenuItem Bearbeiten
         JMenu edit = new JMenu("Edit");
@@ -195,11 +198,11 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         JCheckBoxMenuItem german = new JCheckBoxMenuItem("German");
         german.setState(true);
         german.setMnemonic(KeyEvent.VK_G);
-        german.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G,InputEvent.CTRL_MASK));
+        german.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.CTRL_MASK));
         JCheckBoxMenuItem english = new JCheckBoxMenuItem("English");
         english.setState(false);
         english.setMnemonic(KeyEvent.VK_E);
-        english.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,InputEvent.CTRL_MASK));
+        english.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
         lang.add(german);
         lang.add(english);
         language.add(german);
@@ -211,8 +214,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         MainFrame frame = new MainFrame();
         try {
             frame.afterPropertiesSet();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
