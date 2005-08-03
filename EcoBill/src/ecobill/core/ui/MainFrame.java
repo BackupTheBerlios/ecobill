@@ -24,7 +24,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.13 2005/08/03 18:12:59 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.14 2005/08/03 18:22:43 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -52,23 +52,25 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     }
 
     public void afterPropertiesSet() throws Exception {
+
+        // erstellt Mainframe
         this.setTitle("Economy Bill Agenda");
         this.setSize(new Dimension(800, 600));
         this.getContentPane().setLayout(new BorderLayout());
         this.jMenuBar();
         this.tabPane();
-        this.quitButton();
+        this.exitButton();
         this.setVisible(true);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    private void quitButton() {
+    private void exitButton() {
 
-        //erstellt Quit Button
-        JButton qbutton = new JButton("Exit");
+        //erstellt Exit Button
+        JButton ebutton = new JButton("Exit");
 
-        // Quit Button Action Listener
-        qbutton.addActionListener(new ActionListener() {
+        // Exit Button Action Listener
+        ebutton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("Exit"))
@@ -76,7 +78,8 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             }
         });
 
-        this.getContentPane().add(qbutton, BorderLayout.SOUTH);
+        // fügt ExitButton hinzu
+        this.getContentPane().add(ebutton, BorderLayout.SOUTH);
     }
 
     private void tabPane() {
@@ -88,31 +91,36 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         JComponent tab2 = new JPanel();
         JComponent tab3 = new JPanel();
 
+        // fügt Tabs dem Tabfeld hinzu
         jtab.addTab("Start", tab0);
         jtab.addTab("Artikel", tab1);
         jtab.addTab("Kunden", tab2);
         jtab.addTab("Rechnungen", tab3);
 
-
+        // erstellt JLabels
         JLabel lab1 = new JLabel(new ImageIcon("Startbild.jpg"));
         lab1.setToolTipText("Copyright @ JFuckers");
         lab1.setVisible(true);
         JLabel descrip1 = new JLabel("Effiziente und Effektive Kunden-, Artikel- und " +
                 "Rechnungsverwaltung mit Economy Bill Agenda");
 
+        // fügt JLabels tab0 zu
         tab0.add(lab1, BorderLayout.CENTER);
         tab0.add(descrip1, BorderLayout.SOUTH);
 
+        // fügt JLabel tab1 zu
         JLabel descrip2 = new JLabel("Hier kommt die ArtikelGui rein");
         tab1.add(descrip2);
 
+        // fügt JLabel tab2 zu
         JLabel descrip3 = new JLabel("Hier kommt die KundenGui rein");
         tab2.add(descrip3);
 
+        // fügt JLabel tab3 zu
         JLabel descrip4 = new JLabel("Hier kommt die RechnungsGui bzw. Rechnungen rein");
         tab3.add(descrip4);
 
-
+        // fügt Tabfeld hinzu
         this.getContentPane().add(jtab, BorderLayout.CENTER);
     }
 
@@ -136,11 +144,15 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         JMenuItem open = new JMenuItem("Open", 'O');
         JMenuItem save = new JMenuItem("Save", 'S');
         JMenuItem saveas = new JMenuItem("Save As");
+
+        // erstellt ShortCuts für MenüItems des DateiMenü
         product.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_MASK));
         customer.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_MASK));
         open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
         save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
         saveas.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
+
+        // fügt MenüItems dem DateiMenü hinzu
         file.add(product);
         file.add(customer);
         file.add(open);
@@ -148,11 +160,12 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         file.add(save);
         file.add(saveas);
 
-        // Quit Action Listener
-        JMenuItem quit = new JMenuItem("Exit", 'X');
-        quit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
+        // erstellt exit MenüItem
+        JMenuItem exit = new JMenuItem("Exit", 'X');
+        exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
 
-        quit.addActionListener(new ActionListener() {
+        // Exit Action Listener
+        exit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("Exit"))
@@ -160,7 +173,8 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             }
         });
 
-        file.add(quit);
+        // fügt MenüItem exit zu DateiMenü hinzu
+        file.add(exit);
 
         // erstellt MenuItem Bearbeiten
         JMenu edit = new JMenu("Edit");
@@ -174,12 +188,16 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         JMenuItem copy = new JMenuItem("Copy", 'C');
         JMenuItem paste = new JMenuItem("Paste", 'P');
         JMenuItem delete = new JMenuItem("Delete", 'D');
+
+        // erstellt ShortCuts für BearbeitenMenü
         undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_MASK));
         redo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, InputEvent.CTRL_MASK));
         cut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
         copy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK));
         paste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_MASK));
         delete.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, InputEvent.ALT_DOWN_MASK));
+
+        // fügt MenüItems zu BearbeitenMenü hinzu
         edit.add(undo);
         edit.add(redo);
         edit.addSeparator();
@@ -206,18 +224,26 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         menuBar.add(language);
         language.setMnemonic(KeyEvent.VK_L);
 
-        // erstellt SprachMenü
+        // erstellt Gruppe der Checkboxen
         ButtonGroup lang = new ButtonGroup();
+
+        // Checkbox German wird erstellt
         JCheckBoxMenuItem german = new JCheckBoxMenuItem("German");
         german.setState(true);
         german.setMnemonic(KeyEvent.VK_G);
         german.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.CTRL_MASK));
+
+        // CheckBox English wird erstellt
         JCheckBoxMenuItem english = new JCheckBoxMenuItem("English");
         english.setState(false);
         english.setMnemonic(KeyEvent.VK_E);
         english.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
+
+        // fügt die CheckBoxItems der Gruppe zu
         lang.add(german);
         lang.add(english);
+
+        // fügt LanguageMenüItems dem LanguageMenü zu
         language.add(german);
         language.add(english);
 
