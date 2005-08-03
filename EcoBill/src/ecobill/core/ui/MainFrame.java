@@ -24,7 +24,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.14 2005/08/03 18:22:43 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.15 2005/08/03 20:04:18 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -64,7 +64,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    private void exitButton() {
+    public void exitButton() {
 
         //erstellt Exit Button
         JButton ebutton = new JButton("Exit");
@@ -82,7 +82,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         this.getContentPane().add(ebutton, BorderLayout.SOUTH);
     }
 
-    private void tabPane() {
+    public void tabPane() {
 
         // erstellt TabFeld
         JTabbedPane jtab = new JTabbedPane();
@@ -96,6 +96,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         jtab.addTab("Artikel", tab1);
         jtab.addTab("Kunden", tab2);
         jtab.addTab("Rechnungen", tab3);
+
 
         // erstellt JLabels
         JLabel lab1 = new JLabel(new ImageIcon("Startbild.jpg"));
@@ -216,6 +217,16 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         JMenuItem about = new JMenuItem("About", 'A');
         ht.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_MASK));
         help.add(ht);
+
+        about.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Action: " + e.getActionCommand());
+                if (e.getActionCommand().equals("About"))
+                    about();
+            }
+        });
+
+
         about.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
         help.add(about);
 
@@ -247,6 +258,15 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         language.add(german);
         language.add(english);
 
+    }
+     // wird aufgerufen bei About
+    public void about() {
+
+         // macht neues Label About
+        JLabel about = new JLabel(new ImageIcon("About.jpg"));
+        about.setVisible(true);
+        this.getContentPane().add(about, BorderLayout.EAST);
+        validate();
     }
 
     public static void main(String[] args) {
