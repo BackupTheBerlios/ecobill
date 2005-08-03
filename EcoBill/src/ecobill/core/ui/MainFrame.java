@@ -11,6 +11,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationContext;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
+
 // @todo document me!
 
 /**
@@ -21,7 +22,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.2 2005/07/29 20:59:07 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.3 2005/08/03 12:20:45 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -55,17 +56,24 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         this.getContentPane().setLayout(new BorderLayout());
 
         this.initDesktopPane();
-        this.initButton();
+        //this.initButton();
 
         this.setVisible(true);
     }
-
 
 
     boolean visible = false;
 
     public MainFrame() throws HeadlessException {
         super();
+        this.setTitle("Economy Bill Agenda");
+        this.setSize(new Dimension(800, 600));
+        this.getContentPane().setLayout(new BorderLayout());
+        this.initDesktopPane();
+        //this.initButton();
+        this.tabPane();
+        this.quitButton();
+        this.setVisible(true);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
@@ -75,24 +83,72 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         this.getContentPane().add(desktopPane, BorderLayout.CENTER);
 
-        desktopPane.add(articleUI);
+        // auskommentiert zwecks MainFrame anschauen
+        //desktopPane.add(articleUI);
     }
 
-    private void initButton() {
-        JButton button = new JButton("Klick mich");
+    /*      private void initButton() {
+         JButton button = new JButton("Klick mich");
 
-        button.addActionListener(new ActionListener() {
+         button.addActionListener(new ActionListener() {
+             public void actionPerformed(ActionEvent e) {
+
+                 /*
+                  * Setzt die <code>ArtikelUI</code> sichtbar.
+                  */
+    /*          visible = !visible;
+
+              MainFrame.this.articleUI.setVisible(visible);
+          }
+      });
+
+      this.getContentPane().add(button, BorderLayout.SOUTH);
+  } */
+
+    private void quitButton() {
+        JButton qbutton = new JButton("Quit");
+
+        qbutton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-                /*
-                 * Setzt die <code>ArtikelUI</code> sichtbar.
-                 */
-                visible = !visible;
-
-                MainFrame.this.articleUI.setVisible(visible);
+                System.out.println("Action: " + e.getActionCommand());
+                if (e.getActionCommand().equals("Quit"))
+                    System.exit(0);
             }
         });
 
-        this.getContentPane().add(button, BorderLayout.NORTH);
+        this.getContentPane().add(qbutton, BorderLayout.SOUTH);
+    }
+
+   private void tabPane() {
+        JTabbedPane jtab = new JTabbedPane();
+        JComponent tab0 = new JPanel();
+        JComponent tab1 = new JPanel();
+        JComponent tab2 = new JPanel();
+        JComponent tab3 = new JPanel();
+
+        jtab.addTab("Start", tab0);
+        jtab.addTab("Article", tab1);
+        jtab.addTab("Customer", tab2);
+        jtab.addTab("Bill", tab3);
+
+        ButtonGroup language = new ButtonGroup();
+        JRadioButton german = new JRadioButton();
+        JRadioButton english = new JRadioButton();
+
+        german.setText("German");
+        english.setText("English");
+
+        language.add(german);
+        language.add(english);
+
+        tab0.add(german);
+        tab0.add(english);
+
+        this.getContentPane().add(jtab, BorderLayout.CENTER);
+    }
+
+    public static void main(String[] args) {
+
+        new MainFrame();
     }
 }
