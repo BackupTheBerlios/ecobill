@@ -23,10 +23,13 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.21 2005/08/04 14:08:14 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.22 2005/08/04 14:37:40 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
+
+
+
 
     // @todo document me!
     protected ApplicationContext context;
@@ -318,7 +321,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // AusgabeStrings im PopUp Fenster German
         String la = "Language";
-        String sd = "Die Sprache ist jetzt" + LINE_SEPARATOR + "        Deutsch";
+        String sd = "Sprache ist jetzt" + LINE_SEPARATOR + "        Deutsch";
 
         // erstellt PopUp German
         JOptionPane.showMessageDialog(this, sd, la, 1, new ImageIcon("German.jpg"));
@@ -328,7 +331,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // AusgabeStrings im PopUp Fenster English
         String la = "Language";
-        String se = "Your language is now " + LINE_SEPARATOR + "          English";
+        String se = "Language is now " + LINE_SEPARATOR + "          English";
 
         // erstellt PopUp English
         JOptionPane.showMessageDialog(this, se, la, 1, new ImageIcon("English.gif"));
