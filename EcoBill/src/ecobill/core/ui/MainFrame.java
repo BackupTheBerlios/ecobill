@@ -23,7 +23,7 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.26 2005/08/04 20:13:14 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.27 2005/08/04 21:08:47 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -54,7 +54,8 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // erstellt Mainframe
         this.setTitle("Economy Bill Agenda");
-        this.setSize(new Dimension(800, 600));
+        this.setSize(new Dimension(900, 700));
+        UIManager.setLookAndFeel(new com.sun.java.swing.plaf.windows.WindowsLookAndFeel());
         this.getContentPane().setLayout(new BorderLayout());
         this.jMenuBar();
         this.tabPane();
@@ -86,14 +87,14 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // erstellt TabFeld
         JTabbedPane jtab = new JTabbedPane();
-        JComponent tab0 = new JPanel();
+        JComponent tab0 = new JPanel(new BorderLayout());
         JComponent tab1 = new JPanel();
         JComponent tab2 = new JPanel();
         JComponent tab3 = new JPanel();
 
         // fügt Tabs dem Tabfeld hinzu
         jtab.addTab("Start", tab0);
-        jtab.addTab("Artikel", tab1);
+        jtab.addTab("Artikel", articleUI);
         jtab.addTab("Kunden", tab2);
         jtab.addTab("Rechnungen", tab3);
 
@@ -102,12 +103,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         JLabel lab1 = new JLabel(new ImageIcon("Startbild.jpg"));
         lab1.setToolTipText("Copyright @ JFuckers");
         lab1.setVisible(true);
-        JLabel descrip1 = new JLabel("Effiziente und Effektive Kunden-, Artikel- und " +
-                "Rechnungsverwaltung mit Economy Bill Agenda");
 
         // fügt JLabels tab0 zu
         tab0.add(lab1, BorderLayout.CENTER);
-        tab0.add(descrip1, BorderLayout.SOUTH);
 
         // fügt JLabel tab1 zu
         JLabel descrip2 = new JLabel("Hier kommt die ArtikelGui rein");
