@@ -35,7 +35,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.5 2005/08/03 13:06:09 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.6 2005/08/04 20:24:18 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JPanel /*JInternalFrame*/ implements InitializingBean {
@@ -932,8 +932,6 @@ public class ArticleUI extends JPanel /*JInternalFrame*/ implements Initializing
 
     private void initDescriptionP() {
 
-
-
         JPanel localeSettingP = new JPanel(null);
 
         languageL.setBounds(10, 20, 100, 20);
@@ -954,20 +952,15 @@ public class ArticleUI extends JPanel /*JInternalFrame*/ implements Initializing
         variantCB.setBounds(10, 140, 100, 20);
         localeSettingP.add(variantCB);
 
+
         descriptionsTA.setBorder(descriptionBorder);
         descriptionsTA.setLineWrap(true);
         descriptionsTA.setWrapStyleWord(true);
 
-        descriptionsTA.setBounds(130, 10, 360, 100);
-
-//        addDescriptionB.setBounds(240, 145, 100, 20);
-
-        JPanel descriptionTopP = new JPanel();
-
         GridBagLayout gbl = new GridBagLayout();
+        JPanel descriptionTopP = new JPanel(new BorderLayout());
 
         GridBagConstraints c1 = new GridBagConstraints();
-
         c1.fill = GridBagConstraints.NONE;
         c1.weightx = 0.0;
         c1.weighty = 0.0;
@@ -978,21 +971,35 @@ public class ArticleUI extends JPanel /*JInternalFrame*/ implements Initializing
         c1.gridy = 0;
         c1.gridwidth = 1;
         c1.gridheight = 1;
-        gbl.setConstraints(localeSettingP, c1);
+        //gbl.setConstraints(localeSettingP, c1);
+        //localeSettingP.setMinimumSize(new Dimension(180, 120));
+        descriptionTopP.add(localeSettingP, BorderLayout.CENTER);
 
-        descriptionTopP.setLayout(gbl);
-
-
-        localeSettingP.setBorder(localeBorder);
-        localeSettingP.setBounds(0, 0, 130, 170);
-        descriptionTopP.add(localeSettingP);
+        /*
+        GridBagConstraints c2 = new GridBagConstraints();
+        c2.fill = GridBagConstraints.BOTH;
+        c2.weightx = 1.0;
+        c2.weighty = 1.0;
+        c2.anchor = GridBagConstraints.CENTER;
+        c2.ipadx = 0;
+        c2.ipady = 0;
+        c2.gridx = 1;
+        c2.gridy = 0;
+        c2.gridwidth = 1;
+        c2.gridheight = 1;
+        gbl.setConstraints(descriptionsTA, c2);
         descriptionTopP.add(descriptionsTA);
+        */
+
+        //ocaleSettingP.setBorder(localeBorder);
+
+        //descriptionTopP.setLayout(gbl);
 
         JPanel descriptionsTableP = new JPanel(new BorderLayout());
         descriptionsTableP.add(new JScrollPane(new JTable(new Object[][]{{"a", "a", "a"}, {"b", "b", "b"}}, new Object[]{"test1", "test2", "test3"})));
 
         descriptionTopP.setPreferredSize(new Dimension(400, 200));
-        descriptionTopP.setBorder(new EtchedBorder());
+        //descriptionTopP.setBorder(new EtchedBorder());
 
         /*
         someP.add(descriptionsTA);
@@ -1005,7 +1012,5 @@ public class ArticleUI extends JPanel /*JInternalFrame*/ implements Initializing
 
         descriptionsP.add(descriptionTopP, BorderLayout.NORTH);
         descriptionsP.add(descriptionsTableP, BorderLayout.CENTER);
-
-
     }
 }
