@@ -23,7 +23,7 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.25 2005/08/04 20:12:02 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.26 2005/08/04 20:13:14 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
