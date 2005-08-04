@@ -1,18 +1,17 @@
 package ecobill.core.ui;
 
 import ecobill.module.base.ui.ArticleUI;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
-
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.ApplicationContext;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.InitializingBean;
+import java.awt.event.KeyEvent;
 
 // @todo document me!
 
@@ -24,7 +23,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.19 2005/08/04 12:58:50 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.20 2005/08/04 13:46:49 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -111,7 +110,11 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // fügt JLabel tab1 zu
         JLabel descrip2 = new JLabel("Hier kommt die ArtikelGui rein");
-        tab1.add(descrip2);
+        JTextField tf = new JTextField("Hallo DU SCHWEINEOHR");
+        tf.setSize(100, 100);
+        tf.setVisible(true);
+        tab1.add(tf, BorderLayout.WEST);
+        tab1.add(descrip2, BorderLayout.NORTH);
 
         // fügt JLabel tab2 zu
         JLabel descrip3 = new JLabel("Hier kommt die KundenGui rein");
@@ -290,47 +293,49 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         language.add(english);
 
     }
+
     // wird benutzt um neue Zeile zu erzeugen
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
-     // wird aufgerufen bei About
-    public void about(){
 
-         // AusgabeStrings im PopUp Fenster About
-         String ab = "About";
-         String ec = "Economy Bill Agenda" + LINE_SEPARATOR + "        Version 1.0";
+    // wird aufgerufen bei About
+    public void about() {
 
-         // erstellt PopUp About
-         JOptionPane.showMessageDialog(this,ec,ab,1,new ImageIcon("About.gif"));
+        // AusgabeStrings im PopUp Fenster About
+        String ab = "About";
+        String ec = "Economy Bill Agenda" + LINE_SEPARATOR + "        Version 1.0";
+
+        // erstellt PopUp About
+        JOptionPane.showMessageDialog(this, ec, ab, 1, new ImageIcon("About.gif"));
     }
 
-      public void topic(){
+    public void topic() {
 
-         // AusgabeStrings im PopUp Fenster Topic
-         String to = "Help Topics";
-         String ec = "Economy Bill Agenda" + LINE_SEPARATOR + "        Version 1.0";
+        // AusgabeStrings im PopUp Fenster Topic
+        String to = "Help Topics";
+        String ec = "Economy Bill Agenda" + LINE_SEPARATOR + "        Version 1.0";
 
-         // erstellt PopUp Topic
-         JOptionPane.showMessageDialog(this,ec,to,1,new ImageIcon("Topic.gif"));
+        // erstellt PopUp Topic
+        JOptionPane.showMessageDialog(this, ec, to, 1, new ImageIcon("Topic.gif"));
     }
 
-    public void german(){
+    public void german() {
 
-         // AusgabeStrings im PopUp Fenster German
-         String la = "Language";
-         String sd = "Die Sprache ist jetzt" + LINE_SEPARATOR + "        Deutsch";
+        // AusgabeStrings im PopUp Fenster German
+        String la = "Language";
+        String sd = "Die Sprache ist jetzt" + LINE_SEPARATOR + "        Deutsch";
 
-         // erstellt PopUp German
-         JOptionPane.showMessageDialog(this,sd,la,1,new ImageIcon("German.jpg"));
+        // erstellt PopUp German
+        JOptionPane.showMessageDialog(this, sd, la, 1, new ImageIcon("German.jpg"));
     }
 
-    public void english(){
+    public void english() {
 
-         // AusgabeStrings im PopUp Fenster English
-         String la = "Language";
-         String se = "Your language is now " + LINE_SEPARATOR + "          English";
+        // AusgabeStrings im PopUp Fenster English
+        String la = "Language";
+        String se = "Your language is now " + LINE_SEPARATOR + "          English";
 
-         // erstellt PopUp English
-         JOptionPane.showMessageDialog(this,se,la,1,new ImageIcon("English.gif"));
+        // erstellt PopUp English
+        JOptionPane.showMessageDialog(this, se, la, 1, new ImageIcon("English.gif"));
     }
 
     public static void main(String[] args) {
