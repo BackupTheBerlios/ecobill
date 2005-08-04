@@ -23,13 +23,10 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.22 2005/08/04 14:37:40 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.23 2005/08/04 15:17:59 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
-
-
-
 
     // @todo document me!
     protected ApplicationContext context;
@@ -70,6 +67,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         //erstellt Exit Button
         JButton ebutton = new JButton("Exit");
+        ebutton.setMnemonic(KeyEvent.VK_X);
 
         // Exit Button Action Listener
         ebutton.addActionListener(new ActionListener() {
@@ -147,6 +145,24 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         JMenuItem open = new JMenuItem("Open", 'O');
         JMenuItem save = new JMenuItem("Save", 'S');
         JMenuItem saveas = new JMenuItem("Save As");
+
+        // product Action Listener
+        product.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Action: " + e.getActionCommand());
+                if (e.getActionCommand().equals("New Product"))
+                    product();
+            }
+        });
+
+        // open Action Listener
+        open.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Action: " + e.getActionCommand());
+                if (e.getActionCommand().equals("Open"))
+                    open();
+            }
+        });
 
         // erstellt ShortCuts für MenüItems des DateiMenü
         product.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_MASK));
@@ -335,6 +351,22 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // erstellt PopUp English
         JOptionPane.showMessageDialog(this, se, la, 1, new ImageIcon("English.gif"));
+    }
+
+    public void open() {
+        FileDialog pd = new FileDialog(this, "Öffnen");
+        pd.setFile("*.*");
+        String filename = pd.getFile();
+        if (filename != null) {
+            // Datei eroeffnen und so weiter
+        }
+        pd.setVisible(true);
+        pd.dispose();
+        this.getContentPane().add(pd);
+    }
+
+    public void product() {
+
     }
 
     public static void main(String[] args) {
