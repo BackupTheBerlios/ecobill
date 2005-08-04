@@ -24,7 +24,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.18 2005/08/04 12:03:33 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.19 2005/08/04 12:58:50 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -214,9 +214,22 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // erstellt HilfeMenü
         JMenuItem ht = new JMenuItem("Help Topics", 'H');
         JMenuItem about = new JMenuItem("About", 'A');
+
+        // HelpTopic ActionListener
+        ht.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Action: " + e.getActionCommand());
+                if (e.getActionCommand().equals("Help Topics"))
+                    topic();
+            }
+        });
+
+        // setzt HelpTopic Shortcut
         ht.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_MASK));
+        // fügt HelpTopic zu Help hinzu
         help.add(ht);
 
+        // About ActionListener
         about.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
@@ -225,7 +238,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             }
         });
 
+        // setzt About ShortCut
         about.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_MASK));
+        // fügt About zu Help hinzu
         help.add(about);
 
         // erstellt MenuItem Sprache
@@ -242,11 +257,29 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         german.setMnemonic(KeyEvent.VK_G);
         german.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.CTRL_MASK));
 
+        // German ActionListener
+        german.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Action: " + e.getActionCommand());
+                if (e.getActionCommand().equals("German"))
+                    german();
+            }
+        });
+
         // CheckBox English wird erstellt
         JCheckBoxMenuItem english = new JCheckBoxMenuItem("English");
         english.setState(false);
         english.setMnemonic(KeyEvent.VK_E);
         english.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
+
+        // English ActionListener
+        english.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Action: " + e.getActionCommand());
+                if (e.getActionCommand().equals("English"))
+                    english();
+            }
+        });
 
         // fügt die CheckBoxItems der Gruppe zu
         lang.add(german);
@@ -257,13 +290,47 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         language.add(english);
 
     }
+    // wird benutzt um neue Zeile zu erzeugen
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
      // wird aufgerufen bei About
     public void about(){
-         String ab = new String("About");
-         String ec = new String(("Economy Bill Agenda" + LINE_SEPARATOR + "        Version 1.0"));
 
-         JOptionPane.showMessageDialog(this,ec,ab,1,new ImageIcon("About.jpg"));
+         // AusgabeStrings im PopUp Fenster About
+         String ab = "About";
+         String ec = "Economy Bill Agenda" + LINE_SEPARATOR + "        Version 1.0";
+
+         // erstellt PopUp About
+         JOptionPane.showMessageDialog(this,ec,ab,1,new ImageIcon("About.gif"));
+    }
+
+      public void topic(){
+
+         // AusgabeStrings im PopUp Fenster Topic
+         String to = "Help Topics";
+         String ec = "Economy Bill Agenda" + LINE_SEPARATOR + "        Version 1.0";
+
+         // erstellt PopUp Topic
+         JOptionPane.showMessageDialog(this,ec,to,1,new ImageIcon("Topic.gif"));
+    }
+
+    public void german(){
+
+         // AusgabeStrings im PopUp Fenster German
+         String la = "Language";
+         String sd = "Die Sprache ist jetzt" + LINE_SEPARATOR + "        Deutsch";
+
+         // erstellt PopUp German
+         JOptionPane.showMessageDialog(this,sd,la,1,new ImageIcon("German.jpg"));
+    }
+
+    public void english(){
+
+         // AusgabeStrings im PopUp Fenster English
+         String la = "Language";
+         String se = "Your language is now " + LINE_SEPARATOR + "          English";
+
+         // erstellt PopUp English
+         JOptionPane.showMessageDialog(this,se,la,1,new ImageIcon("English.gif"));
     }
 
     public static void main(String[] args) {
