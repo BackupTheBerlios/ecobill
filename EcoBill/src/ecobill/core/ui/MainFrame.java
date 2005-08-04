@@ -23,7 +23,7 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.20 2005/08/04 13:46:49 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.21 2005/08/04 14:08:14 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -110,10 +110,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // fügt JLabel tab1 zu
         JLabel descrip2 = new JLabel("Hier kommt die ArtikelGui rein");
-        JTextField tf = new JTextField("Hallo DU SCHWEINEOHR");
-        tf.setSize(100, 100);
-        tf.setVisible(true);
-        tab1.add(tf, BorderLayout.WEST);
         tab1.add(descrip2, BorderLayout.NORTH);
 
         // fügt JLabel tab2 zu
