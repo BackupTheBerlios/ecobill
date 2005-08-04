@@ -23,7 +23,7 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.23 2005/08/04 15:17:59 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.24 2005/08/04 15:30:10 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -152,6 +152,15 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("New Product"))
                     product();
+            }
+        });
+
+        // customer Action Listener
+        customer.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Action: " + e.getActionCommand());
+                if (e.getActionCommand().equals("New Customer"))
+                    customer();
             }
         });
 
@@ -358,7 +367,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         pd.setFile("*.*");
         String filename = pd.getFile();
         if (filename != null) {
-            // Datei eroeffnen und so weiter
         }
         pd.setVisible(true);
         pd.dispose();
@@ -366,6 +374,20 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     }
 
     public void product() {
+        String pr1 = "New Product";
+        String pr2 = "Hiermit fügen sie ein neues Produkt ein";
+
+        // erstellt PopUp Product
+        JOptionPane.showMessageDialog(this, pr2, pr1, 1);
+
+    }
+
+     public void customer() {
+        String cr1 = "New Customer";
+        String cr2 = "Hiermit fügen sie einen neuen Kunden ein";
+
+        // erstellt PopUp Customer
+        JOptionPane.showMessageDialog(this, cr2, cr1, 1);
 
     }
 
