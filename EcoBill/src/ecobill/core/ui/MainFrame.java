@@ -24,7 +24,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.17 2005/08/03 20:52:52 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.18 2005/08/04 12:03:33 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -257,19 +257,13 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         language.add(english);
 
     }
-
-    // wird von about abwechselnd auf true/false gesetzt
-    private boolean visible = false;
-
+    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
      // wird aufgerufen bei About
     public void about(){
+         String ab = new String("About");
+         String ec = new String(("Economy Bill Agenda" + LINE_SEPARATOR + "        Version 1.0"));
 
-         // macht neues Label About
-         JLabel about = new JLabel(new ImageIcon("About.jpg"));
-         visible =! visible;
-         about.setVisible(visible);
-         this.getContentPane().add(about, BorderLayout.EAST);
-         validate();
+         JOptionPane.showMessageDialog(this,ec,ab,1,new ImageIcon("About.jpg"));
     }
 
     public static void main(String[] args) {
