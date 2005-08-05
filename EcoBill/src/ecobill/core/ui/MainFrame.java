@@ -23,7 +23,7 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.28 2005/08/05 09:54:45 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.29 2005/08/05 10:12:04 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -233,8 +233,10 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // erstellt MenuItem Hilfe
         JMenu help = new JMenu("Help");
-        menuBar.add(help);
         help.setMnemonic(KeyEvent.VK_H);
+        help.setToolTipText("Benutzen Sie ShortCuts um schneller zu navigieren");
+        menuBar.add(help);
+
 
         // erstellt HilfeMenü
         JMenuItem ht = new JMenuItem("Help Topics", 'H');
@@ -337,7 +339,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         String ec = "Economy Bill Agenda" + LINE_SEPARATOR + "        Version 1.0";
 
         // erstellt PopUp Topic
-        JOptionPane.showMessageDialog(this, ec, to, 1, new ImageIcon("Topic.gif"));
+        JOptionPane.showMessageDialog(this, ec, to, 1, new ImageIcon("About.gif"));
     }
 
     public void german() {
