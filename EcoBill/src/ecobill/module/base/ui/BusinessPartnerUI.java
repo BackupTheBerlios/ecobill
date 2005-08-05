@@ -21,7 +21,7 @@ import java.awt.*;
  * Time: 14:20:07
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerUI.java,v 1.4 2005/08/05 14:59:26 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.5 2005/08/05 15:25:12 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -116,7 +116,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
      * Alle benötigten <code>JButton</code> um bspw. Artikel oder Beschreibungen
      * zu speichern/ändern.
      */
-    private JButton saveB = new JButton();
+    private JButton saveB = new JButton("Speichern");
 
     /**
      * Die <code>JScrollPane</code> um die Tabelle scrollen zu können, die Tabelle
@@ -198,8 +198,8 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
          * Fügt das Übersichtspanel und das Beschreibungenpanel der primären <code>JTabbedPane</code>
          * hinzu.
          */
-        primaryTP.add(overviewP);
-        primaryTP.add(descriptionsP);
+        primaryTP.add("KundenDaten",overviewP);
+        primaryTP.add("KundenBestellungen",descriptionsP);
 
         /*
          * Fügt die primäre <code>JTabbedPane</code> diesem <code>JInternalFrame</code> hinzu.
