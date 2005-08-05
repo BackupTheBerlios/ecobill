@@ -18,7 +18,7 @@ import java.awt.*;
  * Time: 14:20:07
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerUI.java,v 1.2 2005/08/05 12:35:16 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.3 2005/08/05 12:41:00 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel /*JInternalFrame*/ implements InitializingBean {
@@ -79,8 +79,12 @@ public class BusinessPartnerUI extends JPanel /*JInternalFrame*/ implements Init
 
     public void tabbedPane() {
         JTabbedPane jt = new JTabbedPane();
-        JComponent tab0 = new JPanel(new BorderLayout());
+        JComponent tab0 = new JPanel();
         JComponent tab1 = new JPanel();
+        JButton jb1 = new JButton("Hallo");
+        tab0.add(jb1);
+        JButton jb2 = new JButton("Tschüß");
+        tab1.add(jb2);
 
         jt.add(tab0, "Kundendaten");
         jt.add(tab1, "Kundenbestellungen");

@@ -24,7 +24,7 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.30 2005/08/05 12:27:12 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.31 2005/08/05 12:41:12 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -350,7 +350,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         String ec = "Economy Bill Agenda" + LINE_SEPARATOR + "        Version 1.0";
 
         // erstellt PopUp Topic
-        JOptionPane.showMessageDialog(this, ec, to, 1, new ImageIcon("About.gif"));
+        JOptionPane.showMessageDialog(this, ec, to, 1, new ImageIcon("Topic.gif"));
     }
 
     public void german() {
