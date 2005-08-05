@@ -24,7 +24,7 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.31 2005/08/05 12:41:12 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.32 2005/08/05 15:15:47 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -61,6 +61,37 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         super();
     }
 
+    // alle Sachen erstellen die man braucht
+    private JButton ebutton = new JButton("Exit");
+    // erstellt TabFeld
+    private JTabbedPane jtab = new JTabbedPane();
+    private JComponent tab0 = new JPanel(new BorderLayout());
+    private JComponent tab1 = new JPanel();
+    private JComponent tab2 = new JPanel();
+    private JComponent tab3 = new JPanel();
+    // erstellt MenuBar
+    private JMenuBar menuBar = new JMenuBar();
+    // erstellt MenuBarItems
+    private JMenu file = new JMenu("File");
+    private JMenu edit = new JMenu("Edit");
+    private JMenu help = new JMenu("Help");
+    private JMenu language = new JMenu("Language");
+    // erstellt MenuItems
+    // erstellt DateiMenü
+    private JMenuItem product = new JMenuItem("New Product", 'R');
+    private JMenuItem customer = new JMenuItem("New Customer", 'M');
+    private JMenuItem open = new JMenuItem("Open", 'O');
+    private JMenuItem save = new JMenuItem("Save", 'S');
+    private JMenuItem saveas = new JMenuItem("Save As");
+    // erstellt BearbeitenMenü
+    private JMenuItem undo = new JMenuItem("Undo", 'U');
+    private JMenuItem redo = new JMenuItem("Redo", 'R');
+    private JMenuItem cut = new JMenuItem("Cut", 'T');
+    private JMenuItem copy = new JMenuItem("Copy", 'C');
+    private JMenuItem paste = new JMenuItem("Paste", 'P');
+    private JMenuItem delete = new JMenuItem("Delete", 'D');
+
+
     public void afterPropertiesSet() throws Exception {
 
         // erstellt Mainframe
@@ -77,8 +108,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
     public void exitButton() {
 
-        //erstellt Exit Button
-        JButton ebutton = new JButton("Exit");
+        //setzt ExitButton Mnemonic
         ebutton.setMnemonic(KeyEvent.VK_X);
 
         // Exit Button Action Listener
@@ -96,19 +126,11 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
     public void tabPane() {
 
-        // erstellt TabFeld
-        JTabbedPane jtab = new JTabbedPane();
-        JComponent tab0 = new JPanel(new BorderLayout());
-        JComponent tab1 = new JPanel();
-        JComponent tab2 = new JPanel();
-        JComponent tab3 = new JPanel();
-
         // fügt Tabs dem Tabfeld hinzu
         jtab.addTab("Start", tab0);
         jtab.addTab("Artikel", articleUI);
         jtab.addTab("Kunden", businessPartnerUI);
         jtab.addTab("Rechnungen", tab3);
-
 
         // erstellt JLabels
         JLabel lab1 = new JLabel(new ImageIcon("Startbild.jpg"));
@@ -137,23 +159,13 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
     public void jMenuBar() {
 
-        // erstellt MenuBar
-        JMenuBar menuBar = new JMenuBar();
+        // definiert MenuBar
         MainFrame.this.setJMenuBar(menuBar);
         menuBar.setVisible(true);
-
-        // erstellt MenuItem Datei
-        JMenu file = new JMenu("File");
         menuBar.add(file);
         file.setMnemonic(KeyEvent.VK_F);
 
 
-        // erstellt DateiMenü
-        JMenuItem product = new JMenuItem("New Product", 'R');
-        JMenuItem customer = new JMenuItem("New Customer", 'M');
-        JMenuItem open = new JMenuItem("Open", 'O');
-        JMenuItem save = new JMenuItem("Save", 'S');
-        JMenuItem saveas = new JMenuItem("Save As");
 
         // product Action Listener
         product.addActionListener(new ActionListener() {
@@ -213,17 +225,11 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         file.add(exit);
 
         // erstellt MenuItem Bearbeiten
-        JMenu edit = new JMenu("Edit");
+
         menuBar.add(edit);
         edit.setMnemonic(KeyEvent.VK_E);
 
-        // erstellt BearbeitenMenü
-        JMenuItem undo = new JMenuItem("Undo", 'U');
-        JMenuItem redo = new JMenuItem("Redo", 'R');
-        JMenuItem cut = new JMenuItem("Cut", 'T');
-        JMenuItem copy = new JMenuItem("Copy", 'C');
-        JMenuItem paste = new JMenuItem("Paste", 'P');
-        JMenuItem delete = new JMenuItem("Delete", 'D');
+
 
         // erstellt ShortCuts für BearbeitenMenü
         undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_MASK));
@@ -243,7 +249,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         edit.add(delete);
 
         // erstellt MenuItem Hilfe
-        JMenu help = new JMenu("Help");
+
         help.setMnemonic(KeyEvent.VK_H);
         help.setToolTipText("Benutzen Sie ShortCuts um schneller zu navigieren");
         menuBar.add(help);
@@ -281,9 +287,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // fügt About zu Help hinzu
         help.add(about);
 
-        // erstellt MenuItem Sprache
-        JMenu language = new JMenu("Language");
+        // Language wir zur MenuBar hinzugefügt
         menuBar.add(language);
+        // setzt Language Mnemonic
         language.setMnemonic(KeyEvent.VK_L);
 
         // erstellt Gruppe der Checkboxen
@@ -326,7 +332,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // fügt LanguageMenüItems dem LanguageMenü zu
         language.add(german);
         language.add(english);
-
     }
 
     // wird benutzt um neue Zeile zu erzeugen
@@ -390,16 +395,14 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // erstellt PopUp Product
         JOptionPane.showMessageDialog(this, pr2, pr1, 1);
-
     }
 
-     public void customer() {
+    public void customer() {
         String cr1 = "New Customer";
         String cr2 = "Hiermit fügen sie einen neuen Kunden ein";
 
         // erstellt PopUp Customer
         JOptionPane.showMessageDialog(this, cr2, cr1, 1);
-
     }
 
     public static void main(String[] args) {
