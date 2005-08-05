@@ -1,6 +1,7 @@
 package ecobill.core.ui;
 
 import ecobill.module.base.ui.ArticleUI;
+import ecobill.module.base.ui.BusinessPartnerUI;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
@@ -23,7 +24,7 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.29 2005/08/05 10:12:04 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.30 2005/08/05 12:27:12 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -32,6 +33,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     protected ApplicationContext context;
 
     private ArticleUI articleUI;// = ArticleUI.getInstance();
+    private BusinessPartnerUI businessPartnerUI;
 
     public ArticleUI getArticleUI() {
         return articleUI;
@@ -40,6 +42,15 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     public void setArticleUI(ArticleUI articleUI) {
         this.articleUI = articleUI;
     }
+
+    public BusinessPartnerUI getbusinessPartnerUI() {
+        return businessPartnerUI;
+    }
+
+    public void setbusinessPartnerUI(BusinessPartnerUI businessPartnerUI) {
+        this.businessPartnerUI = businessPartnerUI;
+    }
+
 
     // @todo document me!
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -95,7 +106,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // fügt Tabs dem Tabfeld hinzu
         jtab.addTab("Start", tab0);
         jtab.addTab("Artikel", articleUI);
-        jtab.addTab("Kunden", tab2);
+        jtab.addTab("Kunden", businessPartnerUI);
         jtab.addTab("Rechnungen", tab3);
 
 
