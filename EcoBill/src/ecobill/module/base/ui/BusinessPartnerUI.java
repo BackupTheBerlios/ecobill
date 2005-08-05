@@ -6,6 +6,8 @@ import javax.swing.*;
 
 import ecobill.module.base.service.BaseService;
 
+import java.awt.*;
+
 // @todo document me!
 
 /**
@@ -16,11 +18,26 @@ import ecobill.module.base.service.BaseService;
  * Time: 14:20:07
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerUI.java,v 1.1 2005/08/05 12:22:25 raedler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.2 2005/08/05 12:35:16 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel /*JInternalFrame*/ implements InitializingBean {
 
+
+    private static BusinessPartnerUI singelton = null;
+    /**
+     * Gibt die einzigste Instanz der <code>ArticleUI</code> zurück um diese
+     * dann bspw im Hauptfenster anzeigen zu können.
+     *
+     * @return Die <code>ArticleUI</code> ist abgeleitet von <code>JInternalFrame</code>
+     *         und kann auf einer <code>JDesktopPane</code> angezeigt werden.
+     */
+    public static BusinessPartnerUI getInstance() {
+        if (singelton == null) {
+            singelton = new BusinessPartnerUI();
+        }
+        return singelton;
+    }
     /**
      * Der <code>BaseService</code> ist die Business Logik.
      */
@@ -31,7 +48,14 @@ public class BusinessPartnerUI extends JPanel /*JInternalFrame*/ implements Init
     }
 
     public void afterPropertiesSet() throws Exception {
-        //hier konstruktorsacha
+        /*
+         * Es wird die Größe, das Layout und verschiedenste Optionen gesetzt.
+         */
+        this.setSize(new Dimension(870, 525));
+        this.setMinimumSize(new Dimension(870, 325));
+        this.setLayout(new BorderLayout());
+        this.tabbedPane();
+
     }
 
     /**
@@ -51,5 +75,26 @@ public class BusinessPartnerUI extends JPanel /*JInternalFrame*/ implements Init
      */
     public void setBaseService(BaseService baseService) {
         this.baseService = baseService;
+    }
+
+    public void tabbedPane() {
+        JTabbedPane jt = new JTabbedPane();
+        JComponent tab0 = new JPanel(new BorderLayout());
+        JComponent tab1 = new JPanel();
+
+        jt.add(tab0, "Kundendaten");
+        jt.add(tab1, "Kundenbestellungen");
+
+        this.add(jt);
+    }
+
+
+    public static void main(String[] args) {
+        BusinessPartnerUI panel = new BusinessPartnerUI();
+        try {
+            panel.afterPropertiesSet();
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     }
 }
