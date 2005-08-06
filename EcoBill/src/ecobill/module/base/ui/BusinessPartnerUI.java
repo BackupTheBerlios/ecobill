@@ -1,7 +1,6 @@
 package ecobill.module.base.ui;
 
 import ecobill.module.base.service.BaseService;
-import ecobill.util.UnitUtils;
 import org.springframework.beans.factory.InitializingBean;
 
 import javax.swing.*;
@@ -21,7 +20,7 @@ import java.awt.*;
  * Time: 14:20:07
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerUI.java,v 1.6 2005/08/06 11:44:50 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.7 2005/08/06 12:50:34 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -80,14 +79,19 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
     /**
      * Alle Labels die nötig sind um die GUI erklärend zu gestalten.
      */
+    private JLabel id = new JLabel("ID");
     private JLabel title = new JLabel("Titel");
     private JLabel surname = new JLabel("Nachname");
     private JLabel firstname = new JLabel("Vorname");
-    private JLabel unitL = new JLabel();
-    private JLabel priceL = new JLabel();
-    private JLabel inStockL = new JLabel();
-    private JLabel bundleUnitL = new JLabel();
-    private JLabel bundleCapacityL = new JLabel();
+    private JLabel street = new JLabel("Straße");
+    private JLabel zip = new JLabel("PLZ");
+    private JLabel city = new JLabel("Stadt");
+    private JLabel county = new JLabel("Bundesland");
+    private JLabel country = new JLabel("Land");
+    private JLabel hcode = new JLabel("Hausnr.");
+    private JLabel phone = new JLabel("Phone");
+    private JLabel fax = new JLabel("Fax");
+    private JLabel email = new JLabel("Email");
     private JLabel languageL = new JLabel();
     private JLabel countryL = new JLabel();
     private JLabel variantL = new JLabel();
@@ -95,30 +99,26 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
     /**
      * Alle nötigen Eingabemasken, wie <code>JComboBox</code>, <code>JSpinner</code>,...
      */
+    private JTextField idTF = new JTextField();
     private JTextField titleTF = new JTextField();
     private JTextField surnameTF = new JTextField();
     private JTextField firstnameTF = new JTextField();
-    private ComboBoxModel unitCBModel = new DefaultComboBoxModel(UnitUtils.getAllUnits());
-    private JComboBox unitCB = new JComboBox(unitCBModel);
-    private SpinnerModel priceSpModel = new SpinnerNumberModel(0, 0, Double.MAX_VALUE, 0.01);
-    private JSpinner priceSp = new JSpinner(priceSpModel);
-    private SpinnerModel inStockSpModel = new SpinnerNumberModel(0, 0, Double.MAX_VALUE, 0.1);
-    private JSpinner inStockSp = new JSpinner(inStockSpModel);
-    private ComboBoxModel bundleUnitCBModel = new DefaultComboBoxModel(UnitUtils.getAllUnits());
-    private JComboBox bundleUnitCB = new JComboBox(bundleUnitCBModel);
-    private SpinnerModel bundleCapacitySpModel = new SpinnerNumberModel(0, 0, Double.MAX_VALUE, 0.1);
-    private JSpinner bundleCapacitySp = new JSpinner(bundleCapacitySpModel);
+    private JTextField streetTF = new JTextField();
+    private JTextField hcodeTF = new JTextField();
+    private JTextField zipTF = new JTextField();
+    private JTextField cityTF = new JTextField();
+    private JTextField countyTF = new JTextField();
+    private JTextField countryTF = new JTextField();
+    private JTextField phoneTF = new JTextField();
+    private JTextField faxTF = new JTextField();
+    private JTextField emailTF = new JTextField();
+
+
     private JTextArea descriptionTA = new JTextArea();
     private JTextArea descriptionsTA = new JTextArea();
     private JComboBox languageCB = new JComboBox();
     private JComboBox countryCB = new JComboBox();
     private JComboBox variantCB = new JComboBox();
-
-    /**
-     * Alle benötigten <code>JButton</code> um bspw. Artikel oder Beschreibungen
-     * zu speichern/ändern.
-     */
-    private JButton saveB = new JButton("Speichern");
 
     /**
      * Die <code>JScrollPane</code> um die Tabelle scrollen zu können, die Tabelle
@@ -233,14 +233,16 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         customerP.setBorder(dataBorder);
 
         // Ein Panel für die Gebindedaten des Artikels.
-        JPanel articleBundleP = new JPanel(null);
+        JPanel phoneP = new JPanel(null);
         bundleBorder.setTitleColor(Color.BLACK);
-        articleBundleP.setBorder(bundleBorder);
+        bundleBorder.setTitle("Phone/Fax/Email");
+        phoneP.setBorder(bundleBorder);
 
         // Ein Panel für die Beschreibung der eingestellten Sprache.
-        JPanel articleDescriptionP = new JPanel(null);
+        JPanel customerDescriptionP = new JPanel(null);
         descriptionBorder.setTitleColor(Color.BLACK);
-        articleDescriptionP.setBorder(descriptionBorder);
+        descriptionBorder.setTitle("Beschreibung");
+        customerDescriptionP.setBorder(descriptionBorder);
 
         JPanel articleDescriptionsP = new JPanel(new BorderLayout());
 
@@ -249,57 +251,87 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         * auf das Artikel Panel.
         */
 
-        title.setBounds(12, 20, 120, 20);
+        id.setBounds(12, 20, 120, 20);
+        customerP.add(id);
+
+        idTF.setBounds(10, 40, 100, 20);
+        customerP.add(idTF);
+
+        title.setBounds(12, 70, 120, 20);
         customerP.add(title);
 
-        titleTF.setBounds(10,40,50,20);
+        titleTF.setBounds(10, 90, 50, 20);
         customerP.add(titleTF);
 
-        surname.setBounds(82, 20, 120, 20);
+        surname.setBounds(82, 70, 120, 20);
         customerP.add(surname);
 
-        surnameTF.setBounds(80, 40, 100, 20);
+        surnameTF.setBounds(80, 90, 100, 20);
         customerP.add(surnameTF);
 
-        firstname.setBounds(202,20,120,20);
+        firstname.setBounds(202, 70, 120, 20);
         customerP.add(firstname);
 
-        firstnameTF.setBounds(200,40,100,20);
+        firstnameTF.setBounds(200, 90, 100, 20);
         customerP.add(firstnameTF);
 
-        unitL.setBounds(12, 70, 100, 20);
-        customerP.add(unitL);
+        street.setBounds(12, 120, 120, 20);
+        customerP.add(street);
 
-        unitCB.setBounds(10, 90, 100, 20);
-        customerP.add(unitCB);
+        streetTF.setBounds(10, 140, 150, 20);
+        customerP.add(streetTF);
 
-        priceL.setBounds(122, 70, 100, 20);
-        customerP.add(priceL);
+        hcode.setBounds(172, 120, 120, 20);
+        customerP.add(hcode);
 
-        priceSp.setBounds(120, 90, 100, 20);
-        customerP.add(priceSp);
+        hcodeTF.setBounds(170, 140, 50, 20);
+        customerP.add(hcodeTF);
 
-        inStockL.setBounds(232, 70, 100, 20);
-        customerP.add(inStockL);
+        zip.setBounds(12, 160, 120, 20);
+        customerP.add(zip);
 
-        inStockSp.setBounds(230, 90, 100, 20);
-        customerP.add(inStockSp);
+        zipTF.setBounds(10, 180, 50, 20);
+        customerP.add(zipTF);
+
+        city.setBounds(72, 160, 120, 20);
+        customerP.add(city);
+
+        cityTF.setBounds(70, 180, 100, 20);
+        customerP.add(cityTF);
+
+        county.setBounds(12, 200, 120, 20);
+        customerP.add(county);
+
+        countyTF.setBounds(10, 220, 100, 20);
+        customerP.add(countyTF);
+
+        country.setBounds(122, 200, 120, 20);
+        customerP.add(country);
+
+        countryTF.setBounds(120, 220, 100, 20);
+        customerP.add(countryTF);
 
         /*
          * Setzt die Position der einzelnen Komponenten und hinzufügen
          * auf das Artikel Bundle Panel.
          */
-        bundleUnitL.setBounds(12, 20, 100, 20);
-        articleBundleP.add(bundleUnitL);
+        phone.setBounds(12, 20, 100, 20);
+        phoneP.add(phone);
 
-        bundleUnitCB.setBounds(10, 40, 100, 20);
-        articleBundleP.add(bundleUnitCB);
+        phoneTF.setBounds(10, 40, 150, 20);
+        phoneP.add(phoneTF);
 
-        bundleCapacityL.setBounds(12, 70, 100, 20);
-        articleBundleP.add(bundleCapacityL);
+        fax.setBounds(12, 70, 100, 20);
+        phoneP.add(fax);
 
-        bundleCapacitySp.setBounds(10, 90, 100, 20);
-        articleBundleP.add(bundleCapacitySp);
+        faxTF.setBounds(10, 90, 150, 20);
+        phoneP.add(faxTF);
+
+        email.setBounds(12, 120, 100, 20);
+        phoneP.add(email);
+
+        emailTF.setBounds(10, 140, 150, 20);
+        phoneP.add(emailTF);
 
         /*
          * Setzt die Position der Beschreibung <code>JTextArea</code>
@@ -309,17 +341,17 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         descriptionTA.setWrapStyleWord(true);
         descriptionTA.setLineWrap(true);
         JScrollPane descriptionSP = new JScrollPane(descriptionTA);
-        descriptionSP.setBounds(10, 25, 440, 100);
+        descriptionSP.setBounds(10, 20, 400, 20);
         descriptionSP.setBorder(new BevelBorder(BevelBorder.LOWERED));
-        articleDescriptionP.add(descriptionSP);
+        customerDescriptionP.add(descriptionSP);
 
         /*
          * Setzt die Positionen der einzelnen Panels auf dem oberen Überblick
          * Panel.
          */
-        customerP.setMinimumSize(new Dimension(340, 125));
-        articleBundleP.setMinimumSize(new Dimension(120, 125));
-        articleDescriptionP.setMinimumSize(new Dimension(460, 140));
+        customerP.setMinimumSize(new Dimension(310, 250));
+        phoneP.setMinimumSize(new Dimension(170, 200));
+        customerDescriptionP.setMinimumSize(new Dimension(500, 50));
 
         GridBagConstraints c1 = new GridBagConstraints();
         GridBagConstraints c4 = new GridBagConstraints();
@@ -341,22 +373,20 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         c1.gridy = 0;
         c1.gridwidth = 1;
         c1.gridheight = 1;
-        gbl.setConstraints(articleBundleP, c1);
-        overviewTopP.add(articleBundleP);
+        gbl.setConstraints(phoneP, c1);
+        overviewTopP.add(phoneP);
 
         c1.gridx = 0;
         c1.gridy = 1;
         c1.gridwidth = 2;
         c1.gridheight = 1;
-        gbl.setConstraints(articleDescriptionP, c1);
-        overviewTopP.add(articleDescriptionP);
+        gbl.setConstraints(customerDescriptionP, c1);
+        overviewTopP.add(customerDescriptionP);
 
         c1.gridx = 0;
         c1.gridy = 2;
         c1.gridwidth = 1;
         c1.gridheight = 1;
-        gbl.setConstraints(saveB, c1);
-        overviewTopP.add(saveB);
 
         c4.fill = GridBagConstraints.BOTH;
         c4.weightx = 1.0;
@@ -424,9 +454,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
 
         JPanel descriptionsTableP = new JPanel(new BorderLayout());
         descriptionsTableP.add(new JScrollPane(new JTable(new Object[][]{{"a", "a", "a"}, {"b", "b", "b"}}, new Object[]{"test1", "test2", "test3"})));
-
         descriptionTopP.setPreferredSize(new Dimension(400, 200));
-
         descriptionsP.add(descriptionTopP, BorderLayout.NORTH);
         descriptionsP.add(descriptionsTableP, BorderLayout.CENTER);
     }
