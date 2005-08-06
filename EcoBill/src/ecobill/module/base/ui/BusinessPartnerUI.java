@@ -20,7 +20,7 @@ import java.awt.*;
  * Time: 14:20:07
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerUI.java,v 1.7 2005/08/06 12:50:34 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.8 2005/08/06 13:06:55 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
