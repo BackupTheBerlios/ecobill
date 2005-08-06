@@ -20,7 +20,7 @@ import java.awt.*;
  * Time: 14:20:07
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerUI.java,v 1.8 2005/08/06 13:06:55 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.9 2005/08/06 13:48:00 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -34,10 +34,10 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
     private static BusinessPartnerUI singelton = null;
 
     /**
-     * Gibt die einzigste Instanz der <code>ArticleUI</code> zurück um diese
+     * Gibt die einzigste Instanz der <code>BusinessPartnerUI</code> zurück um diese
      * dann bspw im Hauptfenster anzeigen zu können.
      *
-     * @return Die <code>ArticleUI</code> ist abgeleitet von <code>JInternalFrame</code>
+     * @return Die <code>BusinessPartnerUI</code> ist abgeleitet von <code>JInternalFrame</code>
      *         und kann auf einer <code>JDesktopPane</code> angezeigt werden.
      */
     public static BusinessPartnerUI getInstance() {
@@ -53,7 +53,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
     private BaseService baseService;
     /**
      * Das Primary <code>JTabbedPane</code> beinhaltet alle nötigen Register, Eingabemasken
-     * für die Eingabe der Artikeldaten und die <code>JTable</code> zur Anzeige aller Artikel.
+     * für die Eingabe der Kundendaten und die <code>JTable</code> zur Anzeige aller Kunden.
      */
     private JTabbedPane primaryTP = new JTabbedPane();
 
@@ -64,7 +64,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
     private JPanel overviewP = new JPanel(new BorderLayout());
 
     /**
-     * Dieses Panel bietet wie oben genannt die Eingabemaske (auch Änderungen) für Artikel.
+     * Dieses Panel bietet wie oben genannt die Eingabemaske (auch Änderungen) für Kunden.
      * Sowie die einzelnen betitelten Rahmen um die einzelnen Eingabemasken.
      */
     private JPanel overviewTopP = new JPanel();
@@ -97,7 +97,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
     private JLabel variantL = new JLabel();
 
     /**
-     * Alle nötigen Eingabemasken, wie <code>JComboBox</code>, <code>JSpinner</code>,...
+     * Alle nötigen Eingabemasken, wie <code>JComboBox</code>,...
      */
     private JTextField idTF = new JTextField();
     private JTextField titleTF = new JTextField();
@@ -127,8 +127,8 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
      * aufnimmt.
      */
     private JScrollPane articleTableSP = new JScrollPane();
-    private DefaultTableModel articleDescriptionTableModel = new DefaultTableModel();
-    private JTable articleDescriptionTable = new JTable(articleDescriptionTableModel);
+    private DefaultTableModel customerDescriptionTableModel = new DefaultTableModel();
+    private JTable customerDescriptionTable = new JTable(customerDescriptionTableModel);
 
     /**
      * Standard Konstruktor.
@@ -244,7 +244,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         descriptionBorder.setTitle("Beschreibung");
         customerDescriptionP.setBorder(descriptionBorder);
 
-        JPanel articleDescriptionsP = new JPanel(new BorderLayout());
+        JPanel customerDescriptionsP = new JPanel(new BorderLayout());
 
         /*
         * Setzt die Position der einzelnen Komponenten und hinzufügen
@@ -398,13 +398,14 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         c4.gridy = 0;
         c4.gridwidth = 1;
         c4.gridheight = 3;
-        gbl.setConstraints(articleDescriptionsP, c4);
-        overviewTopP.add(articleDescriptionsP);
+        gbl.setConstraints(customerDescriptionsP, c4);
+        overviewTopP.add(customerDescriptionsP);
 
         residualDescriptionsBorder.setTitleColor(Color.BLACK);
-        articleDescriptionsP.setBorder(residualDescriptionsBorder);
+        residualDescriptionsBorder.setTitle("Restliche Beschreibung");
+        customerDescriptionsP.setBorder(residualDescriptionsBorder);
 
-        articleDescriptionsP.add(new JScrollPane(articleDescriptionTable));
+        customerDescriptionsP.add(new JScrollPane(customerDescriptionTable));
     }
 
     private void initDescriptionP() {
