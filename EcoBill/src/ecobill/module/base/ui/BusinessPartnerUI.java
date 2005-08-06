@@ -21,7 +21,7 @@ import java.awt.*;
  * Time: 14:20:07
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerUI.java,v 1.5 2005/08/05 15:25:12 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.6 2005/08/06 11:44:50 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -80,6 +80,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
     /**
      * Alle Labels die nötig sind um die GUI erklärend zu gestalten.
      */
+    private JLabel title = new JLabel("Titel");
     private JLabel surname = new JLabel("Nachname");
     private JLabel firstname = new JLabel("Vorname");
     private JLabel unitL = new JLabel();
@@ -94,6 +95,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
     /**
      * Alle nötigen Eingabemasken, wie <code>JComboBox</code>, <code>JSpinner</code>,...
      */
+    private JTextField titleTF = new JTextField();
     private JTextField surnameTF = new JTextField();
     private JTextField firstnameTF = new JTextField();
     private ComboBoxModel unitCBModel = new DefaultComboBoxModel(UnitUtils.getAllUnits());
@@ -198,8 +200,8 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
          * Fügt das Übersichtspanel und das Beschreibungenpanel der primären <code>JTabbedPane</code>
          * hinzu.
          */
-        primaryTP.add("KundenDaten",overviewP);
-        primaryTP.add("KundenBestellungen",descriptionsP);
+        primaryTP.add("Übersicht",overviewP);
+        primaryTP.add("Bestellungen",descriptionsP);
 
         /*
          * Fügt die primäre <code>JTabbedPane</code> diesem <code>JInternalFrame</code> hinzu.
@@ -225,9 +227,10 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         overviewTopP.setPreferredSize(new Dimension(800, 310));
 
         // Ein Panel für den Artikel und die Hauptdaten.
-        JPanel articleP = new JPanel(null);
+        JPanel customerP = new JPanel(null);
         dataBorder.setTitleColor(Color.BLACK);
-        articleP.setBorder(dataBorder);
+        dataBorder.setTitle("Daten");
+        customerP.setBorder(dataBorder);
 
         // Ein Panel für die Gebindedaten des Artikels.
         JPanel articleBundleP = new JPanel(null);
@@ -245,35 +248,42 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         * Setzt die Position der einzelnen Komponenten und hinzufügen
         * auf das Artikel Panel.
         */
-        surname.setBounds(12, 20, 120, 20);
-        articleP.add(surname);
 
-        surnameTF.setBounds(10, 40, 100, 20);
-        articleP.add(surnameTF);
+        title.setBounds(12, 20, 120, 20);
+        customerP.add(title);
 
-        firstname.setBounds(122,20,120,20);
-        articleP.add(firstname);
+        titleTF.setBounds(10,40,50,20);
+        customerP.add(titleTF);
 
-        firstnameTF.setBounds(120,40,100,20);
-        articleP.add(firstnameTF);
+        surname.setBounds(82, 20, 120, 20);
+        customerP.add(surname);
+
+        surnameTF.setBounds(80, 40, 100, 20);
+        customerP.add(surnameTF);
+
+        firstname.setBounds(202,20,120,20);
+        customerP.add(firstname);
+
+        firstnameTF.setBounds(200,40,100,20);
+        customerP.add(firstnameTF);
 
         unitL.setBounds(12, 70, 100, 20);
-        articleP.add(unitL);
+        customerP.add(unitL);
 
         unitCB.setBounds(10, 90, 100, 20);
-        articleP.add(unitCB);
+        customerP.add(unitCB);
 
         priceL.setBounds(122, 70, 100, 20);
-        articleP.add(priceL);
+        customerP.add(priceL);
 
         priceSp.setBounds(120, 90, 100, 20);
-        articleP.add(priceSp);
+        customerP.add(priceSp);
 
         inStockL.setBounds(232, 70, 100, 20);
-        articleP.add(inStockL);
+        customerP.add(inStockL);
 
         inStockSp.setBounds(230, 90, 100, 20);
-        articleP.add(inStockSp);
+        customerP.add(inStockSp);
 
         /*
          * Setzt die Position der einzelnen Komponenten und hinzufügen
@@ -307,8 +317,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
          * Setzt die Positionen der einzelnen Panels auf dem oberen Überblick
          * Panel.
          */
-        //articleP.setPreferredSize(new Dimension(340, 125));
-        articleP.setMinimumSize(new Dimension(340, 125));
+        customerP.setMinimumSize(new Dimension(340, 125));
         articleBundleP.setMinimumSize(new Dimension(120, 125));
         articleDescriptionP.setMinimumSize(new Dimension(460, 140));
 
@@ -325,8 +334,8 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         c1.gridy = 0;
         c1.gridwidth = 1;
         c1.gridheight = 1;
-        gbl.setConstraints(articleP, c1);
-        overviewTopP.add(articleP);
+        gbl.setConstraints(customerP, c1);
+        overviewTopP.add(customerP);
 
         c1.gridx = 1;
         c1.gridy = 0;
