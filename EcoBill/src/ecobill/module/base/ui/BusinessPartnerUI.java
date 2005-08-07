@@ -20,7 +20,7 @@ import java.awt.*;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.10 2005/08/07 11:44:26 raedler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.11 2005/08/07 15:28:47 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -64,6 +64,11 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
     private JPanel overviewP = new JPanel(new BorderLayout());
 
     /**
+     * Dieser Button ist für das Speichern
+     */
+    private JButton saveB = new JButton("Speichern");
+
+    /**
      * Dieses Panel bietet wie oben genannt die Eingabemaske (auch Änderungen) für Kunden.
      * Sowie die einzelnen betitelten Rahmen um die einzelnen Eingabemasken.
      */
@@ -92,8 +97,8 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
     private JLabel phone = new JLabel("Phone");
     private JLabel fax = new JLabel("Fax");
     private JLabel email = new JLabel("Email");
-    private JLabel languageL = new JLabel();
-    private JLabel countryL = new JLabel();
+    private JLabel languageL = new JLabel("Sprache");
+    private JLabel countryL = new JLabel("Land");
     private JLabel variantL = new JLabel();
 
     /**
@@ -341,8 +346,10 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         descriptionTA.setWrapStyleWord(true);
         descriptionTA.setLineWrap(true);
         JScrollPane descriptionSP = new JScrollPane(descriptionTA);
-        descriptionSP.setBounds(10, 20, 400, 20);
+        descriptionSP.setBounds(10, 20, 350, 20);
+        saveB.setBounds(380, 20, 100, 20);
         descriptionSP.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        customerDescriptionP.add(saveB);
         customerDescriptionP.add(descriptionSP);
 
         /*
