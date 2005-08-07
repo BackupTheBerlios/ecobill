@@ -96,9 +96,14 @@
 
     <bean id="mainFrame" class="ecobill.core.ui.MainFrame">
         <property name="articleUI"><ref bean="articleUI"/></property>
+        <property name="businessPartnerUI"><ref bean="businessPartnerUI"/></property>
     </bean>
 
     <bean id="articleUI" class="ecobill.module.base.ui.ArticleUI" singleton="true">
+        <property name="baseService"><ref bean="baseService"/></property>
+    </bean>
+
+    <bean id="businessPartnerUI" class="ecobill.module.base.ui.BusinessPartnerUI" singleton="true">
         <property name="baseService"><ref bean="baseService"/></property>
     </bean>
 
