@@ -20,7 +20,7 @@ import java.awt.*;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.11 2005/08/07 15:28:47 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.12 2005/08/07 17:27:58 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -85,15 +85,15 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
      * Alle Labels die nötig sind um die GUI erklärend zu gestalten.
      */
     private JLabel id = new JLabel("ID");
-    private JLabel title = new JLabel("Titel");
+    private JLabel title1 = new JLabel("Anrede");
+    private JLabel title2 = new JLabel("Titel");
     private JLabel surname = new JLabel("Nachname");
     private JLabel firstname = new JLabel("Vorname");
-    private JLabel street = new JLabel("Straße");
+    private JLabel street = new JLabel("Straße, Hausnr.");
     private JLabel zip = new JLabel("PLZ");
     private JLabel city = new JLabel("Stadt");
     private JLabel county = new JLabel("Bundesland");
     private JLabel country = new JLabel("Land");
-    private JLabel hcode = new JLabel("Hausnr.");
     private JLabel phone = new JLabel("Phone");
     private JLabel fax = new JLabel("Fax");
     private JLabel email = new JLabel("Email");
@@ -105,11 +105,11 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
      * Alle nötigen Eingabemasken, wie <code>JComboBox</code>,...
      */
     private JTextField idTF = new JTextField();
-    private JTextField titleTF = new JTextField();
+    private JComboBox title1CB = new JComboBox();
+    private JComboBox title2CB = new JComboBox();
     private JTextField surnameTF = new JTextField();
     private JTextField firstnameTF = new JTextField();
     private JTextField streetTF = new JTextField();
-    private JTextField hcodeTF = new JTextField();
     private JTextField zipTF = new JTextField();
     private JTextField cityTF = new JTextField();
     private JTextField countyTF = new JTextField();
@@ -240,7 +240,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         // Ein Panel für die Gebindedaten des Artikels.
         JPanel phoneP = new JPanel(null);
         bundleBorder.setTitleColor(Color.BLACK);
-        bundleBorder.setTitle("Phone/Fax/Email");
+        bundleBorder.setTitle("ID/Phone/Fax/Email");
         phoneP.setBorder(bundleBorder);
 
         // Ein Panel für die Beschreibung der eingestellten Sprache.
@@ -256,41 +256,41 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         * auf das Artikel Panel.
         */
 
-        id.setBounds(12, 20, 120, 20);
-        customerP.add(id);
+        title1.setBounds(12, 20, 120, 20);
+        customerP.add(title1);
 
-        idTF.setBounds(10, 40, 100, 20);
-        customerP.add(idTF);
+        title1CB.setBounds(10, 40, 70, 20);
+        title1CB.addItem("Herr");
+        title1CB.addItem("Frau");
+        customerP.add(title1CB);
 
-        title.setBounds(12, 70, 120, 20);
-        customerP.add(title);
+        title2.setBounds(112, 20, 120, 20);
+        customerP.add(title2);
 
-        titleTF.setBounds(10, 90, 50, 20);
-        customerP.add(titleTF);
+        title2CB.setBounds(110, 40, 70, 20);
+        title2CB.addItem("");
+        title2CB.addItem("Dr.");
+        title2CB.addItem("Prof.");
+        title2CB.addItem("Prof. Dr.");
+        customerP.add(title2CB);
 
-        surname.setBounds(82, 70, 120, 20);
+        surname.setBounds(12, 70, 120, 20);
         customerP.add(surname);
 
-        surnameTF.setBounds(80, 90, 100, 20);
+        surnameTF.setBounds(10, 90, 100, 20);
         customerP.add(surnameTF);
 
-        firstname.setBounds(202, 70, 120, 20);
+        firstname.setBounds(132, 70, 120, 20);
         customerP.add(firstname);
 
-        firstnameTF.setBounds(200, 90, 100, 20);
+        firstnameTF.setBounds(130, 90, 100, 20);
         customerP.add(firstnameTF);
 
         street.setBounds(12, 120, 120, 20);
         customerP.add(street);
 
-        streetTF.setBounds(10, 140, 150, 20);
+        streetTF.setBounds(10, 140, 200, 20);
         customerP.add(streetTF);
-
-        hcode.setBounds(172, 120, 120, 20);
-        customerP.add(hcode);
-
-        hcodeTF.setBounds(170, 140, 50, 20);
-        customerP.add(hcodeTF);
 
         zip.setBounds(12, 160, 120, 20);
         customerP.add(zip);
@@ -320,22 +320,30 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
          * Setzt die Position der einzelnen Komponenten und hinzufügen
          * auf das Artikel Bundle Panel.
          */
-        phone.setBounds(12, 20, 100, 20);
+
+
+        id.setBounds(12, 20, 100, 20);
+        phoneP.add(id);
+
+        idTF.setBounds(10, 40, 150, 20);
+        phoneP.add(idTF);
+
+        phone.setBounds(12, 70, 100, 20);
         phoneP.add(phone);
 
-        phoneTF.setBounds(10, 40, 150, 20);
+        phoneTF.setBounds(10, 90, 150, 20);
         phoneP.add(phoneTF);
 
-        fax.setBounds(12, 70, 100, 20);
+        fax.setBounds(12, 120, 100, 20);
         phoneP.add(fax);
 
-        faxTF.setBounds(10, 90, 150, 20);
+        faxTF.setBounds(10, 140, 150, 20);
         phoneP.add(faxTF);
 
-        email.setBounds(12, 120, 100, 20);
+        email.setBounds(12, 170, 100, 20);
         phoneP.add(email);
 
-        emailTF.setBounds(10, 140, 150, 20);
+        emailTF.setBounds(10, 190, 150, 20);
         phoneP.add(emailTF);
 
         /*
@@ -356,8 +364,8 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
          * Setzt die Positionen der einzelnen Panels auf dem oberen Überblick
          * Panel.
          */
-        customerP.setMinimumSize(new Dimension(310, 250));
-        phoneP.setMinimumSize(new Dimension(170, 200));
+        customerP.setMinimumSize(new Dimension(250, 250));
+        phoneP.setMinimumSize(new Dimension(180, 250));
         customerDescriptionP.setMinimumSize(new Dimension(500, 50));
 
         GridBagConstraints c1 = new GridBagConstraints();
