@@ -22,7 +22,7 @@ import org.springframework.dao.DataAccessException;
  * Time: 12:31:05
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseServiceImpl.java,v 1.4 2005/08/03 13:06:09 raedler Exp $
+ * @version $Id: BaseServiceImpl.java,v 1.5 2005/08/07 14:43:38 raedler Exp $
  * @see BaseService
  * @since EcoBill 1.0
  */
@@ -114,7 +114,7 @@ public class BaseServiceImpl implements BaseService {
     /**
      * @see ecobill.module.base.service.BaseService#getAllSystemUnit()
      */
-    public List getAllSystemUnit() {
+    public List getAllSystemUnits() {
         return baseDao.getAllSystemUnits();
     }
 
@@ -151,13 +151,15 @@ public class BaseServiceImpl implements BaseService {
      */
     public void saveOrUpdateArticle(Article article) {
 
+        System.out.println("ARTICLE: " + article.getId());
+
         /*
-         * Bei einem neuen Artikel (ID ist nicht gesetzt bzw "-1") wird überprüft ob
-         * sich schon ein Artikel mit dieser Artikelnummer in der Datenbank befindet.
-         * Sollte schon ein Artikel vorhanden sein werden dessen Daten mit den Daten
-         * des Parameter Artikel überschrieben.
-         */
-        if (article.getId() < 0) {
+        * Bei einem neuen Artikel (ID ist nicht gesetzt bzw "-1") wird überprüft ob
+        * sich schon ein Artikel mit dieser Artikelnummer in der Datenbank befindet.
+        * Sollte schon ein Artikel vorhanden sein werden dessen Daten mit den Daten
+        * des Parameter Artikel überschrieben.
+        */
+        if (article.getId() == null) {
             Article savedArticle = null;
             try {
                 savedArticle = baseDao.getArticleByArticleNumber(article.getArticleNumber());

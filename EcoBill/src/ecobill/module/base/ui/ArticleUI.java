@@ -35,7 +35,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.6 2005/08/04 20:24:18 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.7 2005/08/07 14:43:38 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JPanel /*JInternalFrame*/ implements InitializingBean {
@@ -122,14 +122,14 @@ public class ArticleUI extends JPanel /*JInternalFrame*/ implements Initializing
      * Alle nötigen Eingabemasken, wie <code>JComboBox</code>, <code>JSpinner</code>,...
      */
     private JTextField articleNumberTF = new JTextField();
-    private ComboBoxModel unitCBModel = new DefaultComboBoxModel(UnitUtils.getAllUnits());
-    private JComboBox unitCB = new JComboBox(unitCBModel);
+    private ComboBoxModel unitCBModel = null;
+    private JComboBox unitCB = new JComboBox();
     private SpinnerModel priceSpModel = new SpinnerNumberModel(0, 0, Double.MAX_VALUE, 0.01);
     private JSpinner priceSp = new JSpinner(priceSpModel);
     private SpinnerModel inStockSpModel = new SpinnerNumberModel(0, 0, Double.MAX_VALUE, 0.1);
     private JSpinner inStockSp = new JSpinner(inStockSpModel);
-    private ComboBoxModel bundleUnitCBModel = new DefaultComboBoxModel(UnitUtils.getAllUnits());
-    private JComboBox bundleUnitCB = new JComboBox(bundleUnitCBModel);
+    private ComboBoxModel bundleUnitCBModel = null;
+    private JComboBox bundleUnitCB = new JComboBox();
     private SpinnerModel bundleCapacitySpModel = new SpinnerNumberModel(0, 0, Double.MAX_VALUE, 0.1);
     private JSpinner bundleCapacitySp = new JSpinner(bundleCapacitySpModel);
     private JTextArea descriptionTA = new JTextArea();
@@ -221,9 +221,17 @@ public class ArticleUI extends JPanel /*JInternalFrame*/ implements Initializing
      */
     private void initUI() {
 
-        /*
-         * Initilisieren der einzelnen GUI Komponenten.
+/*      /*
+         * Fügt den unit <code>ComboBox</code> ein Model mit den <code>SystemUnit</code> hinzu.
          */
+        unitCBModel = new DefaultComboBoxModel(baseService.getAllSystemUnits().toArray());
+        unitCB.setModel(unitCBModel);
+        bundleUnitCBModel = new DefaultComboBoxModel(baseService.getAllSystemUnits().toArray());
+        bundleUnitCB.setModel(bundleUnitCBModel);
+
+        /*
+        * Initilisieren der einzelnen GUI Komponenten.
+        */
         this.initOverviewTopP();
         this.initOverviewBottomP();
         this.initDescriptionP();
@@ -683,7 +691,7 @@ public class ArticleUI extends JPanel /*JInternalFrame*/ implements Initializing
         // Fügt die neu erzeugten Artikel dem <code>TableModel</code> hinzu.
         this.articleTableModel.setDataVector(articleTableDataV, this.createI18NTableHeader(articleTableHeaderV, ARTICLE_TABLE_ORDER));
 
-        this.articleTable.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(new JComboBox(new DefaultComboBoxModel(VectorUtils.listToVector(baseService.getAllSystemUnit())))));
+        this.articleTable.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(new JComboBox(new DefaultComboBoxModel(VectorUtils.listToVector(baseService.getAllSystemUnits())))));
 
         // @todo Dieses wird verwendet um in der Tabelle direkt Änderungen am Artikel vorzunehmen. -> verbesserungswürdig
         this.articleTableModel.addTableModelListener(new TableModelListener() {

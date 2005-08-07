@@ -19,7 +19,7 @@ import java.util.Locale;
  * Time: 12:30:55
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseService.java,v 1.4 2005/08/03 13:06:09 raedler Exp $
+ * @version $Id: BaseService.java,v 1.5 2005/08/07 14:43:38 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface BaseService {
@@ -62,7 +62,7 @@ public interface BaseService {
     /**
      * @see ecobill.module.base.dao.BaseDao#getAllSystemUnits() 
      */
-    public List getAllSystemUnit();
+    public List getAllSystemUnits();
 
     /**
      * @see BaseDao#getBusinessPartnerById(Long)
