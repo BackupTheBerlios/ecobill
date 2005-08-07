@@ -15,12 +15,12 @@ import java.awt.*;
 /**
  * BusinessPartnerUI.
  * <p/>
- * User: rro
+ * User: aw
  * Date: 05.08.2005
  * Time: 14:20:07
  *
- * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerUI.java,v 1.9 2005/08/06 13:48:00 jfuckerweiler Exp $
+ * @author Andreas Weiler
+ * @version $Id: BusinessPartnerUI.java,v 1.10 2005/08/07 11:44:26 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
