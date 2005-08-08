@@ -125,7 +125,7 @@ public class BillUI extends JPanel implements InitializingBean {
      */
     private void initUI() {
 
-        JPanel top = new JPanel();
+        JPanel top = new JPanel(null);
 
         dataBorder.setTitleColor(Color.BLACK);
         dataBorder.setTitle("Daten/Aktionen");
@@ -144,19 +144,19 @@ public class BillUI extends JPanel implements InitializingBean {
         billBorder.setTitle("Rechnung");
         billi.setBorder(billBorder);
 
+        customer.setBounds(12, 20, 50, 20);
         top.add(customer);
+        customerTF.setBounds(10, 20, 50, 20);
         top.add(customerTF);
 
-        top.add(order);
-        top.add(orderTF);
+        //top.add(order);
+        //top.add(orderTF);
 
-        top.add(makeB);
-        top.add(delB);
-        top.add(saveB);
-        top.add(printB);
-        top.add(makeP);
-
-
+        //top.add(makeB);
+        //top.add(delB);
+        //top.add(saveB);
+        //top.add(printB);
+        //top.add(makeP);
 
 
         bill.add(billi, BorderLayout.CENTER);
