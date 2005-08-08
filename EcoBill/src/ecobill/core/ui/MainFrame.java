@@ -24,7 +24,7 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.32 2005/08/05 15:15:47 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.33 2005/08/08 13:48:57 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -32,21 +32,28 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     // @todo document me!
     protected ApplicationContext context;
 
+    // erstellt Instanz einer ArtikelUI
     private ArticleUI articleUI;// = ArticleUI.getInstance();
+
+    // erstellt Instanz einer BusinessPartnerUI
     private BusinessPartnerUI businessPartnerUI;
 
+    // getter für ArtikelUI
     public ArticleUI getArticleUI() {
         return articleUI;
     }
 
+    // setter für ArtikelUI
     public void setArticleUI(ArticleUI articleUI) {
         this.articleUI = articleUI;
     }
 
+    // getter für BusinessPartnerUI
     public BusinessPartnerUI getbusinessPartnerUI() {
         return businessPartnerUI;
     }
 
+    // setter für BusinessPartnerUI
     public void setbusinessPartnerUI(BusinessPartnerUI businessPartnerUI) {
         this.businessPartnerUI = businessPartnerUI;
     }
@@ -57,17 +64,16 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         this.context = applicationContext;
     }
 
+    // StandardKonstruktor
     public MainFrame() throws HeadlessException {
         super();
     }
 
     // alle Sachen erstellen die man braucht
     private JButton ebutton = new JButton("Exit");
-    // erstellt TabFeld
+    // erstellt TabFeld mit Komponenten
     private JTabbedPane jtab = new JTabbedPane();
     private JComponent tab0 = new JPanel(new BorderLayout());
-    private JComponent tab1 = new JPanel();
-    private JComponent tab2 = new JPanel();
     private JComponent tab3 = new JPanel();
     // erstellt MenuBar
     private JMenuBar menuBar = new JMenuBar();
@@ -78,11 +84,10 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     private JMenu language = new JMenu("Language");
     // erstellt MenuItems
     // erstellt DateiMenü
-    private JMenuItem product = new JMenuItem("New Product", 'R');
-    private JMenuItem customer = new JMenuItem("New Customer", 'M');
     private JMenuItem open = new JMenuItem("Open", 'O');
     private JMenuItem save = new JMenuItem("Save", 'S');
     private JMenuItem saveas = new JMenuItem("Save As");
+    private JMenuItem exit = new JMenuItem("Exit", 'X');
     // erstellt BearbeitenMenü
     private JMenuItem undo = new JMenuItem("Undo", 'U');
     private JMenuItem redo = new JMenuItem("Redo", 'R');
@@ -90,19 +95,31 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     private JMenuItem copy = new JMenuItem("Copy", 'C');
     private JMenuItem paste = new JMenuItem("Paste", 'P');
     private JMenuItem delete = new JMenuItem("Delete", 'D');
+    // erstellt HilfeMenü
+    private JMenuItem ht = new JMenuItem("Help Topics", 'H');
+    private JMenuItem about = new JMenuItem("About", 'A');
 
 
     public void afterPropertiesSet() throws Exception {
 
         // erstellt Mainframe
+        // setzt Title des Mainframe
         this.setTitle("Economy Bill Agenda");
+        // setzt Größe des Mainframe
         this.setSize(new Dimension(900, 700));
+        // setzt UIManger der ans Windows Design anlegt
         UIManager.setLookAndFeel(new com.sun.java.swing.plaf.windows.WindowsLookAndFeel());
+        // setzt LayoutManger für das Pane
         this.getContentPane().setLayout(new BorderLayout());
+        // ruft Methode jMenuBar() auf die die MenuBar erstellt
         this.jMenuBar();
+        // ruft Methode tabPane() auf die das TabPane erstellt
         this.tabPane();
+        // ruft Methode exitButton() auf die den ExitButton erstellt
         this.exitButton();
+        // setzt alles auf Sichtbar
         this.setVisible(true);
+        // setzt die Operation die auf X am Fenster gemacht wird
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
@@ -116,6 +133,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("Exit"))
+                // System wird beendet
                     System.exit(0);
             }
         });
@@ -128,25 +146,18 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // fügt Tabs dem Tabfeld hinzu
         jtab.addTab("Start", tab0);
+        // hier wird die ArtikleUI als neuer Tab eingefügt
         jtab.addTab("Artikel", articleUI);
+        // hier wird die BusinessPartnerUI als neuer Tab eingefügt
         jtab.addTab("Kunden", businessPartnerUI);
         jtab.addTab("Rechnungen", tab3);
 
         // erstellt JLabels
         JLabel lab1 = new JLabel(new ImageIcon("Startbild.jpg"));
+        // setzt ToolTip
         lab1.setToolTipText("Copyright @ JFuckers");
-        lab1.setVisible(true);
-
         // fügt JLabels tab0 zu
         tab0.add(lab1, BorderLayout.CENTER);
-
-        // fügt JLabel tab1 zu
-        JLabel descrip2 = new JLabel("Hier kommt die ArtikelGui rein");
-        tab1.add(descrip2, BorderLayout.NORTH);
-
-        // fügt JLabel tab2 zu
-        JLabel descrip3 = new JLabel("Hier kommt die KundenGui rein");
-        tab2.add(descrip3);
 
         // fügt JLabel tab3 zu
         JLabel descrip4 = new JLabel("Hier kommt die RechnungsGui bzw. Rechnungen rein");
@@ -161,62 +172,39 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // definiert MenuBar
         MainFrame.this.setJMenuBar(menuBar);
-        menuBar.setVisible(true);
+        // das FileMenu wird zur MenuBar zugefügt
         menuBar.add(file);
+        // setzt FileMnemonic
         file.setMnemonic(KeyEvent.VK_F);
 
-
-
-        // product Action Listener
-        product.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Action: " + e.getActionCommand());
-                if (e.getActionCommand().equals("New Product"))
-                    product();
-            }
-        });
-
-        // customer Action Listener
-        customer.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Action: " + e.getActionCommand());
-                if (e.getActionCommand().equals("New Customer"))
-                    customer();
-            }
-        });
-
-        // open Action Listener
+        // OpenMenuItem Action Listener
         open.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("Open"))
+                // Methode open() wird aufgerufen
                     open();
             }
         });
 
         // erstellt ShortCuts für MenüItems des DateiMenü
-        product.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_MASK));
-        customer.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_MASK));
         open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
         save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
         saveas.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
 
         // fügt MenüItems dem DateiMenü hinzu
-        file.add(product);
-        file.add(customer);
         file.add(open);
-        file.addSeparator();
         file.add(save);
         file.add(saveas);
+        // fügt SeperatorLinie dem DateiMenü hinzu
+        file.addSeparator();
 
-        // erstellt exit MenüItem
-        JMenuItem exit = new JMenuItem("Exit", 'X');
-
-        // Exit Action Listener
+        // ExitMenuItem Action Listener
         exit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("Exit"))
+                // System wird beendet
                     System.exit(0);
             }
         });
@@ -224,12 +212,10 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // fügt MenüItem exit zu DateiMenü hinzu
         file.add(exit);
 
-        // erstellt MenuItem Bearbeiten
-
+        // fügt MenuItem Bearbeiten der MenuBar zu
         menuBar.add(edit);
+        // setzt Mnemonic für Edit
         edit.setMnemonic(KeyEvent.VK_E);
-
-
 
         // erstellt ShortCuts für BearbeitenMenü
         undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_MASK));
@@ -242,28 +228,26 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // fügt MenüItems zu BearbeitenMenü hinzu
         edit.add(undo);
         edit.add(redo);
+        // fügt SeperatorLinie zu BearbeitenMenü hinzu
         edit.addSeparator();
         edit.add(cut);
         edit.add(copy);
         edit.add(paste);
         edit.add(delete);
 
-        // erstellt MenuItem Hilfe
-
+        // setzt Mnemonic beim MenuItem Hilfe
         help.setMnemonic(KeyEvent.VK_H);
+        // setzt ToolTip
         help.setToolTipText("Benutzen Sie ShortCuts um schneller zu navigieren");
+        // fügt HilfeMenuItem der MenuBar zu
         menuBar.add(help);
-
-
-        // erstellt HilfeMenü
-        JMenuItem ht = new JMenuItem("Help Topics", 'H');
-        JMenuItem about = new JMenuItem("About", 'A');
 
         // HelpTopic ActionListener
         ht.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("Help Topics"))
+                // Methode topic() wird aufgerufen
                     topic();
             }
         });
@@ -278,6 +262,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("About"))
+                // Methode about() wird aufgerufen
                     about();
             }
         });
@@ -297,8 +282,11 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // Checkbox German wird erstellt
         JCheckBoxMenuItem german = new JCheckBoxMenuItem("German");
+        // setzt das German am Anfang ausgewählt ist
         german.setState(true);
+        // setzt Mnemonic bei German
         german.setMnemonic(KeyEvent.VK_G);
+        // setzt ShorCut bei German
         german.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.CTRL_MASK));
 
         // German ActionListener
@@ -306,14 +294,18 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("German"))
+                // Methode german() wird aufgerufen
                     german();
             }
         });
 
         // CheckBox English wird erstellt
         JCheckBoxMenuItem english = new JCheckBoxMenuItem("English");
+        // setzt das English am Anfang nicht ausgewählt ist
         english.setState(false);
+        // setzt EnglishMnemonic
         english.setMnemonic(KeyEvent.VK_E);
+        // setzt ShortCut bei English
         english.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
 
         // English ActionListener
@@ -321,15 +313,16 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("English"))
+                // Methode english() wird aufgerufen
                     english();
             }
         });
 
-        // fügt die CheckBoxItems der Gruppe zu
+        // fügt die CheckBoxItems German und English der Gruppe zu
         lang.add(german);
         lang.add(english);
 
-        // fügt LanguageMenüItems dem LanguageMenü zu
+        // fügt LanguageMenüItems German und English dem LanguageMenü zu
         language.add(german);
         language.add(english);
     }
@@ -347,7 +340,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // erstellt PopUp About
         JOptionPane.showMessageDialog(this, ec, ab, 1, new ImageIcon("About.gif"));
     }
-
+    // wird aufgerufen bei Help Topics
     public void topic() {
 
         // AusgabeStrings im PopUp Fenster Topic
@@ -379,7 +372,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     }
 
     public void open() {
+        // erstellt FileDialog setzt Title
         FileDialog pd = new FileDialog(this, "Öffnen");
+        // setzt was für Dateien im FileDialog ausgewählt werden dürfen
         pd.setFile("*.*");
         String filename = pd.getFile();
         if (filename != null) {
@@ -387,22 +382,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         pd.setVisible(true);
         pd.dispose();
         this.getContentPane().add(pd);
-    }
-
-    public void product() {
-        String pr1 = "New Product";
-        String pr2 = "Hiermit fügen sie ein neues Produkt ein";
-
-        // erstellt PopUp Product
-        JOptionPane.showMessageDialog(this, pr2, pr1, 1);
-    }
-
-    public void customer() {
-        String cr1 = "New Customer";
-        String cr2 = "Hiermit fügen sie einen neuen Kunden ein";
-
-        // erstellt PopUp Customer
-        JOptionPane.showMessageDialog(this, cr2, cr1, 1);
     }
 
     public static void main(String[] args) {
