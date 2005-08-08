@@ -9,6 +9,8 @@ import javax.swing.border.EtchedBorder;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * Created by IntelliJ IDEA.
@@ -59,11 +61,9 @@ public class BillUI extends JPanel implements InitializingBean {
      */
     private JButton printB = new JButton("Drucken");
     private JButton makeP = new JButton("PDF machen");
-    private JButton changeB = new JButton("Rechnung ändern");
+    private JButton makeB = new JButton("Rechnung erstellen");
     private JButton saveB = new JButton("Rechnung speichern");
     private JButton delB = new JButton("Rechnung löschen");
-    private JButton payedM = new JButton("Als bezahlt markieren");
-    private JButton unpayM = new JButton("Noch nicht bezahlt");
     private JLabel billi = new JLabel(new ImageIcon("rechnung.jpg"));
 
 
@@ -123,13 +123,21 @@ public class BillUI extends JPanel implements InitializingBean {
         dataBorder.setTitleColor(Color.BLACK);
         dataBorder.setTitle("Aktionen");
         overview.setBorder(dataBorder);
-        overview.add(changeB);
+
+        makeB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Action: " + e.getActionCommand());
+                if (e.getActionCommand().equals("Rechnung erstellen"))
+                // Methode makeB() wird aufgerufen
+                    makeB();
+            }
+        });
+
+        overview.add(makeB);
         overview.add(delB);
         overview.add(saveB);
         overview.add(printB);
         overview.add(makeP);
-        overview.add(payedM);
-        overview.add(unpayM);
 
         bill.add(billi, BorderLayout.CENTER);
 
@@ -137,5 +145,20 @@ public class BillUI extends JPanel implements InitializingBean {
         this.add(bill, BorderLayout.CENTER);
 
     }
+
+    // wird benutzt um neue Zeile zu erzeugen
+    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
+
+    public void makeB() {
+
+        // AusgabeStrings im PopUp Fenster makeB
+        String la = "Rechnung erstellen";
+        String se = "Geben Sie KundenID und BestellungsID ein! " + LINE_SEPARATOR +
+                "       Ihre Rechnung wird dann erstellt!";
+
+        // erstellt PopUp English
+        JOptionPane.showMessageDialog(this, se, la, 1);
+    }
 }
+
 
