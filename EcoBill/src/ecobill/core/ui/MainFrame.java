@@ -3,6 +3,7 @@ package ecobill.core.ui;
 import ecobill.module.base.ui.ArticleUI;
 import ecobill.module.base.ui.BusinessPartnerUI;
 import ecobill.module.base.ui.BillUI;
+import ecobill.module.base.ui.DeliveryOrderUI;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
@@ -25,7 +26,7 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.35 2005/08/08 17:46:33 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.36 2005/08/08 20:26:40 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -57,6 +58,19 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     // setter für BusinessPartnerUI
     public void setbusinessPartnerUI(BusinessPartnerUI businessPartnerUI) {
         this.businessPartnerUI = businessPartnerUI;
+    }
+
+    // erstellt Instanz einer LieferscheinUI
+    private DeliveryOrderUI deliveryOrderUI;// = ArticleUI.getInstance();
+
+    // getter für LieferscheinUI
+    public DeliveryOrderUI getdeliveryOrderUI() {
+        return deliveryOrderUI;
+    }
+
+    // setter für LieferscheinUI
+    public void setDeliveryOrderUI(DeliveryOrderUI deliveryOrderUI) {
+        this.deliveryOrderUI = deliveryOrderUI;
     }
 
     // erstellt Instanz einer RechnungsUI
@@ -163,6 +177,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         jtab.addTab("Artikel", articleUI);
         // hier wird die BusinessPartnerUI als neuer Tab eingefügt
         jtab.addTab("Kunden", businessPartnerUI);
+        // hier wird die RechnungsUI als neuer Tab eingefügt
+        jtab.addTab("Lieferscheine", deliveryOrderUI);
+        // hier wird die RechnungsUI als neuer Tab eingefügt
         jtab.addTab("Rechnungen", billUI);
 
         // erstellt JLabels

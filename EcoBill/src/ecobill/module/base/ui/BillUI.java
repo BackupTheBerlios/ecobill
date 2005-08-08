@@ -149,7 +149,7 @@ public class BillUI extends JPanel implements InitializingBean {
         top.add(customer);
         customerTF.setBounds(60, 20, 100, 20);
         top.add(customerTF);
-        order.setBounds(170, 20, 70, 20);
+        order.setBounds(170, 20, 60, 20);
         top.add(order);
         orderTF.setBounds(240, 20, 100, 20);
         top.add(orderTF);
