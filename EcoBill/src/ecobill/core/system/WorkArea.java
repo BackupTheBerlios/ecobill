@@ -19,7 +19,7 @@ import ecobill.core.system.exception.WorkAreaNotFoundException;
  * Time: 16:41:40
  *
  * @author Roman R&auml;dle
- * @version $Id: WorkArea.java,v 1.3 2005/08/04 20:24:18 raedler Exp $
+ * @version $Id: WorkArea.java,v 1.4 2005/08/08 21:03:51 raedler Exp $
  * @since EcoBill 1.0
  */
 public final class WorkArea implements ApplicationContextAware {
@@ -56,9 +56,9 @@ public final class WorkArea implements ApplicationContextAware {
      * zurück.
      *
      * @return Die an den <code>ThreadLocal</code> gebundene <code>WorkArea</code>
-     * Instanz.
+     *         Instanz.
      * @throws WorkAreaNotFoundException Wird geworfen wenn keine <code>WorkArea</code>
-     * an den aktuellen <code>Thread</code> gebunden wurde.
+     *                                   an den aktuellen <code>Thread</code> gebunden wurde.
      */
     public static WorkArea getWorkArea() throws WorkAreaNotFoundException {
         WorkArea workArea = workAreaHolder.get();
@@ -116,6 +116,22 @@ public final class WorkArea implements ApplicationContextAware {
      *                       <code>ResourceBundle</code> gefunden wird.
      * @return Der zu einem Schlüssel zugehörige Wert.
      * @see ApplicationContext#getMessage(String, Object[], String, java.util.Locale)
+     * @deprecated Please use the non static {@link ecobill.core.system.WorkArea#getWorkArea()#getMessage(String, String)}
+     */
+    public static String getStaticMessage(String key, String defaultMessage) {
+        return ac.getMessage(key, null, defaultMessage, locale);
+    }
+
+    /**
+     * Gibt den zu einem Schlüssel zugehörigen Wert aus einem <code>ResourceBundle</code>
+     * zurück. Wird dieser Schlüssel in keinem <code>ResourceBundle</code> gefunden, so
+     * wird einfach der Default Wert zurückgeliefert.
+     *
+     * @param key            Der Schlüssel der den Wert enthält.
+     * @param defaultMessage Dieser Wert wird zurückgeliefert wenn der Schlüssel in keinem
+     *                       <code>ResourceBundle</code> gefunden wird.
+     * @return Der zu einem Schlüssel zugehörige Wert.
+     * @see ApplicationContext#getMessage(String, Object[], String, java.util.Locale)
      */
     public static String getMessage(String key, String defaultMessage) {
         return ac.getMessage(key, null, defaultMessage, locale);
@@ -128,13 +144,32 @@ public final class WorkArea implements ApplicationContextAware {
      *
      * @param key Der Schlüssel der den Wert enthält.
      * @return Der zu einem Schlüssel zugehörige Wert.
-     *         * @see ApplicationContext#getMessage(String, Object[], String, java.util.Locale)
+     * @see ApplicationContext#getMessage(String, Object[], String, java.util.Locale)
+     * @deprecated Please use the non static {@link ecobill.core.system.WorkArea#getWorkArea()#getMessage(String)}
      */
-    public static String getMessage(String key) {
+    public static String getStaticMessage(String key) {
         try {
             return ac.getMessage(key, null, locale);
         }
-        catch (NoSuchMessageException e) {
+        catch (NoSuchMessageException nsme) {
+            return "??? " + key + " ???";
+        }
+    }
+
+    /**
+     * Gibt den zu einem Schlüssel zugehörigen Wert aus einem <code>ResourceBundle</code>
+     * zurück. Wird dieser Schlüssel in keinem <code>ResourceBundle</code> gefunden, so
+     * wird einfach der Key zurückgeliefert.
+     *
+     * @param key Der Schlüssel der den Wert enthält.
+     * @return Der zu einem Schlüssel zugehörige Wert.
+     * @see ApplicationContext#getMessage(String, Object[], String, java.util.Locale)
+     */
+    public String getMessage(String key) {
+        try {
+            return ac.getMessage(key, null, locale);
+        }
+        catch (NoSuchMessageException nsme) {
             return "??? " + key + " ???";
         }
     }
