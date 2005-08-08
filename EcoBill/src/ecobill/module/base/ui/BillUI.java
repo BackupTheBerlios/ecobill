@@ -1,0 +1,128 @@
+package ecobill.module.base.ui;
+
+import ecobill.module.base.service.BaseService;
+
+import javax.swing.*;
+
+import org.springframework.beans.factory.InitializingBean;
+
+import java.awt.*;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: Paul Chef
+ * Date: 08.08.2005
+ * Time: 17:13:18
+ * To change this template use File | Settings | File Templates.
+ */
+public class BillUI extends JPanel implements InitializingBean {
+
+    /**
+        * Die <code>BusinessPartnerUI</code> stellt ein Singleton dar, da es immer nur eine
+        * Instanz pro Arbeitsplatz geben kann.
+        * -> spart kostbare Ressourcen.
+        */
+       private static BusinessPartnerUI singelton = null;
+
+       /**
+        * Gibt die einzigste Instanz der <code>BusinessPartnerUI</code> zurück um diese
+        * dann bspw im Hauptfenster anzeigen zu können.
+        *
+        * @return Die <code>BusinessPartnerUI</code> ist abgeleitet von <code>JInternalFrame</code>
+        *         und kann auf einer <code>JDesktopPane</code> angezeigt werden.
+        */
+       public static BusinessPartnerUI getInstance() {
+           if (singelton == null) {
+               singelton = new BusinessPartnerUI();
+           }
+           return singelton;
+       }
+
+       /**
+        * Der <code>BaseService</code> ist die Business Logik.
+        */
+       private BaseService baseService;
+
+       /**
+        * Das Übersichtspanel gibt Auskunft über alle Artikel per <code>JTable</code> und bietet
+        * eine Eingabemaske (auch für Änderungen) von Artikeln.
+        */
+       private JPanel overview = new JPanel(new BorderLayout());
+
+       /**
+        * Buttons
+        */
+       private JButton printB = new JButton("Drucken");
+
+       /**
+        * Dieses Panel bietet wie oben genannt die Eingabemaske (auch Änderungen) für Kunden.
+        * Sowie die einzelnen betitelten Rahmen um die einzelnen Eingabemasken.
+        */
+
+
+       /**
+        * Alle Labels die nötig sind um die GUI erklärend zu gestalten.
+        */
+
+
+       /**
+        * Alle nötigen Eingabemasken, wie <code>JComboBox</code>,...
+        */
+
+       /**
+        * Standard Konstruktor.
+        */
+       public BillUI() {
+
+       }
+
+       /**
+        * Globale Initialisierung des Artikel User Interfaces.
+        * Es wird die Größe, minimale Größe des Fensters,... gesetzt.
+        * Diese wird nach den gesetzten Properties des <code>ApplicationContext</code>
+        * durchgeführt.
+        */
+       public void afterPropertiesSet() {
+
+           /*
+            * Es wird die Größe, das Layout und verschiedenste Optionen gesetzt.
+            */
+           this.setSize(new Dimension(870, 525));
+           this.setMinimumSize(new Dimension(870, 325));
+           this.setLayout(new BorderLayout());
+
+           /*
+            * Startet die Initialisierung der Kunden Oberfläche.
+            */
+           this.initUI();
+       }
+
+       /**
+        * Gibt den <code>BaseService</code> und somit die Business Logik zurück.
+        *
+        * @return Der <code>BaseService</code>.
+        */
+       public BaseService getBaseService() {
+           return baseService;
+       }
+
+       /**
+        * Setzt den <code>BaseService</code> der die komplette Business Logik enthält
+        * um bspw Daten aus der Datenbank zu laden und dorthin auch wieder abzulegen.
+        *
+        * @param baseService Der <code>BaseService</code>.
+        */
+       public void setBaseService(BaseService baseService) {
+           this.baseService = baseService;
+       }
+
+       /**
+        * Initialisieren des Graphical User Interface mit all seinen Panels, Eingabemasken
+        * Rahmen, Buttons, usw.
+        */
+       private void initUI() {
+           overview.add(printB);
+
+   }
+}
+

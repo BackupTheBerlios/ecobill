@@ -2,6 +2,7 @@ package ecobill.core.ui;
 
 import ecobill.module.base.ui.ArticleUI;
 import ecobill.module.base.ui.BusinessPartnerUI;
+import ecobill.module.base.ui.BillUI;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
@@ -24,7 +25,7 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.33 2005/08/08 13:48:57 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.34 2005/08/08 15:18:44 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -34,9 +35,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
     // erstellt Instanz einer ArtikelUI
     private ArticleUI articleUI;// = ArticleUI.getInstance();
-
-    // erstellt Instanz einer BusinessPartnerUI
-    private BusinessPartnerUI businessPartnerUI;
 
     // getter für ArtikelUI
     public ArticleUI getArticleUI() {
@@ -48,6 +46,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         this.articleUI = articleUI;
     }
 
+    // erstellt Instanz einer BusinessPartnerUI
+    private BusinessPartnerUI businessPartnerUI;
+
     // getter für BusinessPartnerUI
     public BusinessPartnerUI getbusinessPartnerUI() {
         return businessPartnerUI;
@@ -56,6 +57,19 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     // setter für BusinessPartnerUI
     public void setbusinessPartnerUI(BusinessPartnerUI businessPartnerUI) {
         this.businessPartnerUI = businessPartnerUI;
+    }
+
+    // erstellt Instanz einer RechnungsUI
+    private BillUI billUI;
+
+    // getter für RechnungsUI
+    public BillUI getBillUI() {
+        return billUI;
+    }
+
+    // setter für RechnungsUI
+    public void setBillUI(BillUI billUI) {
+        this.billUI = billUI;
     }
 
 
@@ -73,8 +87,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     private JButton ebutton = new JButton("Exit");
     // erstellt TabFeld mit Komponenten
     private JTabbedPane jtab = new JTabbedPane();
-    private JComponent tab0 = new JPanel(new BorderLayout());
-    private JComponent tab3 = new JPanel();
+    private JComponent tab = new JPanel(new BorderLayout());
     // erstellt MenuBar
     private JMenuBar menuBar = new JMenuBar();
     // erstellt MenuBarItems
@@ -145,23 +158,19 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     public void tabPane() {
 
         // fügt Tabs dem Tabfeld hinzu
-        jtab.addTab("Start", tab0);
+        jtab.addTab("Start", tab);
         // hier wird die ArtikleUI als neuer Tab eingefügt
         jtab.addTab("Artikel", articleUI);
         // hier wird die BusinessPartnerUI als neuer Tab eingefügt
         jtab.addTab("Kunden", businessPartnerUI);
-        jtab.addTab("Rechnungen", tab3);
+        jtab.addTab("Rechnungen", billUI);
 
         // erstellt JLabels
         JLabel lab1 = new JLabel(new ImageIcon("Startbild.jpg"));
         // setzt ToolTip
         lab1.setToolTipText("Copyright @ JFuckers");
         // fügt JLabels tab0 zu
-        tab0.add(lab1, BorderLayout.CENTER);
-
-        // fügt JLabel tab3 zu
-        JLabel descrip4 = new JLabel("Hier kommt die RechnungsGui bzw. Rechnungen rein");
-        tab3.add(descrip4);
+        tab.add(lab1, BorderLayout.CENTER);
 
         // fügt Tabfeld hinzu
         this.getContentPane().add(jtab, BorderLayout.CENTER);
@@ -340,6 +349,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // erstellt PopUp About
         JOptionPane.showMessageDialog(this, ec, ab, 1, new ImageIcon("About.gif"));
     }
+
     // wird aufgerufen bei Help Topics
     public void topic() {
 
