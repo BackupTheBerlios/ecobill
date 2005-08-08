@@ -156,7 +156,7 @@ public class BillUI extends JPanel implements InitializingBean {
         String se = "Geben Sie KundenID und BestellungsID ein! " + LINE_SEPARATOR +
                 "       Ihre Rechnung wird dann erstellt!";
 
-        // erstellt PopUp English
+        // erstellt PopUp makeBill
         JOptionPane.showMessageDialog(this, se, la, 1);
     }
 }
