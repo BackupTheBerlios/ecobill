@@ -20,7 +20,7 @@ import java.awt.*;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.14 2005/08/08 14:15:15 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.15 2005/08/08 14:57:55 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -418,7 +418,6 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         residualDescriptionsBorder.setTitleColor(Color.BLACK);
         residualDescriptionsBorder.setTitle("Restliche Beschreibung");
         customerDescriptionsP.setBorder(residualDescriptionsBorder);
-
         customerDescriptionsP.add(new JScrollPane(customerDescriptionTable));
     }
 
