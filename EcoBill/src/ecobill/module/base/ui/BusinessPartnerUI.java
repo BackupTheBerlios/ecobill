@@ -20,7 +20,7 @@ import java.awt.*;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.13 2005/08/08 13:28:14 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.14 2005/08/08 14:15:15 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -97,9 +97,6 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
     private JLabel phone = new JLabel("Phone");
     private JLabel fax = new JLabel("Fax");
     private JLabel email = new JLabel("Email");
-    private JLabel languageL = new JLabel("Sprache");
-    private JLabel countryL = new JLabel("Land");
-    private JLabel variantL = new JLabel();
 
     /**
      * Alle nötigen Eingabemasken, wie <code>JComboBox</code>,...
@@ -121,9 +118,6 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
 
     private JTextArea descriptionTA = new JTextArea();
     private JTextArea descriptionsTA = new JTextArea();
-    private JComboBox languageCB = new JComboBox();
-    private JComboBox countryCB = new JComboBox();
-    private JComboBox variantCB = new JComboBox();
 
     /**
      * Die <code>JScrollPane</code> um die Tabelle scrollen zu können, die Tabelle
@@ -432,25 +426,6 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
 
         JPanel localeSettingP = new JPanel(null);
 
-        languageL.setBounds(10, 20, 100, 20);
-        localeSettingP.add(languageL);
-
-        languageCB.setBounds(10, 40, 100, 20);
-        localeSettingP.add(languageCB);
-
-        countryL.setBounds(10, 70, 100, 20);
-        localeSettingP.add(countryL);
-
-        countryCB.setBounds(10, 90, 100, 20);
-        localeSettingP.add(countryCB);
-
-        variantL.setBounds(10, 120, 100, 20);
-        localeSettingP.add(variantL);
-
-        variantCB.setBounds(10, 140, 100, 20);
-        localeSettingP.add(variantCB);
-
-
         descriptionsTA.setBorder(descriptionBorder);
         descriptionsTA.setLineWrap(true);
         descriptionsTA.setWrapStyleWord(true);
@@ -474,10 +449,11 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
 
 
         JPanel descriptionsTableP = new JPanel(new BorderLayout());
-        descriptionsTableP.add(new JScrollPane(new JTable(new Object[][]{{"a", "a", "a"}, {"b", "b", "b"}}, new Object[]{"test1", "test2", "test3"})));
+        descriptionsTableP.add(new JScrollPane(new JTable(new Object[][]{{"1010", "24.12.1950", "1", "Ja"}, {"1011", "01.01.1951", "2", "Nein"}}, new Object[]{"BestellID", "BestellDatum", "CustomerID", "Bezahlt"})));
+        descriptionsTableP.setPreferredSize(new Dimension(400, 600));
         descriptionTopP.setPreferredSize(new Dimension(400, 200));
         descriptionsP.add(descriptionTopP, BorderLayout.NORTH);
-        descriptionsP.add(descriptionsTableP, BorderLayout.CENTER);
+        descriptionsP.add(descriptionsTableP, BorderLayout.NORTH);
     }
 
 }
