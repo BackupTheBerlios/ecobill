@@ -3,6 +3,8 @@ package ecobill.module.base.ui;
 import ecobill.module.base.service.BaseService;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.EtchedBorder;
 
 import org.springframework.beans.factory.InitializingBean;
 
@@ -47,27 +49,16 @@ public class BillUI extends JPanel implements InitializingBean {
         * Das Übersichtspanel gibt Auskunft über alle Artikel per <code>JTable</code> und bietet
         * eine Eingabemaske (auch für Änderungen) von Artikeln.
         */
-       private JPanel overview = new JPanel(new BorderLayout());
+       private JPanel overview = new JPanel(new FlowLayout());
+       private TitledBorder dataBorder = new TitledBorder(new EtchedBorder());
 
        /**
         * Buttons
         */
        private JButton printB = new JButton("Drucken");
-
-       /**
-        * Dieses Panel bietet wie oben genannt die Eingabemaske (auch Änderungen) für Kunden.
-        * Sowie die einzelnen betitelten Rahmen um die einzelnen Eingabemasken.
-        */
-
-
-       /**
-        * Alle Labels die nötig sind um die GUI erklärend zu gestalten.
-        */
-
-
-       /**
-        * Alle nötigen Eingabemasken, wie <code>JComboBox</code>,...
-        */
+       private JButton makeP = new JButton("PDF machen");
+       private JButton payedM = new JButton("Als bezahlt markieren");
+       private JButton unpayM = new JButton("Noch nicht bezahlt");
 
        /**
         * Standard Konstruktor.
@@ -121,7 +112,16 @@ public class BillUI extends JPanel implements InitializingBean {
         * Rahmen, Buttons, usw.
         */
        private void initUI() {
+
+           dataBorder.setTitleColor(Color.BLACK);
+           dataBorder.setTitle("Aktionen");
+           overview.setBorder(dataBorder);
            overview.add(printB);
+           overview.add(makeP);
+           overview.add(payedM);
+           overview.add(unpayM);
+
+           this.add(overview, BorderLayout.NORTH);
 
    }
 }
