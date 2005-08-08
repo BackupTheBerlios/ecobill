@@ -69,7 +69,7 @@ public class BillUI extends JPanel implements InitializingBean {
     private JButton delB = new JButton("Löschen");
     private JLabel billi = new JLabel(new ImageIcon("rechnung.jpg"));
     private JLabel customer = new JLabel("KundenID");
-    private JLabel order = new JLabel("BestellungsID");
+    private JLabel order = new JLabel("AuftragsID");
 
 
     /**

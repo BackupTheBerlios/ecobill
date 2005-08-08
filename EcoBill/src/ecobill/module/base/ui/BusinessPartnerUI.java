@@ -20,7 +20,7 @@ import java.awt.*;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.15 2005/08/08 14:57:55 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.16 2005/08/08 20:22:38 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -200,7 +200,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
          * hinzu.
          */
         primaryTP.add("Übersicht",overviewP);
-        primaryTP.add("Bestellungen",descriptionsP);
+        primaryTP.add("Aufträge",descriptionsP);
 
         /*
          * Fügt die primäre <code>JTabbedPane</code> diesem <code>JInternalFrame</code> hinzu.
