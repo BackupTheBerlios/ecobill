@@ -20,109 +20,122 @@ import java.awt.*;
 public class BillUI extends JPanel implements InitializingBean {
 
     /**
-        * Die <code>BusinessPartnerUI</code> stellt ein Singleton dar, da es immer nur eine
-        * Instanz pro Arbeitsplatz geben kann.
-        * -> spart kostbare Ressourcen.
-        */
-       private static BusinessPartnerUI singelton = null;
+     * Die <code>BusinessPartnerUI</code> stellt ein Singleton dar, da es immer nur eine
+     * Instanz pro Arbeitsplatz geben kann.
+     * -> spart kostbare Ressourcen.
+     */
+    private static BusinessPartnerUI singelton = null;
 
-       /**
-        * Gibt die einzigste Instanz der <code>BusinessPartnerUI</code> zurück um diese
-        * dann bspw im Hauptfenster anzeigen zu können.
-        *
-        * @return Die <code>BusinessPartnerUI</code> ist abgeleitet von <code>JInternalFrame</code>
-        *         und kann auf einer <code>JDesktopPane</code> angezeigt werden.
-        */
-       public static BusinessPartnerUI getInstance() {
-           if (singelton == null) {
-               singelton = new BusinessPartnerUI();
-           }
-           return singelton;
-       }
+    /**
+     * Gibt die einzigste Instanz der <code>BusinessPartnerUI</code> zurück um diese
+     * dann bspw im Hauptfenster anzeigen zu können.
+     *
+     * @return Die <code>BusinessPartnerUI</code> ist abgeleitet von <code>JInternalFrame</code>
+     *         und kann auf einer <code>JDesktopPane</code> angezeigt werden.
+     */
+    public static BusinessPartnerUI getInstance() {
+        if (singelton == null) {
+            singelton = new BusinessPartnerUI();
+        }
+        return singelton;
+    }
 
-       /**
-        * Der <code>BaseService</code> ist die Business Logik.
-        */
-       private BaseService baseService;
+    /**
+     * Der <code>BaseService</code> ist die Business Logik.
+     */
+    private BaseService baseService;
 
-       /**
-        * Das Übersichtspanel gibt Auskunft über alle Artikel per <code>JTable</code> und bietet
-        * eine Eingabemaske (auch für Änderungen) von Artikeln.
-        */
-       private JPanel overview = new JPanel(new FlowLayout());
-       private TitledBorder dataBorder = new TitledBorder(new EtchedBorder());
+    /**
+     * Das Übersichtspanel gibt Auskunft über alle Artikel per <code>JTable</code> und bietet
+     * eine Eingabemaske (auch für Änderungen) von Artikeln.
+     */
+    private JPanel overview = new JPanel(new FlowLayout());
+    private JPanel bill = new JPanel(new BorderLayout());
+    private TitledBorder dataBorder = new TitledBorder(new EtchedBorder());
 
-       /**
-        * Buttons
-        */
-       private JButton printB = new JButton("Drucken");
-       private JButton makeP = new JButton("PDF machen");
-       private JButton payedM = new JButton("Als bezahlt markieren");
-       private JButton unpayM = new JButton("Noch nicht bezahlt");
 
-       /**
-        * Standard Konstruktor.
-        */
-       public BillUI() {
+    /**
+     * Buttons
+     */
+    private JButton printB = new JButton("Drucken");
+    private JButton makeP = new JButton("PDF machen");
+    private JButton changeB = new JButton("Rechnung ändern");
+    private JButton saveB = new JButton("Rechnung speichern");
+    private JButton delB = new JButton("Rechnung löschen");
+    private JButton payedM = new JButton("Als bezahlt markieren");
+    private JButton unpayM = new JButton("Noch nicht bezahlt");
+    private JLabel billi = new JLabel(new ImageIcon("rechnung.jpg"));
 
-       }
 
-       /**
-        * Globale Initialisierung des Artikel User Interfaces.
-        * Es wird die Größe, minimale Größe des Fensters,... gesetzt.
-        * Diese wird nach den gesetzten Properties des <code>ApplicationContext</code>
-        * durchgeführt.
-        */
-       public void afterPropertiesSet() {
+    /**
+     * Standard Konstruktor.
+     */
+    public BillUI() {
 
-           /*
-            * Es wird die Größe, das Layout und verschiedenste Optionen gesetzt.
-            */
-           this.setSize(new Dimension(870, 525));
-           this.setMinimumSize(new Dimension(870, 325));
-           this.setLayout(new BorderLayout());
+    }
 
-           /*
-            * Startet die Initialisierung der Kunden Oberfläche.
-            */
-           this.initUI();
-       }
+    /**
+     * Globale Initialisierung des Artikel User Interfaces.
+     * Es wird die Größe, minimale Größe des Fensters,... gesetzt.
+     * Diese wird nach den gesetzten Properties des <code>ApplicationContext</code>
+     * durchgeführt.
+     */
+    public void afterPropertiesSet() {
 
-       /**
-        * Gibt den <code>BaseService</code> und somit die Business Logik zurück.
-        *
-        * @return Der <code>BaseService</code>.
-        */
-       public BaseService getBaseService() {
-           return baseService;
-       }
+        /*
+         * Es wird die Größe, das Layout und verschiedenste Optionen gesetzt.
+         */
+        this.setSize(new Dimension(870, 525));
+        this.setMinimumSize(new Dimension(870, 325));
+        this.setLayout(new BorderLayout());
 
-       /**
-        * Setzt den <code>BaseService</code> der die komplette Business Logik enthält
-        * um bspw Daten aus der Datenbank zu laden und dorthin auch wieder abzulegen.
-        *
-        * @param baseService Der <code>BaseService</code>.
-        */
-       public void setBaseService(BaseService baseService) {
-           this.baseService = baseService;
-       }
+        /*
+         * Startet die Initialisierung der Kunden Oberfläche.
+         */
+        this.initUI();
+    }
 
-       /**
-        * Initialisieren des Graphical User Interface mit all seinen Panels, Eingabemasken
-        * Rahmen, Buttons, usw.
-        */
-       private void initUI() {
+    /**
+     * Gibt den <code>BaseService</code> und somit die Business Logik zurück.
+     *
+     * @return Der <code>BaseService</code>.
+     */
+    public BaseService getBaseService() {
+        return baseService;
+    }
 
-           dataBorder.setTitleColor(Color.BLACK);
-           dataBorder.setTitle("Aktionen");
-           overview.setBorder(dataBorder);
-           overview.add(printB);
-           overview.add(makeP);
-           overview.add(payedM);
-           overview.add(unpayM);
+    /**
+     * Setzt den <code>BaseService</code> der die komplette Business Logik enthält
+     * um bspw Daten aus der Datenbank zu laden und dorthin auch wieder abzulegen.
+     *
+     * @param baseService Der <code>BaseService</code>.
+     */
+    public void setBaseService(BaseService baseService) {
+        this.baseService = baseService;
+    }
 
-           this.add(overview, BorderLayout.NORTH);
+    /**
+     * Initialisieren des Graphical User Interface mit all seinen Panels, Eingabemasken
+     * Rahmen, Buttons, usw.
+     */
+    private void initUI() {
 
-   }
+        dataBorder.setTitleColor(Color.BLACK);
+        dataBorder.setTitle("Aktionen");
+        overview.setBorder(dataBorder);
+        overview.add(changeB);
+        overview.add(delB);
+        overview.add(saveB);
+        overview.add(printB);
+        overview.add(makeP);
+        overview.add(payedM);
+        overview.add(unpayM);
+
+        bill.add(billi, BorderLayout.CENTER);
+
+        this.add(overview, BorderLayout.NORTH);
+        this.add(bill, BorderLayout.CENTER);
+
+    }
 }
 
