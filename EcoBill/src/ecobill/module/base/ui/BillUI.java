@@ -51,9 +51,12 @@ public class BillUI extends JPanel implements InitializingBean {
      * Das Übersichtspanel gibt Auskunft über alle Artikel per <code>JTable</code> und bietet
      * eine Eingabemaske (auch für Änderungen) von Artikeln.
      */
-    private JPanel overview = new JPanel(new FlowLayout());
+    private JPanel overview = new JPanel(new BorderLayout());
     private JPanel bill = new JPanel(new BorderLayout());
     private TitledBorder dataBorder = new TitledBorder(new EtchedBorder());
+    private TitledBorder billBorder = new TitledBorder(new EtchedBorder());
+    private JTextField customerTF = new JTextField();
+    private JTextField orderTF = new JTextField();
 
 
     /**
@@ -65,6 +68,8 @@ public class BillUI extends JPanel implements InitializingBean {
     private JButton saveB = new JButton("Rechnung speichern");
     private JButton delB = new JButton("Rechnung löschen");
     private JLabel billi = new JLabel(new ImageIcon("rechnung.jpg"));
+    private JLabel customer = new JLabel("KundenID");
+    private JLabel order = new JLabel("BestellungsID");
 
 
     /**
@@ -120,9 +125,11 @@ public class BillUI extends JPanel implements InitializingBean {
      */
     private void initUI() {
 
+        JPanel top = new JPanel();
+
         dataBorder.setTitleColor(Color.BLACK);
-        dataBorder.setTitle("Aktionen");
-        overview.setBorder(dataBorder);
+        dataBorder.setTitle("Daten/Aktionen");
+        top.setBorder(dataBorder);
 
         makeB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -133,16 +140,31 @@ public class BillUI extends JPanel implements InitializingBean {
             }
         });
 
-        overview.add(makeB);
-        overview.add(delB);
-        overview.add(saveB);
-        overview.add(printB);
-        overview.add(makeP);
+        billBorder.setTitleColor(Color.BLACK);
+        billBorder.setTitle("Rechnung");
+        billi.setBorder(billBorder);
+
+        top.add(customer);
+        top.add(customerTF);
+
+        top.add(order);
+        top.add(orderTF);
+
+        top.add(makeB);
+        top.add(delB);
+        top.add(saveB);
+        top.add(printB);
+        top.add(makeP);
+
+
+
 
         bill.add(billi, BorderLayout.CENTER);
 
-        this.add(overview, BorderLayout.NORTH);
-        this.add(bill, BorderLayout.CENTER);
+        overview.add(top, BorderLayout.NORTH);
+        overview.add(billi, BorderLayout.CENTER);
+
+        this.add(overview);
 
     }
 
