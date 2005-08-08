@@ -64,9 +64,9 @@ public class BillUI extends JPanel implements InitializingBean {
      */
     private JButton printB = new JButton("Drucken");
     private JButton makeP = new JButton("PDF machen");
-    private JButton makeB = new JButton("Rechnung erstellen");
-    private JButton saveB = new JButton("Rechnung speichern");
-    private JButton delB = new JButton("Rechnung löschen");
+    private JButton makeB = new JButton("Erstellen");
+    private JButton saveB = new JButton("Speichern");
+    private JButton delB = new JButton("Löschen");
     private JLabel billi = new JLabel(new ImageIcon("rechnung.jpg"));
     private JLabel customer = new JLabel("KundenID");
     private JLabel order = new JLabel("BestellungsID");
@@ -126,6 +126,7 @@ public class BillUI extends JPanel implements InitializingBean {
     private void initUI() {
 
         JPanel top = new JPanel(null);
+        top.setPreferredSize(new Dimension(300, 50));
 
         dataBorder.setTitleColor(Color.BLACK);
         dataBorder.setTitle("Daten/Aktionen");
@@ -144,19 +145,24 @@ public class BillUI extends JPanel implements InitializingBean {
         billBorder.setTitle("Rechnung");
         billi.setBorder(billBorder);
 
-        customer.setBounds(12, 20, 50, 20);
+        customer.setBounds(10, 20, 50, 20);
         top.add(customer);
-        customerTF.setBounds(10, 20, 50, 20);
+        customerTF.setBounds(60, 20, 100, 20);
         top.add(customerTF);
-
-        //top.add(order);
-        //top.add(orderTF);
-
-        //top.add(makeB);
-        //top.add(delB);
-        //top.add(saveB);
-        //top.add(printB);
-        //top.add(makeP);
+        order.setBounds(170, 20, 70, 20);
+        top.add(order);
+        orderTF.setBounds(240, 20, 100, 20);
+        top.add(orderTF);
+        makeB.setBounds(350, 20, 100, 20);
+        top.add(makeB);
+        delB.setBounds(460, 20, 100, 20);
+        top.add(delB);
+        saveB.setBounds(570, 20, 100, 20);
+        top.add(saveB);
+        printB.setBounds(680, 20, 100, 20);
+        top.add(printB);
+        makeP.setBounds(790, 20, 100, 20);
+        top.add(makeP);
 
 
         bill.add(billi, BorderLayout.CENTER);
