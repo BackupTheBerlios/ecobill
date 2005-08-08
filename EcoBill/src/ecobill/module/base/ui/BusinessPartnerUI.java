@@ -20,7 +20,7 @@ import java.awt.*;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.17 2005/08/08 20:28:57 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.18 2005/08/08 20:36:12 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -80,6 +80,8 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
 
 
     private JPanel descriptionsP = new JPanel(new BorderLayout());
+    private JPanel deliveryOrderP = new JPanel();
+    private JPanel billP = new JPanel();
 
     /**
      * Alle Labels die nötig sind um die GUI erklärend zu gestalten.
@@ -199,8 +201,10 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
          * Fügt das Übersichtspanel und das Beschreibungenpanel der primären <code>JTabbedPane</code>
          * hinzu.
          */
-        primaryTP.add("Übersicht",overviewP);
-        primaryTP.add("Aufträge",descriptionsP);
+        primaryTP.add("Übersicht", overviewP);
+        primaryTP.add("Aufträge", descriptionsP);
+        primaryTP.add("Lieferscheine", deliveryOrderP);
+        primaryTP.add("Rechnungen", billP);
 
         /*
          * Fügt die primäre <code>JTabbedPane</code> diesem <code>JInternalFrame</code> hinzu.

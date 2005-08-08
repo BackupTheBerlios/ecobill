@@ -26,7 +26,7 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.36 2005/08/08 20:26:40 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.37 2005/08/08 20:33:39 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -133,7 +133,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // setzt Title des Mainframe
         this.setTitle("Economy Bill Agenda");
         // setzt Größe des Mainframe
-        this.setSize(new Dimension(1000, 700));
+        this.setSize(new Dimension(950, 700));
         // setzt UIManger der ans Windows Design anlegt
         UIManager.setLookAndFeel(new com.sun.java.swing.plaf.windows.WindowsLookAndFeel());
         // setzt LayoutManger für das Pane

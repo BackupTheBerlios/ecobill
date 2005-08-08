@@ -144,23 +144,23 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
          billi.setBorder(billBorder);
 
          customer.setBounds(10, 20, 50, 20);
-         top.add(customer);
-         customerTF.setBounds(60, 20, 100, 20);
-         top.add(customerTF);
-         order.setBounds(170, 20, 70, 20);
-         top.add(order);
-         orderTF.setBounds(240, 20, 100, 20);
-         top.add(orderTF);
-         makeB.setBounds(350, 20, 100, 20);
-         top.add(makeB);
-         delB.setBounds(460, 20, 100, 20);
-         top.add(delB);
-         saveB.setBounds(570, 20, 100, 20);
-         top.add(saveB);
-         printB.setBounds(680, 20, 100, 20);
-         top.add(printB);
-         makeP.setBounds(790, 20, 100, 20);
-         top.add(makeP);
+        top.add(customer);
+        customerTF.setBounds(60, 20, 100, 20);
+        top.add(customerTF);
+        order.setBounds(170, 20, 60, 20);
+        top.add(order);
+        orderTF.setBounds(230, 20, 100, 20);
+        top.add(orderTF);
+        makeB.setBounds(340, 20, 100, 20);
+        top.add(makeB);
+        delB.setBounds(450, 20, 100, 20);
+        top.add(delB);
+        saveB.setBounds(560, 20, 100, 20);
+        top.add(saveB);
+        printB.setBounds(670, 20, 100, 20);
+        top.add(printB);
+        makeP.setBounds(780, 20, 100, 20);
+        top.add(makeP);
 
 
          bill.add(billi, BorderLayout.CENTER);
