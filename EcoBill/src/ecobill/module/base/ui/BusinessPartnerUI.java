@@ -20,7 +20,7 @@ import java.awt.*;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.12 2005/08/07 17:27:58 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.13 2005/08/08 13:28:14 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -113,7 +113,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
     private JTextField zipTF = new JTextField();
     private JTextField cityTF = new JTextField();
     private JTextField countyTF = new JTextField();
-    private JTextField countryTF = new JTextField();
+    private JComboBox countryCOB = new JComboBox();
     private JTextField phoneTF = new JTextField();
     private JTextField faxTF = new JTextField();
     private JTextField emailTF = new JTextField();
@@ -268,7 +268,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         customerP.add(title2);
 
         title2CB.setBounds(110, 40, 70, 20);
-        title2CB.addItem("");
+        title2CB.addItem("-None-");
         title2CB.addItem("Dr.");
         title2CB.addItem("Prof.");
         title2CB.addItem("Prof. Dr.");
@@ -313,8 +313,13 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         country.setBounds(122, 200, 120, 20);
         customerP.add(country);
 
-        countryTF.setBounds(120, 220, 100, 20);
-        customerP.add(countryTF);
+        countryCOB.setBounds(120, 220, 100, 20);
+        countryCOB.addItem("Argentinia");
+        countryCOB.addItem("England");
+        countryCOB.addItem("Germany");
+        countryCOB.addItem("USA");
+        countryCOB.addItem("Venezuela");
+        customerP.add(countryCOB);
 
         /*
          * Setzt die Position der einzelnen Komponenten und hinzufügen
