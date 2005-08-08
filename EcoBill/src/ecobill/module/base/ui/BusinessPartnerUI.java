@@ -20,7 +20,7 @@ import java.awt.*;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.16 2005/08/08 20:22:38 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.17 2005/08/08 20:28:57 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -448,7 +448,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
 
 
         JPanel descriptionsTableP = new JPanel(new BorderLayout());
-        descriptionsTableP.add(new JScrollPane(new JTable(new Object[][]{{"1010", "24.12.1950", "1", "Ja"}, {"1011", "01.01.1951", "2", "Nein"}}, new Object[]{"BestellID", "BestellDatum", "CustomerID", "Bezahlt"})));
+        descriptionsTableP.add(new JScrollPane(new JTable(new Object[][]{{"1010", "24.12.1950", "1", "Ja"}, {"1011", "01.01.1951", "2", "Nein"}}, new Object[]{"AuftragsID", "Datum", "CustomerID", "Bezahlt"})));
         descriptionsTableP.setPreferredSize(new Dimension(400, 600));
         descriptionTopP.setPreferredSize(new Dimension(400, 200));
         descriptionsP.add(descriptionTopP, BorderLayout.NORTH);
