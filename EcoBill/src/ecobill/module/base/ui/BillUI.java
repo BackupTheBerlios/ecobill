@@ -69,7 +69,7 @@ public class BillUI extends JPanel implements InitializingBean {
     private JButton delB = new JButton("Löschen");
     private JLabel billi = new JLabel(new ImageIcon("images/rechnung.jpg"));
     private JLabel customer = new JLabel("KundenID");
-    private JLabel order = new JLabel("AuftragsID");
+    private JLabel order = new JLabel("LieferscheinID");
 
 
     /**
@@ -149,19 +149,19 @@ public class BillUI extends JPanel implements InitializingBean {
         top.add(customer);
         customerTF.setBounds(60, 20, 100, 20);
         top.add(customerTF);
-        order.setBounds(170, 20, 60, 20);
+        order.setBounds(170, 20, 70, 20);
         top.add(order);
-        orderTF.setBounds(230, 20, 100, 20);
+        orderTF.setBounds(240, 20, 100, 20);
         top.add(orderTF);
-        makeB.setBounds(340, 20, 100, 20);
+        makeB.setBounds(350, 20, 100, 20);
         top.add(makeB);
-        delB.setBounds(450, 20, 100, 20);
+        delB.setBounds(460, 20, 100, 20);
         top.add(delB);
-        saveB.setBounds(560, 20, 100, 20);
+        saveB.setBounds(570, 20, 100, 20);
         top.add(saveB);
-        printB.setBounds(670, 20, 100, 20);
+        printB.setBounds(680, 20, 100, 20);
         top.add(printB);
-        makeP.setBounds(780, 20, 100, 20);
+        makeP.setBounds(790, 20, 100, 20);
         top.add(makeP);
 
 
