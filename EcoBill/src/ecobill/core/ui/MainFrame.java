@@ -26,7 +26,7 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.37 2005/08/08 20:33:39 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.38 2005/08/10 12:12:34 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -183,7 +183,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         jtab.addTab("Rechnungen", billUI);
 
         // erstellt JLabels
-        JLabel lab1 = new JLabel(new ImageIcon("Startbild.jpg"));
+        JLabel lab1 = new JLabel(new ImageIcon("images/Startbild.jpg"));
         // setzt ToolTip
         lab1.setToolTipText("Copyright @ JFuckers");
         // fügt JLabels tab0 zu
@@ -364,7 +364,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         String ec = "Economy Bill Agenda" + LINE_SEPARATOR + "        Version 1.0";
 
         // erstellt PopUp About
-        JOptionPane.showMessageDialog(this, ec, ab, 1, new ImageIcon("About.gif"));
+        JOptionPane.showMessageDialog(this, ec, ab, 1, new ImageIcon("images/About.gif"));
     }
 
     // wird aufgerufen bei Help Topics
@@ -375,7 +375,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         String ec = "Economy Bill Agenda" + LINE_SEPARATOR + "        Version 1.0";
 
         // erstellt PopUp Topic
-        JOptionPane.showMessageDialog(this, ec, to, 1, new ImageIcon("Topic.gif"));
+        JOptionPane.showMessageDialog(this, ec, to, 1, new ImageIcon("images/Topic.gif"));
     }
 
     public void german() {
@@ -385,7 +385,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         String sd = "Sprache ist jetzt" + LINE_SEPARATOR + "        Deutsch";
 
         // erstellt PopUp German
-        JOptionPane.showMessageDialog(this, sd, la, 1, new ImageIcon("German.jpg"));
+        JOptionPane.showMessageDialog(this, sd, la, 1, new ImageIcon("images/German.jpg"));
     }
 
     public void english() {
@@ -395,7 +395,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         String se = "Language is now " + LINE_SEPARATOR + "          English";
 
         // erstellt PopUp English
-        JOptionPane.showMessageDialog(this, se, la, 1, new ImageIcon("English.gif"));
+        JOptionPane.showMessageDialog(this, se, la, 1, new ImageIcon("images/English.gif"));
     }
 
     public void open() {

@@ -67,7 +67,7 @@ public class BillUI extends JPanel implements InitializingBean {
     private JButton makeB = new JButton("Erstellen");
     private JButton saveB = new JButton("Speichern");
     private JButton delB = new JButton("Löschen");
-    private JLabel billi = new JLabel(new ImageIcon("rechnung.jpg"));
+    private JLabel billi = new JLabel(new ImageIcon("images/rechnung.jpg"));
     private JLabel customer = new JLabel("KundenID");
     private JLabel order = new JLabel("AuftragsID");
 
