@@ -20,7 +20,7 @@ import java.awt.*;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.18 2005/08/08 20:36:12 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.19 2005/08/10 13:55:09 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -80,8 +80,8 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
 
 
     private JPanel descriptionsP = new JPanel(new BorderLayout());
-    private JPanel deliveryOrderP = new JPanel();
-    private JPanel billP = new JPanel();
+    private JPanel deliveryOrderP = new JPanel(new BorderLayout());
+    private JPanel billP = new JPanel(new BorderLayout());
 
     /**
      * Alle Labels die nötig sind um die GUI erklärend zu gestalten.
@@ -435,6 +435,8 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
 
         //GridBagLayout gbl = new GridBagLayout();
         JPanel descriptionTopP = new JPanel(new BorderLayout());
+        JPanel deliveryOrderTopP = new JPanel(new BorderLayout());
+        JPanel billTopP = new JPanel(new BorderLayout());
 
         GridBagConstraints c1 = new GridBagConstraints();
         c1.fill = GridBagConstraints.NONE;
@@ -449,6 +451,8 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         c1.gridheight = 1;
 
         descriptionTopP.add(localeSettingP, BorderLayout.CENTER);
+        deliveryOrderTopP.add(localeSettingP, BorderLayout.CENTER);
+        billTopP.add(localeSettingP, BorderLayout.CENTER);
 
 
         JPanel descriptionsTableP = new JPanel(new BorderLayout());
@@ -457,6 +461,20 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         descriptionTopP.setPreferredSize(new Dimension(400, 200));
         descriptionsP.add(descriptionTopP, BorderLayout.NORTH);
         descriptionsP.add(descriptionsTableP, BorderLayout.NORTH);
+
+        JPanel deliveryOrderTableP = new JPanel(new BorderLayout());
+        deliveryOrderTableP.add(new JScrollPane(new JTable(new Object[][]{{"1010", "24.12.1950", "1", "Ja"}, {"1011", "01.01.1951", "2", "Nein"}}, new Object[]{"LieferscheinID", "Datum", "CustomerID", "Bezahlt"})));
+        deliveryOrderTableP.setPreferredSize(new Dimension(400, 600));
+        deliveryOrderTopP.setPreferredSize(new Dimension(400, 200));
+        deliveryOrderP.add(deliveryOrderTopP, BorderLayout.NORTH);
+        deliveryOrderP.add(deliveryOrderTableP, BorderLayout.NORTH);
+
+        JPanel billTableP = new JPanel(new BorderLayout());
+        billTableP.add(new JScrollPane(new JTable(new Object[][]{{"1010", "24.12.1950", "1", "Ja"}, {"1011", "01.01.1951", "2", "Nein"}}, new Object[]{"RechnungsID", "Datum", "CustomerID", "Bezahlt"})));
+        billTableP.setPreferredSize(new Dimension(400, 600));
+        billTopP.setPreferredSize(new Dimension(400, 200));
+        billP.add(billTopP, BorderLayout.NORTH);
+        billP.add(billTableP, BorderLayout.NORTH);
     }
 
 }
