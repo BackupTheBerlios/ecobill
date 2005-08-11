@@ -82,7 +82,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
 
             JasperReport js = JasperCompileManager.compileReport("lieferschein.jrxml");
             JRViewer viewer = new JRViewer(JasperFillManager.fillReport(js, new HashMap(), con));
-            billi.add(viewer);
+            billi.add(viewer, BorderLayout.CENTER);
         }
         catch (SQLException e1) {
             e1.printStackTrace();
@@ -106,7 +106,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
     private JButton makeB = new JButton("Erstellen");
     private JButton saveB = new JButton("Speichern");
     private JButton delB = new JButton("Löschen");
-    private JPanel billi = new JPanel();
+    private JPanel billi = new JPanel(new BorderLayout());
     private JLabel customer = new JLabel("KundenID");
     private JLabel order = new JLabel("AuftragsID");
 
@@ -179,6 +179,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
                     //makeB();
                     try {
                         DeliveryOrderUI.this.jasper();
+                        DeliveryOrderUI.this.billi.validate();
                     }
                     catch (Exception e1) {
                         e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -210,7 +211,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
         top.add(makeP);
 
 
-        bill.add(billi, BorderLayout.CENTER);
+        //bill.add(billi, BorderLayout.CENTER);
 
         overview.add(top, BorderLayout.NORTH);
         overview.add(billi, BorderLayout.CENTER);

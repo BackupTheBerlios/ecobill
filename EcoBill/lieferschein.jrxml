@@ -21,9 +21,7 @@
 	<import value="java.util.*" />
 	<import value="net.sf.jasperreports.engine.*" />
 	<import value="net.sf.jasperreports.engine.data.*" />
-	<queryString><![CDATA[Select *
-From ecobill.base_person, ecobill.base_delivery_order
-]]></queryString>
+	<queryString><![CDATA[Select * From ecobill.base_person]]></queryString>
 	<field name="ID" class="java.lang.Long"/>
 	<field name="TITLE_KEY" class="java.lang.String"/>
 	<field name="ACADEMIC_TITLE_KEY" class="java.lang.String"/>
@@ -33,12 +31,6 @@ From ecobill.base_person, ecobill.base_delivery_order
 	<field name="FAX" class="java.lang.String"/>
 	<field name="EMAIL" class="java.lang.String"/>
 	<field name="ADDRESS_ID" class="java.lang.Long"/>
-	<field name="BUSINESS_PARTNER_ID" class="java.lang.Long"/>
-	<field name="DELIVERY_ORDER_NUMBER" class="java.lang.Long"/>
-	<field name="DELIVERY_ORDER_DATE" class="java.util.Date"/>
-	<field name="CHARACTERISATION_TYPE" class="java.lang.String"/>
-	<field name="PREPARED_BILL" class="java.lang.Byte"/>
-	<field name="BILL_ID" class="java.lang.Long"/>
 		<background>
 			<band height="0"  isSplitAllowed="true" >
 			</band>
