@@ -15,7 +15,6 @@ import java.util.List;
 
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
-import ecobill.util.UnitUtils;
 import ecobill.util.VectorUtils;
 import ecobill.util.exception.LocalizerException;
 import ecobill.module.base.service.BaseService;
@@ -35,7 +34,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.7 2005/08/07 14:43:38 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.8 2005/08/11 18:18:19 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JPanel /*JInternalFrame*/ implements InitializingBean {

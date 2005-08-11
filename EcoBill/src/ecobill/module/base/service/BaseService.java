@@ -1,11 +1,10 @@
 package ecobill.module.base.service;
 
 import ecobill.module.base.dao.BaseDao;
-import ecobill.module.base.dao.exception.NoSuchSystemLocaleException;
 import ecobill.module.base.domain.Article;
-import ecobill.module.base.domain.Person;
 import ecobill.module.base.domain.BusinessPartner;
 import ecobill.module.base.domain.SystemLocale;
+import ecobill.core.system.service.Service;
 
 import java.util.List;
 import java.util.Locale;
@@ -19,10 +18,10 @@ import java.util.Locale;
  * Time: 12:30:55
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseService.java,v 1.5 2005/08/07 14:43:38 raedler Exp $
+ * @version $Id: BaseService.java,v 1.6 2005/08/11 18:10:31 raedler Exp $
  * @since EcoBill 1.0
  */
-public interface BaseService {
+public interface BaseService extends Service {
 
     /**
      * Gibt das <code>BaseDao</code>, das direkten Zugriff auf die Datenbank besitzt,

@@ -19,7 +19,7 @@ import ecobill.core.system.exception.WorkAreaNotFoundException;
  * Time: 16:41:40
  *
  * @author Roman R&auml;dle
- * @version $Id: WorkArea.java,v 1.5 2005/08/08 21:04:45 raedler Exp $
+ * @version $Id: WorkArea.java,v 1.6 2005/08/11 18:08:26 raedler Exp $
  * @since EcoBill 1.0
  */
 public final class WorkArea implements ApplicationContextAware {
@@ -72,6 +72,7 @@ public final class WorkArea implements ApplicationContextAware {
      * Gibt die <code>WorkArea</code> wieder frei.
      */
     public static void release() {
+        System.out.println("RELEASE WORKAREA");
         setWorkArea(null);
     }
 
@@ -118,7 +119,7 @@ public final class WorkArea implements ApplicationContextAware {
      * @see ApplicationContext#getMessage(String, Object[], String, java.util.Locale)
      * @deprecated Please use the non static {@link ecobill.core.system.WorkArea#getWorkArea()#getMessage(String, String)}
      */
-    public static String getStaticMessage(String key, String defaultMessage) {
+    public static String getMessage(String key, String defaultMessage) {
         return ac.getMessage(key, null, defaultMessage, locale);
     }
 
@@ -133,7 +134,7 @@ public final class WorkArea implements ApplicationContextAware {
      * @return Der zu einem Schlüssel zugehörige Wert.
      * @see ApplicationContext#getMessage(String, Object[], String, java.util.Locale)
      */
-    public String getMessage(String key, String defaultMessage) {
+    public String getNonStaticMessage(String key, String defaultMessage) {
         return ac.getMessage(key, null, defaultMessage, locale);
     }
 
@@ -147,7 +148,7 @@ public final class WorkArea implements ApplicationContextAware {
      * @see ApplicationContext#getMessage(String, Object[], String, java.util.Locale)
      * @deprecated Please use the non static {@link ecobill.core.system.WorkArea#getWorkArea()#getMessage(String)}
      */
-    public static String getStaticMessage(String key) {
+    public static String getMessage(String key) {
         try {
             return ac.getMessage(key, null, locale);
         }
@@ -165,7 +166,7 @@ public final class WorkArea implements ApplicationContextAware {
      * @return Der zu einem Schlüssel zugehörige Wert.
      * @see ApplicationContext#getMessage(String, Object[], String, java.util.Locale)
      */
-    public String getMessage(String key) {
+    public String getNonStaticMessage(String key) {
         try {
             return ac.getMessage(key, null, locale);
         }

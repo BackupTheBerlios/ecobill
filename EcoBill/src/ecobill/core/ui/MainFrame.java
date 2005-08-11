@@ -4,6 +4,7 @@ import ecobill.module.base.ui.ArticleUI;
 import ecobill.module.base.ui.BusinessPartnerUI;
 import ecobill.module.base.ui.BillUI;
 import ecobill.module.base.ui.DeliveryOrderUI;
+import ecobill.core.system.WorkArea;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
@@ -26,7 +27,7 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.38 2005/08/10 12:12:34 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.39 2005/08/11 18:10:31 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -95,6 +96,8 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     // StandardKonstruktor
     public MainFrame() throws HeadlessException {
         super();
+
+        WorkArea.setWorkArea(new WorkArea());
     }
 
     // alle Sachen erstellen die man braucht

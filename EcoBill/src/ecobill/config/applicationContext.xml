@@ -101,6 +101,12 @@
         <property name="billUI"><ref bean="billUI"/></property>
     </bean>
 
+    <!--
+    <bean id="articleLogic" class="ecobill.module.base.ui.logic.ArticleLogic">
+        <constructor-arg index="0"><ref bean="articleUI"/></constructor-arg>
+    </bean>
+    -->
+
     <bean id="articleUI" class="ecobill.module.base.ui.ArticleUI" singleton="true">
         <property name="baseService"><ref bean="baseService"/></property>
     </bean>

@@ -9,10 +9,7 @@ import ecobill.util.LocalizerUtils;
 import ecobill.util.exception.LocalizerException;
 
 import java.util.List;
-import java.util.Set;
 import java.util.Locale;
-
-import org.springframework.dao.DataAccessException;
 
 /**
  * Das <code>BaseServiceImpl</code> ist eine Implementation des Interfaces <code>BaseService</code>.
@@ -22,7 +19,7 @@ import org.springframework.dao.DataAccessException;
  * Time: 12:31:05
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseServiceImpl.java,v 1.6 2005/08/07 15:20:19 raedler Exp $
+ * @version $Id: BaseServiceImpl.java,v 1.7 2005/08/11 18:10:31 raedler Exp $
  * @see BaseService
  * @since EcoBill 1.0
  */
@@ -154,12 +151,13 @@ public class BaseServiceImpl implements BaseService {
         System.out.println("ARTICLE: " + article.getId());
 
         /*
-        * Bei einem neuen Artikel (ID ist nicht gesetzt bzw "-1") wird überprüft ob
-        * sich schon ein Artikel mit dieser Artikelnummer in der Datenbank befindet.
-        * Sollte schon ein Artikel vorhanden sein werden dessen Daten mit den Daten
-        * des Parameter Artikel überschrieben.
-        */
-        if (article.getId() != null) {
+         * @todo Dokumentation ändern!!!
+         * Bei einem neuen Artikel (ID ist nicht gesetzt bzw "-1") wird überprüft ob
+         * sich schon ein Artikel mit dieser Artikelnummer in der Datenbank befindet.
+         * Sollte schon ein Artikel vorhanden sein werden dessen Daten mit den Daten
+         * des Parameter Artikel überschrieben.
+         */
+        //if (article.getId() != null) {
             Article savedArticle = null;
             try {
                 savedArticle = baseDao.getArticleByArticleNumber(article.getArticleNumber());
@@ -184,9 +182,9 @@ public class BaseServiceImpl implements BaseService {
                 // @todo Evtl muss man sich hier um die restlichen (schon vorhandenen) Artikelbeschreibungen kümmern.
                 savedArticle.setDescriptions(article.getDescriptions());
             }
-        }
+        //}
 
-        baseDao.saveOrUpdateArticle(article);
+        baseDao.saveOrUpdateArticle(savedArticle);
     }
 
     /**

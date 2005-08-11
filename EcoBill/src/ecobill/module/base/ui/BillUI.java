@@ -164,6 +164,8 @@ public class BillUI extends JPanel implements InitializingBean {
         makeP.setBounds(790, 20, 100, 20);
         top.add(makeP);
 
+        top.setPreferredSize(new Dimension(300, 300));
+
 
         bill.add(billi, BorderLayout.CENTER);
 
