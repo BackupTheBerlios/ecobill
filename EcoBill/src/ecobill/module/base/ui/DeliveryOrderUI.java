@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import org.springframework.beans.factory.InitializingBean;
+import net.sf.jasperreports.view.JRViewer;
+import net.sf.jasperreports.engine.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -57,6 +59,24 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
      private JTextField orderTF = new JTextField();
 
 
+    /**
+     * JRViewer
+     * JRViewer viewer = new JRViewer( JasperFillManager.fillReport(fNameJasper, parameters, connection));
+     */
+     public void jasper() throws Exception {
+
+     try {
+     java.sql.Connection conn = null;
+     java.util.Map map = null;
+     JasperReport js = JasperCompileManager.compileReport("lieferschein.jasper");
+     JRViewer viewer = new JRViewer(JasperFillManager.fillReport(js,map,conn));
+     billi.add(viewer);
+     }
+        catch (Exception e) {
+         e.printStackTrace();
+     }
+    }
+
      /**
       * Buttons
       */
@@ -65,7 +85,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
      private JButton makeB = new JButton("Erstellen");
      private JButton saveB = new JButton("Speichern");
      private JButton delB = new JButton("Löschen");
-     private JLabel billi = new JLabel(new ImageIcon("images/rechnung.jpg"));
+     private JPanel billi = new JPanel();
      private JLabel customer = new JLabel("KundenID");
      private JLabel order = new JLabel("AuftragsID");
 
@@ -83,7 +103,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
       * Diese wird nach den gesetzten Properties des <code>ApplicationContext</code>
       * durchgeführt.
       */
-     public void afterPropertiesSet() {
+     public void afterPropertiesSet() throws Exception {
 
          /*
           * Es wird die Größe, das Layout und verschiedenste Optionen gesetzt.
@@ -91,6 +111,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
          this.setSize(new Dimension(870, 525));
          this.setMinimumSize(new Dimension(870, 325));
          this.setLayout(new BorderLayout());
+         this.jasper();
 
          /*
           * Startet die Initialisierung der Kunden Oberfläche.
@@ -143,7 +164,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
          billBorder.setTitle("Lieferschein");
          billi.setBorder(billBorder);
 
-         customer.setBounds(10, 20, 50, 20);
+        customer.setBounds(10, 20, 50, 20);
         top.add(customer);
         customerTF.setBounds(60, 20, 100, 20);
         top.add(customerTF);
