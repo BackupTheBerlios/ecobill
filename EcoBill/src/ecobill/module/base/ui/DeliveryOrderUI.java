@@ -67,7 +67,9 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
 
     /**
      * JRViewer
-     * JRViewer viewer = new JRViewer( JasperFillManager.fillReport(fNameJasper, parameters, connection));
+     *
+     * Bitte no des itext-1.3.jar (isch im CVS) bei Settings neilada sonsch god des mit dem PDF macha it
+     * Jetzt kamas als Pdf speichra
      */
     public void jasper() throws Exception {
 
