@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+
 import org.springframework.beans.factory.InitializingBean;
 import net.sf.jasperreports.view.JRViewer;
 import net.sf.jasperreports.engine.*;
@@ -63,6 +64,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
     private JTextField orderTF = new JTextField();
 
 
+
     /**
      * JRViewer
      * JRViewer viewer = new JRViewer( JasperFillManager.fillReport(fNameJasper, parameters, connection));
@@ -71,8 +73,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
 
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -80,19 +81,19 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
         try {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ecobill", "root", "x2kub2");
 
+
             JasperReport js = JasperCompileManager.compileReport("lieferschein.jrxml");
+            JasperRunManager.runReportToPdf(js, new HashMap(), con);
             JRViewer viewer = new JRViewer(JasperFillManager.fillReport(js, new HashMap(), con));
-            billi.add(viewer, BorderLayout.CENTER);
-        }
-        catch (SQLException e1) {
+            bill.add(viewer, BorderLayout.CENTER);
+
+        } catch (SQLException e1) {
             e1.printStackTrace();
-        }
-        finally {
+        } finally {
             if (con != null)
                 try {
                     con.close();
-                }
-                catch (SQLException e2) {
+                } catch (SQLException e2) {
                     e2.printStackTrace();
                 }
         }
@@ -106,7 +107,6 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
     private JButton makeB = new JButton("Erstellen");
     private JButton saveB = new JButton("Speichern");
     private JButton delB = new JButton("Löschen");
-    private JPanel billi = new JPanel(new BorderLayout());
     private JLabel customer = new JLabel("KundenID");
     private JLabel order = new JLabel("AuftragsID");
 
@@ -175,13 +175,10 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("Erstellen"))
-                    // Methode makeB() wird aufgerufen
-                    //makeB();
                     try {
                         DeliveryOrderUI.this.jasper();
-                        DeliveryOrderUI.this.billi.validate();
-                    }
-                    catch (Exception e1) {
+                        DeliveryOrderUI.this.bill.validate();
+                    } catch (Exception e1) {
                         e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     }
             }
@@ -189,7 +186,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
 
         billBorder.setTitleColor(Color.BLACK);
         billBorder.setTitle("Lieferschein");
-        billi.setBorder(billBorder);
+        bill.setBorder(billBorder);
 
         customer.setBounds(10, 20, 50, 20);
         top.add(customer);
@@ -214,24 +211,10 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
         //bill.add(billi, BorderLayout.CENTER);
 
         overview.add(top, BorderLayout.NORTH);
-        overview.add(billi, BorderLayout.CENTER);
+        overview.add(bill, BorderLayout.CENTER);
 
         this.add(overview);
 
-    }
-
-    // wird benutzt um neue Zeile zu erzeugen
-    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
-
-    public void makeB() {
-
-        // AusgabeStrings im PopUp Fenster makeB
-        String la = "Lieferschein erstellen";
-        String se = "Geben Sie KundenID und BestellungsID ein! " + LINE_SEPARATOR +
-                    "       Ihre Rechnung wird dann erstellt!";
-
-        // erstellt PopUp makeBill
-        JOptionPane.showMessageDialog(this, se, la, 1);
     }
 }
 
