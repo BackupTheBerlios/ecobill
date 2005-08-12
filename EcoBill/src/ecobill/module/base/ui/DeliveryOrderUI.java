@@ -68,7 +68,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
     /**
      * JRViewer
      *
-     * Bitte no des itext-1.3.jar bei Settings neilada sonsch god des mit dem PDF macha it
+     * Bitte no des itext-1.3.jar (isch im CVS) bei Settings neilada sonsch god des mit dem PDF macha it
      * Jetzt kamas als Pdf speichra
      */
     public void jasper() throws Exception {
@@ -104,11 +104,8 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
     /**
      * Buttons
      */
-    private JButton printB = new JButton("Drucken");
-    private JButton makeP = new JButton("PDF machen");
-    private JButton makeB = new JButton("Erstellen");
-    private JButton saveB = new JButton("Speichern");
-    private JButton delB = new JButton("Löschen");
+    private JButton makeB = new JButton("Viewer erstellen");
+    private JButton delB = new JButton("Viewer schließen");
     private JLabel customer = new JLabel("KundenID");
     private JLabel order = new JLabel("AuftragsID");
 
@@ -176,7 +173,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
         makeB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
-                if (e.getActionCommand().equals("Erstellen"))
+                if (e.getActionCommand().equals("Viewer erstellen"))
                     try {
                         DeliveryOrderUI.this.jasper();
                         DeliveryOrderUI.this.bill.validate();
@@ -192,22 +189,17 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
 
         customer.setBounds(10, 20, 50, 20);
         top.add(customer);
-        customerTF.setBounds(60, 20, 100, 20);
+        customerTF.setBounds(60, 20, 120, 20);
         top.add(customerTF);
-        order.setBounds(170, 20, 60, 20);
+        order.setBounds(190, 20, 60, 20);
         top.add(order);
-        orderTF.setBounds(230, 20, 100, 20);
+        orderTF.setBounds(250, 20, 120, 20);
         top.add(orderTF);
-        makeB.setBounds(340, 20, 100, 20);
+        makeB.setBounds(410, 20, 150, 20);
+        makeB.setToolTipText("In diesem Viewer können sie den Lieferschein drucken und als PDF speichern");
         top.add(makeB);
-        delB.setBounds(450, 20, 100, 20);
+        delB.setBounds(580, 20, 150, 20);
         top.add(delB);
-        saveB.setBounds(560, 20, 100, 20);
-        top.add(saveB);
-        printB.setBounds(670, 20, 100, 20);
-        top.add(printB);
-        makeP.setBounds(780, 20, 100, 20);
-        top.add(makeP);
 
 
         //bill.add(billi, BorderLayout.CENTER);

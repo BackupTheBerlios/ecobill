@@ -62,11 +62,8 @@ public class BillUI extends JPanel implements InitializingBean {
     /**
      * Buttons
      */
-    private JButton printB = new JButton("Drucken");
-    private JButton makeP = new JButton("PDF machen");
-    private JButton makeB = new JButton("Erstellen");
-    private JButton saveB = new JButton("Speichern");
-    private JButton delB = new JButton("Löschen");
+    private JButton makeB = new JButton("Viewer erstellen");
+    private JButton delB = new JButton("Viewer schließen");
     private JLabel billi = new JLabel(new ImageIcon("images/rechnung.jpg"));
     private JLabel customer = new JLabel("KundenID");
     private JLabel order = new JLabel("LieferscheinID");
@@ -147,23 +144,17 @@ public class BillUI extends JPanel implements InitializingBean {
 
         customer.setBounds(10, 20, 50, 20);
         top.add(customer);
-        customerTF.setBounds(60, 20, 100, 20);
+        customerTF.setBounds(60, 20, 120, 20);
         top.add(customerTF);
-        order.setBounds(170, 20, 70, 20);
+        order.setBounds(190, 20, 60, 20);
         top.add(order);
-        orderTF.setBounds(240, 20, 100, 20);
+        orderTF.setBounds(250, 20, 120, 20);
         top.add(orderTF);
-        makeB.setBounds(350, 20, 100, 20);
+        makeB.setBounds(410, 20, 150, 20);
+        makeB.setToolTipText("In diesem Viewer können sie die Rechnung drucken und als PDF speichern");
         top.add(makeB);
-        delB.setBounds(460, 20, 100, 20);
+        delB.setBounds(580, 20, 150, 20);
         top.add(delB);
-        saveB.setBounds(570, 20, 100, 20);
-        top.add(saveB);
-        printB.setBounds(680, 20, 100, 20);
-        top.add(printB);
-        makeP.setBounds(790, 20, 100, 20);
-        top.add(makeP);
-
 
 
         bill.add(billi, BorderLayout.CENTER);
