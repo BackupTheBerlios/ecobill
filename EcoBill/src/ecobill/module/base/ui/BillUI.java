@@ -146,14 +146,14 @@ public class BillUI extends JPanel implements InitializingBean {
         top.add(customer);
         customerTF.setBounds(60, 20, 120, 20);
         top.add(customerTF);
-        order.setBounds(190, 20, 60, 20);
+        order.setBounds(190, 20, 70, 20);
         top.add(order);
-        orderTF.setBounds(250, 20, 120, 20);
+        orderTF.setBounds(260, 20, 120, 20);
         top.add(orderTF);
-        makeB.setBounds(410, 20, 150, 20);
+        makeB.setBounds(420, 20, 150, 20);
         makeB.setToolTipText("In diesem Viewer können sie die Rechnung drucken und als PDF speichern");
         top.add(makeB);
-        delB.setBounds(580, 20, 150, 20);
+        delB.setBounds(590, 20, 150, 20);
         top.add(delB);
 
 
