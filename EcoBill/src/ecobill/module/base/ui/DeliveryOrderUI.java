@@ -8,15 +8,9 @@ import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-//import java.sql.DriverManager;
-//import java.sql.Connection;
-//import java.sql.SQLException;
-//import java.util.HashMap;
 
 
 import org.springframework.beans.factory.InitializingBean;
-//import net.sf.jasperreports.view.JRViewer;
-//import net.sf.jasperreports.engine.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -75,41 +69,6 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
             jv.jasper("lieferschein.jrxml");
     }
 
-        /**
-        try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        Connection con = null;
-        try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ecobill", "root", "x2kub2");
-
-
-            JasperReport js = JasperCompileManager.compileReport("lieferschein.jrxml");
-            JasperRunManager.runReportToPdf(js, new HashMap(), con);
-            JRViewer viewer = new JRViewer(JasperFillManager.fillReport(js, new HashMap(), con));
-            bill.add(viewer, BorderLayout.CENTER);
-
-        } catch (SQLException e1) {
-            e1.printStackTrace();
-        } finally {
-            if (con != null)
-                try {
-                    con.close();
-                } catch (SQLException e2) {
-                    e2.printStackTrace();
-                }
-        }
-    }
-
-    public void closejasper() {
-
-    }
-    */
-
-
     /**
      * Buttons
      */
@@ -132,7 +91,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
      * Diese wird nach den gesetzten Properties des <code>ApplicationContext</code>
      * durchgeführt.
      */
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
 
         /*
         * Es wird die Größe, das Layout und verschiedenste Optionen gesetzt.
