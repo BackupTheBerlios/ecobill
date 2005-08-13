@@ -22,13 +22,15 @@ import java.awt.*;
  */
 public class JasperViewer {
 
-    private JPanel panel;
+    // JPanel auf das der JRViewer gelegt wird
+    private JPanel viewerPanel;
 
+    // StandardKonstruktor
     JasperViewer(JPanel panel) {
-        this.panel = panel;
+        this.viewerPanel = panel;
     }
 
-     public void jasper(String jrxmlFilename) throws Exception {
+    public void jasper(String jrxmlFilename) throws Exception {
 
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -37,14 +39,18 @@ public class JasperViewer {
         }
 
         Connection con = null;
+
         try {
+            // Connection wird initialisiert
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ecobill", "root", "x2kub2");
-
-
+            // JasperReport wird initialisiert
             JasperReport js = JasperCompileManager.compileReport(jrxmlFilename);
+            // JasperReport wird zu Pdf konvertiert
             JasperRunManager.runReportToPdf(js, new HashMap(), con);
+            // JRViewer wird mit dem Report gefüllt und HashMap und Connection übergeben
             JRViewer viewer = new JRViewer(JasperFillManager.fillReport(js, new HashMap(), con));
-            panel.add(viewer, BorderLayout.CENTER);
+            // JRViewer wird auf viewerPanel gelegt
+            viewerPanel.add(viewer, BorderLayout.CENTER);
 
         } catch (SQLException e1) {
             e1.printStackTrace();

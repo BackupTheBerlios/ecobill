@@ -59,9 +59,6 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
 
     /**
      * JRViewer
-     *
-     * Bitte no des itext-1.3.jar (isch im CVS) bei Settings neilada sonsch god des mit dem PDF macha it
-     * Jetzt kamas als Pdf speichra
      */
     public void jasper() throws Exception {
 
@@ -138,6 +135,8 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
         dataBorder.setTitle("Daten/Aktionen");
         top.setBorder(dataBorder);
 
+
+        // Button ActionListener erzeugt JRViewer
         makeB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
@@ -152,6 +151,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
             }
         });
 
+        // Button ActionListener versteckt JRViewer
         delB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
@@ -178,9 +178,6 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
         top.add(makeB);
         delB.setBounds(580, 20, 150, 20);
         top.add(delB);
-
-
-        //bill.add(billi, BorderLayout.CENTER);
 
         overview.add(top, BorderLayout.NORTH);
         overview.add(bill, BorderLayout.CENTER);

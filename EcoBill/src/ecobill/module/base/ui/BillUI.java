@@ -64,7 +64,6 @@ public class BillUI extends JPanel implements InitializingBean {
      */
     private JButton makeB = new JButton("Viewer erstellen");
     private JButton delB = new JButton("Viewer schlieﬂen");
-    private JLabel billi = new JLabel(new ImageIcon("images/rechnung.jpg"));
     private JLabel customer = new JLabel("KundenID");
     private JLabel order = new JLabel("LieferscheinID");
 
@@ -132,15 +131,31 @@ public class BillUI extends JPanel implements InitializingBean {
         makeB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
-                if (e.getActionCommand().equals("Rechnung erstellen"))
+                if (e.getActionCommand().equals("Viewer erstellen"))
                 // Methode makeB() wird aufgerufen
-                    makeB();
+                   try {
+                        bill.setVisible(true);
+                        BillUI.this.jasper();
+                        BillUI.this.bill.validate();
+                    } catch (Exception e1) {
+                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
             }
+        });
+
+         // Button ActionListener versteckt JRViewer
+        delB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Action: " + e.getActionCommand());
+                if (e.getActionCommand().equals("Viewer schlieﬂen")) {
+                    bill.setVisible(false);
+                }
+                    }
         });
 
         billBorder.setTitleColor(Color.BLACK);
         billBorder.setTitle("Rechnung");
-        billi.setBorder(billBorder);
+        bill.setBorder(billBorder);
 
         customer.setBounds(10, 20, 50, 20);
         top.add(customer);
@@ -156,29 +171,22 @@ public class BillUI extends JPanel implements InitializingBean {
         delB.setBounds(590, 20, 150, 20);
         top.add(delB);
 
-
-        bill.add(billi, BorderLayout.CENTER);
-
         overview.add(top, BorderLayout.NORTH);
-        overview.add(billi, BorderLayout.CENTER);
+        overview.add(bill, BorderLayout.CENTER);
 
         this.add(overview);
 
     }
 
-    // wird benutzt um neue Zeile zu erzeugen
-    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
+    /**
+       * JRViewer
+       */
+      public void jasper() throws Exception {
 
-    public void makeB() {
-
-        // AusgabeStrings im PopUp Fenster makeB
-        String la = "Rechnung erstellen";
-        String se = "Geben Sie KundenID und BestellungsID ein! " + LINE_SEPARATOR +
-                "       Ihre Rechnung wird dann erstellt!";
-
-        // erstellt PopUp makeBill
-        JOptionPane.showMessageDialog(this, se, la, 1);
+              JasperViewer jv = new JasperViewer(bill);
+              jv.jasper("lieferschein.jrxml");
+      }    
     }
-}
+
 
 
