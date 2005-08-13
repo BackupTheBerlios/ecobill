@@ -183,7 +183,6 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
         overview.add(bill, BorderLayout.CENTER);
 
         this.add(overview);
-
     }
 }
 
