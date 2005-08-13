@@ -63,8 +63,6 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
     private JTextField customerTF = new JTextField();
     private JTextField orderTF = new JTextField();
 
-
-
     /**
      * JRViewer
      *
@@ -99,6 +97,10 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
                     e2.printStackTrace();
                 }
         }
+    }
+
+    public void closejasper() {
+
     }
 
     /**
@@ -175,12 +177,22 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("Viewer erstellen"))
                     try {
+                        bill.setVisible(true);
                         DeliveryOrderUI.this.jasper();
                         DeliveryOrderUI.this.bill.validate();
                     } catch (Exception e1) {
                         e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     }
             }
+        });
+
+        delB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Action: " + e.getActionCommand());
+                if (e.getActionCommand().equals("Viewer schlieﬂen")) {
+                    bill.setVisible(false);
+                }
+                    }
         });
 
         billBorder.setTitleColor(Color.BLACK);
