@@ -21,22 +21,22 @@ import org.springframework.beans.factory.InitializingBean;
  */
 public class DeliveryOrderUI extends JPanel implements InitializingBean {
     /**
-     * Die <code>BusinessPartnerUI</code> stellt ein Singleton dar, da es immer nur eine
+     * Die <code>DeliveryOrderUI</code> stellt ein Singleton dar, da es immer nur eine
      * Instanz pro Arbeitsplatz geben kann.
      * -> spart kostbare Ressourcen.
      */
-    private static BusinessPartnerUI singelton = null;
+    private static DeliveryOrderUI singelton = null;
 
     /**
-     * Gibt die einzigste Instanz der <code>BusinessPartnerUI</code> zurück um diese
+     * Gibt die einzigste Instanz der <code>DeliveryOrderUI</code> zurück um diese
      * dann bspw im Hauptfenster anzeigen zu können.
      *
-     * @return Die <code>BusinessPartnerUI</code> ist abgeleitet von <code>JInternalFrame</code>
+     * @return Die <code>DeliveryOrderUI</code> ist abgeleitet von <code>JInternalFrame</code>
      *         und kann auf einer <code>JDesktopPane</code> angezeigt werden.
      */
-    public static BusinessPartnerUI getInstance() {
+    public static DeliveryOrderUI getInstance() {
         if (singelton == null) {
-            singelton = new BusinessPartnerUI();
+            singelton = new DeliveryOrderUI();
         }
         return singelton;
     }
