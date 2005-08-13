@@ -8,15 +8,15 @@ import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.sql.DriverManager;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.HashMap;
+//import java.sql.DriverManager;
+//import java.sql.Connection;
+//import java.sql.SQLException;
+//import java.util.HashMap;
 
 
 import org.springframework.beans.factory.InitializingBean;
-import net.sf.jasperreports.view.JRViewer;
-import net.sf.jasperreports.engine.*;
+//import net.sf.jasperreports.view.JRViewer;
+//import net.sf.jasperreports.engine.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -71,6 +71,11 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
      */
     public void jasper() throws Exception {
 
+            JasperViewer jv = new JasperViewer(bill);
+            jv.jasper();
+    }
+
+        /**
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
         } catch (Exception e) {
@@ -102,6 +107,8 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
     public void closejasper() {
 
     }
+    */
+
 
     /**
      * Buttons
