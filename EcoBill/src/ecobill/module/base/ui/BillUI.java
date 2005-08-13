@@ -184,7 +184,7 @@ public class BillUI extends JPanel implements InitializingBean {
       public void jasper() throws Exception {
 
               JasperViewer jv = new JasperViewer(bill);
-              jv.jasper("jasperfiles/rechnung.jrxml");
+              jv.jasper("jasperfiles/lieferschein.jrxml");
       }
     }
 
