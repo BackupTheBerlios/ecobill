@@ -28,7 +28,7 @@ public class JasperViewer {
         this.panel = panel;
     }
 
-     public void jasper() throws Exception {
+     public void jasper(String jrxmlFilename) throws Exception {
 
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -41,7 +41,7 @@ public class JasperViewer {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ecobill", "root", "x2kub2");
 
 
-            JasperReport js = JasperCompileManager.compileReport("lieferschein.jrxml");
+            JasperReport js = JasperCompileManager.compileReport(jrxmlFilename);
             JasperRunManager.runReportToPdf(js, new HashMap(), con);
             JRViewer viewer = new JRViewer(JasperFillManager.fillReport(js, new HashMap(), con));
             panel.add(viewer, BorderLayout.CENTER);

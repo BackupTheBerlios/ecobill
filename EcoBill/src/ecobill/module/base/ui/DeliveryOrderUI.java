@@ -72,7 +72,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
     public void jasper() throws Exception {
 
             JasperViewer jv = new JasperViewer(bill);
-            jv.jasper();
+            jv.jasper("lieferschein.jrxml");
     }
 
         /**
