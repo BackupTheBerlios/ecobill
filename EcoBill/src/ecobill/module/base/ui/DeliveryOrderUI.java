@@ -135,8 +135,6 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
         dataBorder.setTitle("Daten/Aktionen");
         top.setBorder(dataBorder);
 
-
-        // Button ActionListener erzeugt JRViewer
         makeB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
@@ -151,7 +149,6 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
             }
         });
 
-        // Button ActionListener versteckt JRViewer
         delB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
