@@ -152,9 +152,10 @@ public class BillUI extends JPanel implements InitializingBean {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("Viewer schlieﬂen")) {
+
                     bill.setVisible(false);
                 }
-                    }
+               }
         });
 
         billBorder.setTitleColor(Color.BLACK);
