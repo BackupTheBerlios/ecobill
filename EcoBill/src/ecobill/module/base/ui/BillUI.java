@@ -121,7 +121,7 @@ public class BillUI extends JPanel implements InitializingBean {
      * Initialisieren des Graphical User Interface mit all seinen Panels, Eingabemasken
      * Rahmen, Buttons, usw.
      */
-    private void initUI() {
+    private void initUI()  {
 
 
         top.setPreferredSize(new Dimension(300, 50));
@@ -136,9 +136,11 @@ public class BillUI extends JPanel implements InitializingBean {
                 if (e.getActionCommand().equals("Viewer laden"))
                 // Methode makeB() wird aufgerufen
                    try {
+
                         bill.setVisible(true);
                         BillUI.this.jasper();
                         BillUI.this.bill.validate();
+
                     } catch (Exception e1) {
                         e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     }
