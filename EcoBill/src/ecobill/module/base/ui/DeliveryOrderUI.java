@@ -68,7 +68,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
     /**
      * Buttons
      */
-    private JButton makeB = new JButton("Viewer erstellen");
+    private JButton makeB = new JButton("Viewer laden");
     private JButton delB = new JButton("Viewer schlieﬂen");
     private JLabel customer = new JLabel("KundenID");
     private JLabel order = new JLabel("AuftragsID");
@@ -157,7 +157,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
                 if (e.getActionCommand().equals("Viewer schlieﬂen")) {
                     bill.setVisible(false);
                 }
-                    }
+             }
         });
 
         billBorder.setTitleColor(Color.BLACK);
