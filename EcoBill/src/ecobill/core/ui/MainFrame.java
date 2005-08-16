@@ -27,7 +27,7 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.39 2005/08/11 18:10:31 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.40 2005/08/16 10:57:21 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -310,7 +310,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         ButtonGroup lang = new ButtonGroup();
 
         // Checkbox German wird erstellt
-        JCheckBoxMenuItem german = new JCheckBoxMenuItem("German");
+        JCheckBoxMenuItem german = new JCheckBoxMenuItem("German", new ImageIcon("images/german.jpg"));
         // setzt das German am Anfang ausgewählt ist
         german.setState(true);
         // setzt Mnemonic bei German
@@ -329,7 +329,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         });
 
         // CheckBox English wird erstellt
-        JCheckBoxMenuItem english = new JCheckBoxMenuItem("English");
+        JCheckBoxMenuItem english = new JCheckBoxMenuItem("English", new ImageIcon("images/english.jpg"));
         // setzt das English am Anfang nicht ausgewählt ist
         english.setState(false);
         // setzt EnglishMnemonic
@@ -382,23 +382,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     }
 
     public void german() {
-
-        // AusgabeStrings im PopUp Fenster German
-        String la = "Language";
-        String sd = "Sprache ist jetzt" + LINE_SEPARATOR + "        Deutsch";
-
-        // erstellt PopUp German
-        JOptionPane.showMessageDialog(this, sd, la, 1, new ImageIcon("images/German.jpg"));
     }
 
     public void english() {
-
-        // AusgabeStrings im PopUp Fenster English
-        String la = "Language";
-        String se = "Language is now " + LINE_SEPARATOR + "          English";
-
-        // erstellt PopUp English
-        JOptionPane.showMessageDialog(this, se, la, 1, new ImageIcon("images/English.gif"));
     }
 
     public void open() {
