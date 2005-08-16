@@ -131,7 +131,7 @@ public class BillUI extends JPanel implements InitializingBean {
         makeB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
-                if (e.getActionCommand().equals("Viewer erstellen"))
+                if (e.getActionCommand().equals("Viewer laden"))
                 // Methode makeB() wird aufgerufen
                    try {
                         bill.setVisible(true);
