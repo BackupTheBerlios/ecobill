@@ -53,6 +53,7 @@ public class BillUI extends JPanel implements InitializingBean {
      */
     private JPanel overview = new JPanel(new BorderLayout());
     private JPanel bill = new JPanel(new BorderLayout());
+    private JPanel top = new JPanel(null);
     private TitledBorder dataBorder = new TitledBorder(new EtchedBorder());
     private TitledBorder billBorder = new TitledBorder(new EtchedBorder());
     private JTextField customerTF = new JTextField();
@@ -66,6 +67,7 @@ public class BillUI extends JPanel implements InitializingBean {
     private JButton delB = new JButton("Viewer schlieﬂen");
     private JLabel customer = new JLabel("KundenID");
     private JLabel order = new JLabel("LieferscheinID");
+
 
 
     /**
@@ -121,7 +123,7 @@ public class BillUI extends JPanel implements InitializingBean {
      */
     private void initUI() {
 
-        JPanel top = new JPanel(null);
+
         top.setPreferredSize(new Dimension(300, 50));
 
         dataBorder.setTitleColor(Color.BLACK);
@@ -171,6 +173,7 @@ public class BillUI extends JPanel implements InitializingBean {
         delB.setBounds(595, 20, 150, 20);
         top.add(delB);
 
+
         overview.add(top, BorderLayout.NORTH);
         overview.add(bill, BorderLayout.CENTER);
 
@@ -186,7 +189,4 @@ public class BillUI extends JPanel implements InitializingBean {
               JasperViewer jv = new JasperViewer(bill);
               jv.jasper("jasperfiles/rechnung.jrxml");
       }
-    }
-
-
-
+}
