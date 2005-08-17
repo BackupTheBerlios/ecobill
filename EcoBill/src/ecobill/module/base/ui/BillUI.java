@@ -69,7 +69,6 @@ public class BillUI extends JPanel implements InitializingBean {
     private JLabel order = new JLabel("LieferscheinID");
 
 
-
     /**
      * Standard Konstruktor.
      */
@@ -121,7 +120,7 @@ public class BillUI extends JPanel implements InitializingBean {
      * Initialisieren des Graphical User Interface mit all seinen Panels, Eingabemasken
      * Rahmen, Buttons, usw.
      */
-    private void initUI()  {
+    private void initUI() {
 
 
         top.setPreferredSize(new Dimension(300, 50));
@@ -134,8 +133,7 @@ public class BillUI extends JPanel implements InitializingBean {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("Viewer laden"))
-                // Methode makeB() wird aufgerufen
-                   try {
+                    try {
 
                         bill.setVisible(true);
                         BillUI.this.jasper();
@@ -147,7 +145,7 @@ public class BillUI extends JPanel implements InitializingBean {
             }
         });
 
-         // Button ActionListener versteckt JRViewer
+        // Button ActionListener versteckt JRViewer
         delB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
@@ -155,7 +153,7 @@ public class BillUI extends JPanel implements InitializingBean {
 
                     bill.setVisible(false);
                 }
-               }
+            }
         });
 
         billBorder.setTitleColor(Color.BLACK);
@@ -185,11 +183,11 @@ public class BillUI extends JPanel implements InitializingBean {
     }
 
     /**
-       * JRViewer
-       */
-      public void jasper() throws Exception {
+     * JRViewer
+     */
+    public void jasper() throws Exception {
 
-              JasperViewer jv = new JasperViewer(bill);
-              jv.jasper("jasperfiles/rechnung.jrxml");
-      }
+        JasperViewer jv = new JasperViewer(bill);
+        jv.jasper("jasperfiles/rechnung.jrxml");
+    }
 }
