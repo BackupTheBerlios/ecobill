@@ -11,7 +11,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import javax.swing.*;
+import javax.swing.undo.UndoManager;
 import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -27,7 +32,7 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.41 2005/08/16 11:14:17 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.42 2005/08/17 11:48:26 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -128,6 +133,8 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     // erstellt HilfeMenü
     private JMenuItem ht = new JMenuItem("Help Topics", 'H');
     private JMenuItem about = new JMenuItem("About", 'A');
+
+    private UndoManager um = new UndoManager();
 
 
     public void afterPropertiesSet() throws Exception {
@@ -254,9 +261,59 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         paste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_MASK));
         delete.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, InputEvent.ALT_DOWN_MASK));
 
+
+         // undo ActionListener
+        undo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Action: " + e.getActionCommand());
+                if (e.getActionCommand().equals("Undo"))
+
+                    um.setLimit(1000);
+
+                if (um.canUndo()) {
+                    um.undo();
+                }
+            }
+        });
+
+         // redo ActionListener
+        redo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Action: " + e.getActionCommand());
+                if (e.getActionCommand().equals("Redo"))
+
+                    um.setLimit(1000);
+
+                if (um.canRedo()) {
+                    um.redo();
+                }
+            }
+        });
+
         // fügt MenüItems zu BearbeitenMenü hinzu
         edit.add(undo);
         edit.add(redo);
+
+        // copy ActionListener
+        copy.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Action: " + e.getActionCommand());
+                if (e.getActionCommand().equals("Copy"))
+                // Methode topic() wird aufgerufen
+                    copy();
+            }
+        });
+
+        // paste ActionListener
+        paste.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Action: " + e.getActionCommand());
+                if (e.getActionCommand().equals("Paste"))
+                // Methode topic() wird aufgerufen
+                    paste();
+            }
+        });
+
         // fügt SeperatorLinie zu BearbeitenMenü hinzu
         edit.addSeparator();
         edit.add(cut);
@@ -399,6 +456,29 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         pd.dispose();
         this.getContentPane().add(pd);
     }
+
+    private TextField tf = new TextField();
+
+    public void copy() {
+
+        StringSelection data = new StringSelection(tf.getText());
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(data, data);
+    }
+
+    public void paste() {
+
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        Transferable data = clipboard.getContents(this);
+        String s;
+        try {
+            s = (String) (data.getTransferData(DataFlavor.stringFlavor));
+        } catch (Exception e) {
+            s = data.toString();
+        }
+        tf.setText(s);
+    }
+
 
     public static void main(String[] args) {
         MainFrame frame = new MainFrame();
