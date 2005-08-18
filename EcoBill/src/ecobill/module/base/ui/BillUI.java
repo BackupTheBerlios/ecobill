@@ -136,7 +136,7 @@ public class BillUI extends JPanel implements InitializingBean {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("Viewer laden"))
 
-                    BillUI.this.threadies();
+                   BillUI.this.threadies();
             }
         });
 

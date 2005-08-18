@@ -143,7 +143,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("Viewer laden"))
-                    threadies();
+                    DeliveryOrderUI.this.threadies();
             }
         });
 
