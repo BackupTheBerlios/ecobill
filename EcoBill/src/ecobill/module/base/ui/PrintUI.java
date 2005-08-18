@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
  * Time: 16:45:41
  *
  * @author Andreas Weiler
- * @version $Id: PrintUI.java,v 1.5 2005/08/18 17:30:41 jfuckerweiler Exp $
+ * @version $Id: PrintUI.java,v 1.6 2005/08/18 19:00:24 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class PrintUI extends JPanel implements InitializingBean {
@@ -75,7 +75,6 @@ public class PrintUI extends JPanel implements InitializingBean {
     private JLabel customer = new JLabel("KundenID");
     private JLabel order = new JLabel("AuftragsID/LieferscheinID");
     private JLabel close = new JLabel("Viewer wurde geschlossen");
-    private JLabel open = new JLabel("Viewer wurde geladen");
 
 
     /**
@@ -143,17 +142,9 @@ public class PrintUI extends JPanel implements InitializingBean {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("Viewer laden"))
 
-                if (x == 0) {
                    PrintUI.this.threadies();
+                   close.setVisible(false);
                 }
-                else {
-                    close.setVisible(false);
-                    open.setBounds(770, 20, 150, 20);
-                    open.setVisible(true);
-                    top.add(open);
-                    bill.setVisible(true);
-                }
-            }
         });
 
         // Button ActionListener versteckt JRViewer
@@ -162,9 +153,8 @@ public class PrintUI extends JPanel implements InitializingBean {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("Viewer schlieﬂen")) {
 
-                    bill.setVisible(false);
+                    reJasper();
                     jb.setVisible(false);
-                    open.setVisible(false);
                     close.setVisible(true);
                     close.setBounds(770, 20, 150, 20);
                     top.add(close);
@@ -197,17 +187,20 @@ public class PrintUI extends JPanel implements InitializingBean {
         this.add(overview);
 
     }
-
+     private JasperViewer jv = new JasperViewer(bill);
     /**
      * JRViewer
      */
     public void jasper() throws Exception {
 
-        JasperViewer jv = new JasperViewer(bill);
+
         jv.jasper("jasperfiles/print.jrxml");
     }
 
-    private int x = 0;
+    public void reJasper() {
+        jv.reJasper();
+    }
+
 
     /**
      * ThreadVerwalter
@@ -224,30 +217,49 @@ public class PrintUI extends JPanel implements InitializingBean {
    /**
     * Thread1 wird erstellt, der die ProgressBar beinhaltet
     */
+   private int x = 0;
 
     class Thread1 implements Runnable {
         public void run() {
 
             int max = 10000000;
             close.setVisible(false);
-            jb.setVisible(true);
             jb.setBounds(770, 20, 150, 20);
             jb.setString("Viewer wird geladen");
             jb.setStringPainted(true);
             top.add(jb);
-            x = 1;
+
+            if (x == 0) {
             try {
+                jb.setVisible(true);
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+                x = 1;
+
 
             for (int i = 1; i <= max; i++) {
                 int j = i;
                 jb.setValue(j);
             }
+            }
+            else {
+                try {
+
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            for (int i = 1; i <= max; i++) {
+                jb.setVisible(true);
+                int j = i;
+                jb.setValue(j);
+            }
 
 
+            }
         }
     }
 
