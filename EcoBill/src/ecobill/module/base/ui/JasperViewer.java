@@ -24,6 +24,7 @@ public class JasperViewer {
 
     // JPanel auf das der JRViewer gelegt wird
     private JPanel viewerPanel;
+    private JRViewer viewer;
 
     // StandardKonstruktor
     JasperViewer(JPanel panel) {
@@ -48,7 +49,7 @@ public class JasperViewer {
             // JasperReport wird zu Pdf konvertiert
             JasperRunManager.runReportToPdf(js, new HashMap(), con);
             // JRViewer wird mit dem Report gefüllt und HashMap und Connection übergeben
-            JRViewer viewer = new JRViewer(JasperFillManager.fillReport(js, new HashMap(), con));
+            viewer = new JRViewer(JasperFillManager.fillReport(js, new HashMap(), con));
             // JRViewer wird auf viewerPanel gelegt
             viewerPanel.add(viewer, BorderLayout.CENTER);
 
@@ -62,5 +63,10 @@ public class JasperViewer {
                     e2.printStackTrace();
                 }
         }
+    }
+
+    public void reJasper() {
+        viewerPanel.remove(viewer);
+        viewerPanel.repaint();
     }
 }
