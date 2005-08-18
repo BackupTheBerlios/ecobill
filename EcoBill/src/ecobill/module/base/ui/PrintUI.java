@@ -22,17 +22,17 @@ import java.awt.event.ActionEvent;
  * Time: 16:45:41
  *
  * @author Andreas Weiler
- * @version $Id: PrintUI.java,v 1.2 2005/08/18 14:48:59 jfuckerweiler Exp $
+ * @version $Id: PrintUI.java,v 1.1 2005/08/18 14:47:30 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class PrintUI extends JPanel implements InitializingBean {
 
     /**
-     * Die <code>PrintUI</code> stellt ein Singleton dar, da es immer nur eine
+     * Die <code>BillUI</code> stellt ein Singleton dar, da es immer nur eine
      * Instanz pro Arbeitsplatz geben kann.
      * -> spart kostbare Ressourcen.
      */
-    private static PrintUI singelton = null;
+    private static BillUI singelton = null;
 
     /**
      * Gibt die einzigste Instanz der <code>BillUI</code> zurück um diese
@@ -41,9 +41,9 @@ public class PrintUI extends JPanel implements InitializingBean {
      * @return Die <code>BillUI</code> ist abgeleitet von <code>JInternalFrame</code>
      *         und kann auf einer <code>JDesktopPane</code> angezeigt werden.
      */
-    public static PrintUI getInstance() {
+    public static BillUI getInstance() {
         if (singelton == null) {
-            singelton = new PrintUI();
+            singelton = new BillUI();
         }
         return singelton;
     }
