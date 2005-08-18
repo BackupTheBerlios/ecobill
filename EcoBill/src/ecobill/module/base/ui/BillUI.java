@@ -58,6 +58,7 @@ public class BillUI extends JPanel implements InitializingBean {
     private TitledBorder billBorder = new TitledBorder(new EtchedBorder());
     private JTextField customerTF = new JTextField();
     private JTextField orderTF = new JTextField();
+    private JProgressBar jb = new JProgressBar(0, 10000000);
 
 
     /**
@@ -67,6 +68,7 @@ public class BillUI extends JPanel implements InitializingBean {
     private JButton delB = new JButton("Viewer schlieﬂen");
     private JLabel customer = new JLabel("KundenID");
     private JLabel order = new JLabel("LieferscheinID");
+    private JLabel close = new JLabel("Viewer wurde geschlossen");
 
 
     /**
@@ -136,15 +138,15 @@ public class BillUI extends JPanel implements InitializingBean {
 
                     BillUI.this.threadies();
 
-                   /* try {
+                /* try {
 
-                        bill.setVisible(true);
-                        BillUI.this.jasper();
-                        BillUI.this.bill.validate();
+                     bill.setVisible(true);
+                     BillUI.this.jasper();
+                     BillUI.this.bill.validate();
 
-                    } catch (Exception e1) {
-                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                    }*/
+                 } catch (Exception e1) {
+                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                 }*/
             }
         });
 
@@ -155,6 +157,10 @@ public class BillUI extends JPanel implements InitializingBean {
                 if (e.getActionCommand().equals("Viewer schlieﬂen")) {
 
                     bill.setVisible(false);
+                    jb.setVisible(false);
+                    close.setVisible(true);
+                    close.setBounds(760, 20, 150, 20);
+                    top.add(close);
                 }
             }
         });
@@ -194,6 +200,7 @@ public class BillUI extends JPanel implements InitializingBean {
         jv.jasper("jasperfiles/rechnung.jrxml");
     }
 
+
     public void threadies() {
         Thread t1 = new Thread(new Thread1());
         t1.start();
@@ -202,25 +209,32 @@ public class BillUI extends JPanel implements InitializingBean {
         t2.start();
     }
 
-    class Thread1 implements Runnable
-    {
+    class Thread1 implements Runnable {
         public void run() {
 
             int max = 10000000;
-            JProgressBar jb = new JProgressBar(0, max);
+            close.setVisible(false);
+            jb.setVisible(true);
             jb.setBounds(760, 20, 150, 20);
+            jb.setString("Viewer wird geladen");
+            jb.setStringPainted(true);
             top.add(jb);
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
             for (int i = 1; i <= max; i++) {
                 int j = i;
                 jb.setValue(j);
             }
 
+
         }
     }
 
-    class Thread2 implements Runnable
-    {
+    class Thread2 implements Runnable {
         public void run() {
             bill.setVisible(true);
             try {
