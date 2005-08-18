@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
  * Time: 16:45:41
  *
  * @author Andreas Weiler
- * @version $Id: PrintUI.java,v 1.6 2005/08/18 19:00:24 jfuckerweiler Exp $
+ * @version $Id: PrintUI.java,v 1.7 2005/08/18 19:01:35 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class PrintUI extends JPanel implements InitializingBean {
@@ -257,8 +257,6 @@ public class PrintUI extends JPanel implements InitializingBean {
                 int j = i;
                 jb.setValue(j);
             }
-
-
             }
         }
     }
