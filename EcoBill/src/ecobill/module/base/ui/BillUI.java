@@ -190,6 +190,9 @@ public class BillUI extends JPanel implements InitializingBean {
         jv.jasper("jasperfiles/rechnung.jrxml");
     }
 
+    /**
+     * ThreadVerwalter 
+     */
 
     public void threadies() {
         Thread t1 = new Thread(new Thread1());
@@ -198,6 +201,10 @@ public class BillUI extends JPanel implements InitializingBean {
         Thread t2 = new Thread(new Thread2());
         t2.start();
     }
+
+   /**
+    * Thread1 wird erstellt, der die ProgressBar beinhaltet
+    */
 
     class Thread1 implements Runnable {
         public void run() {
@@ -223,6 +230,10 @@ public class BillUI extends JPanel implements InitializingBean {
 
         }
     }
+
+    /**
+     *  Thread2 wird erstellt, der den JRViewer beinhaltet
+     */
 
     class Thread2 implements Runnable {
         public void run() {

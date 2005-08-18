@@ -68,7 +68,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
     }
 
     /**
-     * Buttons
+     * Buttons, Labels
      */
     private JButton makeB = new JButton("Viewer laden");
     private JButton delB = new JButton("Viewer schlieﬂen");
@@ -185,6 +185,9 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
         this.add(overview);
     }
 
+    /**
+     * ThreadVerwalter
+     */
     public void threadies() {
         Thread t1 = new Thread(new Thread1());
         t1.start();
@@ -193,6 +196,9 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
         t2.start();
     }
 
+    /**
+     * Thread1 wird erstellt, der die JProgressBar beinhaltet
+     */
     class Thread1 implements Runnable {
         public void run() {
 
@@ -218,6 +224,9 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
         }
     }
 
+    /**
+     * Thread2 wird erstellt, der den JRViewer beinhaltet
+     */
     class Thread2 implements Runnable {
         public void run() {
             bill.setVisible(true);
