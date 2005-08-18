@@ -51,18 +51,20 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
      */
     private JPanel overview = new JPanel(new BorderLayout());
     private JPanel bill = new JPanel(new BorderLayout());
+    private JPanel top = new JPanel(null);
     private TitledBorder dataBorder = new TitledBorder(new EtchedBorder());
     private TitledBorder billBorder = new TitledBorder(new EtchedBorder());
     private JTextField customerTF = new JTextField();
     private JTextField orderTF = new JTextField();
+    private JProgressBar jb = new JProgressBar();
 
     /**
      * JRViewer
      */
     public void jasper() throws Exception {
 
-            JasperViewer jv = new JasperViewer(bill);
-            jv.jasper("jasperfiles/lieferschein.jrxml");
+        JasperViewer jv = new JasperViewer(bill);
+        jv.jasper("jasperfiles/lieferschein.jrxml");
     }
 
     /**
@@ -72,6 +74,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
     private JButton delB = new JButton("Viewer schlieﬂen");
     private JLabel customer = new JLabel("KundenID");
     private JLabel order = new JLabel("AuftragsID");
+    private JLabel close = new JLabel("Der Viewer wurde geschlossen");
 
 
     /**
@@ -127,7 +130,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
      */
     private void initUI() {
 
-        JPanel top = new JPanel(null);
+
         top.setPreferredSize(new Dimension(300, 50));
 
         dataBorder.setTitleColor(Color.BLACK);
@@ -140,13 +143,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("Viewer laden"))
-                    try {
-                        bill.setVisible(true);
-                        DeliveryOrderUI.this.jasper();
-                        DeliveryOrderUI.this.bill.validate();
-                    } catch (Exception e1) {
-                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                    }
+                    threadies();
             }
         });
 
@@ -156,8 +153,12 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("Viewer schlieﬂen")) {
                     bill.setVisible(false);
+                    jb.setVisible(false);
+                    close.setVisible(true);
+                    close.setBounds(760, 20, 150, 20);
+                    top.add(close);
                 }
-             }
+            }
         });
 
         billBorder.setTitleColor(Color.BLACK);
@@ -182,6 +183,51 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
         overview.add(bill, BorderLayout.CENTER);
 
         this.add(overview);
+    }
+
+    public void threadies() {
+        Thread t1 = new Thread(new Thread1());
+        t1.start();
+
+        Thread t2 = new Thread(new Thread2());
+        t2.start();
+    }
+
+    class Thread1 implements Runnable {
+        public void run() {
+
+            int max = 10000000;
+            close.setVisible(false);
+            jb.setVisible(true);
+            jb.setBounds(760, 20, 150, 20);
+            jb.setString("Viewer wird geladen");
+            jb.setStringPainted(true);
+            top.add(jb);
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            for (int i = 1; i <= max; i++) {
+                int j = i;
+                jb.setValue(j);
+            }
+
+
+        }
+    }
+
+    class Thread2 implements Runnable {
+        public void run() {
+            bill.setVisible(true);
+            try {
+                DeliveryOrderUI.this.jasper();
+                DeliveryOrderUI.this.validate();
+            } catch (Exception e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
     }
 }
 

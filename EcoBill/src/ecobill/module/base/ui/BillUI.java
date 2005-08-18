@@ -137,16 +137,6 @@ public class BillUI extends JPanel implements InitializingBean {
                 if (e.getActionCommand().equals("Viewer laden"))
 
                     BillUI.this.threadies();
-
-                /* try {
-
-                     bill.setVisible(true);
-                     BillUI.this.jasper();
-                     BillUI.this.bill.validate();
-
-                 } catch (Exception e1) {
-                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                 }*/
             }
         });
 
