@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
  * Time: 16:45:41
  *
  * @author Andreas Weiler
- * @version $Id: PrintUI.java,v 1.4 2005/08/18 17:23:27 jfuckerweiler Exp $
+ * @version $Id: PrintUI.java,v 1.5 2005/08/18 17:30:41 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class PrintUI extends JPanel implements InitializingBean {
@@ -64,7 +64,7 @@ public class PrintUI extends JPanel implements InitializingBean {
     private TitledBorder billBorder = new TitledBorder(new EtchedBorder());
     private JTextField customerTF = new JTextField();
     private JTextField orderTF = new JTextField();
-    private JProgressBar jb = new JProgressBar(0, 10000000);
+    private JProgressBar jb = new JProgressBar(1, 10000000);
 
 
     /**
@@ -75,6 +75,7 @@ public class PrintUI extends JPanel implements InitializingBean {
     private JLabel customer = new JLabel("KundenID");
     private JLabel order = new JLabel("AuftragsID/LieferscheinID");
     private JLabel close = new JLabel("Viewer wurde geschlossen");
+    private JLabel open = new JLabel("Viewer wurde geladen");
 
 
     /**
@@ -147,7 +148,9 @@ public class PrintUI extends JPanel implements InitializingBean {
                 }
                 else {
                     close.setVisible(false);
-                    jb.setVisible(true);
+                    open.setBounds(770, 20, 150, 20);
+                    open.setVisible(true);
+                    top.add(open);
                     bill.setVisible(true);
                 }
             }
@@ -161,6 +164,7 @@ public class PrintUI extends JPanel implements InitializingBean {
 
                     bill.setVisible(false);
                     jb.setVisible(false);
+                    open.setVisible(false);
                     close.setVisible(true);
                     close.setBounds(770, 20, 150, 20);
                     top.add(close);
