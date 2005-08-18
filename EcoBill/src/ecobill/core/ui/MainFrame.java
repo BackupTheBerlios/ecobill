@@ -1,9 +1,6 @@
 package ecobill.core.ui;
 
-import ecobill.module.base.ui.ArticleUI;
-import ecobill.module.base.ui.BusinessPartnerUI;
-import ecobill.module.base.ui.BillUI;
-import ecobill.module.base.ui.DeliveryOrderUI;
+import ecobill.module.base.ui.*;
 import ecobill.core.system.WorkArea;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
@@ -32,7 +29,7 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.42 2005/08/17 11:48:26 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.43 2005/08/18 14:47:13 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -66,30 +63,17 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         this.businessPartnerUI = businessPartnerUI;
     }
 
-    // erstellt Instanz einer LieferscheinUI
-    private DeliveryOrderUI deliveryOrderUI;// = ArticleUI.getInstance();
+    // erstellt Instanz einer PrintUI
+    private PrintUI printUI;
 
-    // getter für LieferscheinUI
-    public DeliveryOrderUI getdeliveryOrderUI() {
-        return deliveryOrderUI;
-    }
-
-    // setter für LieferscheinUI
-    public void setDeliveryOrderUI(DeliveryOrderUI deliveryOrderUI) {
-        this.deliveryOrderUI = deliveryOrderUI;
-    }
-
-    // erstellt Instanz einer RechnungsUI
-    private BillUI billUI;
-
-    // getter für RechnungsUI
-    public BillUI getBillUI() {
-        return billUI;
+    // getter für PrintUI
+    public PrintUI getPrintUI() {
+        return printUI;
     }
 
     // setter für RechnungsUI
-    public void setBillUI(BillUI billUI) {
-        this.billUI = billUI;
+    public void setPrintUI(PrintUI printUI) {
+        this.printUI = printUI;
     }
 
 
@@ -188,9 +172,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // hier wird die BusinessPartnerUI als neuer Tab eingefügt
         jtab.addTab("Kunden", businessPartnerUI);
         // hier wird die RechnungsUI als neuer Tab eingefügt
-        jtab.addTab("Lieferscheine", deliveryOrderUI);
-        // hier wird die RechnungsUI als neuer Tab eingefügt
-        jtab.addTab("Rechnungen", billUI);
+        jtab.addTab("Lieferscheine/Rechnungen", printUI);
 
         // erstellt JLabels
         JLabel lab1 = new JLabel(new ImageIcon("images/Startbild.jpg"));
