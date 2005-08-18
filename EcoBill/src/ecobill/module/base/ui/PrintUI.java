@@ -22,17 +22,17 @@ import java.awt.event.ActionEvent;
  * Time: 16:45:41
  *
  * @author Andreas Weiler
- * @version $Id: PrintUI.java,v 1.1 2005/08/18 14:47:30 jfuckerweiler Exp $
+ * @version $Id: PrintUI.java,v 1.3 2005/08/18 14:55:21 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class PrintUI extends JPanel implements InitializingBean {
 
     /**
-     * Die <code>BillUI</code> stellt ein Singleton dar, da es immer nur eine
+     * Die <code>PrintUI</code> stellt ein Singleton dar, da es immer nur eine
      * Instanz pro Arbeitsplatz geben kann.
      * -> spart kostbare Ressourcen.
      */
-    private static BillUI singelton = null;
+    private static PrintUI singelton = null;
 
     /**
      * Gibt die einzigste Instanz der <code>BillUI</code> zurück um diese
@@ -41,9 +41,9 @@ public class PrintUI extends JPanel implements InitializingBean {
      * @return Die <code>BillUI</code> ist abgeleitet von <code>JInternalFrame</code>
      *         und kann auf einer <code>JDesktopPane</code> angezeigt werden.
      */
-    public static BillUI getInstance() {
+    public static PrintUI getInstance() {
         if (singelton == null) {
-            singelton = new BillUI();
+            singelton = new PrintUI();
         }
         return singelton;
     }
@@ -142,7 +142,14 @@ public class PrintUI extends JPanel implements InitializingBean {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("Viewer laden"))
 
+                if (x == 0) {
                    PrintUI.this.threadies();
+                }
+                else {
+                    close.setVisible(false);
+                    jb.setVisible(true);
+                    bill.setVisible(true);
+                }
             }
         });
 
@@ -155,7 +162,7 @@ public class PrintUI extends JPanel implements InitializingBean {
                     bill.setVisible(false);
                     jb.setVisible(false);
                     close.setVisible(true);
-                    close.setBounds(760, 20, 150, 20);
+                    close.setBounds(770, 20, 150, 20);
                     top.add(close);
                 }
             }
@@ -169,14 +176,14 @@ public class PrintUI extends JPanel implements InitializingBean {
         top.add(customer);
         customerTF.setBounds(60, 20, 120, 20);
         top.add(customerTF);
-        order.setBounds(190, 20, 75, 20);
+        order.setBounds(190, 20, 130, 20);
         top.add(order);
-        orderTF.setBounds(265, 20, 120, 20);
+        orderTF.setBounds(320, 20, 120, 20);
         top.add(orderTF);
-        makeB.setBounds(425, 20, 150, 20);
+        makeB.setBounds(450, 20, 150, 20);
         makeB.setToolTipText("In diesem Viewer können sie die Rechnung drucken und als PDF speichern");
         top.add(makeB);
-        delB.setBounds(595, 20, 150, 20);
+        delB.setBounds(610, 20, 150, 20);
         top.add(delB);
 
 
@@ -195,6 +202,8 @@ public class PrintUI extends JPanel implements InitializingBean {
         JasperViewer jv = new JasperViewer(bill);
         jv.jasper("jasperfiles/rechnung.jrxml");
     }
+
+    private int x = 0;
 
     /**
      * ThreadVerwalter
@@ -218,10 +227,11 @@ public class PrintUI extends JPanel implements InitializingBean {
             int max = 10000000;
             close.setVisible(false);
             jb.setVisible(true);
-            jb.setBounds(760, 20, 150, 20);
+            jb.setBounds(770, 20, 150, 20);
             jb.setString("Viewer wird geladen");
             jb.setStringPainted(true);
             top.add(jb);
+            x = 1;
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
