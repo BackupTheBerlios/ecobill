@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
  * Time: 16:45:41
  *
  * @author Andreas Weiler
- * @version $Id: PrintUI.java,v 1.3 2005/08/18 14:55:21 jfuckerweiler Exp $
+ * @version $Id: PrintUI.java,v 1.4 2005/08/18 17:23:27 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class PrintUI extends JPanel implements InitializingBean {
@@ -38,7 +38,7 @@ public class PrintUI extends JPanel implements InitializingBean {
      * Gibt die einzigste Instanz der <code>BillUI</code> zurück um diese
      * dann bspw im Hauptfenster anzeigen zu können.
      *
-     * @return Die <code>BillUI</code> ist abgeleitet von <code>JInternalFrame</code>
+     * @return Die <code>PrintUI</code> ist abgeleitet von <code>JInternalFrame</code>
      *         und kann auf einer <code>JDesktopPane</code> angezeigt werden.
      */
     public static PrintUI getInstance() {
@@ -200,7 +200,7 @@ public class PrintUI extends JPanel implements InitializingBean {
     public void jasper() throws Exception {
 
         JasperViewer jv = new JasperViewer(bill);
-        jv.jasper("jasperfiles/rechnung.jrxml");
+        jv.jasper("jasperfiles/print.jrxml");
     }
 
     private int x = 0;
