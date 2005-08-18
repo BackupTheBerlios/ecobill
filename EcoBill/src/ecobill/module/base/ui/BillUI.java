@@ -133,7 +133,10 @@ public class BillUI extends JPanel implements InitializingBean {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("Viewer laden"))
-                    try {
+
+                    BillUI.this.threadies();
+
+                   /* try {
 
                         bill.setVisible(true);
                         BillUI.this.jasper();
@@ -141,7 +144,7 @@ public class BillUI extends JPanel implements InitializingBean {
 
                     } catch (Exception e1) {
                         e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                    }
+                    }*/
             }
         });
 
@@ -190,4 +193,43 @@ public class BillUI extends JPanel implements InitializingBean {
         JasperViewer jv = new JasperViewer(bill);
         jv.jasper("jasperfiles/rechnung.jrxml");
     }
+
+    public void threadies() {
+        Thread t1 = new Thread(new Thread1());
+        t1.start();
+
+        Thread t2 = new Thread(new Thread2());
+        t2.start();
+    }
+
+    class Thread1 implements Runnable
+    {
+        public void run() {
+
+            int max = 10000000;
+            JProgressBar jb = new JProgressBar(0, max);
+            jb.setBounds(760, 20, 150, 20);
+            top.add(jb);
+
+            for (int i = 1; i <= max; i++) {
+                int j = i;
+                jb.setValue(j);
+            }
+
+        }
+    }
+
+    class Thread2 implements Runnable
+    {
+        public void run() {
+            bill.setVisible(true);
+            try {
+                BillUI.this.jasper();
+                BillUI.this.validate();
+            } catch (Exception e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
+    }
+
 }
