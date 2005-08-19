@@ -29,7 +29,7 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.46 2005/08/19 12:44:36 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.48 2005/08/19 15:15:26 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -165,7 +165,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
     public void tabPane() {
 
-        Font myfont = new Font("Tahoma", Font.BOLD, 16);
+        Font myfont = new Font("Tahoma", Font.BOLD, 12);
 
         // fügt Tabs dem Tabfeld hinzu
         jtab.setFont(myfont);
