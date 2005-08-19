@@ -29,7 +29,7 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.44 2005/08/18 15:23:59 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.47 2005/08/19 12:47:46 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -165,14 +165,17 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
     public void tabPane() {
 
+        Font myfont = new Font("Tahoma", Font.BOLD, 14);
+
         // fügt Tabs dem Tabfeld hinzu
-        jtab.addTab("Start", tab);
+        jtab.setFont(myfont);
+        jtab.addTab("Start", new ImageIcon("images/s.gif"), tab);
         // hier wird die ArtikleUI als neuer Tab eingefügt
-        jtab.addTab("Artikel", articleUI);
+        jtab.addTab("Artikel", new ImageIcon("images/a.gif"), articleUI);
         // hier wird die BusinessPartnerUI als neuer Tab eingefügt
-        jtab.addTab("Kunden", businessPartnerUI);
+        jtab.addTab("Kunden", new ImageIcon("images/k.gif"), businessPartnerUI);
         // hier wird die RechnungsUI als neuer Tab eingefügt
-        jtab.addTab("Lieferscheine/Rechnungen", printUI);
+        jtab.addTab("Lieferscheine/Rechnungen", new ImageIcon("images/l.gif"), printUI);
 
         // erstellt JLabels
         JLabel lab1 = new JLabel(new ImageIcon("images/Startbild.jpg"));
