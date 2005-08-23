@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
  * Time: 16:45:41
  *
  * @author Andreas Weiler
- * @version $Id: PrintUI.java,v 1.11 2005/08/23 14:02:26 jfuckerweiler Exp $
+ * @version $Id: PrintUI.java,v 1.12 2005/08/23 14:12:07 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class PrintUI extends JPanel implements InitializingBean {
@@ -74,7 +74,7 @@ public class PrintUI extends JPanel implements InitializingBean {
     private JButton delB = new JButton("Viewer schlieﬂen");
     private JLabel customer = new JLabel("KundenID");
     private JLabel order = new JLabel("AuftragsID/LieferscheinID");
-    private JLabel close = new JLabel("Viewer wurde geschlossen");
+    private JLabel close = new JLabel("Viewer wurde geschlossen...");
 
 
     /**
@@ -227,7 +227,7 @@ public class PrintUI extends JPanel implements InitializingBean {
 
             int max = 10000000;
             close.setVisible(false);
-            jb.setBounds(770, 15, 150, 25);
+            jb.setBounds(770, 17, 150, 23);
             jb.setString("Viewer wird geladen");
             jb.setStringPainted(true);
             top.add(jb);
