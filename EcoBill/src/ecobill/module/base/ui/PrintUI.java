@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
  * Time: 16:45:41
  *
  * @author Andreas Weiler
- * @version $Id: PrintUI.java,v 1.7 2005/08/18 19:01:35 jfuckerweiler Exp $
+ * @version $Id: PrintUI.java,v 1.8 2005/08/23 13:51:52 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class PrintUI extends JPanel implements InitializingBean {
@@ -70,8 +70,8 @@ public class PrintUI extends JPanel implements InitializingBean {
     /**
      * Buttons
      */
-    private JButton makeB = new JButton("Viewer laden");
-    private JButton delB = new JButton("Viewer schließen");
+    private JButton makeB = new JButton("Viewer laden", new ImageIcon("images/ArrowRight.gif"));
+    private JButton delB = new JButton("Viewer schließen", new ImageIcon("images/ArrowLeft.gif"));
     private JLabel customer = new JLabel("KundenID");
     private JLabel order = new JLabel("AuftragsID/LieferscheinID");
     private JLabel close = new JLabel("Viewer wurde geschlossen");
@@ -174,10 +174,10 @@ public class PrintUI extends JPanel implements InitializingBean {
         top.add(order);
         orderTF.setBounds(320, 20, 120, 20);
         top.add(orderTF);
-        makeB.setBounds(450, 20, 150, 20);
+        makeB.setBounds(450, 15, 150, 25);
         makeB.setToolTipText("In diesem Viewer können sie die Rechnung drucken und als PDF speichern");
         top.add(makeB);
-        delB.setBounds(610, 20, 150, 20);
+        delB.setBounds(610, 15, 150, 25);
         top.add(delB);
 
 
