@@ -29,7 +29,7 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.48 2005/08/19 15:15:26 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.49 2005/08/24 13:09:11 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -277,7 +277,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // fügt MenüItems zu BearbeitenMenü hinzu
         edit.add(undo);
-        edit.add(redo);
+        edit.add(redo); 
 
         // copy ActionListener
         copy.addActionListener(new ActionListener() {
@@ -462,15 +462,5 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             s = data.toString();
         }
         tf.setText(s);
-    }
-
-
-    public static void main(String[] args) {
-        MainFrame frame = new MainFrame();
-        try {
-            frame.afterPropertiesSet();
-        } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
     }
 }
