@@ -29,7 +29,7 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.49 2005/08/24 13:09:11 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.50 2005/09/12 17:29:32 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -177,7 +177,12 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // hier wird die RechnungsUI als neuer Tab eingefügt
         jtab.addTab("Lieferscheine/Rechnungen", new ImageIcon("images/l.gif"), printUI);
 
-        // erstellt JLabels
+        //jtab.addTab("Designer", new PanelDesigner(new File("lieferschein.jrxml")));
+
+        //
+
+        //erstellt JLabels
+
         JLabel lab1 = new JLabel(new ImageIcon("images/Startbild.jpg"));
         // setzt ToolTip
         lab1.setToolTipText("Copyright @ JFuckers");

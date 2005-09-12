@@ -20,7 +20,7 @@ import java.awt.*;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.19 2005/08/10 13:55:09 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.20 2005/09/12 17:29:33 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -51,6 +51,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
      * Der <code>BaseService</code> ist die Business Logik.
      */
     private BaseService baseService;
+
     /**
      * Das Primary <code>JTabbedPane</code> beinhaltet alle nötigen Register, Eingabemasken
      * für die Eingabe der Kundendaten und die <code>JTable</code> zur Anzeige aller Kunden.
@@ -87,8 +88,8 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
      * Alle Labels die nötig sind um die GUI erklärend zu gestalten.
      */
     private JLabel id = new JLabel("ID");
-    private JLabel title1 = new JLabel("Anrede");
-    private JLabel title2 = new JLabel("Titel");
+    private JLabel title = new JLabel("Anrede");
+    private JLabel academicTitle = new JLabel("Titel");
     private JLabel surname = new JLabel("Nachname");
     private JLabel firstname = new JLabel("Vorname");
     private JLabel street = new JLabel("Straße, Hausnr.");
@@ -104,8 +105,8 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
      * Alle nötigen Eingabemasken, wie <code>JComboBox</code>,...
      */
     private JTextField idTF = new JTextField();
-    private JComboBox title1CB = new JComboBox();
-    private JComboBox title2CB = new JComboBox();
+    private JComboBox titleCB = new JComboBox();
+    private JComboBox academicTitleCB = new JComboBox();
     private JTextField surnameTF = new JTextField();
     private JTextField firstnameTF = new JTextField();
     private JTextField streetTF = new JTextField();
@@ -254,23 +255,23 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         * auf das Artikel Panel.
         */
 
-        title1.setBounds(12, 20, 120, 20);
-        customerP.add(title1);
+        title.setBounds(12, 20, 120, 20);
+        customerP.add(title);
 
-        title1CB.setBounds(10, 40, 70, 20);
-        title1CB.addItem("Herr");
-        title1CB.addItem("Frau");
-        customerP.add(title1CB);
+        titleCB.setBounds(10, 40, 70, 20);
+        titleCB.addItem("Herr");
+        titleCB.addItem("Frau");
+        customerP.add(titleCB);
 
-        title2.setBounds(112, 20, 120, 20);
-        customerP.add(title2);
+        academicTitle.setBounds(112, 20, 120, 20);
+        customerP.add(academicTitle);
 
-        title2CB.setBounds(110, 40, 70, 20);
-        title2CB.addItem("-None-");
-        title2CB.addItem("Dr.");
-        title2CB.addItem("Prof.");
-        title2CB.addItem("Prof. Dr.");
-        customerP.add(title2CB);
+        academicTitleCB.setBounds(110, 40, 70, 20);
+        academicTitleCB.addItem("-None-");
+        academicTitleCB.addItem("Dr.");
+        academicTitleCB.addItem("Prof.");
+        academicTitleCB.addItem("Prof. Dr.");
+        customerP.add(academicTitleCB);
 
         surname.setBounds(12, 70, 120, 20);
         customerP.add(surname);

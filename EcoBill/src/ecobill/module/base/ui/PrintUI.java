@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
  * Time: 16:45:41
  *
  * @author Andreas Weiler
- * @version $Id: PrintUI.java,v 1.12 2005/08/23 14:12:07 jfuckerweiler Exp $
+ * @version $Id: PrintUI.java,v 1.13 2005/09/12 17:29:33 raedler Exp $
  * @since EcoBill 1.0
  */
 public class PrintUI extends JPanel implements InitializingBean {
@@ -243,8 +243,7 @@ public class PrintUI extends JPanel implements InitializingBean {
 
 
             for (int i = 1; i <= max; i++) {
-                int j = i;
-                jb.setValue(j);
+                jb.setValue(i);
             }
             }
             else {
@@ -257,8 +256,7 @@ public class PrintUI extends JPanel implements InitializingBean {
 
             for (int i = 1; i <= max; i++) {
                 jb.setVisible(true);
-                int j = i;
-                jb.setValue(j);
+                jb.setValue(i);
             }
             }
         }
@@ -267,7 +265,6 @@ public class PrintUI extends JPanel implements InitializingBean {
     /**
      *  Thread2 wird erstellt, der den JRViewer beinhaltet
      */
-
     class Thread2 implements Runnable {
         public void run() {
             bill.setVisible(true);
@@ -275,7 +272,7 @@ public class PrintUI extends JPanel implements InitializingBean {
                 PrintUI.this.jasper();
                 PrintUI.this.validate();
             } catch (Exception e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                e.printStackTrace();
             }
         }
     }

@@ -7,17 +7,24 @@ import javax.swing.*;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
- * Start.
+ * Diese Klasse bietet die eine Startmethode zum starten der Economy Bill Agenda.
+ * Start des <code>Spring</code> application contextes.
  * <p/>
  * User: rro
  * Date: 15.07.2005
  * Time: 17:47:38
  *
  * @author Roman R&auml;dle
- * @version $Id: Start.java,v 1.1 2005/07/28 21:03:46 raedler Exp $
- * @since DAPS INTRA 1.0
+ * @version $Id: Start.java,v 1.2 2005/09/12 17:29:33 raedler Exp $
+ * @since Ecobill 1.0
  */
 public class Start {
+
+    /**
+     * Die Startmethode um Economy Bill Agenda zu starten.
+     *
+     * @param args - Wird nicht verwendet.
+     */
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(new com.sun.java.swing.plaf.windows.WindowsLookAndFeel());

@@ -20,7 +20,7 @@ import java.util.Vector;
  * Time: 19:39:19
  *
  * @author Roman R&auml;dle
- * @version $Id: GenericTable.java,v 1.1 2005/08/11 18:10:31 raedler Exp $
+ * @version $Id: GenericTable.java,v 1.2 2005/09/12 17:29:32 raedler Exp $
  * @since EcoBill 1.0
  */
 public abstract class GenericTable extends JTable implements Internationalization {
@@ -74,8 +74,24 @@ public abstract class GenericTable extends JTable implements Internationalizatio
      *                    bzw. wieder dort abzulegen.
      */
     public GenericTable(String[] keyOrder, Object view, JComponent[] cellEditors, Service service) {
-        System.out.println("KEY: " + keyOrder);
-        initGenericTable(keyOrder, view, cellEditors, service);
+        this.keyOrder = keyOrder;
+        this.view = view;
+        this.service = service;
+
+        /*
+         * Erste Initialisierung des <code>TableModel</code> und der <code>Table</code> mit den
+         * landesspezifischen Werten.
+         */
+        reinitI18N();
+
+        // Setzen des <code>TableModel</code> für diese generische Tabelle.
+        setModel(tableModel);
+
+        // Initialisieren einiger Komponenten der abgeleiteten Klassen.
+        initServices();
+        initTableListeners();
+        initCellEditors();
+        initCellEditors(cellEditors);
     }
 
     /**
@@ -90,7 +106,7 @@ public abstract class GenericTable extends JTable implements Internationalizatio
      *                    können.
      */
     public GenericTable(String[] keyOrder, Object view, JComponent[] cellEditors) {
-        initGenericTable(keyOrder, view, cellEditors, null);
+        this(keyOrder, view, cellEditors, null);
     }
 
     /**
@@ -101,33 +117,7 @@ public abstract class GenericTable extends JTable implements Internationalizatio
      *                 benötigten Tabelle.
      */
     public GenericTable(String[] keyOrder, Object view) {
-        initGenericTable(keyOrder, view, null, null);
-    }
-
-    /**
-     * Initialisiert abgeleitete Klassen der <code>GenericTable</code>.
-     *
-     * @param keyOrder    Die Reihenfolge der Tabellen Header.
-     * @param view        Dieses Objekt beinhaltet alle zur Anzeige
-     *                    benötigten Tabelle.
-     * @param cellEditors Dieses Array aus <code>JComponent</code>
-     *                    beinhaltet die Komponenten die einem
-     *                    <code>CellEditor</code> hinzugefügt werden
-     *                    können.
-     * @param service     Dieser <code>Service</code> wird evtl.
-     *                    benötigt um Daten von der Datenbank zu laden
-     *                    bzw. wieder dort abzulegen.
-     */
-    public void initGenericTable(String[] keyOrder, Object view, JComponent[] cellEditors, Service service) {
-        this.keyOrder = keyOrder;
-        this.view = view;
-        this.service = service;
-
-        setModel(tableModel);
-        initServices();
-        initTableListeners();
-        initCellEditors();
-        initCellEditors(cellEditors);
+        this(keyOrder, view, null, null);
     }
 
     /**
@@ -224,9 +214,6 @@ public abstract class GenericTable extends JTable implements Internationalizatio
      */
     public void repaint() {
         super.repaint();
-
-        // Landesspezifische reinitialisierung der Tabelle.
-        reinitI18N();
     }
 
     /**

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC
-        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <!--
@@ -9,7 +9,7 @@
  Time: 13:37:24
 
  @author Roman R&auml;dle
- @version $Id: Address.hbm.xml,v 1.1 2005/07/28 21:03:51 raedler Exp $
+ @version $Id: Address.hbm.xml,v 1.2 2005/09/12 17:29:32 raedler Exp $
  @since EcoBill 1.0
 -->
 

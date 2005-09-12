@@ -97,8 +97,7 @@
     <bean id="mainFrame" class="ecobill.core.ui.MainFrame">
         <property name="articleUI"><ref bean="articleUI"/></property>
         <property name="businessPartnerUI"><ref bean="businessPartnerUI"/></property>
-        <property name="deliveryOrderUI"><ref bean="deliveryOrderUI"/></property>
-        <property name="billUI"><ref bean="billUI"/></property>
+        <property name="printUI"><ref bean="printUI"/></property>
     </bean>
 
     <!--
@@ -115,11 +114,7 @@
         <property name="baseService"><ref bean="baseService"/></property>
     </bean>
 
-    <bean id="deliveryOrderUI" class="ecobill.module.base.ui.DeliveryOrderUI" singleton="true">
-        <property name="baseService"><ref bean="baseService"/></property>
-    </bean>
-
-    <bean id="billUI" class="ecobill.module.base.ui.BillUI" singleton="true">
+    <bean id="printUI" class="ecobill.module.base.ui.PrintUI" singleton="true">
         <property name="baseService"><ref bean="baseService"/></property>
     </bean>
 

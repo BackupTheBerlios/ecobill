@@ -22,6 +22,7 @@ import ecobill.module.base.domain.Article;
 import ecobill.module.base.domain.ArticleDescription;
 import ecobill.module.base.domain.SystemLocale;
 import ecobill.module.base.domain.SystemUnit;
+import ecobill.module.base.ui.article.ArticleTable;
 import org.springframework.beans.factory.InitializingBean;
 
 // @todo document me!
@@ -34,7 +35,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.8 2005/08/11 18:18:19 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.9 2005/09/12 17:29:33 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JPanel /*JInternalFrame*/ implements InitializingBean {
@@ -161,6 +162,8 @@ public class ArticleUI extends JPanel /*JInternalFrame*/ implements Initializing
     private DefaultTableModel articleDescriptionTableModel = new DefaultTableModel();
     private JTable articleDescriptionTable = new JTable(articleDescriptionTableModel);
 
+    ArticleTable articleTable2 = null;
+
     /**
      * Standard Konstruktor.
      */
@@ -189,9 +192,12 @@ public class ArticleUI extends JPanel /*JInternalFrame*/ implements Initializing
         this.setResizable(true);
         */
 
+        articleTable2 = new ArticleTable(baseService.getAllArticles(), baseService);
+        System.out.println("articleTable: " + articleTable);
+
         /*
-         * Startet die Initialisierung der Artikel Oberfläche.
-         */
+        * Startet die Initialisierung der Artikel Oberfläche.
+        */
         this.initUI();
     }
 
@@ -570,7 +576,8 @@ public class ArticleUI extends JPanel /*JInternalFrame*/ implements Initializing
          * möglich die Artikeltabelle zu scrollen, falls der Bildbereich nicht
          * ausreichen sollte.
          */
-        articleTableSP.setViewportView(articleTable);
+        // @todo articleTable adden
+        articleTableSP.setViewportView(articleTable2);
         articleTable.setModel(articleTableModel);
 
         /*

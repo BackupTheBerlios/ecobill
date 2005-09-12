@@ -29,7 +29,7 @@ import java.util.Collection;
  * Time: 19:38:34
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleTable.java,v 1.1 2005/08/11 18:10:31 raedler Exp $
+ * @version $Id: ArticleTable.java,v 1.2 2005/09/12 17:29:33 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleTable extends BaseGenericTable {
@@ -129,7 +129,7 @@ public class ArticleTable extends BaseGenericTable {
              *          ändert.
              */
             public void tableChanged(TableModelEvent e) {
-
+                // @todo es wird eine exception von hibernate geworfen.
                 if (e.getType() == TableModelEvent.UPDATE) {
 
                     int rowFirst = e.getFirstRow();
@@ -205,7 +205,8 @@ public class ArticleTable extends BaseGenericTable {
                             }
 
                             if (changed) {
-                                getBaseService().saveOrUpdateArticle(article);
+                                // @todo uncomment but repair saveOrUpdate
+                                //getBaseService().saveOrUpdateArticle(article);
                             }
 
                             reinitTableModel(getBaseService().getAllArticles());
@@ -244,6 +245,7 @@ public class ArticleTable extends BaseGenericTable {
          */
         Vector systemUnits = VectorUtils.listToVector(getBaseService().getAllSystemUnits());
         JComboBox comboBox = new JComboBox(new DefaultComboBoxModel(systemUnits));
+        comboBox.setBorder(BorderFactory.createEmptyBorder());
         TableCellEditor comboBoxCellEditor = new DefaultCellEditor(comboBox);
         getColumnModel().getColumn(1).setCellEditor(comboBoxCellEditor);
     }
