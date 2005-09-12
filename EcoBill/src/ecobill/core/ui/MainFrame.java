@@ -2,6 +2,7 @@ package ecobill.core.ui;
 
 import ecobill.module.base.ui.*;
 import ecobill.core.system.WorkArea;
+import ecobill.core.system.Internationalization;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
@@ -18,6 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.util.Locale;
 
 // @todo document me!
 
@@ -29,7 +31,7 @@ import java.awt.event.KeyEvent;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.50 2005/09/12 17:29:32 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.51 2005/09/12 20:42:31 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -85,8 +87,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     // StandardKonstruktor
     public MainFrame() throws HeadlessException {
         super();
-
-        WorkArea.setWorkArea(new WorkArea());
     }
 
     // alle Sachen erstellen die man braucht
@@ -429,9 +429,13 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     }
 
     public void german() {
+        WorkArea.setLocale(Locale.GERMAN);
+        articleUI.reinitI18N();
     }
 
     public void english() {
+        WorkArea.setLocale(Locale.ENGLISH);
+        articleUI.reinitI18N();
     }
 
     public void open() {

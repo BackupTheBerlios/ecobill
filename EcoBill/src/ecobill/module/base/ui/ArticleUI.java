@@ -15,6 +15,7 @@ import java.util.List;
 
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
+import ecobill.core.system.Internationalization;
 import ecobill.util.VectorUtils;
 import ecobill.util.exception.LocalizerException;
 import ecobill.module.base.service.BaseService;
@@ -35,10 +36,10 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.9 2005/09/12 17:29:33 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.10 2005/09/12 20:42:08 raedler Exp $
  * @since EcoBill 1.0
  */
-public class ArticleUI extends JPanel /*JInternalFrame*/ implements InitializingBean {
+public class ArticleUI extends JPanel implements InitializingBean, Internationalization {
 
     private final static String[] ARTICLE_TABLE_ORDER = new String[]{Constants.ARTICLE_NR,
                                                                      Constants.UNIT,
@@ -156,13 +157,12 @@ public class ArticleUI extends JPanel /*JInternalFrame*/ implements Initializing
     private Vector<Vector<Object>> articleTableDataV = new Vector<Vector<Object>>();
     private DefaultTableModel articleTableModel = new DefaultTableModel();
     private JTable articleTable = new JTable(articleTableModel);
+    //private ArticleTable articleTable2 = null;
 
     private Vector<String> articleDescriptionTableHeaderV = new Vector<String>();
     private Vector<Vector<Object>> articleDescriptionTableDataV = new Vector<Vector<Object>>();
     private DefaultTableModel articleDescriptionTableModel = new DefaultTableModel();
     private JTable articleDescriptionTable = new JTable(articleDescriptionTableModel);
-
-    ArticleTable articleTable2 = null;
 
     /**
      * Standard Konstruktor.
@@ -192,8 +192,7 @@ public class ArticleUI extends JPanel /*JInternalFrame*/ implements Initializing
         this.setResizable(true);
         */
 
-        articleTable2 = new ArticleTable(baseService.getAllArticles(), baseService);
-        System.out.println("articleTable: " + articleTable);
+        //articleTable2 = new ArticleTable(baseService.getAllArticles(), baseService);
 
         /*
         * Startet die Initialisierung der Artikel Oberfläche.
@@ -276,7 +275,7 @@ public class ArticleUI extends JPanel /*JInternalFrame*/ implements Initializing
      * Setzt alle Labels, Buttons, Register auf die jeweilige eingestellte Sprache in der
      * <code>WorkArea</code>.
      */
-    private void reinitI18N() {
+    public void reinitI18N() {
 
         /*
          * Setzt den I18N Artikel Fenster Titel.
@@ -577,7 +576,7 @@ public class ArticleUI extends JPanel /*JInternalFrame*/ implements Initializing
          * ausreichen sollte.
          */
         // @todo articleTable adden
-        articleTableSP.setViewportView(articleTable2);
+        articleTableSP.setViewportView(articleTable);
         articleTable.setModel(articleTableModel);
 
         /*
@@ -988,28 +987,8 @@ public class ArticleUI extends JPanel /*JInternalFrame*/ implements Initializing
         //gbl.setConstraints(localeSettingP, c1);
         //localeSettingP.setMinimumSize(new Dimension(180, 120));
         descriptionTopP.add(localeSettingP, BorderLayout.CENTER);
-
-        /*
-        GridBagConstraints c2 = new GridBagConstraints();
-        c2.fill = GridBagConstraints.BOTH;
-        c2.weightx = 1.0;
-        c2.weighty = 1.0;
-        c2.anchor = GridBagConstraints.CENTER;
-        c2.ipadx = 0;
-        c2.ipady = 0;
-        c2.gridx = 1;
-        c2.gridy = 0;
-        c2.gridwidth = 1;
-        c2.gridheight = 1;
-        gbl.setConstraints(descriptionsTA, c2);
-        descriptionTopP.add(descriptionsTA);
-        */
-
-        //ocaleSettingP.setBorder(localeBorder);
-
-        //descriptionTopP.setLayout(gbl);
-
         JPanel descriptionsTableP = new JPanel(new BorderLayout());
+
         descriptionsTableP.add(new JScrollPane(new JTable(new Object[][]{{"a", "a", "a"}, {"b", "b", "b"}}, new Object[]{"test1", "test2", "test3"})));
 
         descriptionTopP.setPreferredSize(new Dimension(400, 200));

@@ -19,16 +19,10 @@ import ecobill.core.system.exception.WorkAreaNotFoundException;
  * Time: 16:41:40
  *
  * @author Roman R&auml;dle
- * @version $Id: WorkArea.java,v 1.6 2005/08/11 18:08:26 raedler Exp $
+ * @version $Id: WorkArea.java,v 1.7 2005/09/12 20:42:58 raedler Exp $
  * @since EcoBill 1.0
  */
 public final class WorkArea implements ApplicationContextAware {
-
-    /**
-     * Jeder <code>Thread</code> hält implizit eine Kopie der
-     * <code>WorkArea</code>.
-     */
-    private static ThreadLocal<WorkArea> workAreaHolder = new ThreadLocal<WorkArea>();
 
     /**
      * Der <code>ApplicationContext</code> ermöglicht den Zugang zu allen erzeugten
@@ -40,41 +34,6 @@ public final class WorkArea implements ApplicationContextAware {
      * Die, für diesen Arbeitsplatz - Benutzer - , eingestellte <code>Locale</code>.
      */
     private static Locale locale = null;
-
-    /**
-     * Setzt die <code>WorkArea</code> im workAreaHolder und somit an den
-     * <code>ThreadLocal</code>.
-     *
-     * @param workArea Setzt die <code>WorkArea</code> in den <code>ThreadLocal</code>.
-     */
-    public static void setWorkArea(WorkArea workArea) {
-        workAreaHolder.set(workArea);
-    }
-
-    /**
-     * Gibt die an den <code>ThreadLocal</code> gebundene <code>WorkArea</code>
-     * zurück.
-     *
-     * @return Die an den <code>ThreadLocal</code> gebundene <code>WorkArea</code>
-     *         Instanz.
-     * @throws WorkAreaNotFoundException Wird geworfen wenn keine <code>WorkArea</code>
-     *                                   an den aktuellen <code>Thread</code> gebunden wurde.
-     */
-    public static WorkArea getWorkArea() throws WorkAreaNotFoundException {
-        WorkArea workArea = workAreaHolder.get();
-        if (workArea == null)
-            throw new WorkAreaNotFoundException("Die WorkArea ist nicht an den aktuellen Thread gebunden.");
-
-        return workArea;
-    }
-
-    /**
-     * Gibt die <code>WorkArea</code> wieder frei.
-     */
-    public static void release() {
-        System.out.println("RELEASE WORKAREA");
-        setWorkArea(null);
-    }
 
     /**
      * Setzt den <code>ApplicationContext</code>, der alle instanziierten Beans enthält.
@@ -117,7 +76,6 @@ public final class WorkArea implements ApplicationContextAware {
      *                       <code>ResourceBundle</code> gefunden wird.
      * @return Der zu einem Schlüssel zugehörige Wert.
      * @see ApplicationContext#getMessage(String, Object[], String, java.util.Locale)
-     * @deprecated Please use the non static {@link ecobill.core.system.WorkArea#getWorkArea()#getMessage(String, String)}
      */
     public static String getMessage(String key, String defaultMessage) {
         return ac.getMessage(key, null, defaultMessage, locale);
@@ -126,47 +84,13 @@ public final class WorkArea implements ApplicationContextAware {
     /**
      * Gibt den zu einem Schlüssel zugehörigen Wert aus einem <code>ResourceBundle</code>
      * zurück. Wird dieser Schlüssel in keinem <code>ResourceBundle</code> gefunden, so
-     * wird einfach der Default Wert zurückgeliefert.
-     *
-     * @param key            Der Schlüssel der den Wert enthält.
-     * @param defaultMessage Dieser Wert wird zurückgeliefert wenn der Schlüssel in keinem
-     *                       <code>ResourceBundle</code> gefunden wird.
-     * @return Der zu einem Schlüssel zugehörige Wert.
-     * @see ApplicationContext#getMessage(String, Object[], String, java.util.Locale)
-     */
-    public String getNonStaticMessage(String key, String defaultMessage) {
-        return ac.getMessage(key, null, defaultMessage, locale);
-    }
-
-    /**
-     * Gibt den zu einem Schlüssel zugehörigen Wert aus einem <code>ResourceBundle</code>
-     * zurück. Wird dieser Schlüssel in keinem <code>ResourceBundle</code> gefunden, so
      * wird einfach der Key zurückgeliefert.
      *
      * @param key Der Schlüssel der den Wert enthält.
      * @return Der zu einem Schlüssel zugehörige Wert.
      * @see ApplicationContext#getMessage(String, Object[], String, java.util.Locale)
-     * @deprecated Please use the non static {@link ecobill.core.system.WorkArea#getWorkArea()#getMessage(String)}
      */
     public static String getMessage(String key) {
-        try {
-            return ac.getMessage(key, null, locale);
-        }
-        catch (NoSuchMessageException nsme) {
-            return "??? " + key + " ???";
-        }
-    }
-
-    /**
-     * Gibt den zu einem Schlüssel zugehörigen Wert aus einem <code>ResourceBundle</code>
-     * zurück. Wird dieser Schlüssel in keinem <code>ResourceBundle</code> gefunden, so
-     * wird einfach der Key zurückgeliefert.
-     *
-     * @param key Der Schlüssel der den Wert enthält.
-     * @return Der zu einem Schlüssel zugehörige Wert.
-     * @see ApplicationContext#getMessage(String, Object[], String, java.util.Locale)
-     */
-    public String getNonStaticMessage(String key) {
         try {
             return ac.getMessage(key, null, locale);
         }
