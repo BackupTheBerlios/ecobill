@@ -20,7 +20,7 @@ import java.awt.*;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.21 2005/09/19 12:42:30 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.22 2005/09/19 12:43:37 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -129,7 +129,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
      * Dazu noch einen <code>Vector</code> der später die internationalisierten Header
      * aufnimmt.
      */
-    private JScrollPane articleTableSP = new JScrollPane();
+    private JScrollPane customerTableSP = new JScrollPane();
     private DefaultTableModel customerDescriptionTableModel = new DefaultTableModel();
     private JTable customerDescriptionTable = new JTable(customerDescriptionTableModel);
 
@@ -198,7 +198,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
          * Tabelle die alle Artikel beinhält.
          */
         overviewP.add(overviewTopP, BorderLayout.NORTH);
-        overviewP.add(articleTableSP, BorderLayout.CENTER);
+        overviewP.add(customerTableSP, BorderLayout.CENTER);
         overviewP.add(tableP, BorderLayout.SOUTH);
 
         /*
