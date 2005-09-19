@@ -20,7 +20,7 @@ import java.awt.*;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.20 2005/09/12 17:29:33 raedler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.21 2005/09/19 12:42:30 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -82,6 +82,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
 
     private JPanel descriptionsP = new JPanel(new BorderLayout());
     private JPanel deliveryOrderP = new JPanel(new BorderLayout());
+    private JPanel tableP = new JPanel(new BorderLayout());
     private JPanel billP = new JPanel(new BorderLayout());
 
     /**
@@ -190,6 +191,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
          */
         this.initOverviewTopP();
         this.initDescriptionP();
+        this.initTableP();
 
         /*
          * Setzt auf das Übersichtspanel die Eingabemaske für Artikel und die
@@ -197,6 +199,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
          */
         overviewP.add(overviewTopP, BorderLayout.NORTH);
         overviewP.add(articleTableSP, BorderLayout.CENTER);
+        overviewP.add(tableP, BorderLayout.SOUTH);
 
         /*
          * Fügt das Übersichtspanel und das Beschreibungenpanel der primären <code>JTabbedPane</code>
@@ -478,4 +481,10 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         billP.add(billTableP, BorderLayout.NORTH);
     }
 
+    private void initTableP() {
+        tableP.setPreferredSize(new Dimension(400,200));
+        JScrollPane js = new JScrollPane(new JTable(new Object[][]{{"Meier", "Hans", "Vogelweg 7", "112233", "Vogelsang","043/223344", "043/223345", "meierhans@gmx.de", "1"}, {"Becker", "Heinz", "Amselweg 18", "223344", "Amselhausen","044/223344", "044/223345", "beckerheinz@gmx.de", "2"}}, new Object[]{"Nachname", "Vorname", "Straße", "PLZ", "Ort", "Phone", "Fax", "Email", "CustomerID"}));
+        js.setPreferredSize(new Dimension(400,200));
+        tableP.add(js, BorderLayout.NORTH);
+    }
 }
