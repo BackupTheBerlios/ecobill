@@ -28,7 +28,7 @@ import java.awt.event.ActionEvent;
  * Time: 16:45:41
  *
  * @author Andreas Weiler
- * @version $Id: PrintUI.java,v 1.14 2005/09/26 15:27:40 gath Exp $
+ * @version $Id: PrintUI.java,v 1.15 2005/09/26 20:44:34 gath Exp $
  * @since EcoBill 1.0
  */
 public class PrintUI extends JPanel implements InitializingBean {
@@ -78,7 +78,7 @@ public class PrintUI extends JPanel implements InitializingBean {
     private JButton makeB = new JButton("Viewer laden");
     private JButton delB = new JButton("Viewer schlieﬂen");
     private JLabel customer = new JLabel("KundenID");
-    private JLabel order = new JLabel("AuftragsID/LieferscheinID");
+    private JLabel order = new JLabel("RechnungsID");
     private JLabel close = new JLabel("Viewer wurde geschlossen...");
 
     private ComboBoxModel customerCBModel = null;
@@ -226,7 +226,8 @@ public class PrintUI extends JPanel implements InitializingBean {
      * JRViewer
      */
     public void jasper() throws Exception {
-
+        Calendar cal = Calendar.getInstance();
+        Date date = cal.getTime();
         BusinessPartner bp = baseService.getBusinessPartnerById(Long.parseLong(String.valueOf(customerCB.getSelectedItem())));
 
         List redubArticleList = baseService.getAllReduplicatedArticleByDOId((Long)orderCB.getSelectedItem());
@@ -240,8 +241,10 @@ public class PrintUI extends JPanel implements InitializingBean {
         jv.setParameters("STREET", bp.getAddress().getStreet());
         jv.setParameters("COUNTRY", bp.getAddress().getCountry());
         jv.setParameters("CITY", bp.getAddress().getCity());
+        jv.setParameters("DATE", date);
+        jv.setParameters("RECHNUNGSNR", (Long)orderCB.getSelectedItem());
 
-        jv.jasper("jasperfiles/lieferschein1.jrxml", redubArticleList);
+        jv.jasper("jasperfiles/rechnung.jrxml", redubArticleList);
     }
 
     public void reJasper() {
