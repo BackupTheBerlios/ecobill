@@ -23,6 +23,8 @@ public class Test implements JRDataSource {
 
     private Iterator iter;
 
+    private double sum = 0;
+
     private List articles;
 
     public Test(List articles) {
@@ -65,7 +67,26 @@ public class Test implements JRDataSource {
         else if ("ARTIKELPREIS".equals(name)) {
            return article.getPrice();
         }
+        else if ("BUNDLE".equals(name)) {
+           return "-";
+        }
+        else if ("UNIT".equals(name)) {
+           return "-";
+        }
+        else if ("GESAMTPREIS".equals(name)) {
+           return article.getAmount() * article.getPrice();
+        }
+        else if ("GESAMTPREIS_SUM".equals(name)) {
+           sum = sum + article.getAmount() * article.getPrice();
+           return sum;
+        }
+        else
+        {
+            System.out.println("Es ist ein Fehler in " + this.getClass().toString() + " aufgetreten!" );
+            System.out.println("Feld :" + name + " nicht vorhanden!" );
+            return "Error!!";
+        }
 
-        return "hello";
+
     }
 }
