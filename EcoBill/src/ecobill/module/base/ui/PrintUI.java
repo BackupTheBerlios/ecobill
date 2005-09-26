@@ -7,7 +7,13 @@ import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
 
 import ecobill.module.base.service.BaseService;
+import ecobill.module.base.domain.BusinessPartner;
+import ecobill.module.base.domain.DeliveryOrder;
+import ecobill.module.base.domain.Article;
+import ecobill.module.base.domain.ReduplicatedArticle;
 
+import java.util.*;
+import java.util.List;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -22,7 +28,7 @@ import java.awt.event.ActionEvent;
  * Time: 16:45:41
  *
  * @author Andreas Weiler
- * @version $Id: PrintUI.java,v 1.13 2005/09/12 17:29:33 raedler Exp $
+ * @version $Id: PrintUI.java,v 1.14 2005/09/26 15:27:40 gath Exp $
  * @since EcoBill 1.0
  */
 public class PrintUI extends JPanel implements InitializingBean {
@@ -62,7 +68,6 @@ public class PrintUI extends JPanel implements InitializingBean {
     private JPanel top = new JPanel(null);
     private TitledBorder dataBorder = new TitledBorder(new EtchedBorder());
     private TitledBorder billBorder = new TitledBorder(new EtchedBorder());
-    private JTextField customerTF = new JTextField();
     private JTextField orderTF = new JTextField();
     private JProgressBar jb = new JProgressBar(1, 10000000);
 
@@ -76,6 +81,10 @@ public class PrintUI extends JPanel implements InitializingBean {
     private JLabel order = new JLabel("AuftragsID/LieferscheinID");
     private JLabel close = new JLabel("Viewer wurde geschlossen...");
 
+    private ComboBoxModel customerCBModel = null;
+    private JComboBox customerCB = new JComboBox();
+    private ComboBoxModel orderCBModel = null;
+    private JComboBox orderCB = new JComboBox();
 
     /**
      * Standard Konstruktor.
@@ -168,12 +177,32 @@ public class PrintUI extends JPanel implements InitializingBean {
 
         customer.setBounds(10, 20, 50, 20);
         top.add(customer);
-        customerTF.setBounds(60, 20, 120, 20);
-        top.add(customerTF);
+        //customerTF.setBounds(60, 20, 60, 20);
+
+        customerCBModel = new DefaultComboBoxModel(baseService.getAllBusinessPartnerIds().toArray());
+        customerCB.setModel(customerCBModel);
+        customerCB.addActionListener(new ActionListener() {
+             public void actionPerformed(ActionEvent e) {
+                 orderCBModel = new DefaultComboBoxModel(baseService.getAllDeliveryOrderByBPID((Long) customerCB.getSelectedItem()).toArray());
+                 orderCB.setModel(orderCBModel);
+             }
+         });
+
+        orderCBModel = new DefaultComboBoxModel(baseService.getAllDeliveryOrderByBPID((Long) customerCB.getSelectedItem()).toArray());
+        orderCB.setModel(orderCBModel);
+
+
+        //top.add(customerTF);
+        customerCB.setBounds(60, 20, 60, 20);
+        top.add(customerCB);
+
+        orderCB.setBounds(320, 20, 60, 20);
+        top.add(orderCB);
+
         order.setBounds(190, 20, 130, 20);
         top.add(order);
-        orderTF.setBounds(320, 20, 120, 20);
-        top.add(orderTF);
+       // orderTF.setBounds(320, 20, 120, 20);
+       // top.add(orderTF);
         makeB.setBounds(450, 15, 150, 25);
         makeB.setIcon(new ImageIcon("images/ArrowRight.gif"));
         makeB.setToolTipText("In diesem Viewer können sie die Rechnung drucken und als PDF speichern");
@@ -189,6 +218,8 @@ public class PrintUI extends JPanel implements InitializingBean {
 
         this.add(overview);
 
+
+
     }
      private JasperViewer jv = new JasperViewer(bill);
     /**
@@ -196,8 +227,21 @@ public class PrintUI extends JPanel implements InitializingBean {
      */
     public void jasper() throws Exception {
 
+        BusinessPartner bp = baseService.getBusinessPartnerById(Long.parseLong(String.valueOf(customerCB.getSelectedItem())));
 
-        jv.jasper("jasperfiles/print.jrxml");
+        List redubArticleList = baseService.getAllReduplicatedArticleByDOId((Long)orderCB.getSelectedItem());
+
+        System.out.println("size: " + redubArticleList.size());
+
+        // Id aus Textfeld customerTF als Parameter an den JV übergeben
+        jv.setParameters("BP_ID", Long.parseLong(String.valueOf(customerCB.getSelectedItem())));
+        jv.setParameters("COMPANY_NAME", bp.getCompanyName());
+        jv.setParameters("ZIP_CODE", bp.getAddress().getZipCode());
+        jv.setParameters("STREET", bp.getAddress().getStreet());
+        jv.setParameters("COUNTRY", bp.getAddress().getCountry());
+        jv.setParameters("CITY", bp.getAddress().getCity());
+
+        jv.jasper("jasperfiles/lieferschein1.jrxml", redubArticleList);
     }
 
     public void reJasper() {

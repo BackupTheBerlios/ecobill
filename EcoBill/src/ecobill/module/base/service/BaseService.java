@@ -4,6 +4,7 @@ import ecobill.module.base.dao.BaseDao;
 import ecobill.module.base.domain.Article;
 import ecobill.module.base.domain.BusinessPartner;
 import ecobill.module.base.domain.SystemLocale;
+import ecobill.module.base.domain.Person;
 import ecobill.core.system.service.Service;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.Locale;
  * Time: 12:30:55
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseService.java,v 1.6 2005/08/11 18:10:31 raedler Exp $
+ * @version $Id: BaseService.java,v 1.7 2005/09/26 15:27:40 gath Exp $
  * @since EcoBill 1.0
  */
 public interface BaseService extends Service {
@@ -64,6 +65,12 @@ public interface BaseService extends Service {
     public List getAllSystemUnits();
 
     /**
+     * @see ecobill.module.base.dao.BaseDao#getAllBusinessPartnerIds()
+     */
+    public List getAllBusinessPartnerIds();
+
+
+    /**
      * @see BaseDao#getBusinessPartnerById(Long)
      */
     public BusinessPartner getBusinessPartnerById(Long id);
@@ -79,6 +86,15 @@ public interface BaseService extends Service {
     public Article getArticleById(Long id);
 
     /**
+     * @see BaseDao#getAllReduplicatedArticleByDOId(Long)
+     */
+    public List getAllReduplicatedArticleByDOId(Long id);
+    /**
+     * @see BaseDao#getPersonById(Long)
+     */
+    public Person getPersonById(Long id);
+
+    /**
      * @see BaseDao#getArticleByArticleNumber(String)
      */
     public Article getArticleByArticleNumber(String articleNumber);
@@ -92,4 +108,9 @@ public interface BaseService extends Service {
      * @see ecobill.module.base.dao.BaseDao#getAllArticles()
      */
     public List getAllArticles();
+
+    /**
+     * @see ecobill.module.base.dao.BaseDao#getAllDeliveryOrderByBPID(Long)
+     */
+    public List getAllDeliveryOrderByBPID(Long id);
 }

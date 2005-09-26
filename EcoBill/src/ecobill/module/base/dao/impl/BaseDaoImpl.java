@@ -4,10 +4,7 @@ import ecobill.module.base.dao.BaseDao;
 import ecobill.module.base.dao.exception.NoSuchSystemLocaleException;
 import ecobill.module.base.dao.exception.NonUniqueHibernateResultException;
 import ecobill.module.base.dao.exception.NoSuchArticleException;
-import ecobill.module.base.domain.Article;
-import ecobill.module.base.domain.BusinessPartner;
-import ecobill.module.base.domain.SystemLocale;
-import ecobill.module.base.domain.SystemUnit;
+import ecobill.module.base.domain.*;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.dao.DataAccessException;
 
@@ -21,7 +18,7 @@ import java.util.List;
  * Time: 12:29:43
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDaoImpl.java,v 1.4 2005/08/03 13:06:09 raedler Exp $
+ * @version $Id: BaseDaoImpl.java,v 1.5 2005/09/26 15:27:40 gath Exp $
  * @see BaseDao
  * @since EcoBill 1.0
  */
@@ -80,6 +77,19 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
         return getHibernateTemplate().loadAll(SystemUnit.class);
     }
 
+
+    /**
+     * Gibt eine <code>List</code> mit allen <code>SystemUnit</code> die in der Datenbank verfügbar
+     * sind zurück.
+     *
+     * @return Eine <code>List</code> mit allen <code>SystemUnit</code> in der Datenbank.
+     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
+     *                             auftritt.
+     * @see ecobill.module.base.dao.BaseDao#getAllSystemUnits()
+     */
+    public List getAllBusinessPartnerIds() throws DataAccessException {
+        return getHibernateTemplate().find("select bp.id from ecobill.module.base.domain.BusinessPartner as bp");
+    }
     /**
      * Gibt den <code>BusinessPartner</code>, dessen ID der Parameter ID entspricht, zurück.
      *
@@ -92,6 +102,21 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
      */
     public BusinessPartner getBusinessPartnerById(Long id) {
         return (BusinessPartner) getHibernateTemplate().load(BusinessPartner.class, id);
+    }
+
+
+     /**
+     * Gibt den <code>Person</code>, dessen ID der Parameter ID entspricht, zurück.
+     *
+     * @param id Die ID unter der ein <code>Person</code> in der Datenbank abegelegt
+     *           ist.
+     * @return Der <code>Person</code> der unter dieser ID gefunden wurde.
+     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
+     *                             aufgetritt.
+     * @see BaseDao#getPersonById(Long)
+     */
+    public Person getPersonById(Long id) {
+        return (Person) getHibernateTemplate().load(Person.class, id);
     }
 
     /**
@@ -127,6 +152,20 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
         return (Article) getHibernateTemplate().load(Article.class, id);
     }
 
+     /**
+     * Gibt den <code>ReduplicateArticle</code>, dessen ID der Parameter ID entspricht, zurück.
+     *
+     * @param id Die ID unter der ein <code>ReduplicateArticle</code> in der Datenbank abgelegt
+     *           ist.
+     * @return Liste <code>ReduplicateArticle</code> der unter dieser DeliverOrderID gefunden wurde.
+     * @throws org.springframework.dao.DataAccessException
+     *          Diese wird geworfen falls ein Fehler beim Datenzugriff
+     *          aufgetritt.
+     * @see BaseDao#getAllReduplicatedArticleByDOId(Long)
+     */
+    public List getAllReduplicatedArticleByDOId(Long id) throws DataAccessException {
+        return getHibernateTemplate().find("from ecobill.module.base.domain.ReduplicatedArticle as ra where ra.deliveryOrder = ?", new Object[]{id});
+    }
     /**
      * Gibt den <code>Article</code>, dessen Artikelnummer dem <code>String</code> articleNumber
      * entspricht zurück.
@@ -185,4 +224,24 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
     public List getAllArticles() throws DataAccessException {
         return getHibernateTemplate().loadAll(Article.class);
     }
+
+
+
+    /**
+     * Gibt eine <code>List</code> mit allen <code>DerliveryOrder</code> die in der Datenbank verfügbar
+     * sind zurück.
+     *
+     * @param id Die <code>DeliveryOrder</code> die in der Datenbank gespeichert oder geändert werden
+     *                soll.
+
+     * @return Eine <code>List</code> mit allen <code>DerliveryOrder</code> in der Datenbank.
+     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
+     *                             auftritt.
+     * @see ecobill.module.base.dao.BaseDao#getAllDeliveryOrderByBPID(Long)
+     */
+    public List getAllDeliveryOrderByBPID(Long id) throws DataAccessException {
+        //return getHibernateTemplate().find("from " + DeliveryOrder.class.getName() + " as deliveryOrder where deliveryOrder.businessPartner = ?", new Object[]{id});
+        return getHibernateTemplate().find("select do.id from ecobill.module.base.domain.DeliveryOrder as do where do.businessPartner = ?", new Object[]{id});
+   }
+
 }

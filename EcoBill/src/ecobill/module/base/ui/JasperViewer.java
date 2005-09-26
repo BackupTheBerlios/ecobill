@@ -1,17 +1,21 @@
 package ecobill.module.base.ui;
 
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperRunManager;
-import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.view.JRViewer;
+import net.sf.jasperreports.engine.data.JRXmlDataSource;
 
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.awt.*;
+
+import org.apache.xalan.xsltc.runtime.Node;
+import ecobill.Test;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,15 +29,17 @@ public class JasperViewer {
     // JPanel auf das der JRViewer gelegt wird
     private JPanel viewerPanel;
     private JRViewer viewer;
+    private HashMap parameters;
 
     // StandardKonstruktor
     JasperViewer(JPanel panel) {
         this.viewerPanel = panel;
+        parameters = new HashMap();
     }
 
-    public void jasper(String jrxmlFilename) throws Exception {
-
-        try {
+    public void jasper(String jrxmlFilename, List articles) throws Exception {
+        System.out.println(jrxmlFilename);
+/*        try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
         } catch (Exception e) {
             e.printStackTrace();
@@ -42,18 +48,39 @@ public class JasperViewer {
         Connection con = null;
 
         try {
-            // Connection wird initialisiert
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ecobill", "root", "x2kub2");
-            // JasperReport wird initialisiert
-            JasperReport js = JasperCompileManager.compileReport(jrxmlFilename);
-            // JasperReport wird zu Pdf konvertiert
-            JasperRunManager.runReportToPdf(js, new HashMap(), con);
-            // JRViewer wird mit dem Report gefüllt und HashMap und Connection übergeben
-            viewer = new JRViewer(JasperFillManager.fillReport(js, new HashMap(), con));
-            // JRViewer wird auf viewerPanel gelegt
-            viewerPanel.add(viewer, BorderLayout.CENTER);
+    */
+             JRXmlDataSource jrxmlDS1 = new JRXmlDataSource("data.xml", "/lieferschein/artikel");
 
-        } catch (SQLException e1) {
+
+             try{
+                 JasperReport js = JasperCompileManager.compileReport(jrxmlFilename);
+
+
+                 JasperDesign design = JasperManager.loadXmlDesign(jrxmlFilename);
+                 JasperReport report = JasperManager.compileReport(jrxmlFilename);
+                 Test jrxmlDS2 = new Test(articles);
+                 JasperPrint print = JasperFillManager.fillReport(report,parameters,jrxmlDS2);
+
+                 viewer = new JRViewer(print);
+
+                 viewerPanel.add(viewer, BorderLayout.CENTER);
+
+                 JasperExportManager.exportReportToXmlFile(print, "datatest.xml", false);
+
+             }
+             catch (JRException e)
+    {
+                  e.printStackTrace();
+                  System.exit(1);
+              }
+              catch (Exception e)
+              {
+                  e.printStackTrace();
+                  System.exit(1);
+              }
+
+
+    /*    } catch (SQLException e1) {
             e1.printStackTrace();
         } finally {
             if (con != null)
@@ -62,11 +89,15 @@ public class JasperViewer {
                 } catch (SQLException e2) {
                     e2.printStackTrace();
                 }
-        }
+        } */
     }
 
     public void reJasper() {
         viewerPanel.remove(viewer);
         viewerPanel.repaint();
+    }
+
+    public void setParameters(Object key, Object value) {
+        parameters.put(key, value);
     }
 }

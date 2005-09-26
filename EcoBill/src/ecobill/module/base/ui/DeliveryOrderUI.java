@@ -63,8 +63,9 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
      */
     public void jasper() throws Exception {
 
+        System.out.println("Dateiname gesetzt auf: " + "jasperfiles/lieferschein.jrxml");
         JasperViewer jv = new JasperViewer(bill);
-        jv.jasper("jasperfiles/lieferschein.jrxml");
+        //jv.jasper("jasperfiles/lieferschein.jrxml");
     }
 
     /**

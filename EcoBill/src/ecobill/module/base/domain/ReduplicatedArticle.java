@@ -12,7 +12,7 @@ import java.text.Collator;
  * Time: 22:23:14
  *
  * @author Roman R&auml;dle
- * @version $Id: ReduplicatedArticle.java,v 1.1 2005/07/28 21:03:50 raedler Exp $
+ * @version $Id: ReduplicatedArticle.java,v 1.2 2005/09/26 15:27:40 gath Exp $
  * @since EcoBill 1.0
  */
 public final class ReduplicatedArticle extends AbstractDomain {
@@ -33,6 +33,12 @@ public final class ReduplicatedArticle extends AbstractDomain {
     private String description;
 
     /**
+     * Die Delivery_Order_Id des Artikels.
+     */
+    private DeliveryOrder deliveryOrder;
+
+
+    /**
      * Gibt die Anzahl des Artikels zurück.
      *
      * @return Die Anzahl des Artikels.
@@ -41,6 +47,23 @@ public final class ReduplicatedArticle extends AbstractDomain {
         return amount;
     }
 
+    /**
+     * Gibt die DeliverOrder des Artikels zurück.
+     *
+     * @return Die DeliverOrder des Artikels.
+     */
+    public DeliveryOrder getDeliveryOrder() {
+        return deliveryOrder;
+    }
+
+    /**
+     * Setzt die DeliverOrderId des Artikels zurück.
+     *
+     * @param deliveryOrder   DeliverOrder des Artikels
+     */
+    public void setDeliveryOrder(DeliveryOrder dO) {
+        this.deliveryOrder = deliveryOrder;
+    }
     /**
      * Setzt die Anzahl des Artikels.
      *

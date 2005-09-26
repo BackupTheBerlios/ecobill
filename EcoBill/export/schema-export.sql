@@ -107,7 +107,7 @@ create table BASE_SYSTEM_LOCALE (
 ) type=InnoDB;
 create table BASE_SYSTEM_UNIT (
     ID bigint not null auto_increment,
-    UNIT_KEY varchar(255) not null,
+    UNIT_KEY varchar(255) not null unique,
     primary key (ID)
 ) type=InnoDB;
 alter table BASE_ARTICLE_DESCRIPTION 

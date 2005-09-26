@@ -14,7 +14,7 @@ import java.text.Collator;
  * Time: 18:24:14
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartner.java,v 1.1 2005/07/28 21:03:49 raedler Exp $
+ * @version $Id: BusinessPartner.java,v 1.2 2005/09/26 15:27:40 gath Exp $
  * @since EcoBill 1.0
  */
 public final class BusinessPartner extends AbstractDomain {
@@ -43,6 +43,11 @@ public final class BusinessPartner extends AbstractDomain {
      * Die Bankverbindungsdaten des Geschäftspartners.
      */
     private Banking banking;
+
+    /**
+     * Die Id des Geschäftspartners.
+     */
+    private long id;
 
     /**
      * Alle Lieferscheine die auf diesen Geschäftspartner ausgestellt worden

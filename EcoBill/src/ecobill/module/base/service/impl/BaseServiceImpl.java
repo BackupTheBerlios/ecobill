@@ -11,6 +11,8 @@ import ecobill.util.exception.LocalizerException;
 import java.util.List;
 import java.util.Locale;
 
+import org.springframework.dao.DataAccessException;
+
 /**
  * Das <code>BaseServiceImpl</code> ist eine Implementation des Interfaces <code>BaseService</code>.
  * <p/>
@@ -19,7 +21,7 @@ import java.util.Locale;
  * Time: 12:31:05
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseServiceImpl.java,v 1.7 2005/08/11 18:10:31 raedler Exp $
+ * @version $Id: BaseServiceImpl.java,v 1.8 2005/09/26 15:27:40 gath Exp $
  * @see BaseService
  * @since EcoBill 1.0
  */
@@ -108,6 +110,14 @@ public class BaseServiceImpl implements BaseService {
         return baseDao.getAllSystemLocales();
     }
 
+
+    /**
+     * @see ecobill.module.base.service.BaseService#getAllBusinessPartnerIds()
+     */
+    public List getAllBusinessPartnerIds() {
+        return baseDao.getAllBusinessPartnerIds();
+    }
+
     /**
      * @see ecobill.module.base.service.BaseService#getAllSystemUnit()
      */
@@ -126,7 +136,60 @@ public class BaseServiceImpl implements BaseService {
      * @see BaseService#saveOrUpdateBusinessPartner(ecobill.module.base.domain.BusinessPartner)
      */
     public void saveOrUpdateBusinessPartner(BusinessPartner bp) {
-        baseDao.saveOrUpdateBusinessPartner(bp);
+
+        System.out.println("BusinessPartner: " + bp.getId());
+
+        /*
+         * @todo Dokumentation ändern!!!
+         * Bei einem neuen BusinessPartner (ID ist nicht gesetzt bzw "-1") wird überprüft ob
+         * sich schon ein BusinessPartner mit dieser BusinessPartnernummer in der Datenbank befindet.
+         * Sollte schon ein BusinessPartner vorhanden sein werden dessen Daten mit den Daten
+         * des Parameter BusinessPartner überschrieben.
+         */
+        //if (article.getId() != null) {
+            BusinessPartner savedBusinessPartner = null;
+            try {
+                savedBusinessPartner = baseDao.getBusinessPartnerById(bp.getId());
+            }
+            catch (DataAccessException e) {
+                // Unternehme nichts, da savedArticle ja dann sowieso null ist.
+            }
+
+            Person savedPerson = null;
+            try {
+                savedPerson = baseDao.getPersonById(bp.getPerson().getId());
+        }
+        catch (DataAccessException e) {
+            // Unternehme nichts, da savedPerson ja dann sowieso null ist.
+        }
+
+
+            /*
+             * Hier werden die Werte des Parameter <code>Article</code> in den vorhandenen
+             * Artikel in der Datenbank gesetzt und dieser dann wieder gespeichert.
+             * Hier wird das Problem mit zwei Objekten und der selben ID umgangen.
+             */
+            if (savedBusinessPartner != null && savedPerson != null) {
+                savedBusinessPartner.setCompanyName(bp.getCompanyName());
+                savedBusinessPartner.setCompanyTitleKey(bp.getCompanyTitleKey());
+                savedPerson.setTitleKey(bp.getPerson().getTitleKey());
+                savedPerson.setAcademicTitleKey(bp.getPerson().getAcademicTitleKey());
+                savedPerson.setFirstname(bp.getPerson().getFirstname());
+                savedPerson.setLastname(bp.getPerson().getLastname());
+                savedPerson.setPhone(bp.getPerson().getPhone());
+                savedPerson.setEmail(bp.getPerson().getEmail());
+
+            }
+        //}
+
+        baseDao.saveOrUpdateBusinessPartner(savedBusinessPartner);
+    }
+
+    /**
+     * @see BaseService#getAllReduplicatedArticleByDOId(Long)
+     */
+    public List getAllReduplicatedArticleByDOId(Long id) {
+        return baseDao.getAllReduplicatedArticleByDOId(id);
     }
 
     /**
@@ -135,13 +198,21 @@ public class BaseServiceImpl implements BaseService {
     public Article getArticleById(Long id) {
         return baseDao.getArticleById(id);
     }
-
     /**
      * @see BaseService#getArticleByArticleNumber(String)
      */
     public Article getArticleByArticleNumber(String articleNumber) {
         return baseDao.getArticleByArticleNumber(articleNumber);
     }
+
+
+    /**
+     * @see BaseService#getPersonById(Long)
+     */
+    public Person getPersonById(Long id) {
+        return baseDao.getPersonById(id);
+    }
+
 
     /**
      * @see BaseService#saveOrUpdateArticle(ecobill.module.base.domain.Article)
@@ -193,4 +264,13 @@ public class BaseServiceImpl implements BaseService {
     public List getAllArticles() {
         return baseDao.getAllArticles();
     }
+
+    /**
+     * @see ecobill.module.base.dao.BaseDao#getAllDeliveryOrderByBPID(Long)
+     */
+    public List getAllDeliveryOrderByBPID(Long id) {
+        return baseDao.getAllDeliveryOrderByBPID(id);
+    }
+
+
 }

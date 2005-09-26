@@ -1,6 +1,8 @@
 package ecobill.module.base.ui;
 
 import ecobill.module.base.service.BaseService;
+import ecobill.module.base.domain.*;
+import ecobill.core.system.WorkArea;
 import org.springframework.beans.factory.InitializingBean;
 
 import javax.swing.*;
@@ -9,6 +11,9 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.util.Vector;
 
 // @todo document me!
 
@@ -20,7 +25,7 @@ import java.awt.*;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.22 2005/09/19 12:43:37 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.23 2005/09/26 15:27:40 gath Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -129,8 +134,19 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
      * Dazu noch einen <code>Vector</code> der später die internationalisierten Header
      * aufnimmt.
      */
+<<<<<<< BusinessPartnerUI.java
+    private JScrollPane articleTableSP = new JScrollPane();
+    private DefaultTableModel businessPartnerTableModel = new DefaultTableModel();
+    private DefaultTableModel businessPartnerDescriptionTableModel = new DefaultTableModel();
+    private JTable businessPartnerDescriptionTable = new JTable(businessPartnerDescriptionTableModel);
+    private Vector<String> customerDescriptionTableHeaderV = new Vector<String>();
+    private Vector<Vector<Object>> customerDescriptionTableDataV = new Vector<Vector<Object>>();
+=======
     private JScrollPane customerTableSP = new JScrollPane();
+>>>>>>> 1.22
     private DefaultTableModel customerDescriptionTableModel = new DefaultTableModel();
+    private DefaultTableModel customerDescriptionTableTableModel = new DefaultTableModel();
+
     private JTable customerDescriptionTable = new JTable(customerDescriptionTableModel);
 
     /**
@@ -216,6 +232,44 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         this.add(primaryTP, BorderLayout.CENTER);
 
     }
+
+    /**
+     * Erzeugt einen <code>Vector</code> des Businesspartners.
+     *
+     * @param businessPartner Ein <code>BusinessPartner</code> der in einen <code>Vector</code> umgewandelt
+     *                werden soll.
+     * @return Gibt den <code>Vector</code> zurück der aus dem <code>BusinessPartner</code> erzeugt wurde.
+     */
+    private Vector<Object> createVectorOfBusinessPartner(BusinessPartner businessPartner) {
+        // Ein neuer <code>Vector</code> stellt eine Zeile der Tabelle dar.
+        Vector<Object> lineV = new Vector<Object>();
+
+        // Setzen der Werte eines <code>Article</code> im Zeilen Datenvektor.
+        lineV.add(businessPartner.getBanking().getId());
+        lineV.add(businessPartner.getAddress().getId());
+        lineV.add(businessPartner.getPerson().getId());
+        lineV.add(businessPartner.getCompanyName());
+        lineV.add(businessPartner.getCompanyTitleKey());
+
+
+        return lineV;
+    }
+
+
+    /**
+     * Fügt einen <code>BusinessPartner</code> dem <code>TableModel</code> hinzu und zeichnet die
+     * BusinessPartnertabelle neu.
+     *
+     * @param businessPartner Der <code>Businesspartner</code> der in die Businessparterntabelle eingefügt werden soll.
+     */
+    private void addBusinessPartnerToTableModel(BusinessPartner businessPartner) {
+        // Fügt den <code>BusinessPartner</code> dem <code>TableModel</code> hinzu.
+        this.businessPartnerTableModel.addRow(this.createVectorOfBusinessPartner(businessPartner));
+
+        // Zeichnet die Tabelle nach hinzufügen des Artikels neu.
+        //articleTable.repaint();
+    }
+
 
     /**
      * Initialisieren des oberen Teiles der Übersicht. Diese beinhaltet Eingabefelder
@@ -363,6 +417,15 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         JScrollPane descriptionSP = new JScrollPane(descriptionTA);
         descriptionSP.setBounds(10, 20, 350, 20);
         saveB.setBounds(380, 20, 100, 20);
+
+        // Speichern
+        saveB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                BusinessPartner businessPartner =  BusinessPartnerUI.this.saveOrUpdateBusinessPartner();
+               // BusinessPartnerUI.this.addBusinessPartnerToTableModel(businessPartner);
+            }
+        });
+
         descriptionSP.setBorder(new BevelBorder(BevelBorder.LOWERED));
         customerDescriptionP.add(saveB);
         customerDescriptionP.add(descriptionSP);
@@ -458,6 +521,10 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         deliveryOrderTopP.add(localeSettingP, BorderLayout.CENTER);
         billTopP.add(localeSettingP, BorderLayout.CENTER);
 
+         /*renewDescriptionsTableModel*/
+
+
+
 
         JPanel descriptionsTableP = new JPanel(new BorderLayout());
         descriptionsTableP.add(new JScrollPane(new JTable(new Object[][]{{"1010", "24.12.1950", "1", "Ja"}, {"1011", "01.01.1951", "2", "Nein"}}, new Object[]{"AuftragsID", "Datum", "CustomerID", "Bezahlt"})));
@@ -481,10 +548,46 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         billP.add(billTableP, BorderLayout.NORTH);
     }
 
+<<<<<<< BusinessPartnerUI.java
+
+    private BusinessPartner saveOrUpdateBusinessPartner() {
+
+        // Erzeugt einen neuen BusinessPartner und eine zugehörige Default BusinessPartner.
+        BusinessPartner businessPartner = new BusinessPartner();
+        Person person = new Person();
+        Address address = new Address();
+
+        address.setCity(cityTF.getText());
+        address.setCounty(countyTF.getText());
+        address.setCountry((String)countryCOB.getSelectedItem());
+        address.setStreet(streetTF.getText());
+        address.setZipCode(zipTF.getText());
+
+
+        // Setzt einige Werte aus den Eingabefeldern in den <code>Article</code>.
+        person.setTitleKey((String)title1CB.getSelectedItem());
+        person.setAcademicTitleKey((String)title2CB.getSelectedItem());
+        person.setAddress(address);
+        person.setEmail(emailTF.getText());
+        person.setFax(faxTF.getText());
+        person.setFirstname(firstnameTF.getText());
+        person.setLastname(surnameTF.getText());
+        person.setPhone(phoneTF.getText());
+
+        businessPartner.setPerson(person);
+
+        // Speichert oder ändert den <code>BusinessPartner</code> falls dieser schon vorhanden wäre.
+        baseService.saveOrUpdateBusinessPartner(businessPartner);
+
+        return businessPartner;
+    }
+
+=======
     private void initTableP() {
         tableP.setPreferredSize(new Dimension(400,200));
         JScrollPane js = new JScrollPane(new JTable(new Object[][]{{"Meier", "Hans", "Vogelweg 7", "112233", "Vogelsang","043/223344", "043/223345", "meierhans@gmx.de", "1"}, {"Becker", "Heinz", "Amselweg 18", "223344", "Amselhausen","044/223344", "044/223345", "beckerheinz@gmx.de", "2"}}, new Object[]{"Nachname", "Vorname", "Straße", "PLZ", "Ort", "Phone", "Fax", "Email", "CustomerID"}));
         js.setPreferredSize(new Dimension(400,200));
         tableP.add(js, BorderLayout.NORTH);
     }
+>>>>>>> 1.22
 }
