@@ -20,7 +20,7 @@ import java.util.List;
  * Time: 12:29:36
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDao.java,v 1.5 2005/09/26 15:27:40 gath Exp $
+ * @version $Id: BaseDao.java,v 1.6 2005/09/27 14:48:21 gath Exp $
  * @since EcoBill 1.0
  */
 public interface BaseDao {
@@ -190,5 +190,14 @@ public interface BaseDao {
      */
     public List getAllDeliveryOrderByBPID(Long id) throws DataAccessException;
 
+    /**
+     * Gibt eine <code>List</code> mit allen <code>Bills</code> die in der Datenbank verfügbar
+     * sind zurück.
+     *
+     * @return Eine <code>List</code> mit allen <code>Bills</code> in der Datenbank.
+     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
+     *                             auftritt.
+     */
+    public List getAllBillsByBPID(Long id) throws DataAccessException;
 
 }

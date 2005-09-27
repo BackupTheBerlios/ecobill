@@ -21,7 +21,7 @@ import org.springframework.dao.DataAccessException;
  * Time: 12:31:05
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseServiceImpl.java,v 1.8 2005/09/26 15:27:40 gath Exp $
+ * @version $Id: BaseServiceImpl.java,v 1.9 2005/09/27 14:48:21 gath Exp $
  * @see BaseService
  * @since EcoBill 1.0
  */
@@ -272,5 +272,12 @@ public class BaseServiceImpl implements BaseService {
         return baseDao.getAllDeliveryOrderByBPID(id);
     }
 
+
+    /**
+     * @see ecobill.module.base.dao.BaseDao#getAllBillsByBPID(Long)
+     */
+    public List getAllBillsByBPID(Long id) {
+        return baseDao.getAllBillsByBPID(id);
+    }
 
 }

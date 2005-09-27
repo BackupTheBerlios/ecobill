@@ -18,7 +18,7 @@ import java.util.List;
  * Time: 12:29:43
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDaoImpl.java,v 1.5 2005/09/26 15:27:40 gath Exp $
+ * @version $Id: BaseDaoImpl.java,v 1.6 2005/09/27 14:48:21 gath Exp $
  * @see BaseDao
  * @since EcoBill 1.0
  */
@@ -243,5 +243,22 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
         //return getHibernateTemplate().find("from " + DeliveryOrder.class.getName() + " as deliveryOrder where deliveryOrder.businessPartner = ?", new Object[]{id});
         return getHibernateTemplate().find("select do.id from ecobill.module.base.domain.DeliveryOrder as do where do.businessPartner = ?", new Object[]{id});
    }
+
+
+    /**
+     * Gibt eine <code>List</code> mit allen <code>Bills</code> die in der Datenbank verfügbar
+     * sind zurück.
+     *
+     * @param id Die <code>Bills</code> die in der Datenbank gespeichert oder geändert werden
+     *                soll.
+     * @return Eine <code>List</code> mit allen <code>Bills</code> in der Datenbank.
+     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
+     *                             auftritt.
+     * @see ecobill.module.base.dao.BaseDao#getAllBillsByBPID(Long)
+     */
+   public List getAllBillsByBPID(Long id) throws DataAccessException {
+       //return getHibernateTemplate().find("from " + DeliveryOrder.class.getName() + " as deliveryOrder where deliveryOrder.businessPartner = ?", new Object[]{id});
+       return getHibernateTemplate().find("from ecobill.module.base.domain.Bill as bill where bill.businessPartner.id = ?", new Object[]{id});
+  }
 
 }
