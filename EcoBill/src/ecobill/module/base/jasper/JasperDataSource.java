@@ -9,6 +9,8 @@ import java.util.Collection;
 
 import ognl.Ognl;
 import ognl.OgnlException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Die <code>JasperDataSource</code> ist eine für EcoBill allgemeine DataSource, die in der Lage
@@ -19,10 +21,16 @@ import ognl.OgnlException;
  * Time: 15:54:10
  *
  * @author Sebastian Gath
- * @version $Id: JasperDataSource.java,v 1.1 2005/09/27 12:48:20 raedler Exp $
+ * @version $Id: JasperDataSource.java,v 1.2 2005/09/27 20:13:38 raedler Exp $
  * @since EcoBill 1.0
  */
 public class JasperDataSource implements JRDataSource {
+
+    /**
+     * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
+     * Diese Ausgaben können in einem separaten File spezifiziert werden.
+     */
+    private static final Log LOG = LogFactory.getLog(JasperViewer.class);
 
     /**
      * Diese <code>Collection</code> beinhaltet die einzelnen Datensätze die im Report
@@ -79,6 +87,7 @@ public class JasperDataSource implements JRDataSource {
      * @see JRDataSource#next()
      */
     public boolean next() throws JRException {
+
         if (iterator.hasNext()) {
             dataset = iterator.next();
             return true;
@@ -97,9 +106,29 @@ public class JasperDataSource implements JRDataSource {
         try {
             return Ognl.getValue(fieldName, dataset);
         }
-        catch (OgnlException e) {
-            e.printStackTrace();
-            return "Error!!";
+        catch (OgnlException ognle) {
+
+            if (LOG.isErrorEnabled()) {
+                LOG.error("Konnte die Property [\"" + fieldName + "\"] in der Klasse [\"" + dataset.getClass().getName() + "\"] nicht finden.", ognle);
+            }
+
+            Class clazz = jrField.getValueClass();
+
+            try {
+                return clazz.newInstance();
+            }
+            catch (InstantiationException ie) {
+                if (LOG.isErrorEnabled()) {
+                    LOG.error("Konnte keine Instanz der Klasse [\"" + clazz.getName() + "\"] erzeugen.", ie);
+                }
+            }
+            catch (IllegalAccessException iae) {
+                if (LOG.isErrorEnabled()) {
+                    LOG.error("Konnte keine Instanz der Klasse [\"" + clazz.getName() + "\"] erzeugen.", iae);
+                }
+            }
         }
+
+        throw new JRException("Konnte Report nicht erstellen.");
     }
 }

@@ -9,6 +9,7 @@ import javax.swing.border.EtchedBorder;
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.BusinessPartner;
 import ecobill.module.base.jasper.JasperViewer;
+import ecobill.core.system.WorkArea;
 
 import java.util.*;
 import java.util.List;
@@ -26,7 +27,7 @@ import java.awt.event.ActionEvent;
  * Time: 16:45:41
  *
  * @author Andreas Weiler
- * @version $Id: PrintUI.java,v 1.16 2005/09/27 12:52:01 raedler Exp $
+ * @version $Id: PrintUI.java,v 1.17 2005/09/27 20:13:24 raedler Exp $
  * @since EcoBill 1.0
  */
 public class PrintUI extends JPanel implements InitializingBean {
@@ -71,6 +72,7 @@ public class PrintUI extends JPanel implements InitializingBean {
     private JTextField orderTF = new JTextField();
     private JProgressBar jb = new JProgressBar(1, 10000000);
 
+    private JasperViewer jasperViewer = new JasperViewer(bill);
 
     /**
      * Buttons
@@ -220,8 +222,6 @@ public class PrintUI extends JPanel implements InitializingBean {
 
     }
 
-    private JasperViewer jv = new JasperViewer(bill);
-
     /**
      * JRViewer
      */
@@ -253,21 +253,24 @@ public class PrintUI extends JPanel implements InitializingBean {
         jb.repaint();
 
         // Id aus Textfeld customerTF als Parameter an den JV übergeben
-        jv.addParameter("BP_ID", Long.parseLong(String.valueOf(customerCB.getSelectedItem())));
-        jv.addParameter("COMPANY_NAME", bp.getCompanyName());
-        jv.addParameter("ZIP_CODE", bp.getAddress().getZipCode());
-        jv.addParameter("STREET", bp.getAddress().getStreet());
-        jv.addParameter("COUNTRY", bp.getAddress().getCountry());
-        jv.addParameter("CITY", bp.getAddress().getCity());
-        jv.addParameter("DATE", date);
-        jv.addParameter("RECHNUNGSNR", (Long) orderCB.getSelectedItem());
+        jasperViewer.addParameter("BP_ID", Long.parseLong(String.valueOf(customerCB.getSelectedItem())));
+        jasperViewer.addParameter("TITLE", WorkArea.getMessage(bp.getPerson().getTitleKey()));
+        jasperViewer.addParameter("FIRSTNAME", bp.getPerson().getFirstname());
+        jasperViewer.addParameter("LASTNAME", bp.getPerson().getLastname());
+        jasperViewer.addParameter("COMPANY_NAME", bp.getCompanyName());
+        jasperViewer.addParameter("STREET", bp.getAddress().getStreet());
+        jasperViewer.addParameter("ZIP_CODE", bp.getAddress().getZipCode());
+        jasperViewer.addParameter("CITY", bp.getAddress().getCity());
+        jasperViewer.addParameter("COUNTRY", bp.getAddress().getCountry());
+        jasperViewer.addParameter("DATE", date);
+        jasperViewer.addParameter("RECHNUNGSNR", (Long) orderCB.getSelectedItem());
 
         jb.setString("Create report...");
         jb.setValue(50);
         jb.setVisible(true);
         jb.repaint();
 
-        jv.view("jasperfiles/bill.jrxml", redubArticleList);
+        jasperViewer.view("jasperfiles/bill.jrxml", redubArticleList);
 
         jb.setString("Create report finished");
         jb.setValue(100);
@@ -276,7 +279,7 @@ public class PrintUI extends JPanel implements InitializingBean {
     }
 
     public void reJasper() {
-        jv.remove();
+        jasperViewer.remove();
     }
 
     /**
