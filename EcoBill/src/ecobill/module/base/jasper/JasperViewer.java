@@ -9,7 +9,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.awt.*;
 
-import ecobill.module.base.jasper.JasperDataSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -22,7 +21,7 @@ import org.apache.commons.logging.LogFactory;
  * Time: 12:43:59
  *
  * @author Andreas Weiler
- * @version $Id: JasperViewer.java,v 1.1 2005/09/27 12:48:40 raedler Exp $
+ * @version $Id: JasperViewer.java,v 1.2 2005/09/27 13:04:03 raedler Exp $
  * @since EcoBill 1.0
  */
 public class JasperViewer {
