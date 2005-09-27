@@ -1,8 +1,8 @@
 package ecobill.core.ui;
 
 import ecobill.module.base.ui.*;
+import ecobill.module.base.ui.article.ArticleUI;
 import ecobill.core.system.WorkArea;
-import ecobill.core.system.Internationalization;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
@@ -31,7 +31,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.51 2005/09/12 20:42:31 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.52 2005/09/27 13:47:02 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
