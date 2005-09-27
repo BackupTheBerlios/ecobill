@@ -20,7 +20,7 @@ import java.util.List;
  * Time: 12:29:36
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDao.java,v 1.6 2005/09/27 14:48:21 gath Exp $
+ * @version $Id: BaseDao.java,v 1.7 2005/09/27 15:08:28 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface BaseDao {
@@ -132,7 +132,7 @@ public interface BaseDao {
      * @return Der <code>Person</code> der unter dieser ID gefunden wurde.
      * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
      *                             aufgetritt.
-     */          
+     */
     public Person getPersonById(Long id) throws DataAccessException;
 
     /**
@@ -199,5 +199,4 @@ public interface BaseDao {
      *                             auftritt.
      */
     public List getAllBillsByBPID(Long id) throws DataAccessException;
-
 }

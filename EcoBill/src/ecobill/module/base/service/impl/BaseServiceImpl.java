@@ -21,7 +21,7 @@ import org.springframework.dao.DataAccessException;
  * Time: 12:31:05
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseServiceImpl.java,v 1.9 2005/09/27 14:48:21 gath Exp $
+ * @version $Id: BaseServiceImpl.java,v 1.10 2005/09/27 15:08:12 raedler Exp $
  * @see BaseService
  * @since EcoBill 1.0
  */
@@ -87,7 +87,7 @@ public class BaseServiceImpl implements BaseService {
         }
 
         /*
-         * Erneuter Test, um sicher zu gehen, dass das zurückgelieferte <code>Object</code> auch wirklich
+         * Erneuter JasperDataSource, um sicher zu gehen, dass das zurückgelieferte <code>Object</code> auch wirklich
          * eine <code>SystemLocale</code> ist. Falls es sich nicht um eine <code>SystemLocale</code>
          * gehandelt hat wird abschließend eine erneute <code>NoSuchSystemLocaleException</code> geworfen.
          */
@@ -219,41 +219,30 @@ public class BaseServiceImpl implements BaseService {
      */
     public void saveOrUpdateArticle(Article article) {
 
-        System.out.println("ARTICLE: " + article.getId());
+        Article savedArticle = null;
+        try {
+            savedArticle = baseDao.getArticleByArticleNumber(article.getArticleNumber());
+        }
+        catch (NoSuchArticleException nsae) {
+            // Unternehme nichts, da savedArticle ja dann sowieso null ist.
+        }
 
         /*
-         * @todo Dokumentation ändern!!!
-         * Bei einem neuen Artikel (ID ist nicht gesetzt bzw "-1") wird überprüft ob
-         * sich schon ein Artikel mit dieser Artikelnummer in der Datenbank befindet.
-         * Sollte schon ein Artikel vorhanden sein werden dessen Daten mit den Daten
-         * des Parameter Artikel überschrieben.
-         */
-        //if (article.getId() != null) {
-            Article savedArticle = null;
-            try {
-                savedArticle = baseDao.getArticleByArticleNumber(article.getArticleNumber());
-            }
-            catch (NoSuchArticleException nsae) {
-                // Unternehme nichts, da savedArticle ja dann sowieso null ist.
-            }
+        * Hier werden die Werte des Parameter <code>Article</code> in den vorhandenen
+        * Artikel in der Datenbank gesetzt und dieser dann wieder gespeichert.
+        * Hier wird das Problem mit zwei Objekten und der selben ID umgangen.
+        */
+        if (savedArticle != null) {
+            savedArticle.setArticleNumber(article.getArticleNumber());
+            savedArticle.setSystemUnit(article.getSystemUnit());
+            savedArticle.setPrice(article.getPrice());
+            savedArticle.setInStock(article.getInStock());
+            savedArticle.setBundleSystemUnit(article.getBundleSystemUnit());
+            savedArticle.setBundleCapacity(article.getBundleCapacity());
 
-            /*
-             * Hier werden die Werte des Parameter <code>Article</code> in den vorhandenen
-             * Artikel in der Datenbank gesetzt und dieser dann wieder gespeichert.
-             * Hier wird das Problem mit zwei Objekten und der selben ID umgangen.
-             */
-            if (savedArticle != null) {
-                savedArticle.setArticleNumber(article.getArticleNumber());
-                savedArticle.setSystemUnit(article.getSystemUnit());
-                savedArticle.setPrice(article.getPrice());
-                savedArticle.setInStock(article.getInStock());
-                savedArticle.setBundleSystemUnit(article.getBundleSystemUnit());
-                savedArticle.setBundleCapacity(article.getBundleCapacity());
-
-                // @todo Evtl muss man sich hier um die restlichen (schon vorhandenen) Artikelbeschreibungen kümmern.
-                savedArticle.setDescriptions(article.getDescriptions());
-            }
-        //}
+            // @todo Evtl muss man sich hier um die restlichen (schon vorhandenen) Artikelbeschreibungen kümmern.
+            savedArticle.setDescriptions(article.getDescriptions());
+        }
 
         baseDao.saveOrUpdateArticle(savedArticle);
     }
@@ -279,5 +268,4 @@ public class BaseServiceImpl implements BaseService {
     public List getAllBillsByBPID(Long id) {
         return baseDao.getAllBillsByBPID(id);
     }
-
 }

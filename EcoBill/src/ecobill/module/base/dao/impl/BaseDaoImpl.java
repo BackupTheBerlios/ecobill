@@ -18,7 +18,7 @@ import java.util.List;
  * Time: 12:29:43
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDaoImpl.java,v 1.6 2005/09/27 14:48:21 gath Exp $
+ * @version $Id: BaseDaoImpl.java,v 1.7 2005/09/27 15:08:28 raedler Exp $
  * @see BaseDao
  * @since EcoBill 1.0
  */
@@ -240,7 +240,6 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
      * @see ecobill.module.base.dao.BaseDao#getAllDeliveryOrderByBPID(Long)
      */
     public List getAllDeliveryOrderByBPID(Long id) throws DataAccessException {
-        //return getHibernateTemplate().find("from " + DeliveryOrder.class.getName() + " as deliveryOrder where deliveryOrder.businessPartner = ?", new Object[]{id});
         return getHibernateTemplate().find("select do.id from ecobill.module.base.domain.DeliveryOrder as do where do.businessPartner = ?", new Object[]{id});
    }
 
@@ -257,8 +256,6 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
      * @see ecobill.module.base.dao.BaseDao#getAllBillsByBPID(Long)
      */
    public List getAllBillsByBPID(Long id) throws DataAccessException {
-       //return getHibernateTemplate().find("from " + DeliveryOrder.class.getName() + " as deliveryOrder where deliveryOrder.businessPartner = ?", new Object[]{id});
        return getHibernateTemplate().find("from ecobill.module.base.domain.Bill as bill where bill.businessPartner.id = ?", new Object[]{id});
   }
-
 }
