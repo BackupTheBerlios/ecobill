@@ -1,6 +1,7 @@
 package ecobill.module.base.ui;
 
 import ecobill.module.base.service.BaseService;
+import ecobill.module.base.jasper.JasperViewer;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -187,7 +188,7 @@ public class BillUI extends JPanel implements InitializingBean {
     public void jasper() throws Exception {
 
         JasperViewer jv = new JasperViewer(bill);
-        //jv.jasper("jasperfiles/rechnung.jrxml");
+        //jv.view("jasperfiles/rechnung.jrxml");
     }
 
     /**

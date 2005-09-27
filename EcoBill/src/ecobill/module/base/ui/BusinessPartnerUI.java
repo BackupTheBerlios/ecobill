@@ -25,7 +25,7 @@ import java.util.Vector;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.24 2005/09/26 20:48:49 gath Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.25 2005/09/27 12:52:01 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -134,16 +134,12 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
      * Dazu noch einen <code>Vector</code> der später die internationalisierten Header
      * aufnimmt.
      */
-
-    private JScrollPane articleTableSP = new JScrollPane();
+    private JScrollPane customerTableSP = new JScrollPane();
     private DefaultTableModel businessPartnerTableModel = new DefaultTableModel();
     private DefaultTableModel businessPartnerDescriptionTableModel = new DefaultTableModel();
     private JTable businessPartnerDescriptionTable = new JTable(businessPartnerDescriptionTableModel);
     private Vector<String> customerDescriptionTableHeaderV = new Vector<String>();
     private Vector<Vector<Object>> customerDescriptionTableDataV = new Vector<Vector<Object>>();
-
-    private JScrollPane customerTableSP = new JScrollPane();
-
     private DefaultTableModel customerDescriptionTableModel = new DefaultTableModel();
     private DefaultTableModel customerDescriptionTableTableModel = new DefaultTableModel();
 
@@ -548,8 +544,6 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         billP.add(billTableP, BorderLayout.NORTH);
     }
 
-
-
     private BusinessPartner saveOrUpdateBusinessPartner() {
 
         // Erzeugt einen neuen BusinessPartner und eine zugehörige Default BusinessPartner.
@@ -582,12 +576,10 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         return businessPartner;
     }
 
-
     private void initTableP() {
         tableP.setPreferredSize(new Dimension(400,200));
         JScrollPane js = new JScrollPane(new JTable(new Object[][]{{"Meier", "Hans", "Vogelweg 7", "112233", "Vogelsang","043/223344", "043/223345", "meierhans@gmx.de", "1"}, {"Becker", "Heinz", "Amselweg 18", "223344", "Amselhausen","044/223344", "044/223345", "beckerheinz@gmx.de", "2"}}, new Object[]{"Nachname", "Vorname", "Straße", "PLZ", "Ort", "Phone", "Fax", "Email", "CustomerID"}));
         js.setPreferredSize(new Dimension(400,200));
         tableP.add(js, BorderLayout.NORTH);
     }
-
 }

@@ -1,6 +1,7 @@
 package ecobill.module.base.ui;
 
 import ecobill.module.base.service.BaseService;
+import ecobill.module.base.jasper.JasperViewer;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -65,7 +66,7 @@ public class DeliveryOrderUI extends JPanel implements InitializingBean {
 
         System.out.println("Dateiname gesetzt auf: " + "jasperfiles/lieferschein.jrxml");
         JasperViewer jv = new JasperViewer(bill);
-        //jv.jasper("jasperfiles/lieferschein.jrxml");
+        //jv.view("jasperfiles/lieferschein.jrxml");
     }
 
     /**

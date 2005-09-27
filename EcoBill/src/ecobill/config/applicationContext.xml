@@ -106,7 +106,7 @@
     </bean>
     -->
 
-    <bean id="articleUI" class="ecobill.module.base.ui.ArticleUI" singleton="true">
+    <bean id="articleUI" class="ecobill.module.base.ui.article.ArticleUI" singleton="true">
         <property name="baseService"><ref bean="baseService"/></property>
     </bean>
 

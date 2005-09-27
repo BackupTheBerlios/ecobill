@@ -8,9 +8,7 @@ import javax.swing.border.EtchedBorder;
 
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.BusinessPartner;
-import ecobill.module.base.domain.DeliveryOrder;
-import ecobill.module.base.domain.Article;
-import ecobill.module.base.domain.ReduplicatedArticle;
+import ecobill.module.base.jasper.JasperViewer;
 
 import java.util.*;
 import java.util.List;
@@ -28,10 +26,12 @@ import java.awt.event.ActionEvent;
  * Time: 16:45:41
  *
  * @author Andreas Weiler
- * @version $Id: PrintUI.java,v 1.15 2005/09/26 20:44:34 gath Exp $
+ * @version $Id: PrintUI.java,v 1.16 2005/09/27 12:52:01 raedler Exp $
  * @since EcoBill 1.0
  */
 public class PrintUI extends JPanel implements InitializingBean {
+
+    private int progress = 0;
 
     /**
      * Die <code>PrintUI</code> stellt ein Singleton dar, da es immer nur eine
@@ -151,9 +151,9 @@ public class PrintUI extends JPanel implements InitializingBean {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("Viewer laden"))
 
-                   PrintUI.this.threadies();
-                   close.setVisible(false);
-                }
+                    PrintUI.this.threadies();
+                close.setVisible(false);
+            }
         });
 
         // Button ActionListener versteckt JRViewer
@@ -182,15 +182,14 @@ public class PrintUI extends JPanel implements InitializingBean {
         customerCBModel = new DefaultComboBoxModel(baseService.getAllBusinessPartnerIds().toArray());
         customerCB.setModel(customerCBModel);
         customerCB.addActionListener(new ActionListener() {
-             public void actionPerformed(ActionEvent e) {
-                 orderCBModel = new DefaultComboBoxModel(baseService.getAllDeliveryOrderByBPID((Long) customerCB.getSelectedItem()).toArray());
-                 orderCB.setModel(orderCBModel);
-             }
-         });
+            public void actionPerformed(ActionEvent e) {
+                orderCBModel = new DefaultComboBoxModel(baseService.getAllDeliveryOrderByBPID((Long) customerCB.getSelectedItem()).toArray());
+                orderCB.setModel(orderCBModel);
+            }
+        });
 
         orderCBModel = new DefaultComboBoxModel(baseService.getAllDeliveryOrderByBPID((Long) customerCB.getSelectedItem()).toArray());
         orderCB.setModel(orderCBModel);
-
 
         //top.add(customerTF);
         customerCB.setBounds(60, 20, 60, 20);
@@ -201,8 +200,8 @@ public class PrintUI extends JPanel implements InitializingBean {
 
         order.setBounds(190, 20, 130, 20);
         top.add(order);
-       // orderTF.setBounds(320, 20, 120, 20);
-       // top.add(orderTF);
+        // orderTF.setBounds(320, 20, 120, 20);
+        // top.add(orderTF);
         makeB.setBounds(450, 15, 150, 25);
         makeB.setIcon(new ImageIcon("images/ArrowRight.gif"));
         makeB.setToolTipText("In diesem Viewer können sie die Rechnung drucken und als PDF speichern");
@@ -219,66 +218,99 @@ public class PrintUI extends JPanel implements InitializingBean {
         this.add(overview);
 
 
-
     }
-     private JasperViewer jv = new JasperViewer(bill);
+
+    private JasperViewer jv = new JasperViewer(bill);
+
     /**
      * JRViewer
      */
     public void jasper() throws Exception {
+
+        close.setVisible(false);
+        jb.setBounds(770, 17, 150, 23);
+        jb.setString("Viewer wird geladen");
+        jb.setStringPainted(true);
+        top.add(jb);
+
         Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
+
+        jb.setString("Loading data...");
+        jb.setValue(10);
+        jb.setVisible(true);
+        jb.repaint();
+
         BusinessPartner bp = baseService.getBusinessPartnerById(Long.parseLong(String.valueOf(customerCB.getSelectedItem())));
 
-        List redubArticleList = baseService.getAllReduplicatedArticleByDOId((Long)orderCB.getSelectedItem());
+        List redubArticleList = baseService.getAllReduplicatedArticleByDOId((Long) orderCB.getSelectedItem());
 
         System.out.println("size: " + redubArticleList.size());
 
-        // Id aus Textfeld customerTF als Parameter an den JV übergeben
-        jv.setParameters("BP_ID", Long.parseLong(String.valueOf(customerCB.getSelectedItem())));
-        jv.setParameters("COMPANY_NAME", bp.getCompanyName());
-        jv.setParameters("ZIP_CODE", bp.getAddress().getZipCode());
-        jv.setParameters("STREET", bp.getAddress().getStreet());
-        jv.setParameters("COUNTRY", bp.getAddress().getCountry());
-        jv.setParameters("CITY", bp.getAddress().getCity());
-        jv.setParameters("DATE", date);
-        jv.setParameters("RECHNUNGSNR", (Long)orderCB.getSelectedItem());
+        jb.setString("Setting constant data...");
+        jb.setValue(30);
+        jb.setVisible(true);
+        jb.repaint();
 
-        jv.jasper("jasperfiles/rechnung.jrxml", redubArticleList);
+        // Id aus Textfeld customerTF als Parameter an den JV übergeben
+        jv.addParameter("BP_ID", Long.parseLong(String.valueOf(customerCB.getSelectedItem())));
+        jv.addParameter("COMPANY_NAME", bp.getCompanyName());
+        jv.addParameter("ZIP_CODE", bp.getAddress().getZipCode());
+        jv.addParameter("STREET", bp.getAddress().getStreet());
+        jv.addParameter("COUNTRY", bp.getAddress().getCountry());
+        jv.addParameter("CITY", bp.getAddress().getCity());
+        jv.addParameter("DATE", date);
+        jv.addParameter("RECHNUNGSNR", (Long) orderCB.getSelectedItem());
+
+        jb.setString("Create report...");
+        jb.setValue(50);
+        jb.setVisible(true);
+        jb.repaint();
+
+        jv.view("jasperfiles/bill.jrxml", redubArticleList);
+
+        jb.setString("Create report finished");
+        jb.setValue(100);
+        jb.setVisible(true);
+        jb.repaint();
     }
 
     public void reJasper() {
-        jv.reJasper();
+        jv.remove();
     }
-
 
     /**
      * ThreadVerwalter
      */
-
+     /**/
     public void threadies() {
+        /*
         Thread t1 = new Thread(new Thread1());
         t1.start();
+        */
 
         Thread t2 = new Thread(new Thread2());
         t2.start();
     }
+     /**/
 
-   /**
-    * Thread1 wird erstellt, der die ProgressBar beinhaltet
-    */
-   private int x = 0;
+    /**
+     * Thread1 wird erstellt, der die ProgressBar beinhaltet
+     */
+    private int x = 0;
 
-    class Thread1 implements Runnable {
+     /**/
+     class Thread1 implements Runnable {
         public void run() {
 
-            int max = 10000000;
+            int max = 100;
             close.setVisible(false);
             jb.setBounds(770, 17, 150, 23);
             jb.setString("Viewer wird geladen");
             jb.setStringPainted(true);
             top.add(jb);
 
+            /*
             if (x == 0) {
             try {
                 jb.setVisible(true);
@@ -293,6 +325,7 @@ public class PrintUI extends JPanel implements InitializingBean {
                 jb.setValue(i);
             }
             }
+            *
             else {
                 try {
 
@@ -300,17 +333,18 @@ public class PrintUI extends JPanel implements InitializingBean {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
+            */
             for (int i = 1; i <= max; i++) {
                 jb.setVisible(true);
                 jb.setValue(i);
             }
-            }
+            //}
         }
     }
+     /**/
 
     /**
-     *  Thread2 wird erstellt, der den JRViewer beinhaltet
+     * Thread2 wird erstellt, der den JRViewer beinhaltet
      */
     class Thread2 implements Runnable {
         public void run() {
@@ -318,11 +352,13 @@ public class PrintUI extends JPanel implements InitializingBean {
             try {
                 PrintUI.this.jasper();
                 PrintUI.this.validate();
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
+     /**/
 
 }
 
