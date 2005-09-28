@@ -24,4 +24,29 @@ public class ComboBoxUtils {
 
         return l.toArray();
     }
+
+    public static Object[] getI18NCountries() {
+
+        List<Object> c = new LinkedList<Object>();
+
+        c.add(new I18NComboBoxItem("ger"));
+        c.add(new I18NComboBoxItem("eng"));
+        c.add(new I18NComboBoxItem("usa"));
+
+        return c.toArray();
+    }
+
+    public static Object[] getI18NATitles() {
+
+        List<Object> c = new LinkedList<Object>();
+
+        c.add(new I18NComboBoxItem("no"));
+        c.add(new I18NComboBoxItem("dr"));
+        c.add(new I18NComboBoxItem("prof"));
+        c.add(new I18NComboBoxItem("profdr"));
+
+        return c.toArray();
+    }
+
+
 }

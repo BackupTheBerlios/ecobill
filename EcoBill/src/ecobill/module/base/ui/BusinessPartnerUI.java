@@ -27,7 +27,7 @@ import java.util.Vector;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.30 2005/09/28 18:28:24 raedler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.31 2005/09/28 18:41:44 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -114,14 +114,14 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
      */
     private JTextField idTF = new JTextField();
     private JComboBox titleCB = new JComboBox(ComboBoxUtils.getI18NTitles());
-    private JComboBox academicTitleCB = new JComboBox();
+    private JComboBox academicTitleCB = new JComboBox(ComboBoxUtils.getI18NATitles());
     private JTextField surnameTF = new JTextField();
     private JTextField firstnameTF = new JTextField();
     private JTextField streetTF = new JTextField();
     private JTextField zipTF = new JTextField();
     private JTextField cityTF = new JTextField();
     private JTextField countyTF = new JTextField();
-    private JComboBox countryCOB = new JComboBox();
+    private JComboBox countryCOB = new JComboBox(ComboBoxUtils.getI18NCountries());
     private JTextField phoneTF = new JTextField();
     private JTextField faxTF = new JTextField();
     private JTextField emailTF = new JTextField();
@@ -319,10 +319,6 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         customerP.add(academicTitle);
 
         academicTitleCB.setBounds(110, 40, 70, 20);
-        academicTitleCB.addItem("-None-");
-        academicTitleCB.addItem("Dr.");
-        academicTitleCB.addItem("Prof.");
-        academicTitleCB.addItem("Prof. Dr.");
         customerP.add(academicTitleCB);
 
         surname.setBounds(12, 70, 120, 20);
