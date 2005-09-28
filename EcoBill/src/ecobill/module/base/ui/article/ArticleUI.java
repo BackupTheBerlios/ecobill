@@ -35,7 +35,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.1 2005/09/27 12:52:19 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.2 2005/09/28 15:57:53 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JPanel implements InitializingBean, Internationalization {
@@ -143,6 +143,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
      * zu speichern/ändern.
      */
     private JButton saveB = new JButton();
+    private JButton newB = new JButton();
     private JButton addDescriptionB = new JButton();
 
     /**
@@ -331,6 +332,9 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         saveB.setText(WorkArea.getMessage(Constants.SAVE));
         saveB.setToolTipText(WorkArea.getMessage(Constants.SAVE_TOOLTIP));
 
+        newB.setText(WorkArea.getMessage(Constants.NEW));
+        newB.setToolTipText(WorkArea.getMessage(Constants.NEW_TOOLTIP));
+
         addDescriptionB.setText(WorkArea.getMessage(Constants.ADD));
         addDescriptionB.setToolTipText(WorkArea.getMessage(Constants.ADD_TOOLTIP));
 
@@ -505,6 +509,13 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         gbl.setConstraints(saveB, c1);
         overviewTopP.add(saveB);
 
+        c1.gridx = 1;
+        c1.gridy = 2;
+        c1.gridwidth = 1;
+        c1.gridheight = 1;
+        gbl.setConstraints(newB, c1);
+        overviewTopP.add(newB);
+
         c4.fill = GridBagConstraints.BOTH;
         c4.weightx = 1.0;
         c4.weighty = 1.0;
@@ -560,7 +571,8 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         saveB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Article article = ArticleUI.this.saveOrUpdateArticle();
-                ArticleUI.this.addArticleToTableModel(article);
+                //ArticleUI.this.addArticleToTableModel(article);
+                ArticleUI.this.renewArticleTableModel();
             }
         });
     }
@@ -657,7 +669,6 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         articleDescriptionTable.repaint();
     }
 
-    // @todo Mache hier mit diesem Tabellen Framework das auf der Galileoseite angegeben ist weiter.
     private void renewArticleTableModel() {
 
         /*
@@ -801,6 +812,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
      * @param article Der <code>Article</code> der in die Artikeltabelle eingefügt werden soll.
      */
     private void addArticleToTableModel(Article article) {
+
         // Fügt den <code>Article</code> dem <code>TableModel</code> hinzu.
         this.articleTableModel.addRow(this.createVectorOfArticle(article));
 
@@ -899,6 +911,8 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         descriptionTA.setText(article.getLocalizedDescription());
 
         this.renewArticleDescriptionTableModel(article);
+
+        baseService.evict(article);
 
         this.repaint();
     }

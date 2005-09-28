@@ -8,6 +8,8 @@ import javax.swing.border.EtchedBorder;
 
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.BusinessPartner;
+import ecobill.module.base.domain.DeliveryOrder;
+import ecobill.module.base.domain.ReduplicatedArticle;
 import ecobill.module.base.jasper.JasperViewer;
 import ecobill.core.system.WorkArea;
 
@@ -27,12 +29,10 @@ import java.awt.event.ActionEvent;
  * Time: 16:45:41
  *
  * @author Andreas Weiler
- * @version $Id: PrintUI.java,v 1.17 2005/09/27 20:13:24 raedler Exp $
+ * @version $Id: PrintUI.java,v 1.18 2005/09/28 15:58:05 raedler Exp $
  * @since EcoBill 1.0
  */
 public class PrintUI extends JPanel implements InitializingBean {
-
-    private int progress = 0;
 
     /**
      * Die <code>PrintUI</code> stellt ein Singleton dar, da es immer nur eine
@@ -42,11 +42,11 @@ public class PrintUI extends JPanel implements InitializingBean {
     private static PrintUI singelton = null;
 
     /**
-     * Gibt die einzigste Instanz der <code>BillUI</code> zurück um diese
+     * Gibt die einzigste Instanz der <code>PrintUI</code> zurück um diese
      * dann bspw im Hauptfenster anzeigen zu können.
      *
-     * @return Die <code>PrintUI</code> ist abgeleitet von <code>JInternalFrame</code>
-     *         und kann auf einer <code>JDesktopPane</code> angezeigt werden.
+     * @return Die <code>PrintUI</code> ist abgeleitet von <code>JPanel</code>
+     *         und kann auf jeder <code>JComponent</code> angezeigt werden.
      */
     public static PrintUI getInstance() {
         if (singelton == null) {
@@ -70,7 +70,7 @@ public class PrintUI extends JPanel implements InitializingBean {
     private TitledBorder dataBorder = new TitledBorder(new EtchedBorder());
     private TitledBorder billBorder = new TitledBorder(new EtchedBorder());
     private JTextField orderTF = new JTextField();
-    private JProgressBar jb = new JProgressBar(1, 10000000);
+    private JProgressBar progressBar = new JProgressBar(0, 100);
 
     private JasperViewer jasperViewer = new JasperViewer(bill);
 
@@ -153,7 +153,8 @@ public class PrintUI extends JPanel implements InitializingBean {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("Viewer laden"))
 
-                    PrintUI.this.threadies();
+                new Thread(new JasperThread()).start();
+
                 close.setVisible(false);
             }
         });
@@ -164,8 +165,9 @@ public class PrintUI extends JPanel implements InitializingBean {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getActionCommand().equals("Viewer schließen")) {
 
-                    reJasper();
-                    jb.setVisible(false);
+                    removeJasperViewer();
+
+                    progressBar.setVisible(false);
                     close.setVisible(true);
                     close.setBounds(770, 20, 150, 20);
                     top.add(close);
@@ -228,33 +230,29 @@ public class PrintUI extends JPanel implements InitializingBean {
     public void jasper() throws Exception {
 
         close.setVisible(false);
-        jb.setBounds(770, 17, 150, 23);
-        jb.setString("Viewer wird geladen");
-        jb.setStringPainted(true);
-        top.add(jb);
+        progressBar.setBounds(770, 17, 150, 23);
+        progressBar.setString("Viewer wird geladen");
+        progressBar.setStringPainted(true);
+        top.add(progressBar);
 
         Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
 
-        jb.setString("Loading data...");
-        jb.setValue(10);
-        jb.setVisible(true);
-        jb.repaint();
+        progressBar.setString("Loading data...");
+        progressBar.setValue(10);
 
-        BusinessPartner bp = baseService.getBusinessPartnerById(Long.parseLong(String.valueOf(customerCB.getSelectedItem())));
+        BusinessPartner bp = (BusinessPartner) baseService.load(BusinessPartner.class, Long.parseLong(String.valueOf(customerCB.getSelectedItem())));
 
-        List redubArticleList = baseService.getAllReduplicatedArticleByDOId((Long) orderCB.getSelectedItem());
+        DeliveryOrder deliveryOrder = (DeliveryOrder) baseService.load(DeliveryOrder.class, (Long) orderCB.getSelectedItem());
 
-        System.out.println("size: " + redubArticleList.size());
+        Set reduplicatedArticles = deliveryOrder.getArticles();
 
-        jb.setString("Setting constant data...");
-        jb.setValue(30);
-        jb.setVisible(true);
-        jb.repaint();
+        progressBar.setString("Setting constant data...");
+        progressBar.setValue(30);
 
         // Id aus Textfeld customerTF als Parameter an den JV übergeben
-        jasperViewer.addParameter("BP_ID", Long.parseLong(String.valueOf(customerCB.getSelectedItem())));
-        jasperViewer.addParameter("TITLE", WorkArea.getMessage(bp.getPerson().getTitleKey()));
+        jasperViewer.addParameter("BP_ID", bp.getId());
+        jasperViewer.addParameter("TITLE", WorkArea.getMessage(bp.getPerson().getLetterTitleKey()));
         jasperViewer.addParameter("FIRSTNAME", bp.getPerson().getFirstname());
         jasperViewer.addParameter("LASTNAME", bp.getPerson().getLastname());
         jasperViewer.addParameter("COMPANY_NAME", bp.getCompanyName());
@@ -262,96 +260,36 @@ public class PrintUI extends JPanel implements InitializingBean {
         jasperViewer.addParameter("ZIP_CODE", bp.getAddress().getZipCode());
         jasperViewer.addParameter("CITY", bp.getAddress().getCity());
         jasperViewer.addParameter("COUNTRY", bp.getAddress().getCountry());
-        jasperViewer.addParameter("DATE", date);
-        jasperViewer.addParameter("RECHNUNGSNR", (Long) orderCB.getSelectedItem());
+        jasperViewer.addParameter("DATE", deliveryOrder.getDeliveryOrderDate());
+        jasperViewer.addParameter("DELIVERY_ORDER_NUMBER", deliveryOrder.getDeliveryOrderNumber());
+        jasperViewer.addParameter("PREFIX_FREE_TEXT", deliveryOrder.getPrefixFreetext());
+        jasperViewer.addParameter("SUFFIX_FREE_TEXT", deliveryOrder.getSuffixFreetext());
 
-        jb.setString("Create report...");
-        jb.setValue(50);
-        jb.setVisible(true);
-        jb.repaint();
+        progressBar.setString("Create report...");
+        progressBar.setValue(50);
 
-        jasperViewer.view("jasperfiles/bill.jrxml", redubArticleList);
+        if ("delivery_order".equals(deliveryOrder.getCharacterisationType())) {
+            jasperViewer.view("jasperfiles/delivery_order.jrxml", reduplicatedArticles);
+        }
+        else if ("part_delivery_order".equals(deliveryOrder.getCharacterisationType())) {
+            jasperViewer.view("jasperfiles/part_delivery_order.jrxml", reduplicatedArticles);
+        }
 
-        jb.setString("Create report finished");
-        jb.setValue(100);
-        jb.setVisible(true);
-        jb.repaint();
+        progressBar.setString("Create report finished");
+        progressBar.setValue(100);
     }
 
-    public void reJasper() {
+    public void removeJasperViewer() {
         jasperViewer.remove();
     }
 
     /**
-     * ThreadVerwalter
+     * Dieser <code>Thread</code> erzeugt die Report Seiten und zeigt diese auf
+     * dem <code>JPanel</code> an.
      */
-     /**/
-    public void threadies() {
-        /*
-        Thread t1 = new Thread(new Thread1());
-        t1.start();
-        */
+    private class JasperThread implements Runnable {
 
-        Thread t2 = new Thread(new Thread2());
-        t2.start();
-    }
-     /**/
-
-    /**
-     * Thread1 wird erstellt, der die ProgressBar beinhaltet
-     */
-    private int x = 0;
-
-     /**/
-     class Thread1 implements Runnable {
         public void run() {
-
-            int max = 100;
-            close.setVisible(false);
-            jb.setBounds(770, 17, 150, 23);
-            jb.setString("Viewer wird geladen");
-            jb.setStringPainted(true);
-            top.add(jb);
-
-            /*
-            if (x == 0) {
-            try {
-                jb.setVisible(true);
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-                x = 1;
-
-
-            for (int i = 1; i <= max; i++) {
-                jb.setValue(i);
-            }
-            }
-            *
-            else {
-                try {
-
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            */
-            for (int i = 1; i <= max; i++) {
-                jb.setVisible(true);
-                jb.setValue(i);
-            }
-            //}
-        }
-    }
-     /**/
-
-    /**
-     * Thread2 wird erstellt, der den JRViewer beinhaltet
-     */
-    class Thread2 implements Runnable {
-        public void run() {
-            bill.setVisible(true);
             try {
                 PrintUI.this.jasper();
                 PrintUI.this.validate();
@@ -361,7 +299,5 @@ public class PrintUI extends JPanel implements InitializingBean {
             }
         }
     }
-     /**/
-
 }
 
