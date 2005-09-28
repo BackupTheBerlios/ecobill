@@ -26,7 +26,7 @@ import java.util.Vector;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.27 2005/09/28 12:37:00 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.28 2005/09/28 13:04:48 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -125,6 +125,13 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
     private JTextField faxTF = new JTextField();
     private JTextField emailTF = new JTextField();
 
+    private JMenuItem mr = new JMenuItem();
+    private JMenuItem ms = new JMenuItem();
+    private JMenuItem ger = new JMenuItem();
+    private JMenuItem eng = new JMenuItem();
+    private JMenuItem usa = new JMenuItem();
+
+
 
     private JTextArea descriptionTA = new JTextArea();
     private JTextArea descriptionsTA = new JTextArea();
@@ -218,10 +225,10 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
          * Fügt das Übersichtspanel und das Beschreibungenpanel der primären <code>JTabbedPane</code>
          * hinzu.
          */
-        primaryTP.add("Übersicht", overviewP);
-        primaryTP.add("Aufträge", descriptionsP);
-        primaryTP.add("Lieferscheine", deliveryOrderP);
-        primaryTP.add("Rechnungen", billP);
+        primaryTP.add(overviewP);
+        primaryTP.add(descriptionsP);
+        primaryTP.add(deliveryOrderP);
+        primaryTP.add(billP);
 
         this.reinitI18N();
 
@@ -289,19 +296,16 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         // Ein Panel für den Artikel und die Hauptdaten.
         JPanel customerP = new JPanel(null);
         dataBorder.setTitleColor(Color.BLACK);
-        dataBorder.setTitle("Daten");
         customerP.setBorder(dataBorder);
 
         // Ein Panel für die Gebindedaten des Artikels.
         JPanel phoneP = new JPanel(null);
         bundleBorder.setTitleColor(Color.BLACK);
-        bundleBorder.setTitle("ID/Phone/Fax/Email");
         phoneP.setBorder(bundleBorder);
 
         // Ein Panel für die Beschreibung der eingestellten Sprache.
         JPanel customerDescriptionP = new JPanel(null);
         descriptionBorder.setTitleColor(Color.BLACK);
-        descriptionBorder.setTitle("Beschreibung");
         customerDescriptionP.setBorder(descriptionBorder);
 
         JPanel customerDescriptionsP = new JPanel(new BorderLayout());
@@ -315,8 +319,8 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         customerP.add(title);
 
         titleCB.setBounds(10, 40, 70, 20);
-        titleCB.addItem("Herr");
-        titleCB.addItem("Frau");
+        titleCB.addItem(mr);
+        titleCB.addItem(ms);
         customerP.add(titleCB);
 
         academicTitle.setBounds(112, 20, 120, 20);
@@ -369,11 +373,9 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         customerP.add(country);
 
         countryCOB.setBounds(120, 220, 100, 20);
-        countryCOB.addItem("Argentinia");
-        countryCOB.addItem("England");
-        countryCOB.addItem("Germany");
-        countryCOB.addItem("USA");
-        countryCOB.addItem("Venezuela");
+        countryCOB.addItem(ger);
+        countryCOB.addItem(eng);
+        countryCOB.addItem(usa);
         customerP.add(countryCOB);
 
         /*
@@ -486,7 +488,6 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         overviewTopP.add(customerDescriptionsP);
 
         residualDescriptionsBorder.setTitleColor(Color.BLACK);
-        residualDescriptionsBorder.setTitle("Restliche Beschreibung");
         customerDescriptionsP.setBorder(residualDescriptionsBorder);
         customerDescriptionsP.add(new JScrollPane(customerDescriptionTable));
     }
@@ -602,6 +603,23 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         phone.setText(WorkArea.getMessage(Constants.PHONE));
         fax.setText(WorkArea.getMessage(Constants.FAX));
         email.setText(WorkArea.getMessage(Constants.EMAIL));
+
+        primaryTP.setTitleAt(0, WorkArea.getMessage(Constants.OVERVIEW));
+        primaryTP.setTitleAt(1, WorkArea.getMessage(Constants.ORDER));
+        primaryTP.setTitleAt(2, WorkArea.getMessage(Constants.DORDER));
+        primaryTP.setTitleAt(3, WorkArea.getMessage(Constants.BILL));
+
+        dataBorder.setTitle(WorkArea.getMessage(Constants.DATA));
+        bundleBorder.setTitle(WorkArea.getMessage(Constants.IPFE));
+        descriptionBorder.setTitle(WorkArea.getMessage(Constants.DESCRIPTIONS));
+        residualDescriptionsBorder.setTitle(WorkArea.getMessage(Constants.RESIDUAL_DESCRIPTIONS));
+        mr.setText(WorkArea.getMessage(Constants.MR));
+        ms.setText(WorkArea.getMessage(Constants.MS));
+        ger.setText(WorkArea.getMessage(Constants.GER));
+        eng.setText(WorkArea.getMessage(Constants.ENG));
+        usa.setText(WorkArea.getMessage(Constants.USA));
+
+
 
     }
 }
