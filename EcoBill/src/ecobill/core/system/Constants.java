@@ -10,7 +10,7 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.2 2005/08/03 13:06:09 raedler Exp $
+ * @version $Id: Constants.java,v 1.3 2005/09/28 12:36:43 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {
@@ -65,6 +65,21 @@ public interface Constants {
     public final static String UNIT_TOOLTIP = "unit.tooltip";
     public final static String VARIANT = "variant";
     public final static String VARIANT_TOOLTIP = "variant.tooltip";
+    public final static String ID = "id";
+    public final static String TITLE = "title";
+    public final static String ATITLE = "atitle";
+    public final static String SURNAME = "street";
+    public final static String FIRSTNAME = "firstname";
+    public final static String STREET = "street";
+    public final static String ZIP = "zip";
+    public final static String CITY = "city";
+    public final static String COUNTY = "county";
+    public final static String PHONE = "phone";
+    public final static String FAX = "fax";
+    public final static String EMAIL = "email";
+
+
+
 
     /**
      * Alle Schlüssel der einzelnen Einheiten.

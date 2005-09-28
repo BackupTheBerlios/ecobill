@@ -26,7 +26,7 @@ import java.util.Vector;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.26 2005/09/28 12:14:49 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.27 2005/09/28 12:37:00 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -94,19 +94,19 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
     /**
      * Alle Labels die nötig sind um die GUI erklärend zu gestalten.
      */
-    private JLabel id = new JLabel("ID");
-    private JLabel title = new JLabel("Anrede");
-    private JLabel academicTitle = new JLabel("Titel");
-    private JLabel surname = new JLabel("Nachname");
-    private JLabel firstname = new JLabel("Vorname");
-    private JLabel street = new JLabel("Straße, Hausnr.");
-    private JLabel zip = new JLabel("PLZ");
-    private JLabel city = new JLabel("Stadt");
-    private JLabel county = new JLabel("Bundesland");
-    private JLabel country = new JLabel("Land");
-    private JLabel phone = new JLabel("Phone");
-    private JLabel fax = new JLabel("Fax");
-    private JLabel email = new JLabel("Email");
+    private JLabel id = new JLabel();
+    private JLabel title = new JLabel();
+    private JLabel academicTitle = new JLabel();
+    private JLabel surname = new JLabel();
+    private JLabel firstname = new JLabel();
+    private JLabel street = new JLabel();
+    private JLabel zip = new JLabel();
+    private JLabel city = new JLabel();
+    private JLabel county = new JLabel();
+    private JLabel country = new JLabel();
+    private JLabel phone = new JLabel();
+    private JLabel fax = new JLabel();
+    private JLabel email = new JLabel();
 
     /**
      * Alle nötigen Eingabemasken, wie <code>JComboBox</code>,...
@@ -586,9 +586,22 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         tableP.add(js, BorderLayout.NORTH);
     }
 
-    private void reinitI18N() {
+    public void reinitI18N() {
 
         saveB.setText(WorkArea.getMessage(Constants.SAVE));
+        id.setText(WorkArea.getMessage(Constants.ID));
+        title.setText(WorkArea.getMessage(Constants.TITLE));
+        academicTitle.setText(WorkArea.getMessage(Constants.ATITLE));
+        surname.setText(WorkArea.getMessage(Constants.SURNAME));
+        firstname.setText(WorkArea.getMessage(Constants.FIRSTNAME));
+        street.setText(WorkArea.getMessage(Constants.STREET));
+        zip.setText(WorkArea.getMessage(Constants.ZIP));
+        city.setText(WorkArea.getMessage(Constants.CITY));
+        county.setText(WorkArea.getMessage(Constants.COUNTY));
+        country.setText(WorkArea.getMessage(Constants.COUNTRY));
+        phone.setText(WorkArea.getMessage(Constants.PHONE));
+        fax.setText(WorkArea.getMessage(Constants.FAX));
+        email.setText(WorkArea.getMessage(Constants.EMAIL));
 
     }
 }
