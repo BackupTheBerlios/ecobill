@@ -4,6 +4,7 @@ import ecobill.module.base.ui.*;
 import ecobill.module.base.ui.article.ArticleUI;
 import ecobill.module.base.ui.BusinessPartnerUI;
 import ecobill.core.system.WorkArea;
+import ecobill.core.system.Constants;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
@@ -32,7 +33,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.53 2005/09/28 12:22:14 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.54 2005/09/28 19:03:43 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -91,17 +92,17 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     }
 
     // alle Sachen erstellen die man braucht
-    private JButton ebutton = new JButton("Exit");
+    private JButton ebutton = new JButton();
     // erstellt TabFeld mit Komponenten
     private JTabbedPane jtab = new JTabbedPane();
     private JComponent tab = new JPanel(new BorderLayout());
     // erstellt MenuBar
     private JMenuBar menuBar = new JMenuBar();
     // erstellt MenuBarItems
-    private JMenu file = new JMenu("File");
-    private JMenu edit = new JMenu("Edit");
-    private JMenu help = new JMenu("Help");
-    private JMenu language = new JMenu("Language");
+    private JMenu file = new JMenu();
+    private JMenu edit = new JMenu();
+    private JMenu help = new JMenu();
+    private JMenu language = new JMenu();
     // erstellt MenuItems
     // erstellt DateiMenü
     private JMenuItem open = new JMenuItem("Open", 'O');
@@ -141,6 +142,8 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         this.exitButton();
         // setzt alles auf Sichtbar
         this.setVisible(true);
+
+        this.reinitI18N();
         // setzt die Operation die auf X am Fenster gemacht wird
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
@@ -154,7 +157,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         ebutton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
-                if (e.getActionCommand().equals("Exit"))
+                if (e.getSource().equals(ebutton))
                 // System wird beendet
                     System.exit(0);
             }
@@ -208,7 +211,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         open.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
-                if (e.getActionCommand().equals("Open"))
+                if (e.getSource().equals(open))
                 // Methode open() wird aufgerufen
                     open();
             }
@@ -230,7 +233,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         exit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
-                if (e.getActionCommand().equals("Exit"))
+                if (e.getSource().equals(exit))
                 // System wird beendet
                     System.exit(0);
             }
@@ -257,7 +260,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         undo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
-                if (e.getActionCommand().equals("Undo"))
+                if (e.getSource().equals(undo))
 
                     um.setLimit(1000);
 
@@ -271,7 +274,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         redo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
-                if (e.getActionCommand().equals("Redo"))
+                if (e.getSource().equals(redo))
 
                     um.setLimit(1000);
 
@@ -289,7 +292,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         copy.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
-                if (e.getActionCommand().equals("Copy"))
+                if (e.getSource().equals(copy))
                 // Methode topic() wird aufgerufen
                     copy();
             }
@@ -299,7 +302,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         paste.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
-                if (e.getActionCommand().equals("Paste"))
+                if (e.getSource().equals(paste))
                 // Methode topic() wird aufgerufen
                     paste();
             }
@@ -323,7 +326,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         ht.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
-                if (e.getActionCommand().equals("Help Topics"))
+                if (e.getSource().equals(ht))
                 // Methode topic() wird aufgerufen
                     topic();
             }
@@ -338,7 +341,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         about.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
-                if (e.getActionCommand().equals("About"))
+                if (e.getSource().equals(about))
                 // Methode about() wird aufgerufen
                     about();
             }
@@ -358,7 +361,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         ButtonGroup lang = new ButtonGroup();
 
         // Checkbox German wird erstellt
-        JCheckBoxMenuItem german = new JCheckBoxMenuItem("German", new ImageIcon("images/german.jpg"));
+        final JCheckBoxMenuItem german = new JCheckBoxMenuItem("German", new ImageIcon("images/german.jpg"));
         // setzt das German am Anfang ausgewählt ist
         german.setState(true);
         // setzt Mnemonic bei German
@@ -370,14 +373,14 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         german.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
-                if (e.getActionCommand().equals("German"))
+                if (e.getSource().equals(german))
                 // Methode german() wird aufgerufen
                     german();
             }
         });
 
         // CheckBox English wird erstellt
-        JCheckBoxMenuItem english = new JCheckBoxMenuItem("English", new ImageIcon("images/english.jpg"));
+        final JCheckBoxMenuItem english = new JCheckBoxMenuItem("English", new ImageIcon("images/english.jpg"));
         // setzt das English am Anfang nicht ausgewählt ist
         english.setState(false);
         // setzt EnglishMnemonic
@@ -389,7 +392,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         english.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
-                if (e.getActionCommand().equals("English"))
+                if (e.getSource().equals(english))
                 // Methode english() wird aufgerufen
                     english();
             }
@@ -433,6 +436,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         WorkArea.setLocale(Locale.GERMAN);
         articleUI.reinitI18N();
         businessPartnerUI.reinitI18N();
+        reinitI18N();
 
     }
 
@@ -440,6 +444,8 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         WorkArea.setLocale(Locale.ENGLISH);
         articleUI.reinitI18N();
         businessPartnerUI.reinitI18N();
+        reinitI18N();
+
     }
 
     public void open() {
@@ -475,5 +481,22 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             s = data.toString();
         }
         tf.setText(s);
+    }
+
+    public void reinitI18N() {
+
+        file.setText(WorkArea.getMessage(Constants.FILE));
+        edit.setText(WorkArea.getMessage(Constants.EDIT));
+        help.setText(WorkArea.getMessage(Constants.HELP));
+        language.setText(WorkArea.getMessage(Constants.LANGUAGE));
+
+        open.setText(WorkArea.getMessage(Constants.OPEN));
+        save.setText(WorkArea.getMessage(Constants.SAVE));
+        saveas.setText(WorkArea.getMessage(Constants.SAVEAS));
+        exit.setText(WorkArea.getMessage(Constants.EXIT));
+
+        ebutton.setText(WorkArea.getMessage(Constants.EXIT));
+
+
     }
 }
