@@ -33,7 +33,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.54 2005/09/28 19:03:43 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.55 2005/09/28 19:29:07 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -105,20 +105,26 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     private JMenu language = new JMenu();
     // erstellt MenuItems
     // erstellt DateiMenü
-    private JMenuItem open = new JMenuItem("Open", 'O');
-    private JMenuItem save = new JMenuItem("Save", 'S');
-    private JMenuItem saveas = new JMenuItem("Save As");
-    private JMenuItem exit = new JMenuItem("Exit", 'X');
+    private JMenuItem open = new JMenuItem();
+    private JMenuItem save = new JMenuItem();
+    private JMenuItem saveas = new JMenuItem();
+    private JMenuItem exit = new JMenuItem();
     // erstellt BearbeitenMenü
-    private JMenuItem undo = new JMenuItem("Undo", 'U');
-    private JMenuItem redo = new JMenuItem("Redo", 'R');
-    private JMenuItem cut = new JMenuItem("Cut", 'T');
-    private JMenuItem copy = new JMenuItem("Copy", 'C');
-    private JMenuItem paste = new JMenuItem("Paste", 'P');
-    private JMenuItem delete = new JMenuItem("Delete", 'D');
+    private JMenuItem undo = new JMenuItem();
+    private JMenuItem redo = new JMenuItem();
+    private JMenuItem cut = new JMenuItem();
+    private JMenuItem copy = new JMenuItem();
+    private JMenuItem paste = new JMenuItem();
+    private JMenuItem delete = new JMenuItem();
     // erstellt HilfeMenü
-    private JMenuItem ht = new JMenuItem("Help Topics", 'H');
-    private JMenuItem about = new JMenuItem("About", 'A');
+    private JMenuItem ht = new JMenuItem();
+    private JMenuItem about = new JMenuItem();
+
+
+        // CheckBox English wird erstellt
+    private JCheckBoxMenuItem english = new JCheckBoxMenuItem("_", new ImageIcon("images/english.jpg"));
+     // Checkbox German wird erstellt
+    private JCheckBoxMenuItem german = new JCheckBoxMenuItem("_", new ImageIcon("images/german.jpg"));
 
     private UndoManager um = new UndoManager();
 
@@ -173,13 +179,13 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // fügt Tabs dem Tabfeld hinzu
         jtab.setFont(myfont);
-        jtab.addTab("Start", new ImageIcon("images/s.gif"), tab);
+        jtab.addTab("_", new ImageIcon("images/s.gif"), tab);
         // hier wird die ArtikleUI als neuer Tab eingefügt
-        jtab.addTab("Artikel", new ImageIcon("images/a.gif"), articleUI);
+        jtab.addTab("_", new ImageIcon("images/a.gif"), articleUI);
         // hier wird die BusinessPartnerUI als neuer Tab eingefügt
-        jtab.addTab("Kunden", new ImageIcon("images/k.gif"), businessPartnerUI);
+        jtab.addTab("_", new ImageIcon("images/k.gif"), businessPartnerUI);
         // hier wird die RechnungsUI als neuer Tab eingefügt
-        jtab.addTab("Lieferscheine/Rechnungen", new ImageIcon("images/l.gif"), printUI);
+        jtab.addTab("_", new ImageIcon("images/l.gif"), printUI);
 
         //jtab.addTab("Designer", new PanelDesigner(new File("lieferschein.jrxml")));
 
@@ -360,8 +366,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // erstellt Gruppe der Checkboxen
         ButtonGroup lang = new ButtonGroup();
 
-        // Checkbox German wird erstellt
-        final JCheckBoxMenuItem german = new JCheckBoxMenuItem("German", new ImageIcon("images/german.jpg"));
         // setzt das German am Anfang ausgewählt ist
         german.setState(true);
         // setzt Mnemonic bei German
@@ -379,8 +383,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             }
         });
 
-        // CheckBox English wird erstellt
-        final JCheckBoxMenuItem english = new JCheckBoxMenuItem("English", new ImageIcon("images/english.jpg"));
         // setzt das English am Anfang nicht ausgewählt ist
         english.setState(false);
         // setzt EnglishMnemonic
@@ -494,6 +496,24 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         save.setText(WorkArea.getMessage(Constants.SAVE));
         saveas.setText(WorkArea.getMessage(Constants.SAVEAS));
         exit.setText(WorkArea.getMessage(Constants.EXIT));
+
+        undo.setText(WorkArea.getMessage(Constants.UNDO));
+        redo.setText(WorkArea.getMessage(Constants.REDO));
+        cut.setText(WorkArea.getMessage(Constants.CUT));
+        copy.setText(WorkArea.getMessage(Constants.COPY));
+        paste.setText(WorkArea.getMessage(Constants.PASTE));
+        delete.setText(WorkArea.getMessage(Constants.DELETE));
+
+        ht.setText(WorkArea.getMessage(Constants.HT));
+        about.setText(WorkArea.getMessage(Constants.ABOUT));
+
+        jtab.setTitleAt(0, WorkArea.getMessage(Constants.START));
+        jtab.setTitleAt(1, WorkArea.getMessage(Constants.ARTICLE));
+        jtab.setTitleAt(2, WorkArea.getMessage(Constants.CUSTOMER));
+        jtab.setTitleAt(3, WorkArea.getMessage(Constants.BILLS));
+
+        english.setText(WorkArea.getMessage(Constants.ENGLISH));
+        german.setText(WorkArea.getMessage(Constants.GERMAN));        
 
         ebutton.setText(WorkArea.getMessage(Constants.EXIT));
 
