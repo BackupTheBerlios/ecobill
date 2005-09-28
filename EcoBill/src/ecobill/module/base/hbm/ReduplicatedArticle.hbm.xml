@@ -2,30 +2,42 @@
 <!DOCTYPE hibernate-mapping PUBLIC
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-        
+
 <!--
  User: rro
  Date: 26.07.2005
  Time: 22:24:58
  
  @author Roman R&auml;dle
- @version $Id: ReduplicatedArticle.hbm.xml,v 1.3 2005/09/26 15:27:40 gath Exp $
+ @version $Id: ReduplicatedArticle.hbm.xml,v 1.4 2005/09/28 15:57:29 raedler Exp $
  @since EcoBill 1.0
 -->
 
 <hibernate-mapping default-lazy="false">
 
     <class name="ecobill.module.base.domain.ReduplicatedArticle" table="BASE_REDUPLICATED_ARTICLE">
-    
+
         <id name="id" type="long" unsaved-value="-1">
             <column name="ID" not-null="true"/>
             <generator class="native"/>
         </id>
 
-        <many-to-one name="deliveryOrder" class="ecobill.module.base.domain.DeliveryOrder" column="DELIVERY_ORDER_ID" cascade="save-update"/>
+        <many-to-one name="deliveryOrder"
+                     column="DELIVERY_ORDER_ID"
+                     class="ecobill.module.base.domain.DeliveryOrder"
+                     cascade="save-update"
+                     lazy="false"/>
+
+        <property name="articleNumber" type="string">
+            <column name="ARTICLE_NUMBER" not-null="true"/>
+        </property>
 
         <property name="amount" type="double">
             <column name="AMOUNT" not-null="true"/>
+        </property>
+
+        <property name="unit" type="string">
+            <column name="UNIT" not-null="true"/>
         </property>
 
         <property name="price" type="double">
@@ -33,9 +45,14 @@
         </property>
 
         <property name="description" type="string">
-            <column name="DESCRIPTION" not-null="true"/>
+            <column name="DESCRIPTION" length="4000" not-null="true"/>
         </property>
 
+        <many-to-one name="article"
+                     column="ARTICLE_ID"
+                     class="ecobill.module.base.domain.Article"
+                     cascade="none"
+                     lazy="false"/>
 
     </class>
 
