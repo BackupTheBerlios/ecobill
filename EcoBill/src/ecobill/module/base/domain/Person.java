@@ -10,10 +10,10 @@ import java.text.Collator;
  * Time: 13:31:22
  *
  * @author Roman R&auml;dle
- * @version $Id: Person.java,v 1.1 2005/07/28 21:03:50 raedler Exp $
+ * @version $Id: Person.java,v 1.2 2005/09/28 15:44:18 raedler Exp $
  * @since EcoBill 1.0
  */
-public final class Person extends AbstractDomain {
+public class Person extends AbstractDomain {
 
     /**
      * Der Schlüssel einer Anrede.
@@ -75,6 +75,16 @@ public final class Person extends AbstractDomain {
      */
     public void setTitleKey(String titleKey) {
         this.titleKey = titleKey;
+    }
+
+    /**
+     * Gibt den Schlüssel für die Anrede, die in Briefen verwendet wird,
+     * zurück.
+     *
+     * @return Der Schlüssel für die Anrede, die in Briefen verwendet wird.
+     */
+    public String getLetterTitleKey() {
+        return titleKey + "_letter";
     }
 
     /**

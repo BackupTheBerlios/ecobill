@@ -11,10 +11,10 @@ import ecobill.core.system.WorkArea;
  * Time: 17:19:20
  *
  * @author Roman R&auml;dle
- * @version $Id: SystemUnit.java,v 1.2 2005/08/11 18:10:31 raedler Exp $
+ * @version $Id: SystemUnit.java,v 1.3 2005/09/28 15:44:18 raedler Exp $
  * @since EcoBill 1.0
  */
-public final class SystemUnit extends AbstractDomain {
+public class SystemUnit extends AbstractDomain {
 
     /**
      * Der i18n Schlüssel unter dem in einem <code>ResourceBundle</code> der

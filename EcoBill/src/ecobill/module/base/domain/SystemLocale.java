@@ -14,10 +14,10 @@ import java.text.Collator;
  * Time: 16:09:34
  *
  * @author Roman R&auml;dle
- * @version $Id: SystemLocale.java,v 1.2 2005/07/30 11:18:03 raedler Exp $
+ * @version $Id: SystemLocale.java,v 1.3 2005/09/28 15:44:18 raedler Exp $
  * @since EcoBill 1.0
  */
-public final class SystemLocale extends AbstractDomain {
+public class SystemLocale extends AbstractDomain {
 
     /**
      * Diese Konstanten werden verwendet um diese <code>SystemLocale</code> mit

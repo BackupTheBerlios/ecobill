@@ -14,10 +14,10 @@ import java.text.Collator;
  * Time: 18:24:14
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartner.java,v 1.3 2005/09/27 15:07:38 raedler Exp $
+ * @version $Id: BusinessPartner.java,v 1.4 2005/09/28 15:44:18 raedler Exp $
  * @since EcoBill 1.0
  */
-public final class BusinessPartner extends AbstractDomain {
+public class BusinessPartner extends AbstractDomain {
 
     /**
      * Der Schlüssel der Anrede des Unternehmens.

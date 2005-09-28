@@ -15,10 +15,10 @@ import java.text.Collator;
  * Time: 19:51:39
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrder.java,v 1.1 2005/07/28 21:03:50 raedler Exp $
+ * @version $Id: DeliveryOrder.java,v 1.2 2005/09/28 15:44:18 raedler Exp $
  * @since EcoBill 1.0
  */
-public final class DeliveryOrder extends AbstractDomain {
+public class DeliveryOrder extends AbstractDomain {
 
     /**
      * Der Geschäftspartner dem dieser Lieferschein zugeordnet werden soll.
@@ -41,6 +41,18 @@ public final class DeliveryOrder extends AbstractDomain {
     // @todo durch ENUM ersetzen
     //private CharacterisationType characterisationType;
     private String characterisationType;
+
+    /**
+     * Ein Freitext der optional angegeben werden kann. Dieser Freitext kann bspw. an den
+     * Anfang eines Reports gesetzt werden.
+     */
+    private String prefixFreetext;
+
+    /**
+     * Ein Freitext der optional angegeben werden kann. Dieser Freitext kann bspw. ans Ende
+     * eines Reports gesetzt werden.
+     */
+    private String suffixFreetext;
 
     /**
      * Gibt an ob von diesem Lieferschein schon eine Rechnung erstellt wurde.
@@ -130,6 +142,46 @@ public final class DeliveryOrder extends AbstractDomain {
     }
 
     /**
+     * Gibt den Freitext, der optional angegeben werden kann, zurück. Dieser Freitext
+     * kann bspw. an den Anfang eines Reports gesetzt werden.
+     *
+     * @return Der Freitext der optional angegeben werden kann.
+     */
+    public String getPrefixFreetext() {
+        return prefixFreetext;
+    }
+
+    /**
+     * Setzt den Freitext, der optional angegeben werden kann. Dieser Freitext
+     * kann bspw. an den Anfang eines Reports gesetzt werden.
+     *
+     * @param prefixFreetext Der Freitext der optional angegeben werden kann.
+     */
+    public void setPrefixFreetext(String prefixFreetext) {
+        this.prefixFreetext = prefixFreetext;
+    }
+
+    /**
+     * Gibt den Freitext, der optional angegeben werden kann, zurück. Dieser Freitext
+     * kann bspw. ans Ende eines Reports gesetzt werden.
+     *
+     * @return Der Freitext der optional angegeben werden kann.
+     */
+    public String getSuffixFreetext() {
+        return suffixFreetext;
+    }
+
+    /**
+     * Setzt den Freitext, der optional angegeben werden kann. Dieser Freitext
+     * kann bspw. ans Ende eines Reports gesetzt werden.
+     *
+     * @param suffixFreetext Der Freitext der optional angegeben werden kann.
+     */
+    public void setSuffixFreetext(String suffixFreetext) {
+        this.suffixFreetext = suffixFreetext;
+    }
+
+    /**
      * Gibt an ob von diesem Lieferschein schon eine Rechnung erstellt wurde.
      *
      * @return Es gilt true falls von diesem Lieferschein schon eine Rechnung
@@ -193,12 +245,12 @@ public final class DeliveryOrder extends AbstractDomain {
      */
     public int hashCode() {
         int result;
-        result = (businessPartner != null ? businessPartner.hashCode() : 0);
-        result = 29 * result + (deliveryOrderNumber != null ? deliveryOrderNumber.hashCode() : 0);
-        result = 29 * result + (deliveryOrderDate != null ? deliveryOrderDate.hashCode() : 0);
-        result = 29 * result + (characterisationType != null ? characterisationType.hashCode() : 0);
-        result = 29 * result + (preparedBill ? 1 : 0);
-        result = 29 * result + (articles != null ? articles.hashCode() : 0);
+        result = (this.getBusinessPartner() != null ? this.getBusinessPartner().hashCode() : 0);
+        result = 29 * result + (this.getDeliveryOrderNumber() != null ? this.getDeliveryOrderNumber().hashCode() : 0);
+        result = 29 * result + (this.getDeliveryOrderDate() != null ? this.getDeliveryOrderDate().hashCode() : 0);
+        result = 29 * result + (this.getCharacterisationType() != null ? this.getCharacterisationType().hashCode() : 0);
+        result = 29 * result + (this.isPreparedBill() ? 1 : 0);
+        result = 29 * result + (this.getArticles() != null ? this.getArticles().hashCode() : 0);
         return result;
     }
 }

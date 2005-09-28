@@ -15,10 +15,10 @@ import java.text.Collator;
  * Time: 13:29:28
  *
  * @author Roman R&auml;dle
- * @version $Id: Bill.java,v 1.1 2005/07/28 21:03:49 raedler Exp $
+ * @version $Id: Bill.java,v 1.2 2005/09/28 15:44:18 raedler Exp $
  * @since DAPS INTRA 1.0
  */
-public final class Bill extends AbstractDomain {
+public class Bill extends AbstractDomain {
 
     /**
      * Der Geschäftspartner dem diese Rechnung zugeordnet werden soll.

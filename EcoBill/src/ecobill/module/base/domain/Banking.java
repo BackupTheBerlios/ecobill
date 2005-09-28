@@ -11,10 +11,10 @@ import java.text.Collator;
  * Time: 13:37:24
  *
  * @author Roman R&auml;dle
- * @version $Id: Banking.java,v 1.1 2005/07/28 21:03:49 raedler Exp $
+ * @version $Id: Banking.java,v 1.2 2005/09/28 15:44:18 raedler Exp $
  * @since EcoBill 1.0
  */
-public final class Banking extends AbstractDomain {
+public class Banking extends AbstractDomain {
 
     /**
      * Der Name des Bankinstitutes.

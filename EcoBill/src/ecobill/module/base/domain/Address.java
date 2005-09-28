@@ -12,10 +12,10 @@ import java.text.Collator;
  * Time: 13:33:34
  *
  * @author Roman R&auml;dle
- * @version $Id: Address.java,v 1.1 2005/07/28 21:03:48 raedler Exp $
+ * @version $Id: Address.java,v 1.2 2005/09/28 15:44:18 raedler Exp $
  * @since EcoBill 1.0
  */
-public final class Address extends AbstractDomain {
+public class Address extends AbstractDomain {
 
     /**
      * Die Straﬂe incl. der Hausnummer.

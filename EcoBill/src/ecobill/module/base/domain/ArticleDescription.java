@@ -13,10 +13,10 @@ import ecobill.util.Localizable;
  * Time: 14:53:14
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleDescription.java,v 1.1 2005/07/28 21:03:48 raedler Exp $
+ * @version $Id: ArticleDescription.java,v 1.2 2005/09/28 15:44:18 raedler Exp $
  * @since EcoBill 1.0
  */
-public final class ArticleDescription extends AbstractDomain implements Localizable {
+public class ArticleDescription extends AbstractDomain implements Localizable {
 
     /**
      * Die landesspezifische Beschreibung.

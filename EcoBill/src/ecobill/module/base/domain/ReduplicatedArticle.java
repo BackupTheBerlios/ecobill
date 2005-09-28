@@ -12,10 +12,15 @@ import java.text.Collator;
  * Time: 22:23:14
  *
  * @author Roman R&auml;dle
- * @version $Id: ReduplicatedArticle.java,v 1.2 2005/09/26 15:27:40 gath Exp $
+ * @version $Id: ReduplicatedArticle.java,v 1.3 2005/09/28 15:44:18 raedler Exp $
  * @since EcoBill 1.0
  */
-public final class ReduplicatedArticle extends AbstractDomain {
+public class ReduplicatedArticle extends AbstractDomain {
+
+    /**
+     * Die Artikelnummer des Artikels.
+     */
+    private String articleNumber;
 
     /**
      * Die Anzahl des Artikels.
@@ -28,6 +33,11 @@ public final class ReduplicatedArticle extends AbstractDomain {
     private Double price;
 
     /**
+     * Die Einheit des duplizierten Artikels.
+     */
+    private String unit;
+
+    /**
      * Die Beschreibung des Artikels.
      */
     private String description;
@@ -37,6 +47,29 @@ public final class ReduplicatedArticle extends AbstractDomain {
      */
     private DeliveryOrder deliveryOrder;
 
+    /**
+     * Der ursprüngliche Artikel aus dem dieser duplizierte Artikel hervorging.
+     */
+    private Article article;
+
+    /**
+     * Gibt die Artikelnummer des Artikels zurück.
+     * Diese Nummer sollte eindeutig sein.
+     *
+     * @return Die Artikelnummer des Artikels.
+     */
+    public String getArticleNumber() {
+        return articleNumber;
+    }
+
+    /**
+     * Setzt die Artikelnummer des Artikels.
+     *
+     * @param articleNumber Die Artikelnummer des Artikels.
+     */
+    public void setArticleNumber(String articleNumber) {
+        this.articleNumber = articleNumber;
+    }
 
     /**
      * Gibt die Anzahl des Artikels zurück.
@@ -59,11 +92,12 @@ public final class ReduplicatedArticle extends AbstractDomain {
     /**
      * Setzt die DeliverOrderId des Artikels zurück.
      *
-     * @param deliveryOrder   DeliverOrder des Artikels
+     * @param deliveryOrder DeliverOrder des Artikels
      */
     public void setDeliveryOrder(DeliveryOrder dO) {
         this.deliveryOrder = deliveryOrder;
     }
+
     /**
      * Setzt die Anzahl des Artikels.
      *
@@ -92,6 +126,24 @@ public final class ReduplicatedArticle extends AbstractDomain {
     }
 
     /**
+     * Gibt die Einheit des duplizierten Artikels.
+     *
+     * @return Die Einheit des duplizierten Artikels.
+     */
+    public String getUnit() {
+        return unit;
+    }
+
+    /**
+     * Setzt die Einheit des duplizierten Artikels.
+     *
+     * @param unit Die Einheit des duplizierten Artikels.
+     */
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    /**
      * Gibt die Beschreibung des Artikels zurück.
      *
      * @return Die Beschreibung des Artikels.
@@ -107,6 +159,26 @@ public final class ReduplicatedArticle extends AbstractDomain {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    /**
+     * Gibt den ursprünglichen Artikel, aus dem dieser duplizierte Artikel hervorging,
+     * zurück.
+     *
+     * @return Der ursprünglich Artikel aus dem dieser duplizierte Artikel hervorging.
+     */
+    public Article getArticle() {
+        return article;
+    }
+
+    /**
+     * Setzt den ursprünglichen Artikel, aus dem dieser duplizierte Artikel hervorging.
+     *
+     * @param article Der ursprüngliche Artikel aus dem dieser duplizierte Artikel
+     *                hervorging.
+     */
+    public void setArticle(Article article) {
+        this.article = article;
     }
 
     /**

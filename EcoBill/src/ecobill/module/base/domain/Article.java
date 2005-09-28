@@ -20,10 +20,10 @@ import java.util.*;
  * Time: 00:37:27
  *
  * @author Roman R&auml;dle
- * @version $Id: Article.java,v 1.4 2005/08/03 13:06:09 raedler Exp $
+ * @version $Id: Article.java,v 1.5 2005/09/28 15:44:18 raedler Exp $
  * @since EcoBill 1.0
  */
-public final class Article extends AbstractDomain {
+public class Article extends AbstractDomain {
 
     /**
      * Die Artikelnummer des Artikels.
