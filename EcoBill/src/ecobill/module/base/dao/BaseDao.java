@@ -10,6 +10,7 @@ import ecobill.module.base.dao.exception.NoSuchArticleException;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
+import java.io.Serializable;
 
 /**
  * Das <code>BaseDao<code> stellt Methoden zur Verfügung um Daten aus einer Datenbank zu
@@ -20,10 +21,36 @@ import java.util.List;
  * Time: 12:29:36
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDao.java,v 1.7 2005/09/27 15:08:28 raedler Exp $
+ * @version $Id: BaseDao.java,v 1.8 2005/09/28 15:57:15 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface BaseDao {
+
+    /**
+     * Lädt das <code>Object</code> mit der entsprechenden id von der Datenbank.
+     *
+     * @param clazz Die Klasse des <code>Object</code>.
+     * @param id    Die id des <code>Object</code>.
+     * @return Gibt das gefundene <code>Object</code> zurück, ansonsten eine neu
+     *         erzeugte Instanz der Klasse.
+     */
+    public Object load(Class clazz, Serializable id);
+
+    /**
+     * Lädt alle Objekte der persistenten Klasse und gibt diese in einer <code>List</code>
+     * zurück.
+     *
+     * @param clazz Die Klasse zu der diese Objekte gehören.
+     * @return Die <code>List</code> die alle persistenten Objekte beinhaltet.
+     */
+    public List loadAll(Class clazz);
+
+    /**
+     * Löst eine Entität von der aktuellen <code>Session</code>.
+     *
+     * @param entity Die zu lösende Entität.
+     */
+    public void evict(Object entity);
 
     /**
      * Gibt die <code>SystemLocale</code>, deren localeKey des Parameter localeKey entspricht,
@@ -34,11 +61,12 @@ public interface BaseDao {
      * @return Die <code>SystemLocale</code> die unter diesem localeKey gefunden wurde.
      * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
      *                             aufgetritt.
-     * @throws ecobill.module.base.dao.exception.NoSuchSystemLocaleException Diese wird geworfen falls keine <code>SystemLocale</code>
-     *                                     unter diesem Schlüssel gefunden wurde.
+     * @throws ecobill.module.base.dao.exception.NoSuchSystemLocaleException
+     *                             Diese wird geworfen falls keine <code>SystemLocale</code>
+     *                             unter diesem Schlüssel gefunden wurde.
      * @throws ecobill.module.base.dao.exception.NonUniqueHibernateResultException
-     *                                     Diese wird geworfen falls mehr als eine <code>SystemLocale</code>
-     *                                     zurückgeliefert wird und das Ergebnis somit nicht eindeutig ist.
+     *                             Diese wird geworfen falls mehr als eine <code>SystemLocale</code>
+     *                             zurückgeliefert wird und das Ergebnis somit nicht eindeutig ist.
      * @see NoSuchArticleException
      * @see NonUniqueHibernateResultException
      */
@@ -142,14 +170,14 @@ public interface BaseDao {
      * @param articleNumber Die eindeutitge Artikelnummer unter der ein Artikel in der
      *                      Datenbank abgelegt ist.
      * @return Der <code>Article</code> der unter dieser Artikelnummer gefunden wurde.
-     * @throws DataAccessException org.springframework.dao.DataAccessException
-     *                             Diese wird geworfen falls ein Fehler beim Datenzugriff
-     *                             aufgetritt.
+     * @throws DataAccessException    org.springframework.dao.DataAccessException
+     *                                Diese wird geworfen falls ein Fehler beim Datenzugriff
+     *                                aufgetritt.
      * @throws NoSuchArticleException Diese wird geworfen falls kein <code>Article</code>
-     *                                     unter dieser articleNumber gefunden wurde.
+     *                                unter dieser articleNumber gefunden wurde.
      * @throws NonUniqueHibernateResultException
-     *                                     Diese wird geworfen falls mehr als ein <code>Article</code>
-     *                                     zurückgeliefert wird und das Ergebnis somit nicht eindeutig ist.
+     *                                Diese wird geworfen falls mehr als ein <code>Article</code>
+     *                                zurückgeliefert wird und das Ergebnis somit nicht eindeutig ist.
      * @see NoSuchArticleException
      * @see NonUniqueHibernateResultException
      */

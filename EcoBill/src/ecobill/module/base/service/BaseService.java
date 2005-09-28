@@ -9,6 +9,7 @@ import ecobill.core.system.service.Service;
 
 import java.util.List;
 import java.util.Locale;
+import java.io.Serializable;
 
 /**
  * Der <code>BaseService</code> ermöglicht es mit Hilfe von DataAccessObject komplexere Daten
@@ -19,7 +20,7 @@ import java.util.Locale;
  * Time: 12:30:55
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseService.java,v 1.9 2005/09/27 15:08:12 raedler Exp $
+ * @version $Id: BaseService.java,v 1.10 2005/09/28 15:56:57 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface BaseService extends Service {
@@ -41,6 +42,21 @@ public interface BaseService extends Service {
     public void setBaseDao(BaseDao baseDao);
 
     /**
+     * @see BaseDao#load(Class, java.io.Serializable)
+     */
+    public Object load(Class clazz, Serializable id);
+
+    /**
+     * @see BaseDao#loadAll(Class)
+     */
+    public List loadAll(Class clazz);
+
+    /**
+     * @see BaseDao#evict(Object)
+     */
+    public void evict(Object entity);
+
+    /**
      * @see BaseDao#getSystemLocaleBySystemLocaleKey(String)
      */
     public SystemLocale getSystemLocaleBySystemLocaleKey(String systemLocaleKey);
@@ -60,7 +76,7 @@ public interface BaseService extends Service {
     public List getAllSystemLocales();
 
     /**
-     * @see ecobill.module.base.dao.BaseDao#getAllSystemUnits() 
+     * @see ecobill.module.base.dao.BaseDao#getAllSystemUnits()
      */
     public List getAllSystemUnits();
 

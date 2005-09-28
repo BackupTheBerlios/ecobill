@@ -9,6 +9,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
+import java.io.Serializable;
 
 /**
  * Das <code>BaseDaoImpl</code> ist eine Implementation des Interfaces <code>BaseDao</code>.
@@ -18,11 +19,38 @@ import java.util.List;
  * Time: 12:29:43
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDaoImpl.java,v 1.7 2005/09/27 15:08:28 raedler Exp $
+ * @version $Id: BaseDaoImpl.java,v 1.8 2005/09/28 15:57:15 raedler Exp $
  * @see BaseDao
  * @since EcoBill 1.0
  */
 public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
+
+    /**
+     * Lädt das <code>Object</code> mit der entsprechenden id von der Datenbank.
+     *
+     * @param clazz Die Klasse des <code>Object</code>.
+     * @param id    Die id des <code>Object</code>.
+     * @return Gibt das gefundene <code>Object</code> zurück, ansonsten eine neu
+     *         erzeugte Instanz der Klasse.
+     * @see BaseDao#load(Class, java.io.Serializable)
+     */
+    public Object load(Class clazz, Serializable id) {
+        return getHibernateTemplate().load(clazz, id);
+    }
+
+    public List loadAll(Class clazz) {
+        return getHibernateTemplate().loadAll(clazz);
+    }
+
+    /**
+     * Löst eine Entität von der aktuellen <code>Session</code>.
+     *
+     * @param entity Die zu lösende Entität.
+     * @see BaseDao#evict(Object)
+     */
+    public void evict(Object entity) {
+        getHibernateTemplate().evict(entity);
+    }
 
     /**
      * Gibt die <code>SystemLocale</code>, deren localeKey des Parameter localeKey entspricht,

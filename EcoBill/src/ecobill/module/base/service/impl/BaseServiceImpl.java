@@ -10,6 +10,7 @@ import ecobill.util.exception.LocalizerException;
 
 import java.util.List;
 import java.util.Locale;
+import java.io.Serializable;
 
 import org.springframework.dao.DataAccessException;
 
@@ -21,7 +22,7 @@ import org.springframework.dao.DataAccessException;
  * Time: 12:31:05
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseServiceImpl.java,v 1.10 2005/09/27 15:08:12 raedler Exp $
+ * @version $Id: BaseServiceImpl.java,v 1.11 2005/09/28 15:56:57 raedler Exp $
  * @see BaseService
  * @since EcoBill 1.0
  */
@@ -53,6 +54,27 @@ public class BaseServiceImpl implements BaseService {
      */
     public void setBaseDao(BaseDao baseDao) {
         this.baseDao = baseDao;
+    }
+
+    /**
+     * @see BaseService#load(Class, java.io.Serializable)
+     */
+    public Object load(Class clazz, Serializable id) {
+        return baseDao.load(clazz, id);
+    }
+
+    /**
+     * @see BaseService#loadAll(Class) 
+     */
+    public List loadAll(Class clazz) {
+        return baseDao.loadAll(clazz);
+    }
+
+    /**
+     * @see BaseService#evict(Object)
+     */
+    public void evict(Object entity) {
+        baseDao.evict(entity);
     }
 
     /**
