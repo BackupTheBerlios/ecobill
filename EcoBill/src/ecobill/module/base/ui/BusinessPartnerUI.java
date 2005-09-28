@@ -3,6 +3,7 @@ package ecobill.module.base.ui;
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.*;
 import ecobill.core.system.WorkArea;
+import ecobill.core.system.Constants;
 import org.springframework.beans.factory.InitializingBean;
 
 import javax.swing.*;
@@ -25,7 +26,7 @@ import java.util.Vector;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.25 2005/09/27 12:52:01 raedler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.26 2005/09/28 12:14:49 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -72,7 +73,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
     /**
      * Dieser Button ist für das Speichern
      */
-    private JButton saveB = new JButton("Speichern");
+    private JButton saveB = new JButton();
 
     /**
      * Dieses Panel bietet wie oben genannt die Eingabemaske (auch Änderungen) für Kunden.
@@ -221,6 +222,8 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         primaryTP.add("Aufträge", descriptionsP);
         primaryTP.add("Lieferscheine", deliveryOrderP);
         primaryTP.add("Rechnungen", billP);
+
+        this.reinitI18N();
 
         /*
          * Fügt die primäre <code>JTabbedPane</code> diesem <code>JInternalFrame</code> hinzu.
@@ -581,5 +584,11 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         JScrollPane js = new JScrollPane(new JTable(new Object[][]{{"Meier", "Hans", "Vogelweg 7", "112233", "Vogelsang","043/223344", "043/223345", "meierhans@gmx.de", "1"}, {"Becker", "Heinz", "Amselweg 18", "223344", "Amselhausen","044/223344", "044/223345", "beckerheinz@gmx.de", "2"}}, new Object[]{"Nachname", "Vorname", "Straße", "PLZ", "Ort", "Phone", "Fax", "Email", "CustomerID"}));
         js.setPreferredSize(new Dimension(400,200));
         tableP.add(js, BorderLayout.NORTH);
+    }
+
+    private void reinitI18N() {
+
+        saveB.setText(WorkArea.getMessage(Constants.SAVE));
+
     }
 }
