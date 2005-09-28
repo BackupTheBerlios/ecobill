@@ -33,7 +33,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.55 2005/09/28 19:29:07 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.56 2005/09/28 21:19:37 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -120,6 +120,10 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     private JMenuItem ht = new JMenuItem();
     private JMenuItem about = new JMenuItem();
 
+    //erstellt JLabels
+    private JLabel lab1 = new JLabel(new ImageIcon("images/StartbildGer.jpg"));
+    private JLabel lab2 = new JLabel(new ImageIcon("images/StartbildEng.jpg"));
+
 
         // CheckBox English wird erstellt
     private JCheckBoxMenuItem english = new JCheckBoxMenuItem("_", new ImageIcon("images/english.jpg"));
@@ -191,9 +195,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         //
 
-        //erstellt JLabels
 
-        JLabel lab1 = new JLabel(new ImageIcon("images/Startbild.jpg"));
         // setzt ToolTip
         lab1.setToolTipText("Copyright @ JFuckers");
         // fügt JLabels tab0 zu
@@ -439,6 +441,10 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         articleUI.reinitI18N();
         businessPartnerUI.reinitI18N();
         reinitI18N();
+        tab.remove(lab2);
+        lab1.setToolTipText("Copyright @ JFuckers");
+        tab.add(lab1, BorderLayout.CENTER);
+
 
     }
 
@@ -447,6 +453,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         articleUI.reinitI18N();
         businessPartnerUI.reinitI18N();
         reinitI18N();
+        tab.remove(lab1);
+        lab2.setToolTipText("Copyright @ JFuckers");
+        tab.add(lab2, BorderLayout.CENTER);
 
     }
 
@@ -516,7 +525,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         german.setText(WorkArea.getMessage(Constants.GERMAN));        
 
         ebutton.setText(WorkArea.getMessage(Constants.EXIT));
-
 
     }
 }
