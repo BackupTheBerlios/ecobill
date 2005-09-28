@@ -4,6 +4,7 @@ import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.*;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
+import ecobill.util.ComboBoxUtils;
 import org.springframework.beans.factory.InitializingBean;
 
 import javax.swing.*;
@@ -26,7 +27,7 @@ import java.util.Vector;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.29 2005/09/28 18:24:52 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.30 2005/09/28 18:28:24 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -112,7 +113,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
      * Alle nötigen Eingabemasken, wie <code>JComboBox</code>,...
      */
     private JTextField idTF = new JTextField();
-    private JComboBox titleCB = new JComboBox();
+    private JComboBox titleCB = new JComboBox(ComboBoxUtils.getI18NTitles());
     private JComboBox academicTitleCB = new JComboBox();
     private JTextField surnameTF = new JTextField();
     private JTextField firstnameTF = new JTextField();
@@ -312,9 +313,6 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         customerP.add(title);
 
         titleCB.setBounds(10, 40, 70, 20);
-        titleCB.addItem("Firma");
-        titleCB.addItem("Herr");
-        titleCB.addItem("Frau");
         customerP.add(titleCB);
 
         academicTitle.setBounds(112, 20, 120, 20);
