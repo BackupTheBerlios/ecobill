@@ -10,7 +10,7 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.5 2005/09/28 16:01:18 raedler Exp $
+ * @version $Id: Constants.java,v 1.6 2005/09/28 18:27:17 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {
@@ -83,11 +83,11 @@ public interface Constants {
     public final static String DORDER = "dorder";
     public final static String BILL = "bill";
     public final static String IPFE = "ipfe";
-    public final static String MR = "ipfe";
-    public final static String MS = "ipfe";
-    public final static String GER = "ipfe";
-    public final static String ENG = "ipfe";
-    public final static String USA = "ipfe";
+    public final static String MR = "mr";
+    public final static String MS = "ms";
+    public final static String GER = "ger";
+    public final static String ENG = "eng";
+    public final static String USA = "usa";
 
 
 

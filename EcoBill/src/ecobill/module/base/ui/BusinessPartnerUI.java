@@ -26,7 +26,7 @@ import java.util.Vector;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.28 2005/09/28 13:04:48 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.29 2005/09/28 18:24:52 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -124,13 +124,6 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
     private JTextField phoneTF = new JTextField();
     private JTextField faxTF = new JTextField();
     private JTextField emailTF = new JTextField();
-
-    private JMenuItem mr = new JMenuItem();
-    private JMenuItem ms = new JMenuItem();
-    private JMenuItem ger = new JMenuItem();
-    private JMenuItem eng = new JMenuItem();
-    private JMenuItem usa = new JMenuItem();
-
 
 
     private JTextArea descriptionTA = new JTextArea();
@@ -319,8 +312,9 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         customerP.add(title);
 
         titleCB.setBounds(10, 40, 70, 20);
-        titleCB.addItem(mr);
-        titleCB.addItem(ms);
+        titleCB.addItem("Firma");
+        titleCB.addItem("Herr");
+        titleCB.addItem("Frau");
         customerP.add(titleCB);
 
         academicTitle.setBounds(112, 20, 120, 20);
@@ -373,9 +367,6 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         customerP.add(country);
 
         countryCOB.setBounds(120, 220, 100, 20);
-        countryCOB.addItem(ger);
-        countryCOB.addItem(eng);
-        countryCOB.addItem(usa);
         customerP.add(countryCOB);
 
         /*
@@ -613,13 +604,6 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         bundleBorder.setTitle(WorkArea.getMessage(Constants.IPFE));
         descriptionBorder.setTitle(WorkArea.getMessage(Constants.DESCRIPTIONS));
         residualDescriptionsBorder.setTitle(WorkArea.getMessage(Constants.RESIDUAL_DESCRIPTIONS));
-        mr.setText(WorkArea.getMessage(Constants.MR));
-        ms.setText(WorkArea.getMessage(Constants.MS));
-        ger.setText(WorkArea.getMessage(Constants.GER));
-        eng.setText(WorkArea.getMessage(Constants.ENG));
-        usa.setText(WorkArea.getMessage(Constants.USA));
-
-
 
     }
 }
