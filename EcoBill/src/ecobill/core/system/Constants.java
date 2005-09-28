@@ -10,7 +10,7 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.4 2005/09/28 13:04:41 jfuckerweiler Exp $
+ * @version $Id: Constants.java,v 1.5 2005/09/28 16:01:18 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {
@@ -51,6 +51,8 @@ public interface Constants {
     public final static String LANGUAGE_TOOLTIP = "language.tooltip";
     public final static String LOCALE_SETTING = "locale_setting";
     public final static String LOCALE_SETTING_TOOLTIP = "locale_setting.tooltip";
+    public final static String NEW = "new";
+    public final static String NEW_TOOLTIP = "new.tooltip";
     public final static String OVERVIEW = "overview";
     public final static String OVERVIEW_TOOLTIP = "overview.tooltip";
     public final static String PRICE = "price";
