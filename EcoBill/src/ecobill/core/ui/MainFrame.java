@@ -2,6 +2,7 @@ package ecobill.core.ui;
 
 import ecobill.module.base.ui.*;
 import ecobill.module.base.ui.article.ArticleUI;
+import ecobill.module.base.ui.BusinessPartnerUI;
 import ecobill.core.system.WorkArea;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
@@ -31,7 +32,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.52 2005/09/27 13:47:02 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.53 2005/09/28 12:22:14 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -431,11 +432,14 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     public void german() {
         WorkArea.setLocale(Locale.GERMAN);
         articleUI.reinitI18N();
+        businessPartnerUI.reinitI18N();
+
     }
 
     public void english() {
         WorkArea.setLocale(Locale.ENGLISH);
         articleUI.reinitI18N();
+        businessPartnerUI.reinitI18N();
     }
 
     public void open() {
