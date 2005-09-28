@@ -21,6 +21,7 @@
                 <value>ecobill/config/bundle/base/gui</value>
                 <value>ecobill/config/bundle/base/unit</value>
                 <value>ecobill/config/bundle/base/article</value>
+                <value>ecobill/config/bundle/base/businesspartner</value>
             </list>
         </property>
     </bean>
