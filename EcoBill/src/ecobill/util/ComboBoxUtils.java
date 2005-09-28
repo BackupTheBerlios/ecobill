@@ -19,7 +19,7 @@ public class ComboBoxUtils {
         List<Object> l = new LinkedList<Object>();
 
         l.add(new I18NComboBoxItem("mr"));
-        l.add(new I18NComboBoxItem("mrs"));
+        l.add(new I18NComboBoxItem("ms"));
         l.add(new I18NComboBoxItem("firm"));
 
         return l.toArray();
