@@ -4,6 +4,7 @@ import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.*;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
+import ecobill.core.util.I18NComboBoxItem;
 import ecobill.util.ComboBoxUtils;
 import org.springframework.beans.factory.InitializingBean;
 
@@ -27,7 +28,7 @@ import java.util.Vector;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.32 2005/09/29 13:18:42 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.33 2005/09/29 14:06:34 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -540,16 +541,20 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         Person person = new Person();
         Address address = new Address();
 
+        I18NComboBoxItem countryItem = (I18NComboBoxItem)countryCOB.getSelectedItem();
+        I18NComboBoxItem academicTitleItem = (I18NComboBoxItem)academicTitleCB.getSelectedItem();
+        I18NComboBoxItem titleItem = (I18NComboBoxItem)titleCB.getSelectedItem();
+
         address.setCity(cityTF.getText());
         address.setCounty(countyTF.getText());
-        address.setCountry((String)countryCOB.getSelectedItem());
+        address.setCountry(countryItem.getKey());
         address.setStreet(streetTF.getText());
         address.setZipCode(zipTF.getText());
 
 
         // Setzt einige Werte aus den Eingabefeldern in den <code>Article</code>.
-        person.setTitleKey((String)titleCB.getSelectedItem());
-        person.setAcademicTitleKey((String)academicTitleCB.getSelectedItem());
+        person.setAcademicTitleKey(academicTitleItem.getKey());
+        person.setTitleKey(titleItem.getKey());
         person.setAddress(address);
         person.setEmail(emailTF.getText());
         person.setFax(faxTF.getText());
@@ -557,7 +562,10 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         person.setLastname(surnameTF.getText());
         person.setPhone(phoneTF.getText());
 
+
+
         businessPartner.setPerson(person);
+        businessPartner.setAddress(address);
 
         // Speichert oder ändert den <code>BusinessPartner</code> falls dieser schon vorhanden wäre.
         baseService.saveOrUpdateBusinessPartner(businessPartner);
@@ -599,30 +607,5 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         descriptionBorder.setTitle(WorkArea.getMessage(Constants.DESCRIPTIONS));
         residualDescriptionsBorder.setTitle(WorkArea.getMessage(Constants.RESIDUAL_DESCRIPTIONS));
 
-    }
-
-    public void readOut() {
-
-        BusinessPartner bp = new BusinessPartner();
-        Address address = new Address();
-        Person person = new Person();
-
-        address.setCity(cityTF.getText());
-        address.setCountry((countryCOB.getSelectedItem().toString()));
-        address.setCounty(countyTF.getText());
-        address.setStreet(streetTF.getText());
-        address.setZipCode(zipTF.getText());
-
-        bp.setAddress(address);
-
-        person.setEmail(emailTF.getText());
-        person.setFirstname(firstnameTF.getText());
-        person.setLastname(surnameTF.getText());
-        person.setFax(faxTF.getText());
-        person.setPhone(phoneTF.getText());
-        person.setAcademicTitleKey(academicTitleCB.getSelectedItem().toString());
-        person.setTitleKey(titleCB.getSelectedItem().toString());
-
-        bp.setPerson(person);
     }
 }
