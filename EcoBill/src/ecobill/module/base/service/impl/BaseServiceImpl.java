@@ -22,7 +22,7 @@ import org.springframework.dao.DataAccessException;
  * Time: 12:31:05
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseServiceImpl.java,v 1.11 2005/09/28 15:56:57 raedler Exp $
+ * @version $Id: BaseServiceImpl.java,v 1.12 2005/09/29 13:56:48 raedler Exp $
  * @see BaseService
  * @since EcoBill 1.0
  */
@@ -159,15 +159,14 @@ public class BaseServiceImpl implements BaseService {
      */
     public void saveOrUpdateBusinessPartner(BusinessPartner bp) {
 
+        /*
         System.out.println("BusinessPartner: " + bp.getId());
 
-        /*
-         * @todo Dokumentation ändern!!!
-         * Bei einem neuen BusinessPartner (ID ist nicht gesetzt bzw "-1") wird überprüft ob
-         * sich schon ein BusinessPartner mit dieser BusinessPartnernummer in der Datenbank befindet.
-         * Sollte schon ein BusinessPartner vorhanden sein werden dessen Daten mit den Daten
-         * des Parameter BusinessPartner überschrieben.
-         */
+        // @todo Dokumentation ändern!!!
+        // Bei einem neuen BusinessPartner (ID ist nicht gesetzt bzw "-1") wird überprüft ob
+        // sich schon ein BusinessPartner mit dieser BusinessPartnernummer in der Datenbank befindet.
+        // Sollte schon ein BusinessPartner vorhanden sein werden dessen Daten mit den Daten
+        // des Parameter BusinessPartner überschrieben.
         //if (article.getId() != null) {
             BusinessPartner savedBusinessPartner = null;
             try {
@@ -186,11 +185,9 @@ public class BaseServiceImpl implements BaseService {
         }
 
 
-            /*
-             * Hier werden die Werte des Parameter <code>Article</code> in den vorhandenen
-             * Artikel in der Datenbank gesetzt und dieser dann wieder gespeichert.
-             * Hier wird das Problem mit zwei Objekten und der selben ID umgangen.
-             */
+            // Hier werden die Werte des Parameter <code>Article</code> in den vorhandenen
+            // Artikel in der Datenbank gesetzt und dieser dann wieder gespeichert.
+            // Hier wird das Problem mit zwei Objekten und der selben ID umgangen.
             if (savedBusinessPartner != null && savedPerson != null) {
                 savedBusinessPartner.setCompanyName(bp.getCompanyName());
                 savedBusinessPartner.setCompanyTitleKey(bp.getCompanyTitleKey());
@@ -203,8 +200,8 @@ public class BaseServiceImpl implements BaseService {
 
             }
         //}
-
-        baseDao.saveOrUpdateBusinessPartner(savedBusinessPartner);
+        */
+        baseDao.saveOrUpdateBusinessPartner(bp);
     }
 
     /**
