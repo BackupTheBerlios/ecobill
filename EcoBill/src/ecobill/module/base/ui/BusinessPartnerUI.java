@@ -27,7 +27,7 @@ import java.util.Vector;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.31 2005/09/28 18:41:44 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.32 2005/09/29 13:18:42 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -599,5 +599,30 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         descriptionBorder.setTitle(WorkArea.getMessage(Constants.DESCRIPTIONS));
         residualDescriptionsBorder.setTitle(WorkArea.getMessage(Constants.RESIDUAL_DESCRIPTIONS));
 
+    }
+
+    public void readOut() {
+
+        BusinessPartner bp = new BusinessPartner();
+        Address address = new Address();
+        Person person = new Person();
+
+        address.setCity(cityTF.getText());
+        address.setCountry((countryCOB.getSelectedItem().toString()));
+        address.setCounty(countyTF.getText());
+        address.setStreet(streetTF.getText());
+        address.setZipCode(zipTF.getText());
+
+        bp.setAddress(address);
+
+        person.setEmail(emailTF.getText());
+        person.setFirstname(firstnameTF.getText());
+        person.setLastname(surnameTF.getText());
+        person.setFax(faxTF.getText());
+        person.setPhone(phoneTF.getText());
+        person.setAcademicTitleKey(academicTitleCB.getSelectedItem().toString());
+        person.setTitleKey(titleCB.getSelectedItem().toString());
+
+        bp.setPerson(person);
     }
 }
