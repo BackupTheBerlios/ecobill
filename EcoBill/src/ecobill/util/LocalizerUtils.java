@@ -15,7 +15,7 @@ import java.util.Locale;
  * Time: 16:07:00
  *
  * @author Roman R&auml;dle
- * @version $Id: LocalizerUtils.java,v 1.2 2005/07/30 11:18:03 raedler Exp $
+ * @version $Id: LocalizerUtils.java,v 1.3 2005/09/30 09:06:23 raedler Exp $
  * @since EcoBill 1.0
  */
 public class LocalizerUtils {
@@ -83,6 +83,36 @@ public class LocalizerUtils {
         }
 
         return localizedObject;
+    }
+
+    /**
+     * Gibt ein <code>Object</code> aus der <code>Collection</code> zurück, falls eines davon mit der
+     * <code>Locale</code> übereinstimmt. Falls es keine Übereinstimmung mit einem <code>Object</code>
+     * geben sollte wird eine <code>LocalizerException</code> geworfen.
+     *
+     * @param localizables Eine <code>Collection</code> die Objekte beinhaltet die das
+     *                     Interface <code>Localizable</code> implementieren.
+     * @param locale       Die <code>Locale</code> die einem Objekt in der <code>Collection</code>
+     *                     exakt gleichen muss.
+     * @return Gibt das landesspezifische Objekt zurück.
+     * @throws LocalizerException Diese <code>LocalizerException</code> wird geworfen falls kein
+     *                            passendes <code>Object</code> gefunden wurde.
+     */
+    public static Object getExactLocalizedObject(Collection localizables, Locale locale) throws LocalizerException {
+
+        for (Object o : localizables) {
+
+            if (o instanceof Localizable) {
+                Localizable localizable = (Localizable) o;
+
+                SystemLocale systemLocale = localizable.getSystemLocale();
+                if (systemLocale.equalsLocale(locale)) {
+                    return localizable;
+                }
+            }
+        }
+
+        throw new LocalizerException("Es ist kein localizedObject in der Collection vorhanden.");
     }
 
     /**
