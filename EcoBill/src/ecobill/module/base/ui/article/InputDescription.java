@@ -24,6 +24,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.util.Locale;
 import java.util.Set;
+import java.util.HashSet;
 
 /**
  *
@@ -67,7 +68,17 @@ public class InputDescription extends JPanel implements Internationalization {
         language.setMinimumSize(new java.awt.Dimension(80, 20));
         language.setPreferredSize(new java.awt.Dimension(80, 20));
 
-        Set systemCountries = ((SystemLanguage) languageModel.getSelectedItem()).getSystemCountries();
+
+        SystemLanguage systemLanguage = (SystemLanguage) languageModel.getSelectedItem();
+
+        Set systemCountries = null;
+        if (systemLanguage != null) {
+             systemCountries = systemLanguage.getSystemCountries();
+        }
+
+        if (systemCountries == null) {
+            systemCountries = new HashSet();
+        }
 
         countryModel = new DefaultComboBoxModel(systemCountries.toArray());
         country.setModel(countryModel);
