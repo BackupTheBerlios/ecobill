@@ -10,10 +10,12 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.9 2005/09/29 13:50:55 jfuckerweiler Exp $
+ * @version $Id: Constants.java,v 1.10 2005/09/30 08:59:25 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {
+
+    public final static String SERIALIZE_PATH = "serialized";
 
     /**
      * Alle Schlüssel die für die Fenstertitel nötig sind.
@@ -23,6 +25,8 @@ public interface Constants {
     /**
      * Alle Schlüssel die bspw. für Labels verwendet werden.
      */
+    public final static String ACTIONS = "actions";
+    public final static String ACTIONS_TOOLTIP = "actions.tooltip";
     public final static String ADD = "add";
     public final static String ADD_TOOLTIP = "add.tooltip";
     public final static String ARTICLE_NR = "article_nr";
@@ -47,6 +51,8 @@ public interface Constants {
     public final static String IN_STOCK_TOOLTIP = "in_stock.tooltip";
     public final static String KEY = "key";
     public final static String KEY_TOOLTIP = "key.tooltip";
+    public final static String LABELLING = "labelling";
+    public final static String LABELLING_TOOLTIP = "labelling.tooltip";
     public final static String LANGUAGE = "language";
     public final static String LANGUAGE_TOOLTIP = "language.tooltip";
     public final static String LOCALE_SETTING = "locale_setting";
