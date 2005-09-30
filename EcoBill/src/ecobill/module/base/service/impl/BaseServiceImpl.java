@@ -22,7 +22,7 @@ import org.springframework.dao.DataAccessException;
  * Time: 12:31:05
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseServiceImpl.java,v 1.13 2005/09/30 09:03:35 raedler Exp $
+ * @version $Id: BaseServiceImpl.java,v 1.14 2005/09/30 14:41:16 raedler Exp $
  * @see BaseService
  * @since EcoBill 1.0
  */
@@ -82,6 +82,30 @@ public class BaseServiceImpl implements BaseService {
      */
     public void saveOrUpdate(Object entity) {
         baseDao.saveOrUpdate(entity);
+    }
+
+    /**
+     * @see BaseService#delete(Object)
+     */
+    public void delete(Object entity) {
+        baseDao.delete(entity);
+    }
+
+    /**
+     * Lädt das <code>Object</code> mit der angegebenen Id aus der Datenbank
+     * um es danach aus dieser zu löschen.
+     *
+     * @param clazz Die Klasse des <code>Object</code>.
+     * @param id Die Id des <code>Object</code>.
+     * @see BaseService#delete(Class, java.io.Serializable)
+     */
+    public void delete(Class clazz, Serializable id) {
+
+        // Lädt das <code>Object</code>.
+        Object entity = baseDao.load(clazz, id);
+
+        // Löscht das <code>Object</code> aus der Datenbank.
+        baseDao.delete(entity);
     }
 
     /**

@@ -19,7 +19,7 @@ import java.io.Serializable;
  * Time: 12:29:43
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDaoImpl.java,v 1.9 2005/09/30 09:01:17 raedler Exp $
+ * @version $Id: BaseDaoImpl.java,v 1.10 2005/09/30 14:41:16 raedler Exp $
  * @see BaseDao
  * @since EcoBill 1.0
  */
@@ -60,6 +60,15 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
      */
     public void saveOrUpdate(Object entity) {
         getHibernateTemplate().saveOrUpdate(entity);
+    }
+
+    /**
+     * Löscht das <code>Object</code> aus der Datenbank.
+     *
+     * @param entity Das zu löschende <code>Object</code>.
+     */
+    public void delete(Object entity) {
+        getHibernateTemplate().delete(entity);
     }
 
     /**

@@ -68,7 +68,6 @@ public class InputDescription extends JPanel implements Internationalization {
         language.setMinimumSize(new java.awt.Dimension(80, 20));
         language.setPreferredSize(new java.awt.Dimension(80, 20));
 
-
         SystemLanguage systemLanguage = (SystemLanguage) languageModel.getSelectedItem();
 
         Set systemCountries = null;
@@ -86,7 +85,7 @@ public class InputDescription extends JPanel implements Internationalization {
         country.setPreferredSize(new java.awt.Dimension(80, 20));
 
 
-        variant.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        //variant.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         variant.setMinimumSize(new java.awt.Dimension(80, 20));
         variant.setPreferredSize(new java.awt.Dimension(80, 20));
     }
@@ -103,9 +102,11 @@ public class InputDescription extends JPanel implements Internationalization {
                     .add(languageL)
                     .add(language, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
                     .add(countryL)
-                    .add(country, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+                    .add(country, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
+                    /*
                     .add(variantL)
                     .add(variant, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
+                    */
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -118,11 +119,13 @@ public class InputDescription extends JPanel implements Internationalization {
                 .add(countryL)
                 .addPreferredGap(LayoutStyle.RELATED)
                 .add(country, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.RELATED)
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                /*
                 .add(variantL)
                 .addPreferredGap(LayoutStyle.RELATED)
                 .add(variant, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                */
         );
     }
 

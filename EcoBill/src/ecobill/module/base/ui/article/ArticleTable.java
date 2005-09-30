@@ -41,7 +41,7 @@ import org.apache.commons.logging.LogFactory;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleTable.java,v 1.4 2005/09/30 09:06:01 raedler Exp $
+ * @version $Id: ArticleTable.java,v 1.5 2005/09/30 14:41:16 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleTable extends JPanel implements Internationalization, Persistable {
@@ -102,6 +102,11 @@ public class ArticleTable extends JPanel implements Internationalization, Persis
     private JScrollPane tableSP = new JScrollPane();
 
     /**
+     * Die id des <code>Article</code> der in der aktuell ausgewählt ist.
+     */
+    private Long articleId;
+
+    /**
      * Erzeugt eine neues Article Table Panel für Artikel.
      */
     public ArticleTable(ArticleUI articleUI, BaseService baseService) {
@@ -119,8 +124,6 @@ public class ArticleTable extends JPanel implements Internationalization, Persis
         table.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(new JComboBox(new DefaultComboBoxModel(VectorUtils.listToVector(baseService.getAllSystemUnits())))));
 
         renewArticleTableModel();
-
-        unpersist();
     }
 
     /**
@@ -131,6 +134,7 @@ public class ArticleTable extends JPanel implements Internationalization, Persis
         setBorder(border);
 
         tableSP.setViewportView(table);
+        tableSP.getViewport().setBackground(Color.WHITE);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
@@ -166,7 +170,9 @@ public class ArticleTable extends JPanel implements Internationalization, Persis
     public void reinitI18N() {
         border.setTitle(WorkArea.getMessage(Constants.ARTICLE));
 
-        tableModel.setColumnIdentifiers(ARTICLE_TABLE_ORDER);
+        //tableModel.setColumnIdentifiers(ARTICLE_TABLE_ORDER);
+        tableSP.setViewportView(table);
+        tableSP.repaint();
     }
 
     public void renewArticleTableModel() {
@@ -177,7 +183,6 @@ public class ArticleTable extends JPanel implements Internationalization, Persis
          * sind auch nochmal angezeigt werden.
          */
         Vector dataVector = tableModel.getDataVector();
-
         dataVector.removeAllElements();
 
         /*
@@ -210,9 +215,8 @@ public class ArticleTable extends JPanel implements Internationalization, Persis
         
         // Zeichnet die Tabelle nach hinzufügen des Artikels neu.
         table.repaint();
+        tableSP.setViewportView(table);
     }
-
-    private Long id;
 
     private void initListeners() {
 
@@ -239,7 +243,7 @@ public class ArticleTable extends JPanel implements Internationalization, Persis
                     }
 
                     try {
-                        id = ((IdKeyItem) tableModel.getValueAt(row, 0)).getId();
+                        articleId = ((IdKeyItem) tableModel.getValueAt(row, 0)).getId();
                     }
                     catch (ArrayIndexOutOfBoundsException aioobe) {
                         if (LOG.isDebugEnabled()) {
@@ -247,7 +251,7 @@ public class ArticleTable extends JPanel implements Internationalization, Persis
                         }
                     }
 
-                    articleUI.showArticle(id);
+                    articleUI.showArticle(articleId);
                 }
             }
         });
@@ -264,9 +268,9 @@ public class ArticleTable extends JPanel implements Internationalization, Persis
                 if (e.getButton() == MouseEvent.BUTTON1) {
                     int row = table.getSelectedRow();
 
-                    id = ((IdKeyItem) tableModel.getValueAt(row, 0)).getId();
+                    articleId = ((IdKeyItem) tableModel.getValueAt(row, 0)).getId();
 
-                    articleUI.showArticle(id);
+                    articleUI.showArticle(articleId);
                 }
             }
         });
@@ -291,7 +295,7 @@ public class ArticleTable extends JPanel implements Internationalization, Persis
                     if (row > -1 && row < tableModel.getRowCount()) {
 
                         // Lade betreffenden Artikel von der Datenbank.
-                        Article article = (Article) baseService.load(Article.class, id);
+                        Article article = (Article) baseService.load(Article.class, articleId);
 
                         // Veränderter Wert.
                         Object value = tableModel.getValueAt(row, col);
@@ -337,11 +341,11 @@ public class ArticleTable extends JPanel implements Internationalization, Persis
                         baseService.saveOrUpdate(article);
 
                         if (LOG.isDebugEnabled()) {
-                            LOG.debug("In der Spalte [" + col + "] und Zeile [" + row + "] wurde für den Artikel [id=\"" + id + "\"] der Wert auf \"" + tableModel.getValueAt(row, col) + "\" geändert.");
+                            LOG.debug("In der Spalte [" + col + "] und Zeile [" + row + "] wurde für den Artikel [id=\"" + articleId + "\"] der Wert auf \"" + tableModel.getValueAt(row, col) + "\" geändert.");
                         }
 
                         renewArticleTableModel();
-                        articleUI.showArticle(id);
+                        articleUI.showArticle(articleId);
                     }
                 }
             }
@@ -391,14 +395,14 @@ public class ArticleTable extends JPanel implements Internationalization, Persis
     }
 
     /**
-     * @see ecobill.core.system.Persistable#persist()
+     * @see ecobill.core.system.Persistable#persist(java.io.OutputStream)
      */
-    public void persist() {
+    public void persist(OutputStream outputStream) {
 
         try {
             table.removeEditor();
 
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(Constants.SERIALIZE_PATH + "/article/TableColumnModel.ebs"));
+            ObjectOutputStream oos = new ObjectOutputStream(outputStream);
             oos.writeObject(table.getColumnModel());
             oos.flush();
             oos.close();
@@ -409,13 +413,13 @@ public class ArticleTable extends JPanel implements Internationalization, Persis
     }
 
     /**
-     * @see ecobill.core.system.Persistable#unpersist()
+     * @see ecobill.core.system.Persistable#unpersist(java.io.InputStream)
      */
-    public void unpersist() {
+    public void unpersist(InputStream inputStream) {
 
         ObjectInputStream ois = null;
         try {
-            ois = new ObjectInputStream(new FileInputStream(Constants.SERIALIZE_PATH + "/article/TableColumnModel.ebs"));
+            ois = new ObjectInputStream(inputStream);
 
             TableColumnModel columnModel = (TableColumnModel) ois.readObject();
 
