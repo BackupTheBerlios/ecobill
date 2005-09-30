@@ -101,8 +101,6 @@ public class DescriptionTable extends JPanel implements Internationalization, Pe
         initComponents();
         initLayout();
         reinitI18N();
-
-        unpersist();
     }
 
     /**
@@ -113,6 +111,7 @@ public class DescriptionTable extends JPanel implements Internationalization, Pe
         setBorder(border);
 
         tableSP.setViewportView(table);
+        tableSP.getViewport().setBackground(Color.WHITE);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
@@ -171,6 +170,7 @@ public class DescriptionTable extends JPanel implements Internationalization, Pe
 
             // Zeichnet die Tabelle nach hinzufügen des Artikels neu.
             table.repaint();
+            tableSP.setViewportView(table);
         }
     }
 
@@ -217,14 +217,14 @@ public class DescriptionTable extends JPanel implements Internationalization, Pe
     }
 
     /**
-     * @see ecobill.core.system.Persistable#persist()
+     * @see ecobill.core.system.Persistable#persist(java.io.OutputStream)
      */
-    public void persist() {
+    public void persist(OutputStream outputStream) {
 
         try {
             table.removeEditor();
 
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(Constants.SERIALIZE_PATH + "/article/DescrTableColumnModel.ebs"));
+            ObjectOutputStream oos = new ObjectOutputStream(outputStream);
             oos.writeObject(table.getColumnModel());
             oos.flush();
             oos.close();
@@ -235,13 +235,13 @@ public class DescriptionTable extends JPanel implements Internationalization, Pe
     }
 
     /**
-     * @see ecobill.core.system.Persistable#unpersist()
+     * @see ecobill.core.system.Persistable#persist(java.io.InputStream)
      */
-    public void unpersist() {
+    public void unpersist(InputStream inputStream) {
 
         ObjectInputStream ois = null;
         try {
-            ois = new ObjectInputStream(new FileInputStream(Constants.SERIALIZE_PATH + "/article/DescrTableColumnModel.ebs"));
+            ois = new ObjectInputStream(inputStream);
 
             TableColumnModel columnModel = (TableColumnModel) ois.readObject();
 

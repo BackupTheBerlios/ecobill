@@ -10,12 +10,10 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.10 2005/09/30 08:59:25 raedler Exp $
+ * @version $Id: Constants.java,v 1.11 2005/09/30 14:10:53 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {
-
-    public final static String SERIALIZE_PATH = "serialized";
 
     /**
      * Alle Schlüssel die für die Fenstertitel nötig sind.

@@ -21,7 +21,7 @@ import ecobill.module.base.domain.SystemUnit;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: InputBundle.java,v 1.1 2005/09/30 09:06:01 raedler Exp $
+ * @version $Id: InputBundle.java,v 1.2 2005/09/30 14:10:42 raedler Exp $
  * @since EcoBill 1.0
  */
 public class InputBundle extends JPanel implements Internationalization {
@@ -64,6 +64,10 @@ public class InputBundle extends JPanel implements Internationalization {
         capacity.setPreferredSize(new java.awt.Dimension(80, 20));
     }
 
+    /**
+     * Initilisiert das Layout und somit die Positionen an denen die Komponenten
+     * liegen.
+     */
     private void initLayout() {
 
         GroupLayout layout = new GroupLayout(this);
