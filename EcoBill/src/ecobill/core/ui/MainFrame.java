@@ -33,7 +33,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.56 2005/09/28 21:19:37 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.57 2005/09/30 09:00:23 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -167,9 +167,14 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         ebutton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
-                if (e.getSource().equals(ebutton))
-                // System wird beendet
+                if (e.getSource().equals(ebutton)) {
+
+                    articleUI.getArticleTable().persist();
+                    articleUI.getDescriptionTable().persist();
+
+                    // System wird beendet
                     System.exit(0);
+                }
             }
         });
 
