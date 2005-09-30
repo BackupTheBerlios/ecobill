@@ -7,8 +7,12 @@ import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.swing.*;
 import javax.swing.undo.UndoManager;
@@ -17,11 +21,12 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.util.Locale;
+import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
+import java.io.File;
+import java.io.IOException;
 
 // @todo document me!
 
@@ -33,106 +38,102 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.57 2005/09/30 09:00:23 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.58 2005/09/30 14:09:18 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
 
-    // @todo document me!
-    protected ApplicationContext context;
+    /**
+     * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
+     * Diese Ausgaben können in einem separaten File spezifiziert werden.
+     */
+    private static final Log LOG = LogFactory.getLog(MainFrame.class);
 
-    // erstellt Instanz einer ArtikelUI
-    private ArticleUI articleUI;// = ArticleUI.getInstance();
+    /**
+     * Der <code>ApplicationContext</code> beinhaltet alle Beans die darin angegeben sind
+     * und ermöglicht wahlfreien Zugriff auf diese.
+     */
+    protected ApplicationContext applicationContext;
 
-    // getter für ArtikelUI
+    /**
+     * @see ApplicationContextAware#setApplicationContext(org.springframework.context.ApplicationContext)
+     */
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
+
+    /**
+     * Die Instanz des Article User Interface.
+     */
+    private ArticleUI articleUI;
+
+    /**
+     * Gibt die Instanz des Article User Interface zurück.
+     *
+     * @return Die Instanz des <code>ArticleUI</code>.
+     */
     public ArticleUI getArticleUI() {
         return articleUI;
     }
 
-    // setter für ArtikelUI
+    /**
+     * Setzt die Instanz des Article User Interface.
+     *
+     * @param articleUI Eine Instanz des <code>ArticleUI</code>.
+     */
     public void setArticleUI(ArticleUI articleUI) {
         this.articleUI = articleUI;
     }
 
-    // erstellt Instanz einer BusinessPartnerUI
+    /**
+     * Die Instanz des BusinessPartner User Interface.
+     */
     private BusinessPartnerUI businessPartnerUI;
 
-    // getter für BusinessPartnerUI
-    public BusinessPartnerUI getbusinessPartnerUI() {
+    /**
+     * Gibt die Instanz des BusinessPartner User Interface zurück.
+     *
+     * @return Die Instanz des <code>BusinessPartnerUI</code>.
+     */
+    public BusinessPartnerUI getBusinessPartnerUI() {
         return businessPartnerUI;
     }
 
-    // setter für BusinessPartnerUI
-    public void setbusinessPartnerUI(BusinessPartnerUI businessPartnerUI) {
+    /**
+     * Setzt die Instanz des BusinessPartner User Interface.
+     *
+     * @param businessPartnerUI Eine Instanz des <code>BusinessPartnerUI</code>.
+     */
+    public void setBusinessPartnerUI(BusinessPartnerUI businessPartnerUI) {
         this.businessPartnerUI = businessPartnerUI;
     }
 
-    // erstellt Instanz einer PrintUI
+    /**
+     * Die Instanz des Print User Interface.
+     */
     private PrintUI printUI;
 
-    // getter für PrintUI
+    /**
+     * Gibt die Instanz des Print User Interface zurück.
+     *
+     * @return Die Instanz des <code>PrintUI</code>.
+     */
     public PrintUI getPrintUI() {
         return printUI;
     }
 
-    // setter für RechnungsUI
+    /**
+     * Setzt die Instanz des Print User Interface.
+     *
+     * @param printUI Eine Instanz des <code>PrintUI</code>.
+     */
     public void setPrintUI(PrintUI printUI) {
         this.printUI = printUI;
     }
 
-
-    // @todo document me!
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.context = applicationContext;
-    }
-
-    // StandardKonstruktor
-    public MainFrame() throws HeadlessException {
-        super();
-    }
-
-    // alle Sachen erstellen die man braucht
-    private JButton ebutton = new JButton();
-    // erstellt TabFeld mit Komponenten
-    private JTabbedPane jtab = new JTabbedPane();
-    private JComponent tab = new JPanel(new BorderLayout());
-    // erstellt MenuBar
-    private JMenuBar menuBar = new JMenuBar();
-    // erstellt MenuBarItems
-    private JMenu file = new JMenu();
-    private JMenu edit = new JMenu();
-    private JMenu help = new JMenu();
-    private JMenu language = new JMenu();
-    // erstellt MenuItems
-    // erstellt DateiMenü
-    private JMenuItem open = new JMenuItem();
-    private JMenuItem save = new JMenuItem();
-    private JMenuItem saveas = new JMenuItem();
-    private JMenuItem exit = new JMenuItem();
-    // erstellt BearbeitenMenü
-    private JMenuItem undo = new JMenuItem();
-    private JMenuItem redo = new JMenuItem();
-    private JMenuItem cut = new JMenuItem();
-    private JMenuItem copy = new JMenuItem();
-    private JMenuItem paste = new JMenuItem();
-    private JMenuItem delete = new JMenuItem();
-    // erstellt HilfeMenü
-    private JMenuItem ht = new JMenuItem();
-    private JMenuItem about = new JMenuItem();
-
-    //erstellt JLabels
-    private JLabel lab1 = new JLabel(new ImageIcon("images/StartbildGer.jpg"));
-    private JLabel lab2 = new JLabel(new ImageIcon("images/StartbildEng.jpg"));
-
-
-        // CheckBox English wird erstellt
-    private JCheckBoxMenuItem english = new JCheckBoxMenuItem("_", new ImageIcon("images/english.jpg"));
-     // Checkbox German wird erstellt
-    private JCheckBoxMenuItem german = new JCheckBoxMenuItem("_", new ImageIcon("images/german.jpg"));
-
-    private UndoManager um = new UndoManager();
-
-
+    /**
+     * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
+     */
     public void afterPropertiesSet() throws Exception {
 
         // erstellt Mainframe
@@ -154,9 +155,96 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         this.setVisible(true);
 
         this.reinitI18N();
+
         // setzt die Operation die auf X am Fenster gemacht wird
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+
+            /**
+             * @see WindowAdapter#windowClosing(java.awt.event.WindowEvent)
+             */
+            public void windowClosing(WindowEvent e) {
+                exit();
+            }
+        });
     }
+
+    /**
+     * Versucht den <code>ApplicationContext</code> herunterzufahren, sofern dieser das
+     * Interface <code>DisposableBean</code> implementiert. Gelingt dies wird die
+     * Anwendung ohne Fehler beendet, ansonsten wird mit Fehlercode beendet.
+     */
+    private void exit() {
+
+        // Überprüft ob der <code>ApplicationContext</code> das Interface
+        // <code>DisposableBean</code> implementiert, um den gesamten
+        // applicationContext beim Schließen der Anwendung herunterzufahren.
+        //
+        // Dies ist notwendig um die gesamten Beans die auch dieses Interface
+        // implementieren herunterzufahren und somit zu gewährleisten, dass
+        // evtl. Daten persistiert werden.
+        if (applicationContext instanceof DisposableBean) {
+            try {
+                ((DisposableBean) applicationContext).destroy();
+            }
+            catch (Exception ex) {
+                if (LOG.isErrorEnabled()) {
+                    LOG.error(ex.getMessage(), ex);
+                }
+
+                // TODO: Status 100 bitte in der Dokumentation eintragen.
+                System.exit(100);
+            }
+        }
+
+        // Beendet die Anwendung ohne Fehler.
+        System.exit(0);
+    }
+
+    // alle Sachen erstellen die man braucht
+    private JButton ebutton = new JButton();
+    // erstellt TabFeld mit Komponenten
+    private JTabbedPane jtab = new JTabbedPane();
+    private JComponent tab = new JPanel(new BorderLayout());
+    // erstellt MenuBar
+    private JMenuBar menuBar = new JMenuBar();
+
+    // erstellt MenuBarItems
+    private JMenu file = new JMenu();
+    private JMenu edit = new JMenu();
+    private JMenu help = new JMenu();
+    private JMenu language = new JMenu();
+    // erstellt MenuItems
+    // erstellt DateiMenü
+    private JMenuItem open = new JMenuItem();
+    private JMenuItem save = new JMenuItem();
+    private JMenuItem saveas = new JMenuItem();
+    private JMenuItem exit = new JMenuItem();
+
+    // erstellt BearbeitenMenü
+    private JMenuItem undo = new JMenuItem();
+    private JMenuItem redo = new JMenuItem();
+    private JMenuItem cut = new JMenuItem();
+    private JMenuItem copy = new JMenuItem();
+    private JMenuItem paste = new JMenuItem();
+    private JMenuItem delete = new JMenuItem();
+
+    // erstellt HilfeMenü
+    private JMenuItem ht = new JMenuItem();
+    private JMenuItem about = new JMenuItem();
+
+    //erstellt JLabels
+    private JLabel lab1 = new JLabel(new ImageIcon("images/StartbildGer.jpg"));
+    private JLabel lab2 = new JLabel(new ImageIcon("images/StartbildEng.jpg"));
+
+
+    // CheckBox English wird erstellt
+    private JCheckBoxMenuItem english = new JCheckBoxMenuItem(new ImageIcon("images/english.jpg"));
+
+    // Checkbox German wird erstellt
+    private JCheckBoxMenuItem german = new JCheckBoxMenuItem(new ImageIcon("images/german.jpg"));
+
+    private UndoManager um = new UndoManager();
+
 
     public void exitButton() {
 
@@ -168,12 +256,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getSource().equals(ebutton)) {
-
-                    articleUI.getArticleTable().persist();
-                    articleUI.getDescriptionTable().persist();
-
-                    // System wird beendet
-                    System.exit(0);
+                    exit();
                 }
             }
         });
@@ -188,18 +271,13 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // fügt Tabs dem Tabfeld hinzu
         jtab.setFont(myfont);
-        jtab.addTab("_", new ImageIcon("images/s.gif"), tab);
+        jtab.addTab(null, new ImageIcon("images/s.gif"), tab);
         // hier wird die ArtikleUI als neuer Tab eingefügt
-        jtab.addTab("_", new ImageIcon("images/a.gif"), articleUI);
+        jtab.addTab(null, new ImageIcon("images/a.gif"), articleUI);
         // hier wird die BusinessPartnerUI als neuer Tab eingefügt
-        jtab.addTab("_", new ImageIcon("images/k.gif"), businessPartnerUI);
+        jtab.addTab(null, new ImageIcon("images/k.gif"), businessPartnerUI);
         // hier wird die RechnungsUI als neuer Tab eingefügt
-        jtab.addTab("_", new ImageIcon("images/l.gif"), printUI);
-
-        //jtab.addTab("Designer", new PanelDesigner(new File("lieferschein.jrxml")));
-
-        //
-
+        jtab.addTab(null, new ImageIcon("images/l.gif"), printUI);
 
         // setzt ToolTip
         lab1.setToolTipText("Copyright @ JFuckers");
@@ -225,7 +303,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getSource().equals(open))
-                // Methode open() wird aufgerufen
+                    // Methode open() wird aufgerufen
                     open();
             }
         });
@@ -247,7 +325,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getSource().equals(exit))
-                // System wird beendet
+                    // System wird beendet
                     System.exit(0);
             }
         });
@@ -268,8 +346,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         paste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_MASK));
         delete.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, InputEvent.ALT_DOWN_MASK));
 
-
-         // undo ActionListener
+        // undo ActionListener
         undo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
@@ -283,7 +360,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             }
         });
 
-         // redo ActionListener
+        // redo ActionListener
         redo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
@@ -299,14 +376,14 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // fügt MenüItems zu BearbeitenMenü hinzu
         edit.add(undo);
-        edit.add(redo); 
+        edit.add(redo);
 
         // copy ActionListener
         copy.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getSource().equals(copy))
-                // Methode topic() wird aufgerufen
+                    // Methode topic() wird aufgerufen
                     copy();
             }
         });
@@ -316,7 +393,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getSource().equals(paste))
-                // Methode topic() wird aufgerufen
+                    // Methode topic() wird aufgerufen
                     paste();
             }
         });
@@ -340,7 +417,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getSource().equals(ht))
-                // Methode topic() wird aufgerufen
+                    // Methode topic() wird aufgerufen
                     topic();
             }
         });
@@ -355,7 +432,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getSource().equals(about))
-                // Methode about() wird aufgerufen
+                    // Methode about() wird aufgerufen
                     about();
             }
         });
@@ -385,7 +462,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getSource().equals(german))
-                // Methode german() wird aufgerufen
+                    // Methode german() wird aufgerufen
                     german();
             }
         });
@@ -402,7 +479,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getSource().equals(english))
-                // Methode english() wird aufgerufen
+                    // Methode english() wird aufgerufen
                     english();
             }
         });
@@ -493,7 +570,8 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         String s;
         try {
             s = (String) (data.getTransferData(DataFlavor.stringFlavor));
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             s = data.toString();
         }
         tf.setText(s);
@@ -527,7 +605,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         jtab.setTitleAt(3, WorkArea.getMessage(Constants.BILLS));
 
         english.setText(WorkArea.getMessage(Constants.ENGLISH));
-        german.setText(WorkArea.getMessage(Constants.GERMAN));        
+        german.setText(WorkArea.getMessage(Constants.GERMAN));
 
         ebutton.setText(WorkArea.getMessage(Constants.EXIT));
 
