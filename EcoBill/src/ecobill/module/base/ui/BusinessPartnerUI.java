@@ -28,7 +28,7 @@ import java.util.Vector;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.33 2005/09/29 14:06:34 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.34 2005/09/30 09:04:01 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -126,7 +126,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
     private JTextField phoneTF = new JTextField();
     private JTextField faxTF = new JTextField();
     private JTextField emailTF = new JTextField();
-
+                 
 
     private JTextArea descriptionTA = new JTextArea();
     private JTextArea descriptionsTA = new JTextArea();
