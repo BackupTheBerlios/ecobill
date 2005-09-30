@@ -1,6 +1,7 @@
 package ecobill.module.base.service;
 
 import ecobill.module.base.dao.BaseDao;
+import ecobill.module.base.dao.exception.NoSuchArticleException;
 import ecobill.module.base.domain.Article;
 import ecobill.module.base.domain.BusinessPartner;
 import ecobill.module.base.domain.SystemLocale;
@@ -20,7 +21,7 @@ import java.io.Serializable;
  * Time: 12:30:55
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseService.java,v 1.10 2005/09/28 15:56:57 raedler Exp $
+ * @version $Id: BaseService.java,v 1.11 2005/09/30 09:03:26 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface BaseService extends Service {
@@ -55,6 +56,11 @@ public interface BaseService extends Service {
      * @see BaseDao#evict(Object)
      */
     public void evict(Object entity);
+
+    /**
+     * @see BaseDao#saveOrUpdate(Object) 
+     */
+    public void saveOrUpdate(Object entity);
 
     /**
      * @see BaseDao#getSystemLocaleBySystemLocaleKey(String)
@@ -113,7 +119,7 @@ public interface BaseService extends Service {
     /**
      * @see BaseDao#getArticleByArticleNumber(String)
      */
-    public Article getArticleByArticleNumber(String articleNumber);
+    public Article getArticleByArticleNumber(String articleNumber) throws NoSuchArticleException;
 
     /**
      * @see BaseDao#saveOrUpdateArticle(ecobill.module.base.domain.Article)

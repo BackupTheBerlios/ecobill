@@ -22,7 +22,7 @@ import org.springframework.dao.DataAccessException;
  * Time: 12:31:05
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseServiceImpl.java,v 1.12 2005/09/29 13:56:48 raedler Exp $
+ * @version $Id: BaseServiceImpl.java,v 1.13 2005/09/30 09:03:35 raedler Exp $
  * @see BaseService
  * @since EcoBill 1.0
  */
@@ -75,6 +75,13 @@ public class BaseServiceImpl implements BaseService {
      */
     public void evict(Object entity) {
         baseDao.evict(entity);
+    }
+
+    /**
+     * @see BaseService#saveOrUpdate(Object)
+     */
+    public void saveOrUpdate(Object entity) {
+        baseDao.saveOrUpdate(entity);
     }
 
     /**
@@ -220,7 +227,7 @@ public class BaseServiceImpl implements BaseService {
     /**
      * @see BaseService#getArticleByArticleNumber(String)
      */
-    public Article getArticleByArticleNumber(String articleNumber) {
+    public Article getArticleByArticleNumber(String articleNumber) throws NoSuchArticleException {
         return baseDao.getArticleByArticleNumber(articleNumber);
     }
 
@@ -238,6 +245,7 @@ public class BaseServiceImpl implements BaseService {
      */
     public void saveOrUpdateArticle(Article article) {
 
+        /*
         Article savedArticle = null;
         try {
             savedArticle = baseDao.getArticleByArticleNumber(article.getArticleNumber());
@@ -250,7 +258,7 @@ public class BaseServiceImpl implements BaseService {
         * Hier werden die Werte des Parameter <code>Article</code> in den vorhandenen
         * Artikel in der Datenbank gesetzt und dieser dann wieder gespeichert.
         * Hier wird das Problem mit zwei Objekten und der selben ID umgangen.
-        */
+        *
         if (savedArticle != null) {
             savedArticle.setArticleNumber(article.getArticleNumber());
             savedArticle.setSystemUnit(article.getSystemUnit());
@@ -262,8 +270,9 @@ public class BaseServiceImpl implements BaseService {
             // @todo Evtl muss man sich hier um die restlichen (schon vorhandenen) Artikelbeschreibungen kümmern.
             savedArticle.setDescriptions(article.getDescriptions());
         }
+        */
 
-        baseDao.saveOrUpdateArticle(savedArticle);
+        baseDao.saveOrUpdateArticle(article);
     }
 
     /**

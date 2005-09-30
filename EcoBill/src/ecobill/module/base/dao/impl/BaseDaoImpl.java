@@ -19,7 +19,7 @@ import java.io.Serializable;
  * Time: 12:29:43
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDaoImpl.java,v 1.8 2005/09/28 15:57:15 raedler Exp $
+ * @version $Id: BaseDaoImpl.java,v 1.9 2005/09/30 09:01:17 raedler Exp $
  * @see BaseDao
  * @since EcoBill 1.0
  */
@@ -50,6 +50,16 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
      */
     public void evict(Object entity) {
         getHibernateTemplate().evict(entity);
+    }
+
+    /**
+     * Speichert oder ändert das <code>Object</code> in der Datenbank.
+     *
+     * @param entity Das zu speichernde <code>Object</code>.
+     * @see BaseDao#saveOrUpdate(Object)
+     */
+    public void saveOrUpdate(Object entity) {
+        getHibernateTemplate().saveOrUpdate(entity);
     }
 
     /**

@@ -21,7 +21,7 @@ import java.io.Serializable;
  * Time: 12:29:36
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDao.java,v 1.8 2005/09/28 15:57:15 raedler Exp $
+ * @version $Id: BaseDao.java,v 1.9 2005/09/30 09:01:24 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface BaseDao {
@@ -51,6 +51,13 @@ public interface BaseDao {
      * @param entity Die zu lösende Entität.
      */
     public void evict(Object entity);
+
+    /**
+     * Speichert oder ändert das <code>Object</code> in der Datenbank.
+     *
+     * @param entity Das zu speichernde <code>Object</code>.
+     */
+    public void saveOrUpdate(Object entity);
 
     /**
      * Gibt die <code>SystemLocale</code>, deren localeKey des Parameter localeKey entspricht,
