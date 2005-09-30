@@ -89,7 +89,9 @@
         <property name="transactionAttributes">
             <props>
                 <prop key="get*">PROPAGATION_REQUIRED,readOnly</prop>
+                <prop key="load*">PROPAGATION_REQUIRED,readOnly</prop>
                 <prop key="saveOrUpdate*">PROPAGATION_REQUIRED</prop>
+                <prop key="delete*">PROPAGATION_REQUIRED</prop>
             </props>
         </property>
     </bean>
@@ -111,6 +113,12 @@
 
     <bean id="articleUI" class="ecobill.module.base.ui.article.ArticleUI" singleton="true">
         <property name="baseService"><ref bean="baseService"/></property>
+        <property name="serializeIdentifiers">
+            <props>
+                <prop key="article_table">serialized/article/article_table.ebs</prop>
+                <prop key="residual_labelling_table">serialized/article/residual_labelling_table.ebs</prop>
+            </props>
+        </property>
     </bean>
 
     <bean id="businessPartnerUI" class="ecobill.module.base.ui.BusinessPartnerUI" singleton="true">
