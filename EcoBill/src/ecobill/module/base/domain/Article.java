@@ -20,7 +20,7 @@ import java.util.*;
  * Time: 00:37:27
  *
  * @author Roman R&auml;dle
- * @version $Id: Article.java,v 1.5 2005/09/28 15:44:18 raedler Exp $
+ * @version $Id: Article.java,v 1.6 2005/09/30 09:01:59 raedler Exp $
  * @since EcoBill 1.0
  */
 public class Article extends AbstractDomain {
@@ -56,7 +56,7 @@ public class Article extends AbstractDomain {
     /**
      * Diese <code>SystemUnit</code> gibt die Gebindeeinheit des Artikels an.
      *
-     * @see systemUnit
+     * @see SystemUnit
      */
     private SystemUnit bundleSystemUnit;
 
@@ -66,7 +66,7 @@ public class Article extends AbstractDomain {
      * - diese Klasse implementiert das Interface <code>Localizable</code> -
      * somit kann die landesspezifische Beschreibung herausgefiltert werden.
      */
-    private Set<ArticleDescription> descriptions;
+    private Set<ArticleDescription> descriptions = new HashSet<ArticleDescription>();
 
     /**
      * Gibt die Artikelnummer des Artikels zurück.
@@ -305,9 +305,7 @@ public class Article extends AbstractDomain {
         if (articleNumber != null ? !articleNumber.equals(article.articleNumber) : article.articleNumber != null) return false;
         if (bundleSystemUnit != null ? !bundleSystemUnit.equals(article.bundleSystemUnit) : article.bundleSystemUnit != null) return false;
         if (descriptions != null ? !descriptions.equals(article.descriptions) : article.descriptions != null) return false;
-        if (systemUnit != null ? !systemUnit.equals(article.systemUnit) : article.systemUnit != null) return false;
-
-        return true;
+        return !(systemUnit != null ? !systemUnit.equals(article.systemUnit) : article.systemUnit != null);
     }
 
     /**

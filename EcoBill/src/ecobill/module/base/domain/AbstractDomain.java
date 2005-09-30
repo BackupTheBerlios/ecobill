@@ -1,5 +1,7 @@
 package ecobill.module.base.domain;
 
+import java.io.Serializable;
+
 /**
  * Jede Klasse, deren Objekte persistent abgelegt werden sollen, müssen von dieser Klasse
  * <code>AbstractDomain</code> abgeleitet sein.
@@ -9,10 +11,10 @@ package ecobill.module.base.domain;
  * Time: 11:31:31
  *
  * @author Roman R&auml;dle
- * @version $Id: AbstractDomain.java,v 1.1 2005/07/28 21:03:47 raedler Exp $
+ * @version $Id: AbstractDomain.java,v 1.2 2005/09/30 09:01:59 raedler Exp $
  * @since EcoBill 1.0
  */
-public abstract class AbstractDomain {
+public abstract class AbstractDomain implements Serializable {
 
     /**
      * Die persistente ID unter der dieses Objekt in der

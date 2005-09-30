@@ -14,7 +14,7 @@ import java.text.Collator;
  * Time: 16:09:34
  *
  * @author Roman R&auml;dle
- * @version $Id: SystemLocale.java,v 1.3 2005/09/28 15:44:18 raedler Exp $
+ * @version $Id: SystemLocale.java,v 1.4 2005/09/30 09:01:59 raedler Exp $
  * @since EcoBill 1.0
  */
 public class SystemLocale extends AbstractDomain {
@@ -166,6 +166,24 @@ public class SystemLocale extends AbstractDomain {
         }
 
         return NOTHING;
+    }
+
+    /**
+     * Vergleicht eine <code>Locale</code> mit der <code>SystemLocale</code> und gibt
+     * true zurück falls diese beiden übereinstimmen, ansonsten wird false zurückgegeben.
+     *
+     * @param locale Die <code>Locale</code> die mit dieser <code>SystemLocale</code>
+     *               verglichen werden soll.
+     * @return Es wird true zurückgegeben falls die <code>Locale</code> und die
+     *         <code>SystemLocale</code> übereinstimmen, ansonsten wird false
+     *         zurückgegeben.
+     */
+    public boolean equalsLocale(Locale locale) {
+
+        return locale.getLanguage().equals(this.getLanguage()) &&
+               locale.getCountry().equals(this.getCountry()) &&
+               locale.getVariant().equals(this.getVariant());
+
     }
 
     /**
