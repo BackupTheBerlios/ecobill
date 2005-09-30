@@ -3,20 +3,19 @@ package ecobill.module.base.ui.article;
 import ecobill.module.base.ui.component.VerticalButton;
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.Article;
-import ecobill.module.base.domain.SystemUnit;
 import ecobill.module.base.domain.SystemLocale;
 import ecobill.module.base.domain.ArticleDescription;
-import ecobill.module.base.dao.exception.NoSuchArticleException;
-import ecobill.module.base.jasper.JasperViewer;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import ecobill.core.system.Internationalization;
+import ecobill.core.util.FileUtils;
 import ecobill.util.exception.LocalizerException;
 import ecobill.util.LocalizerUtils;
 
 import javax.swing.*;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.DisposableBean;
 import org.jdesktop.layout.GroupLayout;
 import org.jdesktop.layout.LayoutStyle;
 import org.apache.commons.logging.Log;
@@ -26,19 +25,25 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Locale;
+import java.util.Properties;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 /**
- * ArticleUIOld.
+ * TODO: document me!!!
+ * <p/>
+ * ArticleUI
  * <p/>
  * User: rro
  * Date: 15.07.2005
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.3 2005/09/30 09:06:01 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.4 2005/09/30 14:09:42 raedler Exp $
  * @since EcoBill 1.0
  */
-public class ArticleUI extends JPanel implements InitializingBean, Internationalization {
+public class ArticleUI extends JPanel implements InitializingBean, Internationalization, DisposableBean {
 
     /**
      * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
@@ -46,7 +51,93 @@ public class ArticleUI extends JPanel implements InitializingBean, International
      */
     private static final Log LOG = LogFactory.getLog(ArticleUI.class);
 
+    /**
+     * Der <code>BaseService</code> ist die Business Logik.
+     */
     private BaseService baseService;
+
+    /**
+     * Gibt den <code>BaseService</code> und somit die Business Logik zurück.
+     *
+     * @return Der <code>BaseService</code>.
+     */
+    public BaseService getBaseService() {
+        return baseService;
+    }
+
+    /**
+     * Setzt den <code>BaseService</code> der die komplette Business Logik enthält
+     * um bspw Daten aus der Datenbank zu laden und dorthin auch wieder abzulegen.
+     *
+     * @param baseService Der <code>BaseService</code>.
+     */
+    public void setBaseService(BaseService baseService) {
+        this.baseService = baseService;
+    }
+
+    /**
+     * Enthält die Pfade an denen die bestimmten Objekte serialisiert werden
+     * sollen.
+     */
+    private Properties serializeIdentifiers;
+
+    /**
+     * Gibt die Pfade, an denen die bestimmten Objekte serialisiert werden
+     * sollen, zurück.
+     *
+     * @return Die Pfade an denen die bestimmten Objekte serialisiert werden
+     *         sollen.
+     */
+    public Properties getSerializeIdentifiers() {
+        return serializeIdentifiers;
+    }
+
+    /**
+     * Setzt die Pfade, an denen die bestimmten Objekte serialisiert werden
+     * sollen.
+     *
+     * @param serializeIdentifiers Die Pfade an denen die bestimmten Objekte
+     *                             serialisiert werden sollen.
+     */
+    public void setSerializeIdentifiers(Properties serializeIdentifiers) {
+        this.serializeIdentifiers = serializeIdentifiers;
+    }
+
+    /**
+     * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
+     */
+    public void afterPropertiesSet() throws Exception {
+
+        // Initialisieren der Komponenten und des Layouts.
+        initComponents();
+        initLayout();
+
+        // Setze das Bezeichnungen Tab disabled solange noch kein Artikel besteht, zu
+        // dem Bezeichnungen hinzugefügt werden können.
+        tabbedPane.setEnabledAt(1, false);
+
+        // Versuche evtl. abgelegte/serialisierte Objekte zu laden.
+        try {
+            articleTableOverview.unpersist(new FileInputStream(serializeIdentifiers.getProperty("article_table")));
+            descriptionTableOverview.unpersist(new FileInputStream(serializeIdentifiers.getProperty("residual_labelling_table")));
+        }
+        catch (FileNotFoundException fnfe) {
+            if (LOG.isErrorEnabled()) {
+                LOG.error(fnfe.getMessage(), fnfe);
+            }
+        }
+    }
+
+    /**
+     * @see org.springframework.beans.factory.DisposableBean#destroy()
+     */
+    public void destroy() throws Exception {
+
+        // Serialisiere diese Objekte um sie bei einem neuen Start des Programmes wieder laden
+        // zu können.
+        articleTableOverview.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("article_table"))));
+        descriptionTableOverview.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("residual_labelling_table"))));
+    }
 
     private ArticleTable articleTableOverview;
     private Description descriptionLabelling = new Description();
@@ -64,28 +155,9 @@ public class ArticleUI extends JPanel implements InitializingBean, International
 
     private Long actualArticleId;
 
-    public void afterPropertiesSet() throws Exception {
-        initComponents();
-        initLayout();
-
-        tabbedPane.setEnabledAt(1, false);
-    }
-
-    public BaseService getBaseService() {
-        return baseService;
-    }
-
-    public void setBaseService(BaseService baseService) {
-        this.baseService = baseService;
-    }
-
     /**
-     * This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+     * Initialisiert die Komponenten.
      */
-    // <editor-fold defaultstate="collapsed" desc=" Generated Code ">
     private void initComponents() {
         articleTableOverview = new ArticleTable(this, baseService);
         inputOverview = new Input(baseService);
@@ -105,11 +177,22 @@ public class ArticleUI extends JPanel implements InitializingBean, International
             }
         });
 
+        verticalButtonOverview.getCancel().addActionListener(new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+                baseService.delete(Article.class, actualArticleId);
+                articleTableOverview.renewArticleTableModel();
+                resetInput();
+            }
+        });
+
         verticalButtonOverview.getFirst().setEnabled(false);
         verticalButtonOverview.getBack().setEnabled(false);
         verticalButtonOverview.getNext().setEnabled(false);
         verticalButtonOverview.getLast().setEnabled(false);
-        verticalButtonOverview.getCancel().setEnabled(false);
 
         verticalButtonOverview.getChange().addActionListener(new ActionListener() {
 
@@ -132,6 +215,10 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         setLayout(new BorderLayout());
     }
 
+    /**
+     * Initilisiert das Layout und somit die Positionen an denen die Komponenten
+     * liegen.
+     */
     private void initLayout() {
 
         GroupLayout overviewLayout = new GroupLayout(overview);
@@ -254,7 +341,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         Article article = (Article) baseService.load(Article.class, id);
 
         descriptionTableOverview.renewTableModel(article);
-        
+
         inputOverview.setArticleNumber(article.getArticleNumber());
         inputOverview.setUnit(article.getSystemUnit());
         inputOverview.setPrice(article.getPrice());
@@ -304,6 +391,8 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         articleDescription.setSystemLocale(systemLocale);
 
         article.addArticleDescription(articleDescription);
+
+        articleTableOverview.renewArticleTableModel();
 
         baseService.saveOrUpdate(article);
     }
