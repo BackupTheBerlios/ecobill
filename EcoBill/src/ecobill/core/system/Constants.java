@@ -10,7 +10,7 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.11 2005/09/30 14:10:53 raedler Exp $
+ * @version $Id: Constants.java,v 1.12 2005/10/01 13:29:39 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {
@@ -97,6 +97,7 @@ public interface Constants {
     public final static String DR = "dr";
     public final static String PROF = "prof";
     public final static String PROFDR = "profdr";
+    public final static String BANK = "bank";
 
     public final static String FILE = "file";
     public final static String EDIT = "edit";
