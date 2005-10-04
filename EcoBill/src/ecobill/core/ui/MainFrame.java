@@ -33,7 +33,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.59 2005/10/04 09:32:45 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.60 2005/10/04 10:00:04 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -209,22 +209,22 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     private JMenu language = new JMenu();
     // erstellt MenuItems
     // erstellt DateiMenü
-    private JMenuItem open = new JMenuItem();
-    private JMenuItem save = new JMenuItem();
-    private JMenuItem saveas = new JMenuItem();
-    private JMenuItem exit = new JMenuItem();
+    private JMenuItem open = new JMenuItem(new ImageIcon("images/open.png"));
+    private JMenuItem save = new JMenuItem(new ImageIcon("images/save.png"));
+    private JMenuItem saveAs = new JMenuItem(new ImageIcon("images/save_as.png"));
+    private JMenuItem exit = new JMenuItem(new ImageIcon("images/exit.png"));
 
     // erstellt BearbeitenMenü
-    private JMenuItem undo = new JMenuItem();
-    private JMenuItem redo = new JMenuItem();
-    private JMenuItem cut = new JMenuItem();
-    private JMenuItem copy = new JMenuItem();
-    private JMenuItem paste = new JMenuItem();
-    private JMenuItem delete = new JMenuItem();
+    private JMenuItem undo = new JMenuItem(new ImageIcon("images/undo.png"));
+    private JMenuItem redo = new JMenuItem(new ImageIcon("images/redo.png"));
+    private JMenuItem cut = new JMenuItem(new ImageIcon("images/cut.png"));
+    private JMenuItem copy = new JMenuItem(new ImageIcon("images/copy.png"));
+    private JMenuItem paste = new JMenuItem(new ImageIcon("images/paste.png"));
+    private JMenuItem delete = new JMenuItem(new ImageIcon("images/delete.png"));
 
     // erstellt HilfeMenü
-    private JMenuItem ht = new JMenuItem();
-    private JMenuItem about = new JMenuItem();
+    private JMenuItem ht = new JMenuItem(new ImageIcon("images/help.png"));
+    private JMenuItem about = new JMenuItem(new ImageIcon("images/about.png"));
 
     //erstellt JLabels
     private JLabel lab1 = new JLabel(new ImageIcon("images/StartbildGer.jpg"));
@@ -305,12 +305,12 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // erstellt ShortCuts für MenüItems des DateiMenü
         open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
         save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
-        saveas.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
+        saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
 
         // fügt MenüItems dem DateiMenü hinzu
         file.add(open);
         file.add(save);
-        file.add(saveas);
+        file.add(saveAs);
         // fügt SeperatorLinie dem DateiMenü hinzu
         file.addSeparator();
 
@@ -581,7 +581,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         open.setText(WorkArea.getMessage(Constants.OPEN));
         save.setText(WorkArea.getMessage(Constants.SAVE));
-        saveas.setText(WorkArea.getMessage(Constants.SAVEAS));
+        saveAs.setText(WorkArea.getMessage(Constants.SAVEAS));
         exit.setText(WorkArea.getMessage(Constants.EXIT));
 
         undo.setText(WorkArea.getMessage(Constants.UNDO));
