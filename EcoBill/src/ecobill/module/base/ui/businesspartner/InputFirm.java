@@ -6,6 +6,9 @@
 
 package ecobill.module.base.ui.businesspartner;
 
+import ecobill.core.system.WorkArea;
+import ecobill.core.system.Constants;
+
 import javax.swing.*;
 
 /**
@@ -35,22 +38,16 @@ public class InputFirm extends javax.swing.JPanel {
         forAttentionOf = new javax.swing.JCheckBox();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Firmendaten", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 0)));
-        titleL.setText("Anrede");
 
         title.setMinimumSize(new java.awt.Dimension(120, 20));
         title.setPreferredSize(new java.awt.Dimension(120, 20));
 
-        firmL.setText("Firma");
-
         firm.setMinimumSize(new java.awt.Dimension(120, 20));
         firm.setPreferredSize(new java.awt.Dimension(120, 20));
-
-        branchL.setText("Branche");
 
         branch.setMinimumSize(new java.awt.Dimension(120, 20));
         branch.setPreferredSize(new java.awt.Dimension(120, 20));
 
-        forAttentionOf.setText("z.H. Person");
         forAttentionOf.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         forAttentionOf.setMargin(new java.awt.Insets(0, 0, 0, 0));
 
@@ -88,6 +85,8 @@ public class InputFirm extends javax.swing.JPanel {
                 .add(forAttentionOf)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        reinitI18N();
     }
     // </editor-fold>
 
@@ -133,5 +132,13 @@ public class InputFirm extends javax.swing.JPanel {
 
     public void setTitle(String title) {
         this.title.setText(title);
+    }
+
+       public void reinitI18N() {
+
+        branchL.setText(WorkArea.getMessage(Constants.BRANCH));
+        firmL.setText(WorkArea.getMessage(Constants.FIRM));
+        titleL.setText(WorkArea.getMessage(Constants.TITLE));
+        forAttentionOf.setText(WorkArea.getMessage(Constants.FOR_ATTENTION_OF));
     }
 }
