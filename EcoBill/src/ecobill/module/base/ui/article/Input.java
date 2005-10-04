@@ -21,7 +21,7 @@ import org.jdesktop.layout.LayoutStyle;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: Input.java,v 1.2 2005/09/30 14:10:29 raedler Exp $
+ * @version $Id: Input.java,v 1.3 2005/10/04 09:20:17 raedler Exp $
  * @since EcoBill 1.0
  */
 public class Input extends JPanel implements Internationalization {
@@ -59,7 +59,7 @@ public class Input extends JPanel implements Internationalization {
 
         setBorder(border);
 
-        unitModel = new DefaultComboBoxModel(baseService.loadAll(SystemUnit.class).toArray());
+        unitModel = new DefaultComboBoxModel(baseService.getSystemUnitsByCategory(Constants.SYSTEM_UNIT_UNIT).toArray());
         unit.setModel(unitModel);
 
         unit.setMinimumSize(new Dimension(80, 20));

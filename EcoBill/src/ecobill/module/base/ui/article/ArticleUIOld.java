@@ -35,7 +35,7 @@ import org.springframework.beans.factory.InitializingBean;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUIOld.java,v 1.1 2005/09/30 09:06:01 raedler Exp $
+ * @version $Id: ArticleUIOld.java,v 1.2 2005/10/04 09:20:17 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUIOld extends JPanel implements InitializingBean, Internationalization {
@@ -753,7 +753,7 @@ public class ArticleUIOld extends JPanel implements InitializingBean, Internatio
                                 changed = true;
                             }
                             else if (colHeader.equals(Constants.UNIT)) {
-                                article.setSystemUnit((SystemUnit) selectedColumnValue);
+                                article.setUnit((SystemUnit) selectedColumnValue);
                                 changed = true;
                             }
                             else if (colHeader.equals(Constants.SINGLE_PRICE)) {
@@ -781,7 +781,7 @@ public class ArticleUIOld extends JPanel implements InitializingBean, Internatio
                                 changed = true;
                             }
                             else if (colHeader.equals(Constants.BUNDLE_UNIT)) {
-                                article.setBundleSystemUnit((SystemUnit) selectedColumnValue);
+                                article.setBundleUnit((SystemUnit) selectedColumnValue);
                                 changed = true;
                             }
                             else if (colHeader.equals(Constants.BUNDLE_CAPACITY)) {
@@ -833,11 +833,11 @@ public class ArticleUIOld extends JPanel implements InitializingBean, Internatio
 
         // Setzen der Werte eines <code>Article</code> im Zeilen Datenvektor.
         lineV.add(article.getArticleNumber());
-        lineV.add(article.getSystemUnit());
+        lineV.add(article.getUnit());
         lineV.add(article.getPrice());
         lineV.add(article.getLocalizedDescription());
         lineV.add(article.getInStock());
-        lineV.add(article.getBundleSystemUnit());
+        lineV.add(article.getBundleUnit());
         lineV.add(article.getBundleCapacity());
 
         return lineV;
@@ -903,10 +903,10 @@ public class ArticleUIOld extends JPanel implements InitializingBean, Internatio
 
         // Setzen der einzelnen Werte des Artikels auf die Eingabefelder.
         articleNumberTF.setText(article.getArticleNumber());
-        unitCBModel.setSelectedItem(article.getSystemUnit());
+        unitCBModel.setSelectedItem(article.getUnit());
         priceSpModel.setValue(article.getPrice());
         inStockSpModel.setValue(article.getInStock());
-        bundleUnitCBModel.setSelectedItem(article.getBundleSystemUnit());
+        bundleUnitCBModel.setSelectedItem(article.getBundleUnit());
         bundleCapacitySpModel.setValue(article.getBundleCapacity());
         descriptionTA.setText(article.getLocalizedDescription());
 
@@ -934,10 +934,10 @@ public class ArticleUIOld extends JPanel implements InitializingBean, Internatio
 
         // Setzt einige Werte aus den Eingabefeldern in den <code>Article</code>.
         article.setArticleNumber(articleNumberTF.getText());
-        article.setSystemUnit((SystemUnit) unitCBModel.getSelectedItem());
+        article.setUnit((SystemUnit) unitCBModel.getSelectedItem());
         article.setPrice((Double) priceSpModel.getValue());
         article.setInStock((Double) inStockSpModel.getValue());
-        article.setBundleSystemUnit((SystemUnit) bundleUnitCBModel.getSelectedItem());
+        article.setBundleUnit((SystemUnit) bundleUnitCBModel.getSelectedItem());
         article.setBundleCapacity((Double) bundleCapacitySpModel.getValue());
 
         /*

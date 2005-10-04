@@ -21,7 +21,7 @@ import ecobill.module.base.domain.SystemUnit;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: InputBundle.java,v 1.2 2005/09/30 14:10:42 raedler Exp $
+ * @version $Id: InputBundle.java,v 1.3 2005/10/04 09:20:17 raedler Exp $
  * @since EcoBill 1.0
  */
 public class InputBundle extends JPanel implements Internationalization {
@@ -54,7 +54,7 @@ public class InputBundle extends JPanel implements Internationalization {
 
         setBorder(border);
 
-        unitModel = new DefaultComboBoxModel(baseService.loadAll(SystemUnit.class).toArray());
+        unitModel = new DefaultComboBoxModel(baseService.getSystemUnitsByCategory(Constants.SYSTEM_UNIT_BUNDLE_UNIT).toArray());
         unit.setModel(unitModel);
 
         unit.setMinimumSize(new java.awt.Dimension(80, 20));

@@ -5,14 +5,17 @@ import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.Article;
 import ecobill.module.base.domain.SystemLocale;
 import ecobill.module.base.domain.ArticleDescription;
+import ecobill.module.base.domain.SystemLanguage;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import ecobill.core.system.Internationalization;
 import ecobill.core.util.FileUtils;
+import ecobill.core.util.IdKeyItem;
 import ecobill.util.exception.LocalizerException;
 import ecobill.util.LocalizerUtils;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.DisposableBean;
@@ -22,8 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 import java.util.Locale;
 import java.util.Properties;
 import java.io.FileInputStream;
@@ -40,7 +42,7 @@ import java.io.FileOutputStream;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.4 2005/09/30 14:09:42 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.5 2005/10/04 09:20:17 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JPanel implements InitializingBean, Internationalization, DisposableBean {
@@ -111,6 +113,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         // Initialisieren der Komponenten und des Layouts.
         initComponents();
         initLayout();
+        initListeners();
 
         // Setze das Bezeichnungen Tab disabled solange noch kein Artikel besteht, zu
         // dem Bezeichnungen hinzugefügt werden können.
@@ -120,6 +123,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         try {
             articleTableOverview.unpersist(new FileInputStream(serializeIdentifiers.getProperty("article_table")));
             descriptionTableOverview.unpersist(new FileInputStream(serializeIdentifiers.getProperty("residual_labelling_table")));
+            descriptionTableLabelling.unpersist(new FileInputStream(serializeIdentifiers.getProperty("labelling_table")));
         }
         catch (FileNotFoundException fnfe) {
             if (LOG.isErrorEnabled()) {
@@ -133,10 +137,15 @@ public class ArticleUI extends JPanel implements InitializingBean, International
      */
     public void destroy() throws Exception {
 
+        if (LOG.isInfoEnabled()) {
+            LOG.info("Schließe ArticleUI");
+        }
+
         // Serialisiere diese Objekte um sie bei einem neuen Start des Programmes wieder laden
         // zu können.
         articleTableOverview.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("article_table"))));
         descriptionTableOverview.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("residual_labelling_table"))));
+        descriptionTableLabelling.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("labelling_table"))));
     }
 
     private ArticleTable articleTableOverview;
@@ -166,35 +175,9 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         descriptionTableOverview = new DescriptionTable(this, baseService);
         descriptionTableLabelling = new DescriptionTable(this, baseService);
 
-        verticalButtonOverview.getSubmit().addActionListener(new ActionListener() {
-
-            /**
-             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
-             */
-            public void actionPerformed(ActionEvent e) {
-                saveOrUpdateArticle();
-                articleTableOverview.renewArticleTableModel();
-            }
-        });
-
-        verticalButtonOverview.getCancel().addActionListener(new ActionListener() {
-
-            /**
-             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
-             */
-            public void actionPerformed(ActionEvent e) {
-                baseService.delete(Article.class, actualArticleId);
-                articleTableOverview.renewArticleTableModel();
-                resetInput();
-            }
-        });
-
-        verticalButtonOverview.getFirst().setEnabled(false);
-        verticalButtonOverview.getBack().setEnabled(false);
-        verticalButtonOverview.getNext().setEnabled(false);
-        verticalButtonOverview.getLast().setEnabled(false);
-
-        verticalButtonOverview.getChange().addActionListener(new ActionListener() {
+        verticalButtonOverview.getButton1().setVisible(true);
+        verticalButtonOverview.getButton1().setIcon(new ImageIcon("images/article_new.png"));
+        verticalButtonOverview.getButton1().addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -206,13 +189,94 @@ public class ArticleUI extends JPanel implements InitializingBean, International
             }
         });
 
-        verticalButtonLabelling.getSubmit().addActionListener(new ActionListener() {
+        verticalButtonOverview.getButton2().setVisible(true);
+        verticalButtonOverview.getButton2().setIcon(new ImageIcon("images/article_ok.png"));
+        verticalButtonOverview.getButton2().addActionListener(new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+                saveOrUpdateArticle();
+                articleTableOverview.renewTableModel();
+            }
+        });
+
+        verticalButtonOverview.getButton3().setVisible(true);
+        verticalButtonOverview.getButton3().setIcon(new ImageIcon("images/article_delete.png"));
+        verticalButtonOverview.getButton3().addActionListener(new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+                baseService.delete(Article.class, actualArticleId);
+                articleTableOverview.renewTableModel();
+
+                int row = articleTableOverview.getTable().getSelectedRow();
+
+                try {
+                    actualArticleId = ((IdKeyItem) articleTableOverview.getTable().getValueAt(row, 0)).getId();
+
+                    // Zeige selektierten Artikel an.
+                    showArticle(actualArticleId);
+                }
+                catch (ArrayIndexOutOfBoundsException ioobe) {
+                    resetInput();
+                }
+            }
+        });
+
+        verticalButtonOverview.getButton4().setVisible(true);
+        verticalButtonOverview.getButton4().setIcon(new ImageIcon("images/refresh.png"));
+        verticalButtonOverview.getButton4().addActionListener(new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+                articleTableOverview.renewTableModel();
+
+                if (actualArticleId != null) {
+                    Article article = (Article) baseService.load(Article.class, actualArticleId);
+
+                    descriptionTableOverview.renewTableModel(article);
+                    descriptionTableLabelling.renewTableModel(article);
+                }
+            }
+        });
+
+        verticalButtonLabelling.getButton1().setVisible(true);
+        verticalButtonLabelling.getButton1().addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+                Article article = (Article) baseService.load(Article.class, actualArticleId);
+
+                Locale locale = inputDescriptionLabelling.getPreparedLocale();
+
+                ArticleDescription articleDescription;
+                try {
+                    articleDescription = (ArticleDescription) LocalizerUtils.getExactLocalizedObject(article.getDescriptions(), locale);
+
+                    baseService.delete(articleDescription);
+
+                    showArticle(article.getId());
+                }
+                catch (LocalizerException le) {
+                    if (LOG.isErrorEnabled()) {
+                        LOG.debug(le.getMessage(), le);
+                    }
+                }
+            }
+        });
+
+        verticalButtonLabelling.getButton2().setVisible(true);
+        verticalButtonLabelling.getButton2().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 saveOrUpdateArticleDescription();
             }
         });
-
-        setLayout(new BorderLayout());
     }
 
     /**
@@ -220,6 +284,8 @@ public class ArticleUI extends JPanel implements InitializingBean, International
      * liegen.
      */
     private void initLayout() {
+
+        setLayout(new BorderLayout());
 
         GroupLayout overviewLayout = new GroupLayout(overview);
 
@@ -296,6 +362,91 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         add(tabbedPane, BorderLayout.CENTER);
     }
 
+    private void initListeners() {
+
+        descriptionTableLabelling.getTable().addMouseListener(new MouseAdapter() {
+
+            public void mouseClicked(MouseEvent e) {
+
+                JTable table = descriptionTableLabelling.getTable();
+
+                int col = table.getColumnModel().getColumnIndex(WorkArea.getMessage(Constants.KEY));
+
+                int row = table.getSelectedRow();
+
+                Object o = table.getValueAt(row, col);
+
+                if (o instanceof IdKeyItem) {
+
+                    IdKeyItem idKeyItem = (IdKeyItem) o;
+
+                    Long id = idKeyItem.getId();
+
+                    showArticleDescription(id);
+                }
+            }
+        });
+
+        inputDescriptionLabelling.getLanguage().addItemListener(new ItemListener() {
+
+            /**
+             * @see ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+             */
+            public void itemStateChanged(ItemEvent e) {
+
+                SystemLanguage systemLanguage = (SystemLanguage) e.getItem();
+
+                ComboBoxModel countryModel = new DefaultComboBoxModel(systemLanguage.getSystemCountries().toArray());
+                inputDescriptionLabelling.getCountry().setModel(countryModel);
+
+                Article article = (Article) baseService.load(Article.class, actualArticleId);
+
+                Locale locale = inputDescriptionLabelling.getPreparedLocale();
+
+                ArticleDescription articleDescription;
+                try {
+                    articleDescription = (ArticleDescription) LocalizerUtils.getExactLocalizedObject(article.getDescriptions(), locale);
+
+                    descriptionLabelling.setDescription(articleDescription.getDescription());
+                }
+                catch (LocalizerException le) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug(le.getMessage());
+                    }
+
+                    descriptionLabelling.setDescription("");
+                }
+            }
+        });
+
+        inputDescriptionLabelling.getCountry().addItemListener(new ItemListener() {
+
+            /**
+             * @see ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+             */
+            public void itemStateChanged(ItemEvent e) {
+
+                Article article = (Article) baseService.load(Article.class, actualArticleId);
+
+                Locale locale = inputDescriptionLabelling.getPreparedLocale();
+
+                ArticleDescription articleDescription;
+                try {
+                    articleDescription = (ArticleDescription) LocalizerUtils.getExactLocalizedObject(article.getDescriptions(), locale);
+
+                    descriptionLabelling.setDescription(articleDescription.getDescription());
+                }
+                catch (LocalizerException le) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug(le.getMessage());
+                    }
+
+                    descriptionLabelling.setDescription("");
+                }
+            }
+        });
+    }
+
     public ArticleTable getArticleTable() {
         return articleTableOverview;
     }
@@ -330,6 +481,9 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         inputOverview.setInStock(0D);
         inputBundleOverview.setCapacity(0D);
         descriptionOverview.setDescription("");
+
+        ((DefaultTableModel) descriptionTableOverview.getTable().getModel()).getDataVector().removeAllElements();
+        ((DefaultTableModel) descriptionTableLabelling.getTable().getModel()).getDataVector().removeAllElements();
     }
 
     public void showArticle(Long id) {
@@ -341,14 +495,41 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         Article article = (Article) baseService.load(Article.class, id);
 
         descriptionTableOverview.renewTableModel(article);
+        descriptionTableLabelling.renewTableModel(article);
 
         inputOverview.setArticleNumber(article.getArticleNumber());
-        inputOverview.setUnit(article.getSystemUnit());
+        inputOverview.setUnit(article.getUnit());
         inputOverview.setPrice(article.getPrice());
         inputOverview.setInStock(article.getInStock());
-        inputBundleOverview.setUnit(article.getBundleSystemUnit());
+        inputBundleOverview.setUnit(article.getBundleUnit());
         inputBundleOverview.setCapacity(article.getBundleCapacity());
         descriptionOverview.setDescription(article.getLocalizedDescription());
+
+        try {
+            showArticleDescription(article.getLocalizedArticleDescription());
+        }
+        catch (LocalizerException le) {
+            if (LOG.isErrorEnabled()) {
+                LOG.error(le.getMessage(), le);
+            }
+        }
+    }
+
+    public void showArticleDescription(Long id) {
+
+        ArticleDescription articleDescription = (ArticleDescription) baseService.load(ArticleDescription.class, id);
+
+        showArticleDescription(articleDescription);
+    }
+
+    public void showArticleDescription(ArticleDescription articleDescription) {
+
+        descriptionLabelling.setDescription(articleDescription.getDescription());
+
+        SystemLocale systemLocale = articleDescription.getSystemLocale();
+
+        inputDescriptionLabelling.setSystemLanguage(systemLocale.getSystemLanguage());
+        inputDescriptionLabelling.setSystemCountry(systemLocale.getSystemCountry());
     }
 
     /**
@@ -368,10 +549,10 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         }
 
         article.setArticleNumber(inputOverview.getArticleNumber());
-        article.setSystemUnit(inputOverview.getUnit());
+        article.setUnit(inputOverview.getUnit());
         article.setPrice(inputOverview.getPrice());
         article.setInStock(inputOverview.getInStock());
-        article.setBundleSystemUnit(inputBundleOverview.getUnit());
+        article.setBundleUnit(inputBundleOverview.getUnit());
         article.setBundleCapacity(inputBundleOverview.getCapacity());
 
         SystemLocale systemLocale = baseService.getSystemLocaleByLocale(WorkArea.getLocale());
@@ -392,9 +573,14 @@ public class ArticleUI extends JPanel implements InitializingBean, International
 
         article.addArticleDescription(articleDescription);
 
-        articleTableOverview.renewArticleTableModel();
+        articleTableOverview.renewTableModel();
 
         baseService.saveOrUpdate(article);
+
+        descriptionTableOverview.renewTableModel(article);
+        descriptionTableLabelling.renewTableModel(article);
+
+        actualArticleId = article.getId();
     }
 
     private void saveOrUpdateArticleDescription() {
@@ -417,14 +603,21 @@ public class ArticleUI extends JPanel implements InitializingBean, International
                 LOG.debug(le.getMessage());
             }
             articleDescription = new ArticleDescription();
+
+            articleDescription.setSystemLocale(systemLocale);
+
+            article.addArticleDescription(articleDescription);
         }
 
         articleDescription.setDescription(descriptionLabelling.getDescription());
-        articleDescription.setSystemLocale(systemLocale);
-
-        article.addArticleDescription(articleDescription);
 
         baseService.saveOrUpdate(article);
+
+        descriptionTableOverview.renewTableModel(article);
+        descriptionTableLabelling.renewTableModel(article);
+
+        descriptionOverview.setDescription(article.getLocalizedDescription());
+        articleTableOverview.renewTableModel();
     }
 
     public Long getActualArticleId() {

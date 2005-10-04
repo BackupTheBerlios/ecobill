@@ -51,7 +51,6 @@ public class InputDescription extends JPanel implements Internationalization {
     public InputDescription(BaseService baseService) {
         this.baseService = baseService;
         initComponents();
-        initListeners();
         initLayout();
         reinitI18N();
     }
@@ -65,8 +64,8 @@ public class InputDescription extends JPanel implements Internationalization {
 
         languageModel = new DefaultComboBoxModel(baseService.loadAll(SystemLanguage.class).toArray());
         language.setModel(languageModel);
-        language.setMinimumSize(new java.awt.Dimension(80, 20));
-        language.setPreferredSize(new java.awt.Dimension(80, 20));
+        language.setMinimumSize(new java.awt.Dimension(120, 20));
+        language.setPreferredSize(new java.awt.Dimension(120, 20));
 
         SystemLanguage systemLanguage = (SystemLanguage) languageModel.getSelectedItem();
 
@@ -81,13 +80,13 @@ public class InputDescription extends JPanel implements Internationalization {
 
         countryModel = new DefaultComboBoxModel(systemCountries.toArray());
         country.setModel(countryModel);
-        country.setMinimumSize(new java.awt.Dimension(80, 20));
-        country.setPreferredSize(new java.awt.Dimension(80, 20));
+        country.setMinimumSize(new java.awt.Dimension(120, 20));
+        country.setPreferredSize(new java.awt.Dimension(120, 20));
 
 
         //variant.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        variant.setMinimumSize(new java.awt.Dimension(80, 20));
-        variant.setPreferredSize(new java.awt.Dimension(80, 20));
+        variant.setMinimumSize(new java.awt.Dimension(120, 20));
+        variant.setPreferredSize(new java.awt.Dimension(120, 20));
     }
 
     private void initLayout() {
@@ -100,9 +99,9 @@ public class InputDescription extends JPanel implements Internationalization {
                 .addContainerGap()
                 .add(layout.createParallelGroup(GroupLayout.LEADING)
                     .add(languageL)
-                    .add(language, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+                    .add(language, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
                     .add(countryL)
-                    .add(country, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
+                    .add(country, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE))
                     /*
                     .add(variantL)
                     .add(variant, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
@@ -129,23 +128,6 @@ public class InputDescription extends JPanel implements Internationalization {
         );
     }
 
-    private void initListeners() {
-
-        language.addItemListener(new ItemListener() {
-
-            /**
-             * @see ItemListener#itemStateChanged(java.awt.event.ItemEvent)
-             */
-            public void itemStateChanged(ItemEvent e) {
-
-                SystemLanguage systemLanguage = (SystemLanguage) e.getItem();
-
-                countryModel = new DefaultComboBoxModel(systemLanguage.getSystemCountries().toArray());
-                country.setModel(countryModel);
-            }
-        });
-    }
-
     public void reinitI18N() {
 
         border.setTitle(WorkArea.getMessage(Constants.DATA));
@@ -158,23 +140,39 @@ public class InputDescription extends JPanel implements Internationalization {
         variant.setToolTipText(WorkArea.getMessage(Constants.VARIANT_TOOLTIP));
     }
 
-    public SystemCountry getCountry() {
+    public JComboBox getCountry() {
+        return country;
+    }
+
+    public void setCountry(JComboBox country) {
+        this.country = country;
+    }
+
+    public JComboBox getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(JComboBox language) {
+        this.language = language;
+    }
+
+    public SystemCountry getSystemCountry() {
         return (SystemCountry) country.getSelectedItem();
     }
 
-    public void setCountry(SystemCountry country) {
+    public void setSystemCountry(SystemCountry country) {
         this.country.setSelectedItem(country);
     }
 
-    public SystemLanguage getLanguage() {
+    public SystemLanguage getSystemLanguage() {
         return (SystemLanguage) language.getSelectedItem();
     }
 
-    public void setLanguage(SystemLanguage language) {
+    public void setSystemLanguage(SystemLanguage language) {
         this.language.setSelectedItem(language);
     }
 
     public Locale getPreparedLocale() {
-        return new Locale(getLanguage().getKey(), getCountry().getKey());
+        return new Locale(getSystemLanguage().getKey(), getSystemCountry().getKey());
     }
 }

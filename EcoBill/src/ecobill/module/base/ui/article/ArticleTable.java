@@ -2,8 +2,6 @@ package ecobill.module.base.ui.article;
 
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
-import ecobill.core.system.Internationalization;
-import ecobill.core.system.Persistable;
 import ecobill.core.util.I18NItem;
 import ecobill.core.util.IdKeyItem;
 import ecobill.module.base.domain.Article;
@@ -11,26 +9,19 @@ import ecobill.module.base.domain.SystemUnit;
 import ecobill.module.base.domain.SystemLocale;
 import ecobill.module.base.domain.ArticleDescription;
 import ecobill.module.base.service.BaseService;
+import ecobill.module.base.ui.component.AbstractTablePanel;
 import ecobill.util.VectorUtils;
 import ecobill.util.exception.LocalizerException;
 
 import javax.swing.border.TitledBorder;
+import javax.swing.border.Border;
 import javax.swing.*;
 import javax.swing.event.TableModelListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.*;
-import java.util.List;
-import java.io.*;
-
-import org.jdesktop.layout.GroupLayout;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Die <code>ArticleTable</code> beinhaltet die Tabelle zur Anzeige der Artikel. Desweiteren
@@ -41,65 +32,15 @@ import org.apache.commons.logging.LogFactory;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleTable.java,v 1.5 2005/09/30 14:41:16 raedler Exp $
+ * @version $Id: ArticleTable.java,v 1.6 2005/10/04 09:20:17 raedler Exp $
  * @since EcoBill 1.0
  */
-public class ArticleTable extends JPanel implements Internationalization, Persistable {
-
-    /**
-     * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
-     * Diese Ausgaben können in einem separaten File spezifiziert werden.
-     */
-    private static final Log LOG = LogFactory.getLog(ArticleTable.class);
-
-    /**
-     * Die Reihenfolge wie die Spalten angezeigt werden, sofern das <code>TableColumnModel</code>
-     * noch nicht serialisiert wurde.
-     */
-    private final static Vector<I18NItem> ARTICLE_TABLE_ORDER = new Vector<I18NItem>();
-
-    static {
-        ARTICLE_TABLE_ORDER.add(new I18NItem(Constants.ARTICLE_NR));
-        ARTICLE_TABLE_ORDER.add(new I18NItem(Constants.UNIT));
-        ARTICLE_TABLE_ORDER.add(new I18NItem(Constants.SINGLE_PRICE));
-        ARTICLE_TABLE_ORDER.add(new I18NItem(Constants.DESCRIPTION));
-        ARTICLE_TABLE_ORDER.add(new I18NItem(Constants.IN_STOCK));
-        ARTICLE_TABLE_ORDER.add(new I18NItem(Constants.BUNDLE_UNIT));
-        ARTICLE_TABLE_ORDER.add(new I18NItem(Constants.BUNDLE_CAPACITY));
-    };
+public class ArticleTable extends AbstractTablePanel {
 
     /**
      * Die <code>ArtikelUI</code> um den Artikel anzeigen zu können.
      */
     private ArticleUI articleUI;
-
-    /**
-     * Der <code>BaseService</code> ist die Business Logik. Unter anderem können hierdurch Daten
-     * aus der Datenbank ausgelesen und gespeichert werden.
-     */
-    private BaseService baseService;
-
-    /**
-     * Der <code>Border</code> der um das <code>JPanel</code> gelegt wird.
-     */
-    private TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.ARTICLE), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
-
-    /**
-     * Das <code>TableModel</code> beinhaltet die eigentlichen Daten, die zur Anzeige verwendet werden
-     * sollen.
-     */
-    private DefaultTableModel tableModel = new DefaultTableModel();
-
-    /**
-     * Die eigentlich <code>JTable</code> mit ihrem <code>TableModel</code>.
-     */
-    private JTable table = new JTable(tableModel);
-
-    /**
-     * Eine <code>JScrollPane</code> um zu ermöglichen, dass die Tabelle gescrollt werden kann und der
-     * Tabellen Header angezeigt wird.
-     */
-    private JScrollPane tableSP = new JScrollPane();
 
     /**
      * Die id des <code>Article</code> der in der aktuell ausgewählt ist.
@@ -110,57 +51,88 @@ public class ArticleTable extends JPanel implements Internationalization, Persis
      * Erzeugt eine neues Article Table Panel für Artikel.
      */
     public ArticleTable(ArticleUI articleUI, BaseService baseService) {
+        super(baseService);
+
         this.articleUI = articleUI;
-        this.baseService = baseService;
 
-        initComponents();
-        initLayout();
-        reinitI18N();
-
-        initListeners();
-
-        tableModel.setColumnIdentifiers(ARTICLE_TABLE_ORDER);
-
-        table.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(new JComboBox(new DefaultComboBoxModel(VectorUtils.listToVector(baseService.getAllSystemUnits())))));
-
-        renewArticleTableModel();
+        // TODO: Untersuche auf Notwendigkeit, schaue bei unpersist(IntputStream)
+        getTable().getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(new JComboBox(new DefaultComboBoxModel(VectorUtils.listToVector(baseService.getSystemUnitsByCategory(Constants.SYSTEM_UNIT_UNIT))))));
+        getTable().getColumnModel().getColumn(5).setCellEditor(new DefaultCellEditor(new JComboBox(new DefaultComboBoxModel(VectorUtils.listToVector(baseService.getSystemUnitsByCategory(Constants.SYSTEM_UNIT_BUNDLE_UNIT))))));
     }
 
     /**
-     * Initialisiert die Komponenten.
+     * @see ecobill.module.base.ui.component.AbstractTablePanel#createBorder()
      */
-    private void initComponents() {
-
-        setBorder(border);
-
-        tableSP.setViewportView(table);
-        tableSP.getViewport().setBackground(Color.WHITE);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    protected Border createPanelBorder() {
+        return BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.ARTICLE), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
     }
 
     /**
-     * Initialisiert den <code>LayoutManager</code>.
+     * @see ecobill.module.base.ui.component.AbstractTablePanel#createTableColumnOrder()
      */
-    private void initLayout() {
+    protected Vector<I18NItem> createTableColumnOrder() {
 
-        GroupLayout layout = new GroupLayout(this);
+        Vector<I18NItem> tableColumnOrder = new Vector<I18NItem>();
 
-        setLayout(layout);
+        tableColumnOrder.add(new I18NItem(Constants.ARTICLE_NR));
+        tableColumnOrder.add(new I18NItem(Constants.UNIT));
+        tableColumnOrder.add(new I18NItem(Constants.SINGLE_PRICE));
+        tableColumnOrder.add(new I18NItem(Constants.DESCRIPTION));
+        tableColumnOrder.add(new I18NItem(Constants.IN_STOCK));
+        tableColumnOrder.add(new I18NItem(Constants.BUNDLE_UNIT));
+        tableColumnOrder.add(new I18NItem(Constants.BUNDLE_CAPACITY));
 
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(GroupLayout.LEADING)
-                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(tableSP, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
-                        .addContainerGap())
-        );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(GroupLayout.LEADING)
-                        .add(GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .add(tableSP, GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
-                        .addContainerGap())
-        );
+        return tableColumnOrder;
+    }
+
+    /**
+     * @see ecobill.module.base.ui.component.AbstractTablePanel#getDataCollection()
+     */
+    protected Collection getDataCollection() {
+        return getBaseService().loadAll(Article.class);
+    }
+
+    /**
+     * @see AbstractTablePanel#createLineVector(Object)
+     */
+    protected Vector<Object> createLineVector(Object o) {
+        // Ein neuer <code>Vector</code> stellt eine Zeile der Tabelle dar.
+        Vector<Object> line = new Vector<Object>();
+
+        if (o instanceof Article) {
+
+            Article article = (Article) o;
+
+            // Setzen der Werte eines <code>Article</code> im Zeilen Datenvektor.
+            for (I18NItem order : getTableColumnOrder()) {
+
+                String key = order.getKey();
+
+                if (Constants.ARTICLE_NR.equals(key)) {
+                    line.add(new IdKeyItem(article.getId(), article.getArticleNumber()));
+                }
+                else if (Constants.UNIT.equals(key)) {
+                    line.add(article.getUnit());
+                }
+                else if (Constants.SINGLE_PRICE.equals(key)) {
+                    line.add(article.getPrice());
+                }
+                else if (Constants.DESCRIPTION.equals(key)) {
+                    line.add(article.getLocalizedDescription());
+                }
+                else if (Constants.IN_STOCK.equals(key)) {
+                    line.add(article.getInStock());
+                }
+                else if (Constants.BUNDLE_UNIT.equals(key)) {
+                    line.add(article.getBundleUnit());
+                }
+                else if (Constants.BUNDLE_CAPACITY.equals(key)) {
+                    line.add(article.getBundleCapacity());
+                }
+            }
+        }
+
+        return line;
     }
 
     /**
@@ -168,73 +140,36 @@ public class ArticleTable extends JPanel implements Internationalization, Persis
      * mit der landesspezifischen Sprache zu reinitialisieren.
      */
     public void reinitI18N() {
-        border.setTitle(WorkArea.getMessage(Constants.ARTICLE));
+        super.reinitI18N();
 
-        //tableModel.setColumnIdentifiers(ARTICLE_TABLE_ORDER);
-        tableSP.setViewportView(table);
-        tableSP.repaint();
+        ((TitledBorder) getPanelBorder()).setTitle(WorkArea.getMessage(Constants.ARTICLE));
     }
 
-    public void renewArticleTableModel() {
+    /**
+     * @see ecobill.module.base.ui.component.AbstractTablePanel#createKeyListeners()
+     */
+    protected KeyListener[] createKeyListeners() {
 
-        /*
-         * Entfernt alle schon vorhandenen Artikel von diesem <code>Vector</code>
-         * Dies muss gemacht werden, das sonst alle Einträge die schon vorhanden
-         * sind auch nochmal angezeigt werden.
-         */
-        Vector dataVector = tableModel.getDataVector();
-        dataVector.removeAllElements();
+        KeyListener[] keyListeners = new KeyListener[1];
 
-        /*
-        * Gibt eine <code>List</code> mit allen <code>Article</code> die in der
-        * Datenbank gespeichert sind zurück.
-        */
-        List articles = baseService.getAllArticles();
-
-        /*
-         * Iteriert über die Artikel Liste und fügt jeden <code>Article</code> dem
-         * Daten <code>Vector</code> hinzu.
-         */
-        for (Object o : articles) {
-
-            /*
-             * Sicherheitsabfrage ob es sich bei diesem <code>Object</code> auch wirklich
-             * um eine Instanz der Klasse <code>Article</code> handelt.
-             */
-            if (o instanceof Article) {
-
-                // Ein Artikel aus der erhaltenen Liste der Datenbank.
-                Article article = (Article) o;
-
-                // Fügt den Artikel dem <code>TableModel</code> hinzu.
-                Vector<Object> lineV = this.createVectorOfArticle(article);
-
-                dataVector.add(lineV);
-            }
-        }
-        
-        // Zeichnet die Tabelle nach hinzufügen des Artikels neu.
-        table.repaint();
-        tableSP.setViewportView(table);
-    }
-
-    private void initListeners() {
-
-        // Ein <code>KeyListener</code> um auf VK_UP und VK_DOWN in der Tabelle
-        // geeignet zu reagieren.
-        table.addKeyListener(new KeyAdapter() {
+        keyListeners[0] = new KeyAdapter() {
 
             /**
              * @see KeyAdapter#keyPressed(java.awt.event.KeyEvent)
              */
             public void keyPressed(KeyEvent e) {
 
+                // Hole den KeyCode der gedrückten Taste.
                 int keyCode = e.getKeyCode();
 
+                // Es soll nur diese Aktion ausgeführt werden wenn entweder Key UP oder Key DOWN
+                // gedrückt wurde.
                 if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_DOWN) {
 
-                    int row = table.getSelectedRow();
+                    // Hole die selektierte Reihe.
+                    int row = getTable().getSelectedRow();
 
+                    // Korrigiere die Key UP oder die Key DOWN Verschiebung.
                     if (keyCode == KeyEvent.VK_UP) {
                         --row;
                     }
@@ -242,8 +177,11 @@ public class ArticleTable extends JPanel implements Internationalization, Persis
                         ++row;
                     }
 
+                    // Fange die <code>ArrayIndexOutOfBoundsException</code> ab, die auftreten kann wenn
+                    // durch die Korrektur eine Zeile zurückgegeben wird, die aber nicht in der Tabelle
+                    // besteht.
                     try {
-                        articleId = ((IdKeyItem) tableModel.getValueAt(row, 0)).getId();
+                        articleId = ((IdKeyItem) getTableModel().getValueAt(row, 0)).getId();
                     }
                     catch (ArrayIndexOutOfBoundsException aioobe) {
                         if (LOG.isDebugEnabled()) {
@@ -251,14 +189,25 @@ public class ArticleTable extends JPanel implements Internationalization, Persis
                         }
                     }
 
+                    // Zeige selektierten Artikel an.
                     articleUI.showArticle(articleId);
                 }
             }
-        });
+        };
+
+        return keyListeners;
+    }
+
+    /**
+     * @see ecobill.module.base.ui.component.AbstractTablePanel#createMouseListeners()
+     */
+    protected MouseListener[] createMouseListeners() {
+
+        MouseListener[] mouseListeners = new MouseListener[1];
 
         // Ein <code>MouseAdapter</code> mit einer implementierten mouseDown Methode
         // um auf Klicks auf die Tabelle geeignet zu reagieren.
-        table.addMouseListener(new MouseAdapter() {
+        mouseListeners[0] = new MouseAdapter() {
 
             /**
              * @see MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
@@ -266,18 +215,29 @@ public class ArticleTable extends JPanel implements Internationalization, Persis
             public void mouseClicked(MouseEvent e) {
 
                 if (e.getButton() == MouseEvent.BUTTON1) {
-                    int row = table.getSelectedRow();
+                    int row = getTable().getSelectedRow();
 
-                    articleId = ((IdKeyItem) tableModel.getValueAt(row, 0)).getId();
+                    articleId = ((IdKeyItem) getTableModel().getValueAt(row, 0)).getId();
 
+                    // Zeige selektierten Artikel an.
                     articleUI.showArticle(articleId);
                 }
             }
-        });
+        };
+
+        return mouseListeners;
+    }
+
+    /**
+     * @see ecobill.module.base.ui.component.AbstractTablePanel#createTableModelListeners()
+     */
+    protected TableModelListener[] createTableModelListeners() {
+
+        TableModelListener[] tableModelListeners = new TableModelListener[1];
 
         // Ein <code>TableModelListener</code> um die Änderungen der Tabellendaten in der
         // Datenbank zu persistieren.
-        this.tableModel.addTableModelListener(new TableModelListener() {
+        tableModelListeners[0] = new TableModelListener() {
 
             /**
              * @see TableModelListener#tableChanged(javax.swing.event.TableModelEvent)
@@ -292,23 +252,23 @@ public class ArticleTable extends JPanel implements Internationalization, Persis
                     int col = e.getColumn();
 
                     // Sicherheitscheck.
-                    if (row > -1 && row < tableModel.getRowCount()) {
+                    if (row > -1 && row < getTableModel().getRowCount()) {
 
                         // Lade betreffenden Artikel von der Datenbank.
-                        Article article = (Article) baseService.load(Article.class, articleId);
+                        Article article = (Article) getBaseService().load(Article.class, articleId);
 
                         // Veränderter Wert.
-                        Object value = tableModel.getValueAt(row, col);
+                        Object value = getTableModel().getValueAt(row, col);
 
                         // Der übersetzte Name der Spalte um herauszufinden welcher Wert überhaupt
                         // geändert werden muss.
-                        String columnName = tableModel.getColumnName(col);
+                        String columnName = getTableModel().getColumnName(col);
 
                         if (columnName.equals(WorkArea.getMessage(Constants.ARTICLE_NR))) {
                             article.setArticleNumber((String) value);
                         }
                         else if (columnName.equals(WorkArea.getMessage(Constants.UNIT))) {
-                            article.setSystemUnit((SystemUnit) value);
+                            article.setUnit((SystemUnit) value);
                         }
                         else if (columnName.equals(WorkArea.getMessage(Constants.SINGLE_PRICE))) {
                             article.setPrice(Double.valueOf((String) value));
@@ -320,7 +280,7 @@ public class ArticleTable extends JPanel implements Internationalization, Persis
                             catch (LocalizerException le) {
                                 ArticleDescription articleDescription = new ArticleDescription();
 
-                                SystemLocale systemLocale = baseService.getSystemLocaleByLocale(WorkArea.getLocale());
+                                SystemLocale systemLocale = getBaseService().getSystemLocaleByLocale(WorkArea.getLocale());
 
                                 articleDescription.setDescription((String) value);
                                 articleDescription.setSystemLocale(systemLocale);
@@ -332,124 +292,39 @@ public class ArticleTable extends JPanel implements Internationalization, Persis
                             article.setInStock(Double.valueOf((String) value));
                         }
                         else if (columnName.equals(WorkArea.getMessage(Constants.BUNDLE_UNIT))) {
-                            article.setBundleSystemUnit((SystemUnit) value);
+                            article.setBundleUnit((SystemUnit) value);
                         }
                         else if (columnName.equals(WorkArea.getMessage(Constants.BUNDLE_CAPACITY))) {
                             article.setBundleCapacity(Double.valueOf((String) value));
                         }
 
-                        baseService.saveOrUpdate(article);
+                        getBaseService().saveOrUpdate(article);
 
                         if (LOG.isDebugEnabled()) {
-                            LOG.debug("In der Spalte [" + col + "] und Zeile [" + row + "] wurde für den Artikel [id=\"" + articleId + "\"] der Wert auf \"" + tableModel.getValueAt(row, col) + "\" geändert.");
+                            LOG.debug("In der Spalte [" + col + "] und Zeile [" + row + "] wurde für den Artikel [id=\"" + articleId + "\"] der Wert auf \"" + getTableModel().getValueAt(row, col) + "\" geändert.");
                         }
 
-                        renewArticleTableModel();
+                        renewTableModel();
                         articleUI.showArticle(articleId);
                     }
                 }
             }
-        });
+        };
+
+        return tableModelListeners;
     }
 
     /**
-     * Erzeugt einen <code>Vector</code> des Artikels.
-     *
-     * @param article Ein <code>Article</code> der in einen <code>Vector</code> umgewandelt
-     *                werden soll.
-     * @return Gibt den <code>Vector</code> zurück der aus dem <code>Article</code> erzeugt wurde.
+     * @see AbstractTablePanel#initColumnModelAfterUnpersist(javax.swing.table.TableColumnModel)
      */
-    private Vector<Object> createVectorOfArticle(Article article) {
-        // Ein neuer <code>Vector</code> stellt eine Zeile der Tabelle dar.
-        Vector<Object> lineV = new Vector<Object>();
+    protected TableColumnModel createEditoredColumnModelAfterUnpersist(TableColumnModel columnModel) {
 
-        // Setzen der Werte eines <code>Article</code> im Zeilen Datenvektor.
-        for (I18NItem order : ARTICLE_TABLE_ORDER) {
+        int unit = columnModel.getColumnIndex(WorkArea.getMessage(Constants.UNIT));
+        int bundleUnit = columnModel.getColumnIndex(WorkArea.getMessage(Constants.BUNDLE_UNIT));
 
-            String key = order.getKey();
+        columnModel.getColumn(unit).setCellEditor(new DefaultCellEditor(new JComboBox(new DefaultComboBoxModel(VectorUtils.listToVector(getBaseService().getSystemUnitsByCategory(Constants.SYSTEM_UNIT_UNIT))))));
+        columnModel.getColumn(bundleUnit).setCellEditor(new DefaultCellEditor(new JComboBox(new DefaultComboBoxModel(VectorUtils.listToVector(getBaseService().getSystemUnitsByCategory(Constants.SYSTEM_UNIT_BUNDLE_UNIT))))));
 
-            if (Constants.ARTICLE_NR.equals(key)) {
-                lineV.add(new IdKeyItem(article.getId(), article.getArticleNumber()));
-            }
-            else if (Constants.UNIT.equals(key)) {
-                lineV.add(article.getSystemUnit());
-            }
-            else if (Constants.SINGLE_PRICE.equals(key)) {
-                lineV.add(article.getPrice());
-            }
-            else if (Constants.DESCRIPTION.equals(key)) {
-                lineV.add(article.getLocalizedDescription());
-            }
-            else if (Constants.IN_STOCK.equals(key)) {
-                lineV.add(article.getInStock());
-            }
-            else if (Constants.BUNDLE_UNIT.equals(key)) {
-                lineV.add(article.getBundleSystemUnit());
-            }
-            else if (Constants.BUNDLE_CAPACITY.equals(key)) {
-                lineV.add(article.getBundleCapacity());
-            }
-        }
-
-        return lineV;
-    }
-
-    /**
-     * @see ecobill.core.system.Persistable#persist(java.io.OutputStream)
-     */
-    public void persist(OutputStream outputStream) {
-
-        try {
-            table.removeEditor();
-
-            ObjectOutputStream oos = new ObjectOutputStream(outputStream);
-            oos.writeObject(table.getColumnModel());
-            oos.flush();
-            oos.close();
-        }
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    /**
-     * @see ecobill.core.system.Persistable#unpersist(java.io.InputStream)
-     */
-    public void unpersist(InputStream inputStream) {
-
-        ObjectInputStream ois = null;
-        try {
-            ois = new ObjectInputStream(inputStream);
-
-            TableColumnModel columnModel = (TableColumnModel) ois.readObject();
-
-            int unit = columnModel.getColumnIndex(WorkArea.getMessage(Constants.UNIT));
-            int bundleUnit = columnModel.getColumnIndex(WorkArea.getMessage(Constants.BUNDLE_UNIT));
-
-            columnModel.getColumn(unit).setCellEditor(new DefaultCellEditor(new JComboBox(new DefaultComboBoxModel(VectorUtils.listToVector(baseService.getAllSystemUnits())))));
-            columnModel.getColumn(bundleUnit).setCellEditor(new DefaultCellEditor(new JComboBox(new DefaultComboBoxModel(VectorUtils.listToVector(baseService.getAllSystemUnits())))));
-
-            table.setColumnModel(columnModel);
-        }
-        catch (IOException ioe) {
-            if (LOG.isErrorEnabled()) {
-                LOG.error(ioe.getMessage(), ioe);
-            }
-        }
-        catch (ClassNotFoundException cnfe) {
-            if (LOG.isErrorEnabled()) {
-                LOG.error(cnfe.getMessage(), cnfe);
-            }
-        }
-        finally {
-            if (ois != null) {
-                try {
-                    ois.close();
-                }
-                catch (IOException ioe) {
-                    ioe.printStackTrace();
-                }
-            }
-        }
+        return columnModel;
     }
 }

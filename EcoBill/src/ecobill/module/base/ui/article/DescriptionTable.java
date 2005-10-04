@@ -85,6 +85,24 @@ public class DescriptionTable extends JPanel implements Internationalization, Pe
     private JTable table = new JTable(tableModel);
 
     /**
+     * Gibt die Tabelle in der Anzeige zurück.
+     *
+     * @return Die <code>JTable</code> in der Anzeige.
+     */
+    public JTable getTable() {
+        return table;
+    }
+
+    /**
+     * Setzt die Tabelle die anzeigt werden soll.
+     *
+     * @param table Eine <code>JTable</code> die angezeigt werden soll.
+     */
+    public void setTable(JTable table) {
+        this.table = table;
+    }
+
+    /**
      * Eine <code>JScrollPane</code> um zu ermöglichen, dass die Tabelle gescrollt werden kann und der
      * Tabellen Header angezeigt wird.
      */
@@ -114,6 +132,9 @@ public class DescriptionTable extends JPanel implements Internationalization, Pe
         tableSP.getViewport().setBackground(Color.WHITE);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        // Schaltet das Tabellengitter aus.
+        table.setShowGrid(false);
     }
 
     private void initLayout() {
@@ -140,11 +161,10 @@ public class DescriptionTable extends JPanel implements Internationalization, Pe
     public void renewTableModel(Article article) {
 
         if (article != null) {
-            /*
-            * Entfernt alle schon vorhandenen Artikel von diesem <code>Vector</code>
-            * Dies muss gemacht werden, das sonst alle Einträge die schon vorhanden
-            * sind auch nochmal angezeigt werden.
-            */
+
+            // Entfernt alle schon vorhandenen Artikel Beschreibungen aus dem Datenvektor
+            // der Tabelle. Dies muss gemacht werden, das sonst alle Einträge die schon
+            // vorhanden sind auch nochmal angezeigt werden.
             Vector dataVector = tableModel.getDataVector();
 
             dataVector.removeAllElements();
