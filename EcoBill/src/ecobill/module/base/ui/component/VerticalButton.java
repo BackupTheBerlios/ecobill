@@ -17,7 +17,7 @@ import ecobill.core.system.Constants;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: VerticalButton.java,v 1.2 2005/10/04 09:32:45 raedler Exp $
+ * @version $Id: VerticalButton.java,v 1.3 2005/10/04 10:04:35 raedler Exp $
  * @since EcoBill 1.0
  */
 public class VerticalButton extends JPanel {
@@ -54,15 +54,6 @@ public class VerticalButton extends JPanel {
         button5.setVisible(false);
         button6.setVisible(false);
         button7.setVisible(false);
-
-        // TODO: Plaziere icons in package Struktur. 
-        button1.setIcon(new javax.swing.ImageIcon("D:\\Projects\\EcoBill\\images\\first.gif"));
-        button2.setIcon(new javax.swing.ImageIcon("D:\\Projects\\EcoBill\\images\\back.gif"));
-        button3.setIcon(new javax.swing.ImageIcon("D:\\Projects\\EcoBill\\images\\cancel.gif"));
-        button4.setIcon(new javax.swing.ImageIcon("D:\\Projects\\EcoBill\\images\\change.gif"));
-        button5.setIcon(new javax.swing.ImageIcon("D:\\Projects\\EcoBill\\images\\submit.gif"));
-        button6.setIcon(new javax.swing.ImageIcon("D:\\Projects\\EcoBill\\images\\next.gif"));
-        button7.setIcon(new javax.swing.ImageIcon("D:\\Projects\\EcoBill\\images\\last.gif"));
     }
 
     private void initLayout() {
