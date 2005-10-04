@@ -19,7 +19,7 @@ import java.io.Serializable;
  * Time: 12:29:43
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDaoImpl.java,v 1.10 2005/09/30 14:41:16 raedler Exp $
+ * @version $Id: BaseDaoImpl.java,v 1.11 2005/10/04 09:18:47 raedler Exp $
  * @see BaseDao
  * @since EcoBill 1.0
  */
@@ -124,6 +124,19 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
         return getHibernateTemplate().loadAll(SystemUnit.class);
     }
 
+    /**
+     * Gibt eine <code>List</code> mit <code>SystemUnit</code>, die zu einer bestimmten Kategorie gehört,
+     * zurück.
+     *
+     * @param category Die Kategorie zu dieser die <code>SystemUnit</code> gehören.
+     * @return Eine <code>List</code> mit <code>SystemUnit</code> einer bestimmten Kategorie.
+     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
+     *                             auftritt.
+     * @see ecobill.module.base.dao.BaseDao#getSystemUnitsByCategory(String) 
+     */
+    public List getSystemUnitsByCategory(String category) throws DataAccessException {
+        return getHibernateTemplate().find("from " + SystemUnit.class.getName() + " as systemUnit where systemUnit.category = ?", new Object[]{category});
+    }
 
     /**
      * Gibt eine <code>List</code> mit allen <code>SystemUnit</code> die in der Datenbank verfügbar

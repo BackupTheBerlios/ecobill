@@ -21,7 +21,7 @@ import java.io.Serializable;
  * Time: 12:30:55
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseService.java,v 1.12 2005/09/30 14:41:16 raedler Exp $
+ * @version $Id: BaseService.java,v 1.13 2005/10/04 09:18:58 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface BaseService extends Service {
@@ -99,6 +99,11 @@ public interface BaseService extends Service {
      * @see ecobill.module.base.dao.BaseDao#getAllSystemUnits()
      */
     public List getAllSystemUnits();
+
+    /**
+     * @see BaseDao#getSystemUnitsByCategory(String) 
+     */
+    public List getSystemUnitsByCategory(String category);
 
     /**
      * @see ecobill.module.base.dao.BaseDao#getAllBusinessPartnerIds()

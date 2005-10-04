@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.Locale;
 import java.io.Serializable;
 
-import org.springframework.dao.DataAccessException;
-
 /**
  * Das <code>BaseServiceImpl</code> ist eine Implementation des Interfaces <code>BaseService</code>.
  * <p/>
@@ -22,7 +20,7 @@ import org.springframework.dao.DataAccessException;
  * Time: 12:31:05
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseServiceImpl.java,v 1.14 2005/09/30 14:41:16 raedler Exp $
+ * @version $Id: BaseServiceImpl.java,v 1.15 2005/10/04 09:18:58 raedler Exp $
  * @see BaseService
  * @since EcoBill 1.0
  */
@@ -64,7 +62,7 @@ public class BaseServiceImpl implements BaseService {
     }
 
     /**
-     * @see BaseService#loadAll(Class) 
+     * @see BaseService#loadAll(Class)
      */
     public List loadAll(Class clazz) {
         return baseDao.loadAll(clazz);
@@ -179,6 +177,13 @@ public class BaseServiceImpl implements BaseService {
     }
 
     /**
+     * @see BaseService#getSystemUnitsByCategory(String)
+     */
+    public List getSystemUnitsByCategory(String category) {
+        return baseDao.getSystemUnitsByCategory(category);
+    }
+
+    /**
      * @see BaseService#getBusinessPartnerById(Long)
      */
     public BusinessPartner getBusinessPartnerById(Long id) {
@@ -221,9 +226,9 @@ public class BaseServiceImpl implements BaseService {
             // Hier wird das Problem mit zwei Objekten und der selben ID umgangen.
             if (savedBusinessPartner != null && savedPerson != null) {
                 savedBusinessPartner.setCompanyName(bp.getCompanyName());
-                savedBusinessPartner.setCompanyTitleKey(bp.getCompanyTitleKey());
-                savedPerson.setTitleKey(bp.getPerson().getTitleKey());
-                savedPerson.setAcademicTitleKey(bp.getPerson().getAcademicTitleKey());
+                savedBusinessPartner.setCompanyTitle(bp.getCompanyTitle());
+                savedPerson.setTitle(bp.getPerson().getTitle());
+                savedPerson.setAcademicTitle(bp.getPerson().getAcademicTitle());
                 savedPerson.setFirstname(bp.getPerson().getFirstname());
                 savedPerson.setLastname(bp.getPerson().getLastname());
                 savedPerson.setPhone(bp.getPerson().getPhone());
@@ -285,10 +290,10 @@ public class BaseServiceImpl implements BaseService {
         *
         if (savedArticle != null) {
             savedArticle.setArticleNumber(article.getArticleNumber());
-            savedArticle.setSystemUnit(article.getSystemUnit());
+            savedArticle.setUnit(article.getUnit());
             savedArticle.setPrice(article.getPrice());
             savedArticle.setInStock(article.getInStock());
-            savedArticle.setBundleSystemUnit(article.getBundleSystemUnit());
+            savedArticle.setBundleUnit(article.getBundleUnit());
             savedArticle.setBundleCapacity(article.getBundleCapacity());
 
             // @todo Evtl muss man sich hier um die restlichen (schon vorhandenen) Artikelbeschreibungen kümmern.

@@ -21,7 +21,7 @@ import java.io.Serializable;
  * Time: 12:29:36
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDao.java,v 1.10 2005/09/30 14:41:16 raedler Exp $
+ * @version $Id: BaseDao.java,v 1.11 2005/10/04 09:18:47 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface BaseDao {
@@ -97,16 +97,6 @@ public interface BaseDao {
     public List getAllSystemLocales() throws DataAccessException;
 
     /**
-     * Gibt eine <code>List</code> mit allen <code>Businesspartnerids</code> die in der Datenbank verfügbar
-     * sind zurück.
-     *
-     * @return Eine <code>List</code> mit allen <code>Businesspartnerids</code> in der Datenbank.
-     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
-     *                             auftritt.
-     */
-    public List getAllBusinessPartnerIds() throws DataAccessException;
-
-    /**
      * Gibt eine <code>List</code> mit allen <code>SystemUnit</code> die in der Datenbank verfügbar
      * sind zurück.
      *
@@ -116,6 +106,24 @@ public interface BaseDao {
      */
     public List getAllSystemUnits() throws DataAccessException;
 
+    /**
+     * Gibt eine <code>List</code> mit <code>SystemUnit</code>, die zu einer bestimmten Kategorie gehört,
+     * zurück.
+     *
+     * @param category Die Kategorie zu dieser die <code>SystemUnit</code> gehören.
+     * @return Eine <code>List</code> mit <code>SystemUnit</code> einer bestimmten Kategorie.
+     */
+    public List getSystemUnitsByCategory(String category) throws DataAccessException;
+
+    /**
+     * Gibt eine <code>List</code> mit allen <code>Businesspartnerids</code> die in der Datenbank verfügbar
+     * sind zurück.
+     *
+     * @return Eine <code>List</code> mit allen <code>Businesspartnerids</code> in der Datenbank.
+     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
+     *                             auftritt.
+     */
+    public List getAllBusinessPartnerIds() throws DataAccessException;
 
     /**
      * Gibt den <code>BusinessPartner</code>, dessen ID der Parameter ID entspricht, zurück.
