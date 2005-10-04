@@ -10,6 +10,7 @@ import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 
 /**
  *
@@ -37,7 +38,7 @@ public class InputFirm extends javax.swing.JPanel {
         branch = new javax.swing.JTextField();
         forAttentionOf = new javax.swing.JCheckBox();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Firmendaten", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 0)));
+        setBorder(border);
 
         title.setMinimumSize(new java.awt.Dimension(120, 20));
         title.setPreferredSize(new java.awt.Dimension(120, 20));
@@ -99,6 +100,8 @@ public class InputFirm extends javax.swing.JPanel {
     private javax.swing.JCheckBox forAttentionOf;
     private javax.swing.JTextField title;
     private javax.swing.JLabel titleL;
+
+    private TitledBorder border = BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.FIRM_DATA), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 0));
     // End of variables declaration
 
 
@@ -135,6 +138,8 @@ public class InputFirm extends javax.swing.JPanel {
     }
 
        public void reinitI18N() {
+
+        border.setTitle(WorkArea.getMessage(Constants.FIRM_DATA));
 
         branchL.setText(WorkArea.getMessage(Constants.BRANCH));
         firmL.setText(WorkArea.getMessage(Constants.FIRM));

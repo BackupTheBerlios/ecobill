@@ -10,6 +10,7 @@ import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 
 /**
  *
@@ -36,7 +37,7 @@ public class InputBanking extends javax.swing.JPanel {
         accountNumberL = new javax.swing.JLabel();
         accountNumber = new javax.swing.JTextField();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Bankdaten", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 0)));
+        setBorder(border);
 
         bankEstablishment.setMinimumSize(new java.awt.Dimension(120, 20));
         bankEstablishment.setPreferredSize(new java.awt.Dimension(120, 20));
@@ -91,6 +92,7 @@ public class InputBanking extends javax.swing.JPanel {
     private javax.swing.JLabel bankEstablishmentL;
     private javax.swing.JTextField bankIdentificationNumber;
     private javax.swing.JLabel bankIdentificationNumberL;
+    private TitledBorder border = BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.BANK_DATA), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 0));
     // End of variables declaration
 
     public String getAccountNumber() {
@@ -118,6 +120,8 @@ public class InputBanking extends javax.swing.JPanel {
     }
 
     public void reinitI18N() {
+
+        border.setTitle(WorkArea.getMessage(Constants.BANK_DATA));
 
         bankEstablishmentL.setText(WorkArea.getMessage(Constants.BANK));
         bankIdentificationNumberL.setText(WorkArea.getMessage(Constants.BANK_CODE));

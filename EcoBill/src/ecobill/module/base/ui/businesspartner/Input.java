@@ -9,6 +9,7 @@ import ecobill.core.system.WorkArea;
 import ecobill.core.util.ComboBoxUtils;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -87,6 +88,8 @@ public class Input extends JPanel {
     private JTextField street;
     private JLabel streetL;
 
+    private TitledBorder border = BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.DATA), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 0));
+
     /**
      * Creates new form Input
      */
@@ -128,6 +131,8 @@ public class Input extends JPanel {
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">
     private void initComponents() {
+
+        setBorder(border);
 
         customerNumberL = new javax.swing.JLabel();
         customerNumber = new javax.swing.JTextField();
@@ -175,8 +180,6 @@ public class Input extends JPanel {
                 }
             }
         });
-
-        setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Daten", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 0)));
 
 
         title.setMinimumSize(new java.awt.Dimension(80, 20));
@@ -390,6 +393,8 @@ public class Input extends JPanel {
     }
 
     public void reinitI18N() {
+
+        border.setTitle(WorkArea.getMessage(Constants.DATA));
 
         customerNumberL.setText(WorkArea.getMessage(Constants.CUSTOMER_NUMBER));
         titleL.setText(WorkArea.getMessage(Constants.TITLE));
