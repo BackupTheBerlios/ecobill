@@ -9,6 +9,7 @@
         <property name="locations">
             <list>
                 <value>classpath:ecobill/config/hibernate.properties</value>
+                <value>classpath:ecobill/config/mapping.properties</value>
             </list>
         </property>
     </bean>
@@ -19,9 +20,10 @@
         <property name="basenames">
             <list>
                 <value>ecobill/config/bundle/base/gui</value>
-                <value>ecobill/config/bundle/base/unit</value>
+                <value>ecobill/config/bundle/base/system_unit</value>
                 <value>ecobill/config/bundle/base/language</value>
                 <value>ecobill/config/bundle/base/country</value>
+                <value>ecobill/config/bundle/base/county</value>
                 <value>ecobill/config/bundle/base/article</value>
                 <value>ecobill/config/bundle/base/businesspartner</value>
             </list>
@@ -74,18 +76,26 @@
 
     <!-- ============================================ BEGIN DAO SUPPORT ============================================ -->
     <bean id="baseDao" class="ecobill.module.base.dao.impl.BaseDaoImpl">
-        <property name="hibernateTemplate"><ref bean="hibernateTemplate"/></property>
+        <property name="hibernateTemplate">
+            <ref bean="hibernateTemplate"/>
+        </property>
     </bean>
     <!-- ============================================= END DAO SUPPORT ============================================= -->
 
     <!-- ========================================== BEGIN SERVICE SUPPORT ========================================== -->
     <bean id="baseServiceTarget" class="ecobill.module.base.service.impl.BaseServiceImpl">
-        <property name="baseDao"><ref local="baseDao"/></property>
+        <property name="baseDao">
+            <ref local="baseDao"/>
+        </property>
     </bean>
 
     <bean id="baseService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
-        <property name="transactionManager"><ref bean="transactionManager"/></property>
-        <property name="target"><ref local="baseServiceTarget"/></property>
+        <property name="transactionManager">
+            <ref bean="transactionManager"/>
+        </property>
+        <property name="target">
+            <ref local="baseServiceTarget"/>
+        </property>
         <property name="transactionAttributes">
             <props>
                 <prop key="get*">PROPAGATION_REQUIRED,readOnly</prop>
@@ -100,27 +110,45 @@
     <bean id="workArea" class="ecobill.core.system.WorkArea"/>
 
     <bean id="mainFrame" class="ecobill.core.ui.MainFrame">
-        <property name="articleUI"><ref bean="articleUI"/></property>
-        <property name="businessPartnerUI"><ref bean="businessPartnerUI"/></property>
-        <property name="printUI"><ref bean="printUI"/></property>
+        <property name="articleUI">
+            <ref bean="articleUI"/>
+        </property>
+        <property name="businessPartnerUI">
+            <ref bean="businessPartnerUI"/>
+        </property>
+        <property name="printUI">
+            <ref bean="printUI"/>
+        </property>
     </bean>
 
     <bean id="articleUI" class="ecobill.module.base.ui.article.ArticleUI" singleton="true">
-        <property name="baseService"><ref bean="baseService"/></property>
+        <property name="baseService">
+            <ref bean="baseService"/>
+        </property>
         <property name="serializeIdentifiers">
             <props>
                 <prop key="article_table">serialized/article/article_table.ebs</prop>
                 <prop key="residual_labelling_table">serialized/article/residual_labelling_table.ebs</prop>
+                <prop key="labelling_table">serialized/article/labelling_table.ebs</prop>
             </props>
         </property>
     </bean>
 
-    <bean id="businessPartnerUI" class="ecobill.module.base.ui.BusinessPartnerUI" singleton="true">
-        <property name="baseService"><ref bean="baseService"/></property>
+    <bean id="businessPartnerUI" class="ecobill.module.base.ui.businesspartner.BusinessPartnerUI" singleton="true">
+        <property name="baseService">
+            <ref bean="baseService"/>
+        </property>
+        <property name="serializeIdentifiers">
+            <props>
+                <prop key="business_partner_table">serialized/businesspartner/business_partner_table.ebs</prop>
+            </props>
+        </property>
     </bean>
 
     <bean id="printUI" class="ecobill.module.base.ui.PrintUI" singleton="true">
-        <property name="baseService"><ref bean="baseService"/></property>
+        <property name="baseService">
+            <ref bean="baseService"/>
+        </property>
     </bean>
 
 </beans>
