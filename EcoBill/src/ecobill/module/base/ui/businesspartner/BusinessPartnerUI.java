@@ -394,6 +394,10 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean, Dispo
         overviewVerticalButton.reinitI18N();
 
         overviewVerticalButton.getButton1().setToolTipText(WorkArea.getMessage(Constants.BUTTON1_TOOLTIP));
+        overviewVerticalButton.getButton2().setToolTipText(WorkArea.getMessage(Constants.BUTTON2_TOOLTIP));
+        overviewVerticalButton.getButton3().setToolTipText(WorkArea.getMessage(Constants.BUTTON3_TOOLTIP));
+        overviewVerticalButton.getButton4().setToolTipText(WorkArea.getMessage(Constants.BUTTON4_TOOLTIP));
+        overviewVerticalButton.getButton6().setToolTipText(WorkArea.getMessage(Constants.BUTTON6_TOOLTIP));
 
     }
 }
