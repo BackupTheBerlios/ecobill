@@ -34,7 +34,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.63 2005/10/04 20:25:16 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.64 2005/10/04 20:30:47 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Internationalization {
@@ -149,6 +149,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         //this.exitButton();
 
         center();
+        exitButton();
 
         // setzt alles auf Sichtbar
         this.setVisible(true);
@@ -251,6 +252,10 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     }
 
     public void tabPane() {
+
+
+        Font ft = new Font("Tahoma", 1, 14);
+        jtab.setFont(ft);
 
         jtab.addTab(null, new ImageIcon("images/home.png"), tab);
         // hier wird die ArtikleUI als neuer Tab eingefügt

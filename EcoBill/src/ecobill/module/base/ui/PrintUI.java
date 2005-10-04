@@ -12,6 +12,7 @@ import ecobill.module.base.domain.DeliveryOrder;
 import ecobill.module.base.domain.ReduplicatedArticle;
 import ecobill.module.base.jasper.JasperViewer;
 import ecobill.core.system.WorkArea;
+import ecobill.core.system.Constants;
 
 import java.util.*;
 import java.util.List;
@@ -29,7 +30,7 @@ import java.awt.event.ActionEvent;
  * Time: 16:45:41
  *
  * @author Andreas Weiler
- * @version $Id: PrintUI.java,v 1.18 2005/09/28 15:58:05 raedler Exp $
+ * @version $Id: PrintUI.java,v 1.19 2005/10/04 20:31:05 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class PrintUI extends JPanel implements InitializingBean {
@@ -114,6 +115,7 @@ public class PrintUI extends JPanel implements InitializingBean {
          * Startet die Initialisierung der Kunden Oberfläche.
          */
         this.initUI();
+        reinitI18N();
     }
 
     /**
@@ -145,7 +147,6 @@ public class PrintUI extends JPanel implements InitializingBean {
         top.setPreferredSize(new Dimension(300, 50));
 
         dataBorder.setTitleColor(Color.BLACK);
-        dataBorder.setTitle("Daten/Aktionen");
         top.setBorder(dataBorder);
 
         makeB.addActionListener(new ActionListener() {
@@ -222,6 +223,10 @@ public class PrintUI extends JPanel implements InitializingBean {
         this.add(overview);
 
 
+    }
+
+    public void reinitI18N() {
+        dataBorder.setTitle(WorkArea.getMessage(Constants.DATA_ACTIONS));
     }
 
     /**
