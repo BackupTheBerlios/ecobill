@@ -5,6 +5,7 @@ import ecobill.module.base.domain.SystemCountry;
 import ecobill.module.base.domain.SystemUnit;
 import ecobill.module.base.domain.SystemCounty;
 import ecobill.core.system.Constants;
+import ecobill.core.system.WorkArea;
 import ecobill.core.util.ComboBoxUtils;
 
 import javax.swing.*;
@@ -176,9 +177,7 @@ public class Input extends JPanel {
         });
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Daten", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 0)));
-        customerNumberL.setText("Kundennummer");
 
-        titleL.setText("Anrede");
 
         title.setMinimumSize(new java.awt.Dimension(80, 20));
         title.setPreferredSize(new java.awt.Dimension(80, 20));
@@ -188,42 +187,26 @@ public class Input extends JPanel {
             }
         });
 
-        academicTitleL.setText("Titel");
-
         academicTitle.setMinimumSize(new java.awt.Dimension(80, 20));
         academicTitle.setPreferredSize(new java.awt.Dimension(80, 20));
-
-        firstnameL.setText("Vorname");
 
         firstname.setMinimumSize(new java.awt.Dimension(120, 20));
         firstname.setPreferredSize(new java.awt.Dimension(120, 20));
 
-        lastnameL.setText("Nachname");
-
         lastname.setMinimumSize(new java.awt.Dimension(120, 20));
         lastname.setPreferredSize(new java.awt.Dimension(120, 20));
-
-        streetL.setText("Stra\u00dfe");
 
         street.setMinimumSize(new java.awt.Dimension(120, 20));
         street.setPreferredSize(new java.awt.Dimension(120, 20));
 
-        zipCodeL.setText("PLZ");
-
         zipCode.setMinimumSize(new java.awt.Dimension(80, 20));
         zipCode.setPreferredSize(new java.awt.Dimension(80, 20));
-
-        cityL.setText("Ort");
 
         city.setMinimumSize(new java.awt.Dimension(120, 20));
         city.setPreferredSize(new java.awt.Dimension(120, 20));
 
-        countryL.setText("Land");
-
         country.setMinimumSize(new java.awt.Dimension(120, 20));
         country.setPreferredSize(new java.awt.Dimension(120, 20));
-
-        countyL.setText("Bundesland");
 
         county.setMinimumSize(new java.awt.Dimension(120, 20));
         county.setPreferredSize(new java.awt.Dimension(120, 20));
@@ -317,6 +300,8 @@ public class Input extends JPanel {
                                 .add(county, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        reinitI18N();
     }
     // </editor-fold>
 
@@ -402,5 +387,19 @@ public class Input extends JPanel {
 
     public void setCounty(SystemCounty county) {
         this.county.setSelectedItem(county);
+    }
+
+    public void reinitI18N() {
+
+        customerNumberL.setText(WorkArea.getMessage(Constants.CUSTOMER_NUMBER));
+        titleL.setText(WorkArea.getMessage(Constants.TITLE));
+        academicTitleL.setText(WorkArea.getMessage(Constants.ACADEMIC_TITLE));
+        firstnameL.setText(WorkArea.getMessage(Constants.FIRSTNAME));
+        lastnameL.setText(WorkArea.getMessage(Constants.LASTNAME));
+        streetL.setText(WorkArea.getMessage(Constants.STREET));
+        zipCodeL.setText(WorkArea.getMessage(Constants.ZIP_CODE));
+        cityL.setText(WorkArea.getMessage(Constants.CITY));
+        countryL.setText(WorkArea.getMessage(Constants.COUNTRY));
+        countyL.setText(WorkArea.getMessage(Constants.COUNTY));
     }
 }

@@ -33,7 +33,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.60 2005/10/04 10:00:04 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.61 2005/10/04 14:28:19 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -516,7 +516,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     public void german() {
         WorkArea.setLocale(Locale.GERMAN);
         articleUI.reinitI18N();
-        //businessPartnerUI.reinitI18N();
+        businessPartnerUI.reinitI18N();
         reinitI18N();
         tab.remove(lab2);
         lab1.setToolTipText("Copyright @ JFuckers");
@@ -528,7 +528,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     public void english() {
         WorkArea.setLocale(Locale.ENGLISH);
         articleUI.reinitI18N();
-        //businessPartnerUI.reinitI18N();
+        businessPartnerUI.reinitI18N();
         reinitI18N();
         tab.remove(lab1);
         lab2.setToolTipText("Copyright @ JFuckers");
