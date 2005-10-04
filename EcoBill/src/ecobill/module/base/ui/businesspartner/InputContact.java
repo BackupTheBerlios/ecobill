@@ -6,6 +6,9 @@
 
 package ecobill.module.base.ui.businesspartner;
 
+import ecobill.core.system.WorkArea;
+import ecobill.core.system.Constants;
+
 import javax.swing.*;
 
 /**
@@ -34,17 +37,14 @@ public class InputContact extends javax.swing.JPanel {
         email = new javax.swing.JTextField();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Kontakt", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 0)));
-        phoneL.setText("Telefon");
 
         phone.setMinimumSize(new java.awt.Dimension(120, 20));
         phone.setPreferredSize(new java.awt.Dimension(120, 20));
 
-        faxL.setText("Telefax");
 
         fax.setMinimumSize(new java.awt.Dimension(120, 20));
         fax.setPreferredSize(new java.awt.Dimension(120, 20));
 
-        emailL.setText("E-Mail");
 
         email.setMinimumSize(new java.awt.Dimension(120, 20));
         email.setPreferredSize(new java.awt.Dimension(120, 20));
@@ -80,6 +80,8 @@ public class InputContact extends javax.swing.JPanel {
                 .add(email, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        reinitI18N();
     }
     // </editor-fold>
 
@@ -116,5 +118,12 @@ public class InputContact extends javax.swing.JPanel {
 
     public void setPhone(String phone) {
         this.phone.setText(phone);
+    }
+
+       public void reinitI18N() {
+
+        emailL.setText(WorkArea.getMessage(Constants.EMAIL));
+        faxL.setText(WorkArea.getMessage(Constants.FAX));
+        phoneL.setText(WorkArea.getMessage(Constants.PHONE));
     }
 }

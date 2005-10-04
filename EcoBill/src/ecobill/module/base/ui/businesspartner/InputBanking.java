@@ -6,6 +6,9 @@
 
 package ecobill.module.base.ui.businesspartner;
 
+import ecobill.core.system.WorkArea;
+import ecobill.core.system.Constants;
+
 import javax.swing.*;
 
 /**
@@ -80,6 +83,8 @@ public class InputBanking extends javax.swing.JPanel {
                 .add(accountNumber, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        reinitI18N();
     }
     // </editor-fold>
 
@@ -115,5 +120,12 @@ public class InputBanking extends javax.swing.JPanel {
 
     public void setBankIdentificationNumber(String bankIdentificationNumber) {
         this.bankIdentificationNumber.setText(bankIdentificationNumber);
+    }
+
+    public void reinitI18N() {
+
+        bankEstablishmentL.setText(WorkArea.getMessage(Constants.BANK));
+        bankIdentificationNumberL.setText(WorkArea.getMessage(Constants.BANK_CODE));
+        accountNumberL.setText(WorkArea.getMessage(Constants.ACCOUNT_NUMBER));
     }
 }
