@@ -20,7 +20,7 @@ import ecobill.core.system.Constants;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: VerticalButton.java,v 1.4 2005/10/04 10:21:56 raedler Exp $
+ * @version $Id: VerticalButton.java,v 1.5 2005/10/04 15:15:13 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class VerticalButton extends JPanel {
@@ -153,5 +153,9 @@ public class VerticalButton extends JPanel {
 
     public void setButton7(JButton button7) {
         this.button7 = button7;
+    }
+
+    public void reinitI18N() {
+        border.setTitle(WorkArea.getMessage(Constants.ACTIONS));
     }
 }

@@ -10,7 +10,7 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.13 2005/10/04 09:32:45 raedler Exp $
+ * @version $Id: Constants.java,v 1.14 2005/10/04 15:19:49 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {
@@ -134,6 +134,18 @@ public interface Constants {
 
     public final static String ENGLISH = "english";
     public final static String GERMAN = "german";
+
+    public final static String BANK_CODE = "bankcode";
+    public final static String ACCOUNT_NUMBER = "accountnumber";
+
+    public final static String BRANCH = "branch";
+    public final static String FOR_ATTENTION_OF = "forattentionof";
+
+    public final static String BANK_DATA = "bankdata";
+    public final static String CONTACT = "contact";
+    public final static String FIRM_DATA = "firmdata";
+
+    public final static String BUTTON1_TOOLTIP = "button1tooltip";
 
 
 

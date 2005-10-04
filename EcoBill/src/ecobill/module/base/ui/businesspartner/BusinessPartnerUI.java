@@ -12,6 +12,8 @@ import ecobill.module.base.domain.Person;
 import ecobill.module.base.domain.Address;
 import ecobill.module.base.domain.Banking;
 import ecobill.core.util.FileUtils;
+import ecobill.core.system.WorkArea;
+import ecobill.core.system.Constants;
 
 import javax.swing.*;
 import java.util.Properties;
@@ -209,6 +211,8 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean, Dispo
                 frame.setVisible(true);
             }
         });
+
+        reinitI18N();
     }
 
     private void initLayout() {
@@ -250,7 +254,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean, Dispo
                         .add(overviewBusinessPartnerTable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
                         .addContainerGap())
         );
-        tabbedPane.addTab("Übersicht", overview);
+        tabbedPane.addTab(WorkArea.getMessage(Constants.OVERVIEW), overview);
 
         add(tabbedPane, java.awt.BorderLayout.CENTER);
     }
@@ -377,5 +381,19 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean, Dispo
         baseService.saveOrUpdate(businessPartner);
 
         actualBusinessPartnerId = businessPartner.getId();
+    }
+
+    public void reinitI18N() {
+
+        tabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.OVERVIEW));
+
+        overviewInput.reinitI18N();
+        overviewInputBanking.reinitI18N();
+        overviewInputContact.reinitI18N();
+        overviewInputFirm.reinitI18N();
+        overviewVerticalButton.reinitI18N();
+
+        overviewVerticalButton.getButton1().setToolTipText(WorkArea.getMessage(Constants.BUTTON1_TOOLTIP));
+
     }
 }
