@@ -1,6 +1,7 @@
 package ecobill.module.base.ui.component;
 
 import org.jdesktop.layout.GroupLayout;
+import org.jdesktop.layout.LayoutStyle;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -10,14 +11,16 @@ import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 
 /**
- * ArticleUIOld.
+ * Die Klasse <code>VerticalButton</code> ist ein <code>JPanel</code> mit sieben
+ * <code>JButton</code> die vertikal zueinander angeordnet sind. Diese Buttons sind
+ * default auf unvisible.
  * <p/>
  * User: rro
  * Date: 28.09.2005
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: VerticalButton.java,v 1.3 2005/10/04 10:04:35 raedler Exp $
+ * @version $Id: VerticalButton.java,v 1.4 2005/10/04 10:21:56 raedler Exp $
  * @since EcoBill 1.0
  */
 public class VerticalButton extends JPanel {
@@ -58,7 +61,9 @@ public class VerticalButton extends JPanel {
 
     private void initLayout() {
         GroupLayout layout = new GroupLayout(this);
-        this.setLayout(layout);
+
+        setLayout(layout);
+        
         layout.setHorizontalGroup(
                 layout.createParallelGroup(GroupLayout.LEADING)
                         .add(GroupLayout.LEADING, layout.createSequentialGroup()
@@ -78,17 +83,17 @@ public class VerticalButton extends JPanel {
                         .add(GroupLayout.LEADING, layout.createSequentialGroup()
                         .addContainerGap()
                         .add(button1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .addPreferredGap(LayoutStyle.RELATED)
                         .add(button2, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .addPreferredGap(LayoutStyle.RELATED)
                         .add(button3, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .addPreferredGap(LayoutStyle.RELATED)
                         .add(button4, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .addPreferredGap(LayoutStyle.RELATED)
                         .add(button5, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .addPreferredGap(LayoutStyle.RELATED)
                         .add(button6, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .addPreferredGap(LayoutStyle.RELATED)
                         .add(button7, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
