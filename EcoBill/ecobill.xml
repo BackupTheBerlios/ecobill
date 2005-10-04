@@ -20,7 +20,7 @@
         <mkdir dir="${export.dir}"/>
     </target>
 
-    <target name="schemaexport" depends="init">
+    <target name="schema-export" depends="init">
         <taskdef name="schemaexport"
                  classname="org.hibernate.tool.hbm2ddl.SchemaExportTask"
                  classpathref="class.path"/>
@@ -38,14 +38,48 @@
         </schemaexport>
     </target>
 
-    <target name="schemaupdate">
+    <target name="schema-export-text" depends="init">
+        <taskdef name="schemaexport"
+                 classname="org.hibernate.tool.hbm2ddl.SchemaExportTask"
+                 classpathref="class.path"/>
+
+        <schemaexport
+                properties="${src.dir}/ecobill/config/hibernate.properties"
+                quiet="no"
+                text="yes"
+                drop="no"
+                delimiter=";"
+                output="${export.dir}/schema-export.sql">
+            <fileset dir="src">
+                <include name="**/*.hbm.xml"/>
+            </fileset>
+        </schemaexport>
+    </target>
+
+    <target name="schema-update">
         <taskdef name="schemaupdate"
                  classname="org.hibernate.tool.hbm2ddl.SchemaUpdateTask"
                  classpathref="class.path"/>
 
         <schemaupdate
                 properties="${src.dir}/ecobill/config/hibernate.properties"
-                quiet="no">
+                quiet="no"
+                text="no">
+            <fileset dir="src">
+                <include name="**/*.hbm.xml"/>
+            </fileset>
+        </schemaupdate>
+    </target>
+
+    <target name="schema-update-text">
+        <taskdef name="schemaupdate"
+                 classname="org.hibernate.tool.hbm2ddl.SchemaUpdateTask"
+                 classpathref="class.path"/>
+
+        <schemaupdate
+                properties="${src.dir}/ecobill/config/hibernate.properties"
+                quiet="no"
+                text="yes">
             <fileset dir="src">
                 <include name="**/*.hbm.xml"/>
             </fileset>
