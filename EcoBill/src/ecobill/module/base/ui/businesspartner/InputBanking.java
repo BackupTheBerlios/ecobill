@@ -37,17 +37,12 @@ public class InputBanking extends javax.swing.JPanel {
         accountNumber = new javax.swing.JTextField();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Bankdaten", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 0)));
-        bankEstablishmentL.setText("Bank");
 
         bankEstablishment.setMinimumSize(new java.awt.Dimension(120, 20));
         bankEstablishment.setPreferredSize(new java.awt.Dimension(120, 20));
 
-        bankIdentificationNumberL.setText("Bankleitzahl");
-
         bankIdentificationNumber.setMinimumSize(new java.awt.Dimension(120, 20));
         bankIdentificationNumber.setPreferredSize(new java.awt.Dimension(120, 20));
-
-        accountNumberL.setText("Kontonummer");
 
         accountNumber.setMinimumSize(new java.awt.Dimension(120, 20));
         accountNumber.setPreferredSize(new java.awt.Dimension(120, 20));
