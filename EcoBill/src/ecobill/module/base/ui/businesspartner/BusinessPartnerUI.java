@@ -254,7 +254,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean, Dispo
                         .add(overviewBusinessPartnerTable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
                         .addContainerGap())
         );
-        tabbedPane.addTab(WorkArea.getMessage(Constants.OVERVIEW), overview);
+        tabbedPane.addTab("Übersicht", overview);
 
         add(tabbedPane, java.awt.BorderLayout.CENTER);
     }
