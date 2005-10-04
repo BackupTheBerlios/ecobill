@@ -1,7 +1,6 @@
 package ecobill.module.base.domain;
 
 import java.util.Set;
-import java.text.Collator;
 
 /**
  * Der <code>BusinessPartner</code> stellt den Geschäftspartner und somit bspw. den Adressaten
@@ -14,20 +13,36 @@ import java.text.Collator;
  * Time: 18:24:14
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartner.java,v 1.4 2005/09/28 15:44:18 raedler Exp $
+ * @version $Id: BusinessPartner.java,v 1.5 2005/10/04 09:21:29 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartner extends AbstractDomain {
 
     /**
+     * Die Kundennummer des Geschäftspartner.
+     */
+    private String customerNumber;
+
+    /**
      * Der Schlüssel der Anrede des Unternehmens.
      */
-    private String companyTitleKey;
+    private String companyTitle;
 
     /**
      * Der Name des Unternehmens.
      */
     private String companyName;
+
+    /**
+     * Die Branche des Unternehmens.
+     */
+    private String companyBranch;
+
+    /**
+     * Falls es sich bei dem Geschäftspartner um eine Firma handelt, dann gibt dieses
+     * Flag an ob bspw. auf dem Briefkopf z.H. "Person" stehen soll oder nicht.
+     */
+    private boolean forAttentionOf = false;
 
     /**
      * Die Person zu diesem Geschäftspartner.
@@ -45,11 +60,6 @@ public class BusinessPartner extends AbstractDomain {
     private Banking banking;
 
     /**
-     * Die Id des Geschäftspartners.
-     */
-    private long id;
-
-    /**
      * Alle Lieferscheine die auf diesen Geschäftspartner ausgestellt worden
      * sind.
      */
@@ -61,12 +71,30 @@ public class BusinessPartner extends AbstractDomain {
     private Set<Bill> bills;
 
     /**
+     * Gibt die Kundennummer des Geschäftspartner zurück.
+     *
+     * @return Die Kundennummer des Geschäftspartner.
+     */
+    public String getCustomerNumber() {
+        return customerNumber;
+    }
+
+    /**
+     * Setzt die Kundennummer des Geschäftspartner.
+     *
+     * @param customerNumber Die Kundennummer des Geschäftspartner.
+     */
+    public void setCustomerNumber(String customerNumber) {
+        this.customerNumber = customerNumber;
+    }
+
+    /**
      * Gibt den Schlüssel der Anrede des Unternehmens zurück.
      *
      * @return Der Schlüssel der Anrede des Unternehmens.
      */
-    public String getCompanyTitleKey() {
-        return companyTitleKey;
+    public String getCompanyTitle() {
+        return companyTitle;
     }
 
     /**
@@ -74,8 +102,8 @@ public class BusinessPartner extends AbstractDomain {
      *
      * @param companyTitleKey Der Schlüssel der Anrede des Unternehmens.
      */
-    public void setCompanyTitleKey(String companyTitleKey) {
-        this.companyTitleKey = companyTitleKey;
+    public void setCompanyTitle(String companyTitle) {
+        this.companyTitle = companyTitle;
     }
 
     /**
@@ -94,6 +122,45 @@ public class BusinessPartner extends AbstractDomain {
      */
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    /**
+     * Gibt die Branche des Unternehmens zurück.
+     *
+     * @return Die Branche des Unternehmens.
+     */
+    public String getCompanyBranch() {
+        return companyBranch;
+    }
+
+    /**
+     * Setzt die Branche des Unternehmens.
+     *
+     * @param companyBranch Die Branche des Unternehmens.
+     */
+    public void setCompanyBranch(String companyBranch) {
+        this.companyBranch = companyBranch;
+    }
+
+    /**
+     * Falls es sich bei dem Geschäftspartner um eine Firma handelt, dann gibt dieses
+     * Flag an ob bspw. auf dem Briefkopf z.H. "Person" stehen soll oder nicht.
+     *
+     * @return Gibt an ob bswp. auf dem Briefkopf z.H. "Person" stehen soll oder nicht.
+     */
+    public boolean isForAttentionOf() {
+        return forAttentionOf;
+    }
+
+    /**
+     * Falls es sich bei dem Geschäftspartner um eine Firma handelt, dann gibt dieses
+     * Flag an ob bspw. auf dem Briefkopf z.H. "Person" stehen soll oder nicht.
+     *
+     * @param forAttentionOf Gibt an ob bswp. auf dem Briefkopf z.H. "Person" stehen soll oder
+     *                       nicht.
+     */
+    public void setForAttentionOf(boolean forAttentionOf) {
+        this.forAttentionOf = forAttentionOf;
     }
 
     /**
@@ -202,18 +269,18 @@ public class BusinessPartner extends AbstractDomain {
      * @see Object#equals(Object)
      *
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
 
-        final BusinessPartner that = (BusinessPartner) o;
+    final BusinessPartner that = (BusinessPartner) o;
 
-        if (this.getAddress() != null ? !this.getAddress().equals(that.getAddress()) : that.getAddress() != null) return false;
-        if (this.getBanking() != null ? !this.getBanking().equals(that.getBanking()) : that.getBanking() != null) return false;
-        if (this.getBills() != null ? !this.getBills().equals(that.getBills()) : that.getBills() != null) return false;
-        if (this.getCompanyName() != null ? !this.getCompanyName().equals(that.getCompanyName()) : that.getCompanyName() != null) return false;
-        if (this.getCompanyTitleKey() != null ? !this.getCompanyTitleKey().equals(that.getCompanyTitleKey()) : that.getCompanyTitleKey() != null) return false;
-        if (this.getDeliveryOrders() != null ? !this.getDeliveryOrders().equals(that.getDeliveryOrders()) : that.getDeliveryOrders() != null) return false;
-        return !(this.getPerson() != null ? !this.getPerson().equals(that.getPerson()) : that.getPerson() != null);
+    if (this.getAddress() != null ? !this.getAddress().equals(that.getAddress()) : that.getAddress() != null) return false;
+    if (this.getBanking() != null ? !this.getBanking().equals(that.getBanking()) : that.getBanking() != null) return false;
+    if (this.getBills() != null ? !this.getBills().equals(that.getBills()) : that.getBills() != null) return false;
+    if (this.getCompanyName() != null ? !this.getCompanyName().equals(that.getCompanyName()) : that.getCompanyName() != null) return false;
+    if (this.getCompanyTitle() != null ? !this.getCompanyTitle().equals(that.getCompanyTitle()) : that.getCompanyTitle() != null) return false;
+    if (this.getDeliveryOrders() != null ? !this.getDeliveryOrders().equals(that.getDeliveryOrders()) : that.getDeliveryOrders() != null) return false;
+    return !(this.getPerson() != null ? !this.getPerson().equals(that.getPerson()) : that.getPerson() != null);
     }
     /**/
 
@@ -221,15 +288,15 @@ public class BusinessPartner extends AbstractDomain {
      * @see Object#hashCode()
      *
     public int hashCode() {
-        int result;
-        result = (this.getCompanyTitleKey() != null ? this.getCompanyTitleKey().hashCode() : 0);
-        result = 29 * result + (this.getCompanyName() != null ? this.getCompanyName().hashCode() : 0);
-        result = 29 * result + (this.getPerson() != null ? this.getPerson().hashCode() : 0);
-        result = 29 * result + (this.getAddress() != null ? this.getAddress().hashCode() : 0);
-        result = 29 * result + (this.getBanking() != null ? this.getBanking().hashCode() : 0);
-        result = 29 * result + (this.getDeliveryOrders() != null ? this.getDeliveryOrders().hashCode() : 0);
-        result = 29 * result + (this.getBills() != null ? getBills().hashCode() : 0);
-        return result;
+    int result;
+    result = (this.getCompanyTitle() != null ? this.getCompanyTitle().hashCode() : 0);
+    result = 29 * result + (this.getCompanyName() != null ? this.getCompanyName().hashCode() : 0);
+    result = 29 * result + (this.getPerson() != null ? this.getPerson().hashCode() : 0);
+    result = 29 * result + (this.getAddress() != null ? this.getAddress().hashCode() : 0);
+    result = 29 * result + (this.getBanking() != null ? this.getBanking().hashCode() : 0);
+    result = 29 * result + (this.getDeliveryOrders() != null ? this.getDeliveryOrders().hashCode() : 0);
+    result = 29 * result + (this.getBills() != null ? getBills().hashCode() : 0);
+    return result;
     }
     /**/
 }

@@ -1,7 +1,5 @@
 package ecobill.module.base.domain;
 
-import java.text.Collator;
-
 /**
  * Das <code>Person</code> Objekt beinhaltet alle für eine Person spezifischen Daten.
  * <p/>
@@ -10,7 +8,7 @@ import java.text.Collator;
  * Time: 13:31:22
  *
  * @author Roman R&auml;dle
- * @version $Id: Person.java,v 1.2 2005/09/28 15:44:18 raedler Exp $
+ * @version $Id: Person.java,v 1.3 2005/10/04 09:21:29 raedler Exp $
  * @since EcoBill 1.0
  */
 public class Person extends AbstractDomain {
@@ -20,14 +18,14 @@ public class Person extends AbstractDomain {
      * <br/>
      * Bspw. "mr" für "Herr"
      */
-    private String titleKey;
+    private SystemUnit title;
 
     /**
      * Der Schlüssel eines akademischen Titels.
      * <br/>
      * Bspw. "prof_dr" für "Prof. Dr.".
      */
-    private String academicTitleKey;
+    private SystemUnit academicTitle;
 
     /**
      * Der Vorname der Person.
@@ -64,8 +62,8 @@ public class Person extends AbstractDomain {
      *
      * @return Der Schlüssel für die Anrede.
      */
-    public String getTitleKey() {
-        return titleKey;
+    public SystemUnit getTitle() {
+        return title;
     }
 
     /**
@@ -73,8 +71,8 @@ public class Person extends AbstractDomain {
      *
      * @param titleKey Der Schlüssel für die Anrede.
      */
-    public void setTitleKey(String titleKey) {
-        this.titleKey = titleKey;
+    public void setTitle(SystemUnit title) {
+        this.title = title;
     }
 
     /**
@@ -84,7 +82,8 @@ public class Person extends AbstractDomain {
      * @return Der Schlüssel für die Anrede, die in Briefen verwendet wird.
      */
     public String getLetterTitleKey() {
-        return titleKey + "_letter";
+//        throw new UnsupportedOperationException("Es muss noch in SystemUnit eingefügt werden.");
+        return title + "_letter";
     }
 
     /**
@@ -92,8 +91,8 @@ public class Person extends AbstractDomain {
      *
      * @return Der Schlüssel für den akademischen Titel.
      */
-    public String getAcademicTitleKey() {
-        return academicTitleKey;
+    public SystemUnit getAcademicTitle() {
+        return academicTitle;
     }
 
     /**
@@ -101,8 +100,8 @@ public class Person extends AbstractDomain {
      *
      * @param academicTitleKey Der Schlüssel für den akademischen Titel.
      */
-    public void setAcademicTitleKey(String academicTitleKey) {
-        this.academicTitleKey = academicTitleKey;
+    public void setAcademicTitle(SystemUnit academicTitle) {
+        this.academicTitle = academicTitle;
     }
 
     /**
@@ -227,14 +226,14 @@ public class Person extends AbstractDomain {
 
         final Person person = (Person) o;
 
-        if (this.getAcademicTitleKey() != null ? !this.getAcademicTitleKey().equals(person.getAcademicTitleKey()) : person.getAcademicTitleKey() != null) return false;
+        if (this.getAcademicTitle() != null ? !this.getAcademicTitle().equals(person.getAcademicTitle()) : person.getAcademicTitle() != null) return false;
         if (this.getAddress() != null ? !this.getAddress().equals(person.getAddress()) : person.getAddress() != null) return false;
         if (this.getEmail() != null ? !this.getEmail().equals(person.getEmail()) : person.getEmail() != null) return false;
         if (this.getFax() != null ? !this.getFax().equals(person.getFax()) : person.getFax() != null) return false;
         if (this.getFirstname() != null ? !this.getFirstname().equals(person.getFirstname()) : person.getFirstname() != null) return false;
         if (this.getLastname() != null ? !this.getLastname().equals(person.getLastname()) : person.getLastname() != null) return false;
         if (this.getPhone() != null ? !this.getPhone().equals(person.getPhone()) : person.getPhone() != null) return false;
-        return !(this.getTitleKey() != null ? !this.getTitleKey().equals(person.getTitleKey()) : person.getTitleKey() != null);
+        return !(this.getTitle() != null ? !this.getTitle().equals(person.getTitle()) : person.getTitle() != null);
     }
 
     /**
@@ -242,8 +241,8 @@ public class Person extends AbstractDomain {
      */
     public int hashCode() {
         int result;
-        result = (this.getTitleKey() != null ? this.getTitleKey().hashCode() : 0);
-        result = 29 * result + (this.getAcademicTitleKey() != null ? this.getAcademicTitleKey().hashCode() : 0);
+        result = (this.getTitle() != null ? this.getTitle().hashCode() : 0);
+        result = 29 * result + (this.getAcademicTitle() != null ? this.getAcademicTitle().hashCode() : 0);
         result = 29 * result + (this.getFirstname() != null ? this.getFirstname().hashCode() : 0);
         result = 29 * result + (this.getLastname() != null ? this.getLastname().hashCode() : 0);
         result = 29 * result + (this.getPhone() != null ? this.getPhone().hashCode() : 0);

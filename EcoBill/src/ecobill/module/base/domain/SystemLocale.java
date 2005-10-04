@@ -14,7 +14,7 @@ import java.text.Collator;
  * Time: 16:09:34
  *
  * @author Roman R&auml;dle
- * @version $Id: SystemLocale.java,v 1.4 2005/09/30 09:01:59 raedler Exp $
+ * @version $Id: SystemLocale.java,v 1.5 2005/10/04 09:21:29 raedler Exp $
  * @since EcoBill 1.0
  */
 public class SystemLocale extends AbstractDomain {
@@ -41,19 +41,29 @@ public class SystemLocale extends AbstractDomain {
      * gehört.
      * Bspw. "de" für Deutsch.
      */
-    private String language;
+    private String language = "";
 
     /**
      * Das Land in dem diese Sprache gesprochen wird.
      * Bspw. "AT" für Österreich.
      */
-    private String country;
+    private String country = "";
 
     /**
      * Die Variante dieser Sprache. Kann ein Dialekt sein.
      * Meist aber nicht angegeben.
      */
-    private String variant;
+    private String variant = "";
+
+    /**
+     * Die <code>SystemLanguage</code> der <code>SystemLocale</code>.
+     */
+    private SystemLanguage systemLanguage;
+
+    /**
+     * Die <code>SystemCountry</code> der <code>SystemLocale</code>.
+     */
+    private SystemCountry systemCountry;
 
     /**
      * Gibt den Schlüssel zurück der diese <code>SystemLocale</code> indentifiziert.
@@ -139,6 +149,44 @@ public class SystemLocale extends AbstractDomain {
      */
     public void setVariant(String variant) {
         this.variant = variant;
+    }
+
+    /**
+     * Gibt die <code>SystemLanguage</code> der <code>SystemLocale</code>
+     * zurück.
+     *
+     * @return Die <code>SystemLanguage</code> der <code>SystemLocale</code>.
+     */
+    public SystemLanguage getSystemLanguage() {
+        return systemLanguage;
+    }
+
+    /**
+     * Setzt die <code>SystemLanguage</code> der <code>SystemLocale</code>.
+     *
+     * @param systemLanguage Die <code>SystemLanguage</code> der <code>SystemLocale</code>.
+     */
+    public void setSystemLanguage(SystemLanguage systemLanguage) {
+        this.systemLanguage = systemLanguage;
+    }
+
+    /**
+     * Gibt die <code>SystemCountry</code> der <code>SystemLocale</code>
+     * zurück.
+     *
+     * @return Die <code>SystemCountry</code> der <code>SystemLocale</code>.
+     */
+    public SystemCountry getSystemCountry() {
+        return systemCountry;
+    }
+
+    /**
+     * Setzt die <code>SystemCountry</code> der <code>SystemLocale</code>.
+     *
+     * @param systemCountry Die <code>SystemCountry</code> der <code>SystemLocale</code>.
+     */
+    public void setSystemCountry(SystemCountry systemCountry) {
+        this.systemCountry = systemCountry;
     }
 
     /**

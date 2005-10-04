@@ -15,7 +15,7 @@ import java.text.Collator;
  * Time: 19:51:39
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrder.java,v 1.2 2005/09/28 15:44:18 raedler Exp $
+ * @version $Id: DeliveryOrder.java,v 1.3 2005/10/04 09:21:29 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrder extends AbstractDomain {
@@ -28,7 +28,7 @@ public class DeliveryOrder extends AbstractDomain {
     /**
      * Die eindeutige Lieferscheinnummer.
      */
-    private Long deliveryOrderNumber;
+    private String deliveryOrderNumber;
 
     /**
      * Das Datum an dem dieser Lieferschein ausgestellt wurde.
@@ -89,7 +89,7 @@ public class DeliveryOrder extends AbstractDomain {
      *
      * @return Die Lieferscheinnummer.
      */
-    public Long getDeliveryOrderNumber() {
+    public String getDeliveryOrderNumber() {
         return deliveryOrderNumber;
     }
 
@@ -98,7 +98,7 @@ public class DeliveryOrder extends AbstractDomain {
      *
      * @param deliveryOrderNumber Die Lieferscheinnummer.
      */
-    public void setDeliveryOrderNumber(Long deliveryOrderNumber) {
+    public void setDeliveryOrderNumber(String deliveryOrderNumber) {
         this.deliveryOrderNumber = deliveryOrderNumber;
     }
 

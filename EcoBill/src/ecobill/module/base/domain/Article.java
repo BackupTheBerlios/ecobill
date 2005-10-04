@@ -20,7 +20,7 @@ import java.util.*;
  * Time: 00:37:27
  *
  * @author Roman R&auml;dle
- * @version $Id: Article.java,v 1.6 2005/09/30 09:01:59 raedler Exp $
+ * @version $Id: Article.java,v 1.7 2005/10/04 09:21:29 raedler Exp $
  * @since EcoBill 1.0
  */
 public class Article extends AbstractDomain {
@@ -36,7 +36,7 @@ public class Article extends AbstractDomain {
      * Bspw. "weight" -> Dieser Schlüssel ist in einem <code>ResourceBundle</code>
      * enthalten und kann somit darin landesspezifisch angegeben werden.
      */
-    private SystemUnit systemUnit;
+    private SystemUnit unit;
 
     /**
      * Der Einzelpreis des Artikels.
@@ -58,7 +58,7 @@ public class Article extends AbstractDomain {
      *
      * @see SystemUnit
      */
-    private SystemUnit bundleSystemUnit;
+    private SystemUnit bundleUnit;
 
     /**
      * Dieses <code>Set</code> beinhaltet alle Beschreibungen des Artikels.
@@ -97,8 +97,8 @@ public class Article extends AbstractDomain {
      * @return Die <code>SystemUnit</code> dessen Key auf den landesspezifischen
      *         Wert in einem <code>ResourceBundle</code> zeigen kann.
      */
-    public SystemUnit getSystemUnit() {
-        return systemUnit;
+    public SystemUnit getUnit() {
+        return unit;
     }
 
     /**
@@ -110,8 +110,8 @@ public class Article extends AbstractDomain {
      * @param systemUnit Die <code>SystemUnit</code> dessen Key auf den landesspezifischen
      *         Wert in einem <code>ResourceBundle</code> zeigen kann.
      */
-    public void setSystemUnit(SystemUnit systemUnit) {
-        this.systemUnit = systemUnit;
+    public void setUnit(SystemUnit unit) {
+        this.unit = unit;
     }
 
     /**
@@ -172,20 +172,20 @@ public class Article extends AbstractDomain {
      * Gibt die Gebinde <code>SystemUnit</code> des Artikles zurück.
      *
      * @return Die Gebindeeinheit des Artikels.
-     * @see this#getSystemUnit()
+     * @see this#getUnit()
      */
-    public SystemUnit getBundleSystemUnit() {
-        return bundleSystemUnit;
+    public SystemUnit getBundleUnit() {
+        return bundleUnit;
     }
 
     /**
      * Setzt die Gebinde <code>SystemUnit</code> des Artikles.
      *
-     * @param bundleSystemUnit Die Gebindeeinheit des Artikels.
-     * @see this#setSystemUnit(SystemUnit)
+     * @param bundleUnit Die Gebindeeinheit des Artikels.
+     * @see this#setUnit(SystemUnit)
      */
-    public void setBundleSystemUnit(SystemUnit bundleSystemUnit) {
-        this.bundleSystemUnit = bundleSystemUnit;
+    public void setBundleUnit(SystemUnit bundleUnit) {
+        this.bundleUnit = bundleUnit;
     }
 
     /**
@@ -303,9 +303,9 @@ public class Article extends AbstractDomain {
         if (Double.compare(article.inStock, inStock) != 0) return false;
         if (Double.compare(article.price, price) != 0) return false;
         if (articleNumber != null ? !articleNumber.equals(article.articleNumber) : article.articleNumber != null) return false;
-        if (bundleSystemUnit != null ? !bundleSystemUnit.equals(article.bundleSystemUnit) : article.bundleSystemUnit != null) return false;
+        if (bundleUnit != null ? !bundleUnit.equals(article.bundleUnit) : article.bundleUnit != null) return false;
         if (descriptions != null ? !descriptions.equals(article.descriptions) : article.descriptions != null) return false;
-        return !(systemUnit != null ? !systemUnit.equals(article.systemUnit) : article.systemUnit != null);
+        return !(unit != null ? !unit.equals(article.unit) : article.unit != null);
     }
 
     /**
@@ -315,14 +315,14 @@ public class Article extends AbstractDomain {
         int result;
         long temp;
         result = (articleNumber != null ? articleNumber.hashCode() : 0);
-        result = 29 * result + (systemUnit != null ? systemUnit.hashCode() : 0);
+        result = 29 * result + (unit != null ? unit.hashCode() : 0);
         temp = price != +0.0d ? Double.doubleToLongBits(price) : 0L;
         result = 29 * result + (int) (temp ^ (temp >>> 32));
         temp = inStock != +0.0d ? Double.doubleToLongBits(inStock) : 0L;
         result = 29 * result + (int) (temp ^ (temp >>> 32));
         temp = bundleCapacity != +0.0d ? Double.doubleToLongBits(bundleCapacity) : 0L;
         result = 29 * result + (int) (temp ^ (temp >>> 32));
-        result = 29 * result + (bundleSystemUnit != null ? bundleSystemUnit.hashCode() : 0);
+        result = 29 * result + (bundleUnit != null ? bundleUnit.hashCode() : 0);
         result = 29 * result + (descriptions != null ? descriptions.hashCode() : 0);
         return result;
     }

@@ -12,7 +12,7 @@ import java.text.Collator;
  * Time: 13:33:34
  *
  * @author Roman R&auml;dle
- * @version $Id: Address.java,v 1.2 2005/09/28 15:44:18 raedler Exp $
+ * @version $Id: Address.java,v 1.3 2005/10/04 09:21:29 raedler Exp $
  * @since EcoBill 1.0
  */
 public class Address extends AbstractDomain {
@@ -33,14 +33,14 @@ public class Address extends AbstractDomain {
     private String city;
 
     /**
-     * Das Bundesland oder der Bundesstaat.
+     * Das Bundesland.
      */
-    private String county;
+    private SystemCounty county;
 
     /**
      * Das Land.
      */
-    private String country;
+    private SystemCountry country;
 
     /**
      * Gibt die Straße der Adresse zurück.
@@ -101,7 +101,7 @@ public class Address extends AbstractDomain {
      *
      * @return Das Bundesland oder der Bundesstaat der Adresse.
      */
-    public String getCounty() {
+    public SystemCounty getCounty() {
         return county;
     }
 
@@ -110,7 +110,7 @@ public class Address extends AbstractDomain {
      *
      * @param county Das Bundesland oder der Bundesstaat der Adresse.
      */
-    public void setCounty(String county) {
+    public void setCounty(SystemCounty county) {
         this.county = county;
     }
 
@@ -119,7 +119,7 @@ public class Address extends AbstractDomain {
      *
      * @return Das Land der Adresse.
      */
-    public String getCountry() {
+    public SystemCountry getCountry() {
         return country;
     }
 
@@ -128,7 +128,7 @@ public class Address extends AbstractDomain {
      *
      * @param country Das Land der Adresse.
      */
-    public void setCountry(String country) {
+    public void setCountry(SystemCountry country) {
         this.country = country;
     }
 
