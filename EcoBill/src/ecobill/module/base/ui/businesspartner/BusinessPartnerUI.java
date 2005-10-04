@@ -104,6 +104,8 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean, Dispo
                 LOG.error(fnfe.getMessage(), fnfe);
             }
         }
+
+        reinitI18N();
     }
 
     /**
@@ -211,8 +213,6 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean, Dispo
                 frame.setVisible(true);
             }
         });
-
-        reinitI18N();
     }
 
     private void initLayout() {
@@ -254,7 +254,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean, Dispo
                         .add(overviewBusinessPartnerTable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
                         .addContainerGap())
         );
-        tabbedPane.addTab("Übersicht", overview);
+        tabbedPane.addTab(WorkArea.getMessage(Constants.OVERVIEW), overview);
 
         add(tabbedPane, java.awt.BorderLayout.CENTER);
     }
