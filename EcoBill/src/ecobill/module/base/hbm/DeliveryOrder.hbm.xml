@@ -9,7 +9,7 @@
  Time: 13:37:24
 
  @author Roman R&auml;dle
- @version $Id: DeliveryOrder.hbm.xml,v 1.4 2005/09/28 15:57:29 raedler Exp $
+ @version $Id: DeliveryOrder.hbm.xml,v 1.5 2005/10/04 09:21:14 raedler Exp $
  @since EcoBill 1.0
 -->
 
@@ -24,8 +24,8 @@
 
         <many-to-one name="businessPartner" class="ecobill.module.base.domain.BusinessPartner" column="BUSINESS_PARTNER_ID" lazy="false"/>
 
-        <property name="deliveryOrderNumber" type="long">
-            <column name="DELIVERY_ORDER_NUMBER" not-null="true"/>
+        <property name="deliveryOrderNumber" type="string">
+            <column name="DELIVERY_ORDER_NUMBER" not-null="true" unique="true"/>
         </property>
 
         <property name="deliveryOrderDate" type="date">

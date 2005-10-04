@@ -9,13 +9,13 @@
  Time: 17:32:05
 
  @author Roman R&auml;dle
- @version $Id: SystemLanguage.hbm.xml,v 1.2 2005/10/04 09:21:14 raedler Exp $
+ @version $Id: SystemCounty.hbm.xml,v 1.1 2005/10/04 09:21:14 raedler Exp $
  @since EcoBill 1.0
 -->
 
 <hibernate-mapping default-lazy="false">
 
-    <class name="ecobill.module.base.domain.SystemLanguage" table="BASE_SYSTEM_LANGUAGE">
+    <class name="ecobill.module.base.domain.SystemCounty" table="BASE_SYSTEM_COUNTY">
 
         <id name="id" type="long" unsaved-value="-1">
             <column name="ID" not-null="true"/>
@@ -23,13 +23,14 @@
         </id>
 
         <property name="key" type="string">
-            <column name="SYSTEM_LANGUAGE_KEY" not-null="true" unique="true"/>
+            <column name="SYSTEM_COUNTY_KEY" not-null="true" unique="true"/>
         </property>
 
-        <set name="systemCountries" table="BASE_SYSTEM_COUNTRY" inverse="true" cascade="all-delete-orphan" lazy="false">
-            <key column="SYSTEM_LANGUAGE_KEY" property-ref="key"/>
-            <one-to-many class="ecobill.module.base.domain.SystemCountry"/>
-        </set>
+        <many-to-one name="systemCountry"
+                     column="SYSTEM_COUNTRY_KEY"
+                     class="ecobill.module.base.domain.SystemCountry"
+                     property-ref="key"
+                     lazy="false"/>
 
     </class>
 

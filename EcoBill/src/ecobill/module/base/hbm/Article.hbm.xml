@@ -9,7 +9,7 @@
  Time: 13:37:24
 
  @author Roman R&auml;dle
- @version $Id: Article.hbm.xml,v 1.5 2005/09/12 17:29:32 raedler Exp $
+ @version $Id: Article.hbm.xml,v 1.6 2005/10/04 09:21:14 raedler Exp $
  @since EcoBill 1.0
 -->
 
@@ -26,7 +26,7 @@
             <column name="ARTICLE_NUMBER" not-null="true" unique="true"/>
         </property>
 
-        <many-to-one name="systemUnit" class="ecobill.module.base.domain.SystemUnit" column="SYSTEM_UNIT_KEY" property-ref="key"/>
+        <many-to-one name="unit" class="ecobill.module.base.domain.SystemUnit" column="UNIT_ID"/>
 
         <property name="price" type="double">
             <column name="PRICE" not-null="true"/>
@@ -40,9 +40,9 @@
             <column name="BUNDLE_CAPACITY" not-null="false"/>
         </property>
 
-        <many-to-one name="bundleSystemUnit" class="ecobill.module.base.domain.SystemUnit" column="BUNDLE_SYSTEM_UNIT_KEY" property-ref="key"/>
+        <many-to-one name="bundleUnit" class="ecobill.module.base.domain.SystemUnit" column="BUNDLE_UNIT_ID"/>
 
-        <set name="descriptions" table="BASE_ARTICLE_DESCRIPTION" cascade="all">
+        <set name="descriptions" table="BASE_ARTICLE_DESCRIPTION" cascade="all-delete-orphan">
             <key column="ARTICLE_ID"/>
             <one-to-many class="ecobill.module.base.domain.ArticleDescription"/>
         </set>

@@ -9,7 +9,7 @@
  Time: 17:32:05
 
  @author Roman R&auml;dle
- @version $Id: SystemCountry.hbm.xml,v 1.1 2005/09/30 09:03:06 raedler Exp $
+ @version $Id: SystemCountry.hbm.xml,v 1.2 2005/10/04 09:21:14 raedler Exp $
  @since EcoBill 1.0
 -->
 
@@ -23,10 +23,19 @@
         </id>
 
         <property name="key" type="string">
-            <column name="UNIT_KEY" not-null="true" unique="true"/>
+            <column name="SYSTEM_COUNTRY_KEY" not-null="true" unique="true"/>
         </property>
 
-        <many-to-one name="systemLanguage" column="SYSTEM_LANGUAGE_ID" class="ecobill.module.base.domain.SystemLanguage" lazy="false"/>
+        <set name="systemCounties" table="BASE_SYSTEM_COUNTY" inverse="true" cascade="all-delete-orphan" lazy="false">
+            <key column="SYSTEM_COUNTRY_KEY" property-ref="key"/>
+            <one-to-many class="ecobill.module.base.domain.SystemCounty"/>
+        </set>
+
+        <many-to-one name="systemLanguage"
+                     column="SYSTEM_LANGUAGE_KEY"
+                     class="ecobill.module.base.domain.SystemLanguage"
+                     property-ref="key"
+                     lazy="false"/>
 
     </class>
 

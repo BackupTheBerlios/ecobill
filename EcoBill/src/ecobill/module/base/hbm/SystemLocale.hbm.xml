@@ -9,7 +9,7 @@
  Time: 13:37:24
 
  @author Roman R&auml;dle
- @version $Id: SystemLocale.hbm.xml,v 1.2 2005/09/12 17:29:32 raedler Exp $
+ @version $Id: SystemLocale.hbm.xml,v 1.3 2005/10/04 09:21:14 raedler Exp $
  @since EcoBill 1.0
 -->
 
@@ -26,17 +26,27 @@
             <column name="SYSTEM_LOCALE_KEY" not-null="true" unique="true"/>
         </property>
 
-        <property name="language" type="string">
-            <column name="LANGUAGE" not-null="true"/>
+        <property name="language" type="string" insert="false" update="false">
+            <column name="SYSTEM_LANGUAGE_KEY" not-null="true"/>
         </property>
 
-        <property name="country" type="string">
-            <column name="COUNTRY" not-null="true"/>
+        <property name="country" type="string" insert="false" update="false">
+            <column name="SYSTEM_COUNTRY_KEY" not-null="true"/>
         </property>
 
         <property name="variant" type="string">
             <column name="VARIANT" not-null="false"/>
         </property>
+
+        <many-to-one name="systemLanguage"
+                     column="SYSTEM_LANGUAGE_KEY"
+                     class="ecobill.module.base.domain.SystemLanguage"
+                     property-ref="key"/>
+
+        <many-to-one name="systemCountry"
+                     column="SYSTEM_COUNTRY_KEY"
+                     class="ecobill.module.base.domain.SystemCountry"
+                     property-ref="key"/>
 
     </class>
 
