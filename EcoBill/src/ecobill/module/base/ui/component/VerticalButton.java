@@ -17,20 +17,20 @@ import ecobill.core.system.Constants;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: VerticalButton.java,v 1.1 2005/09/30 09:05:19 raedler Exp $
+ * @version $Id: VerticalButton.java,v 1.2 2005/10/04 09:32:45 raedler Exp $
  * @since EcoBill 1.0
  */
 public class VerticalButton extends JPanel {
 
     private TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.ACTIONS), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
 
-    private JButton first = new JButton();
-    private JButton back = new JButton();
-    private JButton cancel = new JButton();
-    private JButton change = new JButton();
-    private JButton submit = new JButton();
-    private JButton next = new JButton();
-    private JButton last = new JButton();
+    private JButton button1 = new JButton();
+    private JButton button2 = new JButton();
+    private JButton button3 = new JButton();
+    private JButton button4 = new JButton();
+    private JButton button5 = new JButton();
+    private JButton button6 = new JButton();
+    private JButton button7 = new JButton();
 
     /**
      * Erzeugt eine neues Vertical Button Panel für Artikel.
@@ -47,107 +47,115 @@ public class VerticalButton extends JPanel {
 
         setBorder(border);
 
+        button1.setVisible(false);
+        button2.setVisible(false);
+        button3.setVisible(false);
+        button4.setVisible(false);
+        button5.setVisible(false);
+        button6.setVisible(false);
+        button7.setVisible(false);
+
         // TODO: Plaziere icons in package Struktur. 
-        first.setIcon(new javax.swing.ImageIcon("D:\\Projects\\EcoBill\\images\\first.gif"));
-        back.setIcon(new javax.swing.ImageIcon("D:\\Projects\\EcoBill\\images\\back.gif"));
-        cancel.setIcon(new javax.swing.ImageIcon("D:\\Projects\\EcoBill\\images\\cancel.gif"));
-        change.setIcon(new javax.swing.ImageIcon("D:\\Projects\\EcoBill\\images\\change.gif"));
-        submit.setIcon(new javax.swing.ImageIcon("D:\\Projects\\EcoBill\\images\\submit.gif"));
-        next.setIcon(new javax.swing.ImageIcon("D:\\Projects\\EcoBill\\images\\next.gif"));
-        last.setIcon(new javax.swing.ImageIcon("D:\\Projects\\EcoBill\\images\\last.gif"));
+        button1.setIcon(new javax.swing.ImageIcon("D:\\Projects\\EcoBill\\images\\first.gif"));
+        button2.setIcon(new javax.swing.ImageIcon("D:\\Projects\\EcoBill\\images\\back.gif"));
+        button3.setIcon(new javax.swing.ImageIcon("D:\\Projects\\EcoBill\\images\\cancel.gif"));
+        button4.setIcon(new javax.swing.ImageIcon("D:\\Projects\\EcoBill\\images\\change.gif"));
+        button5.setIcon(new javax.swing.ImageIcon("D:\\Projects\\EcoBill\\images\\submit.gif"));
+        button6.setIcon(new javax.swing.ImageIcon("D:\\Projects\\EcoBill\\images\\next.gif"));
+        button7.setIcon(new javax.swing.ImageIcon("D:\\Projects\\EcoBill\\images\\last.gif"));
     }
 
     private void initLayout() {
         GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                .addContainerGap()
-                .add(layout.createParallelGroup(GroupLayout.LEADING)
-                    .add(first, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-                    .add(back, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-                    .add(cancel, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-                    .add(change, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-                    .add(submit, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-                    .add(next, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-                    .add(last, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(layout.createParallelGroup(GroupLayout.LEADING)
+                                .add(button1, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+                                .add(button2, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+                                .add(button3, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+                                .add(button4, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+                                .add(button5, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+                                .add(button6, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+                                .add(button7, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(14, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                .addContainerGap()
-                .add(first, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(back, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(cancel, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(change, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(submit, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(next, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(last, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(button1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(button2, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(button3, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(button4, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(button5, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(button6, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(button7, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }
 
-    public JButton getFirst() {
-        return first;
+    public JButton getButton1() {
+        return button1;
     }
 
-    public void setFirst(JButton first) {
-        this.first = first;
+    public void setButton1(JButton button1) {
+        this.button1 = button1;
     }
 
-    public JButton getBack() {
-        return back;
+    public JButton getButton2() {
+        return button2;
     }
 
-    public void setBack(JButton back) {
-        this.back = back;
+    public void setButton2(JButton button2) {
+        this.button2 = button2;
     }
 
-    public JButton getCancel() {
-        return cancel;
+    public JButton getButton3() {
+        return button3;
     }
 
-    public void setCancel(JButton cancel) {
-        this.cancel = cancel;
+    public void setButton3(JButton button3) {
+        this.button3 = button3;
     }
 
-    public JButton getChange() {
-        return change;
+    public JButton getButton4() {
+        return button4;
     }
 
-    public void setChange(JButton change) {
-        this.change = change;
+    public void setButton4(JButton button4) {
+        this.button4 = button4;
     }
 
-    public JButton getSubmit() {
-        return submit;
+    public JButton getButton5() {
+        return button5;
     }
 
-    public void setSubmit(JButton submit) {
-        this.submit = submit;
+    public void setButton5(JButton button5) {
+        this.button5 = button5;
     }
 
-    public JButton getNext() {
-        return next;
+    public JButton getButton6() {
+        return button6;
     }
 
-    public void setNext(JButton next) {
-        this.next = next;
+    public void setButton6(JButton button6) {
+        this.button6 = button6;
     }
 
-    public JButton getLast() {
-        return last;
+    public JButton getButton7() {
+        return button7;
     }
 
-    public void setLast(JButton last) {
-        this.last = last;
+    public void setButton7(JButton button7) {
+        this.button7 = button7;
     }
 }

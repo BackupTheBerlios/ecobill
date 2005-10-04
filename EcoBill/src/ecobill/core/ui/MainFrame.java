@@ -2,7 +2,7 @@ package ecobill.core.ui;
 
 import ecobill.module.base.ui.*;
 import ecobill.module.base.ui.article.ArticleUI;
-import ecobill.module.base.ui.BusinessPartnerUI;
+import ecobill.module.base.ui.businesspartner.BusinessPartnerUI;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import org.springframework.beans.BeansException;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -23,10 +22,6 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.*;
 import java.util.Locale;
-import java.io.FileOutputStream;
-import java.io.FileNotFoundException;
-import java.io.File;
-import java.io.IOException;
 
 // @todo document me!
 
@@ -38,7 +33,7 @@ import java.io.IOException;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.58 2005/09/30 14:09:18 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.59 2005/10/04 09:32:45 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
@@ -141,8 +136,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         this.setTitle("Economy Bill Agenda");
         // setzt Größe des Mainframe
         this.setSize(new Dimension(950, 700));
-        // setzt UIManger der ans Windows Design anlegt
-        UIManager.setLookAndFeel(new com.sun.java.swing.plaf.windows.WindowsLookAndFeel());
+
         // setzt LayoutManger für das Pane
         this.getContentPane().setLayout(new BorderLayout());
         // ruft Methode jMenuBar() auf die die MenuBar erstellt
@@ -238,10 +232,10 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
 
     // CheckBox English wird erstellt
-    private JCheckBoxMenuItem english = new JCheckBoxMenuItem(new ImageIcon("images/english.jpg"));
+    private JCheckBoxMenuItem english = new JCheckBoxMenuItem(new ImageIcon("images/flag_great_britain.png"));
 
     // Checkbox German wird erstellt
-    private JCheckBoxMenuItem german = new JCheckBoxMenuItem(new ImageIcon("images/german.jpg"));
+    private JCheckBoxMenuItem german = new JCheckBoxMenuItem(new ImageIcon("images/flag_germany.png"));
 
     private UndoManager um = new UndoManager();
 
@@ -271,13 +265,13 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // fügt Tabs dem Tabfeld hinzu
         jtab.setFont(myfont);
-        jtab.addTab(null, new ImageIcon("images/s.gif"), tab);
+        jtab.addTab(null, new ImageIcon("images/home.png"), tab);
         // hier wird die ArtikleUI als neuer Tab eingefügt
-        jtab.addTab(null, new ImageIcon("images/a.gif"), articleUI);
+        jtab.addTab(null, new ImageIcon("images/article.png"), articleUI);
         // hier wird die BusinessPartnerUI als neuer Tab eingefügt
-        jtab.addTab(null, new ImageIcon("images/k.gif"), businessPartnerUI);
+        jtab.addTab(null, new ImageIcon("images/business_partner.png"), businessPartnerUI);
         // hier wird die RechnungsUI als neuer Tab eingefügt
-        jtab.addTab(null, new ImageIcon("images/l.gif"), printUI);
+        jtab.addTab(null, new ImageIcon("images/delivery_order_bill.png"), printUI);
 
         // setzt ToolTip
         lab1.setToolTipText("Copyright @ JFuckers");
@@ -325,8 +319,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Action: " + e.getActionCommand());
                 if (e.getSource().equals(exit))
+
                     // System wird beendet
-                    System.exit(0);
+                    exit();
             }
         });
 
@@ -521,7 +516,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     public void german() {
         WorkArea.setLocale(Locale.GERMAN);
         articleUI.reinitI18N();
-        businessPartnerUI.reinitI18N();
+        //businessPartnerUI.reinitI18N();
         reinitI18N();
         tab.remove(lab2);
         lab1.setToolTipText("Copyright @ JFuckers");
@@ -533,7 +528,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     public void english() {
         WorkArea.setLocale(Locale.ENGLISH);
         articleUI.reinitI18N();
-        businessPartnerUI.reinitI18N();
+        //businessPartnerUI.reinitI18N();
         reinitI18N();
         tab.remove(lab1);
         lab2.setToolTipText("Copyright @ JFuckers");

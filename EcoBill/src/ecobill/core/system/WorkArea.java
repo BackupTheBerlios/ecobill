@@ -19,7 +19,7 @@ import ecobill.core.system.exception.WorkAreaNotFoundException;
  * Time: 16:41:40
  *
  * @author Roman R&auml;dle
- * @version $Id: WorkArea.java,v 1.7 2005/09/12 20:42:58 raedler Exp $
+ * @version $Id: WorkArea.java,v 1.8 2005/10/04 09:32:45 raedler Exp $
  * @since EcoBill 1.0
  */
 public final class WorkArea implements ApplicationContextAware {
@@ -91,6 +91,9 @@ public final class WorkArea implements ApplicationContextAware {
      * @see ApplicationContext#getMessage(String, Object[], String, java.util.Locale)
      */
     public static String getMessage(String key) {
+
+        if (key == null) return "";
+
         try {
             return ac.getMessage(key, null, locale);
         }

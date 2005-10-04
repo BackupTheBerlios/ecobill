@@ -10,7 +10,7 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.12 2005/10/01 13:29:39 jfuckerweiler Exp $
+ * @version $Id: Constants.java,v 1.13 2005/10/04 09:32:45 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {
@@ -19,6 +19,11 @@ public interface Constants {
      * Alle Schlüssel die für die Fenstertitel nötig sind.
      */
     public final static String UI_TITLE_ARTICLE = "ui.title.article";
+
+    public final static String SYSTEM_UNIT_UNIT = "unit";
+    public final static String SYSTEM_UNIT_BUNDLE_UNIT = "bundle_unit";
+    public final static String SYSTEM_UNIT_TITLE = "title";
+    public final static String SYSTEM_UNIT_ACADEMIC_TITLE = "academic_title";
 
     /**
      * Alle Schlüssel die bspw. für Labels verwendet werden.
@@ -71,15 +76,21 @@ public interface Constants {
     public final static String UNIT_TOOLTIP = "unit.tooltip";
     public final static String VARIANT = "variant";
     public final static String VARIANT_TOOLTIP = "variant.tooltip";
+
+
+    public final static String BUSINESS_PARTNER = "business_partner";
+    public final static String CUSTOMER_NUMBER = "customer_number";
+
     public final static String ID = "id";
     public final static String TITLE = "title";
-    public final static String ATITLE = "atitle";
-    public final static String SURNAME = "surname";
+    public final static String ACADEMIC_TITLE = "academic_title";
+    public final static String LASTNAME = "lastname";
     public final static String FIRSTNAME = "firstname";
     public final static String STREET = "street";
-    public final static String ZIP = "zip";
+    public final static String ZIP_CODE = "zip_code";
     public final static String CITY = "city";
     public final static String COUNTY = "county";
+
     public final static String PHONE = "phone";
     public final static String FAX = "fax";
     public final static String EMAIL = "email";
