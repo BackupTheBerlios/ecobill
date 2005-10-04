@@ -5,7 +5,7 @@ import ecobill.module.base.domain.*;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import ecobill.core.util.I18NComboBoxItem;
-import ecobill.util.ComboBoxUtils;
+import ecobill.core.util.ComboBoxUtils;
 import org.springframework.beans.factory.InitializingBean;
 
 import javax.swing.*;
@@ -28,7 +28,7 @@ import java.util.Vector;
  * Time: 14:20:07
  *
  * @author Andreas Weiler
- * @version $Id: BusinessPartnerUI.java,v 1.35 2005/10/01 13:29:47 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.36 2005/10/04 09:19:26 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements InitializingBean {
@@ -250,7 +250,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         lineV.add(businessPartner.getAddress().getId());
         lineV.add(businessPartner.getPerson().getId());
         lineV.add(businessPartner.getCompanyName());
-        lineV.add(businessPartner.getCompanyTitleKey());
+        lineV.add(businessPartner.getCompanyTitle());
 
 
         return lineV;
@@ -546,15 +546,15 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         I18NComboBoxItem titleItem = (I18NComboBoxItem)titleCB.getSelectedItem();
 
         address.setCity(cityTF.getText());
-        address.setCounty(countyTF.getText());
-        address.setCountry(countryItem.getKey());
+        //address.setCounty(countyTF.getText());
+        //address.setCountry(countryItem.getKey());
         address.setStreet(streetTF.getText());
         address.setZipCode(zipTF.getText());
 
 
         // Setzt einige Werte aus den Eingabefeldern in den <code>Article</code>.
-        person.setAcademicTitleKey(academicTitleItem.getKey());
-        person.setTitleKey(titleItem.getKey());
+        //person.setAcademicTitle(academicTitleItem.getKey());
+        //person.setTitle(titleItem.getKey());
         person.setAddress(address);
         person.setEmail(emailTF.getText());
         person.setFax(faxTF.getText());
@@ -584,11 +584,11 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean {
         saveB.setText(WorkArea.getMessage(Constants.SAVE));
         id.setText(WorkArea.getMessage(Constants.ID));
         title.setText(WorkArea.getMessage(Constants.TITLE));
-        academicTitle.setText(WorkArea.getMessage(Constants.ATITLE));
-        surname.setText(WorkArea.getMessage(Constants.SURNAME));
+        academicTitle.setText(WorkArea.getMessage(Constants.ACADEMIC_TITLE));
+        surname.setText(WorkArea.getMessage(Constants.LASTNAME));
         firstname.setText(WorkArea.getMessage(Constants.FIRSTNAME));
         street.setText(WorkArea.getMessage(Constants.STREET));
-        zip.setText(WorkArea.getMessage(Constants.ZIP));
+        zip.setText(WorkArea.getMessage(Constants.ZIP_CODE));
         city.setText(WorkArea.getMessage(Constants.CITY));
         county.setText(WorkArea.getMessage(Constants.COUNTY));
         country.setText(WorkArea.getMessage(Constants.COUNTRY));
