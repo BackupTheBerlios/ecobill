@@ -21,7 +21,15 @@ import java.awt.event.*;
 import java.io.*;
 
 /**
- * @author Roman Georg Rädle
+ * Die <code>BusinessPartnerTable</code> ist zur Anzeige und Änderung von Kundendaten bereit.
+ * <p/>
+ * User: rro
+ * Date: 28.09.2005
+ * Time: 17:49:23
+ *
+ * @author Roman R&auml;dle
+ * @version $Id: BusinessPartnerTable.java,v 1.2 2005/10/04 16:47:11 raedler Exp $
+ * @since EcoBill 1.0
  */
 public class BusinessPartnerTable extends AbstractTablePanel implements Internationalization, Persistable {
 

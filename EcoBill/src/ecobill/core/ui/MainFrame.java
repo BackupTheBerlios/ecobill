@@ -5,6 +5,7 @@ import ecobill.module.base.ui.article.ArticleUI;
 import ecobill.module.base.ui.businesspartner.BusinessPartnerUI;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
+import ecobill.core.system.Internationalization;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.DisposableBean;
@@ -33,10 +34,10 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.61 2005/10/04 14:28:19 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.62 2005/10/04 16:47:08 raedler Exp $
  * @since EcoBill 1.0
  */
-public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean {
+public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Internationalization {
 
     /**
      * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
@@ -131,20 +132,24 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
      */
     public void afterPropertiesSet() throws Exception {
 
-        // erstellt Mainframe
-        // setzt Title des Mainframe
-        this.setTitle("Economy Bill Agenda");
-        // setzt Größe des Mainframe
+        // Setzt Title des <code>MainFrame</code>.
+        this.setTitle(WorkArea.getMessage("application_title"));
+
+        // Setzt Größe des <code>MainFrame</code>.
         this.setSize(new Dimension(950, 700));
 
-        // setzt LayoutManger für das Pane
+        // Setzt den <code>LayoutManger</code> für das <code>JFrame</code>.
         this.getContentPane().setLayout(new BorderLayout());
+
         // ruft Methode jMenuBar() auf die die MenuBar erstellt
         this.jMenuBar();
         // ruft Methode tabPane() auf die das TabPane erstellt
         this.tabPane();
         // ruft Methode exitButton() auf die den ExitButton erstellt
-        this.exitButton();
+        //this.exitButton();
+
+        center();
+
         // setzt alles auf Sichtbar
         this.setVisible(true);
 
@@ -163,36 +168,24 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     }
 
     /**
-     * Versucht den <code>ApplicationContext</code> herunterzufahren, sofern dieser das
-     * Interface <code>DisposableBean</code> implementiert. Gelingt dies wird die
-     * Anwendung ohne Fehler beendet, ansonsten wird mit Fehlercode beendet.
+     * Centered das <code>MainFrame</code>.
      */
-    private void exit() {
+    private void center() {
 
-        // Überprüft ob der <code>ApplicationContext</code> das Interface
-        // <code>DisposableBean</code> implementiert, um den gesamten
-        // applicationContext beim Schließen der Anwendung herunterzufahren.
-        //
-        // Dies ist notwendig um die gesamten Beans die auch dieses Interface
-        // implementieren herunterzufahren und somit zu gewährleisten, dass
-        // evtl. Daten persistiert werden.
-        if (applicationContext instanceof DisposableBean) {
-            try {
-                ((DisposableBean) applicationContext).destroy();
-            }
-            catch (Exception ex) {
-                if (LOG.isErrorEnabled()) {
-                    LOG.error(ex.getMessage(), ex);
-                }
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-                // TODO: Status 100 bitte in der Dokumentation eintragen.
-                System.exit(100);
-            }
-        }
+        double width = screenSize.getWidth();
+        double height = screenSize.getHeight();
 
-        // Beendet die Anwendung ohne Fehler.
-        System.exit(0);
+        Dimension frameSize = this.getSize();
+
+        width -= frameSize.getWidth();
+        height -= frameSize.getHeight();
+
+        this.setLocation((int) width / 2, (int) height / 2);
     }
+
+
 
     // alle Sachen erstellen die man braucht
     private JButton ebutton = new JButton();
@@ -227,9 +220,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     private JMenuItem about = new JMenuItem(new ImageIcon("images/about.png"));
 
     //erstellt JLabels
-    private JLabel lab1 = new JLabel(new ImageIcon("images/StartbildGer.jpg"));
-    private JLabel lab2 = new JLabel(new ImageIcon("images/StartbildEng.jpg"));
-
+    private JLabel startPanel = new JLabel(new ImageIcon("images/StartbildGer.jpg"));
 
     // CheckBox English wird erstellt
     private JCheckBoxMenuItem english = new JCheckBoxMenuItem(new ImageIcon("images/flag_great_britain.png"));
@@ -261,10 +252,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
     public void tabPane() {
 
-        Font myfont = new Font("Tahoma", Font.BOLD, 12);
-
-        // fügt Tabs dem Tabfeld hinzu
-        jtab.setFont(myfont);
         jtab.addTab(null, new ImageIcon("images/home.png"), tab);
         // hier wird die ArtikleUI als neuer Tab eingefügt
         jtab.addTab(null, new ImageIcon("images/article.png"), articleUI);
@@ -274,9 +261,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         jtab.addTab(null, new ImageIcon("images/delivery_order_bill.png"), printUI);
 
         // setzt ToolTip
-        lab1.setToolTipText("Copyright @ JFuckers");
+        startPanel.setToolTipText("Copyright @ JFuckers");
         // fügt JLabels tab0 zu
-        tab.add(lab1, BorderLayout.CENTER);
+        tab.add(startPanel, BorderLayout.CENTER);
 
         // fügt Tabfeld hinzu
         this.getContentPane().add(jtab, BorderLayout.CENTER);
@@ -513,65 +500,91 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         JOptionPane.showMessageDialog(this, ec, to, 1, new ImageIcon("images/Topic.gif"));
     }
 
+    /**
+     * Umstellen der Sprache auf Deutsch.
+     */
     public void german() {
         WorkArea.setLocale(Locale.GERMAN);
-        articleUI.reinitI18N();
-        businessPartnerUI.reinitI18N();
         reinitI18N();
-        tab.remove(lab2);
-        lab1.setToolTipText("Copyright @ JFuckers");
-        tab.add(lab1, BorderLayout.CENTER);
-
-
+        startPanel.setIcon(new ImageIcon("images/StartbildGer.jpg"));
     }
 
+    /**
+     * Umstellen der Sprache auf Englisch.
+     */
     public void english() {
         WorkArea.setLocale(Locale.ENGLISH);
-        articleUI.reinitI18N();
-        businessPartnerUI.reinitI18N();
         reinitI18N();
-        tab.remove(lab1);
-        lab2.setToolTipText("Copyright @ JFuckers");
-        tab.add(lab2, BorderLayout.CENTER);
-
+        startPanel.setIcon(new ImageIcon("images/StartbildEng.jpg"));
     }
 
+    /**
+     * Diese Methode kann später dazu verwendet werden um Dateien zu laden.
+     */
     public void open() {
-        // erstellt FileDialog setzt Title
-        FileDialog pd = new FileDialog(this, "Öffnen");
-        // setzt was für Dateien im FileDialog ausgewählt werden dürfen
-        pd.setFile("*.*");
-        String filename = pd.getFile();
+
+        // Erstellt <code>FileDialog</code> und setzt den Titel.
+        FileDialog fileDialog = new FileDialog(this, WorkArea.getMessage(Constants.OPEN), FileDialog.LOAD);
+        fileDialog.setVisible(true);
+
+        String filename = fileDialog.getFile();
+
         if (filename != null) {
+            System.out.println("Die selektierte Datei heißt " + filename);
         }
-        pd.setVisible(true);
-        pd.dispose();
-        this.getContentPane().add(pd);
+
+        fileDialog.dispose();
     }
 
-    private TextField tf = new TextField();
+    /**
+     * Versucht den <code>ApplicationContext</code> herunterzufahren, sofern dieser das
+     * Interface <code>DisposableBean</code> implementiert. Gelingt dies wird die
+     * Anwendung ohne Fehler beendet, ansonsten wird mit Fehlercode beendet.
+     */
+    private void exit() {
 
+        // Überprüft ob der <code>ApplicationContext</code> das Interface
+        // <code>DisposableBean</code> implementiert, um den gesamten
+        // applicationContext beim Schließen der Anwendung herunterzufahren.
+        //
+        // Dies ist notwendig um die gesamten Beans die auch dieses Interface
+        // implementieren herunterzufahren und somit zu gewährleisten, dass
+        // evtl. Daten persistiert werden.
+        if (applicationContext instanceof DisposableBean) {
+            try {
+                ((DisposableBean) applicationContext).destroy();
+            }
+            catch (Exception ex) {
+                if (LOG.isErrorEnabled()) {
+                    LOG.error(ex.getMessage(), ex);
+                }
+
+                // TODO: Status 100 bitte in der Dokumentation eintragen.
+                System.exit(100);
+            }
+        }
+
+        // Beendet die Anwendung ohne Fehler.
+        System.exit(0);
+    }
+
+    /**
+     * Diese Methode kann später dazu verwendet werden um Text zu kopieren.
+     */
     public void copy() {
-
-        StringSelection data = new StringSelection(tf.getText());
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(data, data);
+        throw new RuntimeException("Diese Methode muss noch implementiert werden.");
     }
 
+    /**
+     * Diese Methode kann später dazu verwendet werden um Text einzufügen.
+     */
     public void paste() {
-
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        Transferable data = clipboard.getContents(this);
-        String s;
-        try {
-            s = (String) (data.getTransferData(DataFlavor.stringFlavor));
-        }
-        catch (Exception e) {
-            s = data.toString();
-        }
-        tf.setText(s);
+        throw new RuntimeException("Diese Methode muss noch implementiert werden.");
     }
 
+    /**
+     * @see ecobill.core.system.Internationalization#reinitI18N()
+     */
     public void reinitI18N() {
 
         file.setText(WorkArea.getMessage(Constants.FILE));
@@ -604,5 +617,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         ebutton.setText(WorkArea.getMessage(Constants.EXIT));
 
+        articleUI.reinitI18N();
+        businessPartnerUI.reinitI18N();
     }
 }

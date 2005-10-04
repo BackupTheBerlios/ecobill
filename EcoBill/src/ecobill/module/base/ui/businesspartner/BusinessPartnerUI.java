@@ -4,6 +4,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.DisposableBean;
+import org.jdesktop.layout.GroupLayout;
+import org.jdesktop.layout.LayoutStyle;
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.ui.component.VerticalButton;
 import ecobill.module.base.ui.article.ArticleTable;
@@ -14,6 +16,7 @@ import ecobill.module.base.domain.Banking;
 import ecobill.core.util.FileUtils;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
+import ecobill.core.system.Internationalization;
 
 import javax.swing.*;
 import java.util.Properties;
@@ -22,11 +25,20 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.*;
 
 /**
- * @author Roman Georg Rädle
+ * Die <code>BusinessPartnerUI</code> erstellt das User Interface zur Eingabe von Benutzerdaten.
+ * <p/>
+ * User: rro
+ * Date: 28.09.2005
+ * Time: 17:49:23
+ *
+ * @author Roman R&auml;dle
+ * @version $Id: BusinessPartnerUI.java,v 1.6 2005/10/04 16:47:13 raedler Exp $
+ * @since EcoBill 1.0
  */
-public class BusinessPartnerUI extends JPanel implements InitializingBean, DisposableBean {
+public class BusinessPartnerUI extends JPanel implements InitializingBean, DisposableBean, Internationalization {
 
     /**
      * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
@@ -216,47 +228,67 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean, Dispo
     }
 
     private void initLayout() {
-        setLayout(new java.awt.BorderLayout());
+        setLayout(new BorderLayout());
 
-        org.jdesktop.layout.GroupLayout overviewLayout = new org.jdesktop.layout.GroupLayout(overview);
+        GroupLayout overviewLayout = new GroupLayout(overview);
         overview.setLayout(overviewLayout);
         overviewLayout.setHorizontalGroup(
-                overviewLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                        .add(org.jdesktop.layout.GroupLayout.LEADING, overviewLayout.createSequentialGroup()
+                overviewLayout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
                         .addContainerGap()
-                        .add(overviewLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                        .add(org.jdesktop.layout.GroupLayout.LEADING, overviewLayout.createSequentialGroup()
-                                .add(overviewBusinessPartnerTable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 839, Short.MAX_VALUE)
+                        .add(overviewLayout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
+                                .add(overviewBusinessPartnerTable, GroupLayout.DEFAULT_SIZE, 839, Short.MAX_VALUE)
                                 .addContainerGap())
-                        .add(org.jdesktop.layout.GroupLayout.LEADING, overviewLayout.createSequentialGroup()
-                        .add(overviewVerticalButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(overviewInput, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(overviewInputFirm, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(overviewInputContact, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(overviewInputBanking, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
+                        .add(overviewVerticalButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(overviewInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(overviewInputFirm, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(overviewInputContact, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(overviewInputBanking, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .add(10, 10, 10))))
         );
         overviewLayout.setVerticalGroup(
-                overviewLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                        .add(org.jdesktop.layout.GroupLayout.LEADING, overviewLayout.createSequentialGroup()
+                overviewLayout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
                         .addContainerGap()
-                        .add(overviewLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                                .add(org.jdesktop.layout.GroupLayout.TRAILING, overviewInputFirm, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(org.jdesktop.layout.GroupLayout.TRAILING, overviewVerticalButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(overviewInputBanking, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(overviewInputContact, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(org.jdesktop.layout.GroupLayout.TRAILING, overviewInput, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(overviewBusinessPartnerTable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
+                        .add(overviewLayout.createParallelGroup(GroupLayout.LEADING, false)
+                                .add(GroupLayout.TRAILING, overviewInputFirm, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(GroupLayout.TRAILING, overviewVerticalButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(overviewInputBanking, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(overviewInputContact, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(GroupLayout.TRAILING, overviewInput, GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE))
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(overviewBusinessPartnerTable, GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
                         .addContainerGap())
         );
         tabbedPane.addTab(WorkArea.getMessage(Constants.OVERVIEW), overview);
 
-        add(tabbedPane, java.awt.BorderLayout.CENTER);
+        add(tabbedPane, BorderLayout.CENTER);
+    }
+
+    /**
+     * @see ecobill.core.system.Internationalization#reinitI18N()
+     */
+    public void reinitI18N() {
+
+        tabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.OVERVIEW));
+
+        overviewInput.reinitI18N();
+        overviewInputBanking.reinitI18N();
+        overviewInputContact.reinitI18N();
+        overviewInputFirm.reinitI18N();
+        overviewVerticalButton.reinitI18N();
+
+        overviewVerticalButton.getButton1().setToolTipText(WorkArea.getMessage(Constants.BUTTON1_TOOLTIP));
+        overviewVerticalButton.getButton2().setToolTipText(WorkArea.getMessage(Constants.BUTTON2_TOOLTIP));
+        overviewVerticalButton.getButton3().setToolTipText(WorkArea.getMessage(Constants.BUTTON3_TOOLTIP));
+        overviewVerticalButton.getButton4().setToolTipText(WorkArea.getMessage(Constants.BUTTON4_TOOLTIP));
+        overviewVerticalButton.getButton6().setToolTipText(WorkArea.getMessage(Constants.BUTTON6_TOOLTIP));
     }
 
     private Long actualBusinessPartnerId;
@@ -381,23 +413,5 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean, Dispo
         baseService.saveOrUpdate(businessPartner);
 
         actualBusinessPartnerId = businessPartner.getId();
-    }
-
-    public void reinitI18N() {
-
-        tabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.OVERVIEW));
-
-        overviewInput.reinitI18N();
-        overviewInputBanking.reinitI18N();
-        overviewInputContact.reinitI18N();
-        overviewInputFirm.reinitI18N();
-        overviewVerticalButton.reinitI18N();
-
-        overviewVerticalButton.getButton1().setToolTipText(WorkArea.getMessage(Constants.BUTTON1_TOOLTIP));
-        overviewVerticalButton.getButton2().setToolTipText(WorkArea.getMessage(Constants.BUTTON2_TOOLTIP));
-        overviewVerticalButton.getButton3().setToolTipText(WorkArea.getMessage(Constants.BUTTON3_TOOLTIP));
-        overviewVerticalButton.getButton4().setToolTipText(WorkArea.getMessage(Constants.BUTTON4_TOOLTIP));
-        overviewVerticalButton.getButton6().setToolTipText(WorkArea.getMessage(Constants.BUTTON6_TOOLTIP));
-
     }
 }
