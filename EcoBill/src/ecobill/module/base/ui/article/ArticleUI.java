@@ -42,7 +42,7 @@ import java.io.FileOutputStream;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.5 2005/10/04 09:20:17 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.6 2005/10/04 20:16:21 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JPanel implements InitializingBean, Internationalization, DisposableBean {
@@ -130,6 +130,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
                 LOG.error(fnfe.getMessage(), fnfe);
             }
         }
+        reinitI18N();
     }
 
     /**
@@ -461,6 +462,14 @@ public class ArticleUI extends JPanel implements InitializingBean, International
     public void reinitI18N() {
         tabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.OVERVIEW));
         tabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.LABELLING));
+
+        verticalButtonOverview.reinitI18N();
+
+        verticalButtonOverview.getButton1().setToolTipText(WorkArea.getMessage(Constants.BUTTON1_ARTICLE_TOOLTIP));
+        verticalButtonOverview.getButton2().setToolTipText(WorkArea.getMessage(Constants.BUTTON2_ARTICLE_TOOLTIP));
+        verticalButtonOverview.getButton3().setToolTipText(WorkArea.getMessage(Constants.BUTTON3_ARTICLE_TOOLTIP));
+        verticalButtonOverview.getButton4().setToolTipText(WorkArea.getMessage(Constants.BUTTON4_ARTICLE_TOOLTIP));
+
 
         articleTableOverview.reinitI18N();
         descriptionLabelling.reinitI18N();
