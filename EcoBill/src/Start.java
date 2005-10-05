@@ -1,6 +1,8 @@
 import javax.swing.*;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ecobill.core.ui.MainFrame;
+import ecobill.core.ui.SplashScreen;
 
 /**
  * Diese Klasse bietet die eine Startmethode zum starten der Economy Bill Agenda.
@@ -11,7 +13,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * Time: 17:47:38
  *
  * @author Roman R&auml;dle
- * @version $Id: Start.java,v 1.4 2005/10/04 11:04:31 raedler Exp $
+ * @version $Id: Start.java,v 1.5 2005/10/05 13:55:40 raedler Exp $
  * @since Ecobill 1.0
  */
 public class Start {

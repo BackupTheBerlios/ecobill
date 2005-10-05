@@ -17,10 +17,6 @@ import org.apache.commons.logging.LogFactory;
 import javax.swing.*;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
 import java.awt.event.*;
 import java.util.Locale;
 
@@ -34,10 +30,10 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.64 2005/10/04 20:30:47 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.65 2005/10/05 13:55:40 raedler Exp $
  * @since EcoBill 1.0
  */
-public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Internationalization {
+public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
 
     /**
      * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
@@ -133,30 +129,25 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     public void afterPropertiesSet() throws Exception {
 
         // Setzt Title des <code>MainFrame</code>.
-        this.setTitle(WorkArea.getMessage("application_title"));
+        setTitle(WorkArea.getMessage("application_title"));
 
         // Setzt Größe des <code>MainFrame</code>.
-        this.setSize(new Dimension(950, 700));
+        setSize(new Dimension(950, 700));
 
         // Setzt den <code>LayoutManger</code> für das <code>JFrame</code>.
-        this.getContentPane().setLayout(new BorderLayout());
+        getContentPane().setLayout(new BorderLayout());
 
         // ruft Methode jMenuBar() auf die die MenuBar erstellt
-        this.jMenuBar();
+        jMenuBar();
+
         // ruft Methode tabPane() auf die das TabPane erstellt
-        this.tabPane();
-        // ruft Methode exitButton() auf die den ExitButton erstellt
-        //this.exitButton();
+        tabPane();
 
         center();
-        exitButton();
-
-        // setzt alles auf Sichtbar
-        this.setVisible(true);
 
         this.reinitI18N();
 
-        // setzt die Operation die auf X am Fenster gemacht wird
+        // Setzt die Operation, die auf X am Fenster gemacht wird.
         this.addWindowListener(new WindowAdapter() {
 
             /**
@@ -166,18 +157,23 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
                 exit();
             }
         });
+
+        // Setzt den <code>JFrame</code>, der bis dahin "unsichtbar" war, sichtbar.
+        setVisible(true);
     }
 
     /**
-     * Centered das <code>MainFrame</code>.
+     * Zentriert das <code>MainFrame</code> im sichtbaren Bereich des Bildschirms.
      */
     private void center() {
 
+        // Größe der eingestellten Bildschirmauflösung.
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         double width = screenSize.getWidth();
         double height = screenSize.getHeight();
 
+        // Größe des <code>JFrame</code>.
         Dimension frameSize = this.getSize();
 
         width -= frameSize.getWidth();
@@ -221,7 +217,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     private JMenuItem about = new JMenuItem(new ImageIcon("images/about.png"));
 
     //erstellt JLabels
-    private JLabel startPanel = new JLabel(new ImageIcon("images/StartbildGer.jpg"));
+    private JPanel startPanel = new JPanel();
 
     // CheckBox English wird erstellt
     private JCheckBoxMenuItem english = new JCheckBoxMenuItem(new ImageIcon("images/flag_great_britain.png"));
@@ -231,31 +227,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
     private UndoManager um = new UndoManager();
 
-
-    public void exitButton() {
-
-        //setzt ExitButton Mnemonic
-        ebutton.setMnemonic(KeyEvent.VK_X);
-
-        // Exit Button Action Listener
-        ebutton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Action: " + e.getActionCommand());
-                if (e.getSource().equals(ebutton)) {
-                    exit();
-                }
-            }
-        });
-
-        // fügt ExitButton hinzu
-        this.getContentPane().add(ebutton, BorderLayout.SOUTH);
-    }
-
     public void tabPane() {
-
-
-        Font ft = new Font("Tahoma", 1, 14);
-        jtab.setFont(ft);
 
         jtab.addTab(null, new ImageIcon("images/home.png"), tab);
         // hier wird die ArtikleUI als neuer Tab eingefügt
@@ -266,7 +238,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         jtab.addTab(null, new ImageIcon("images/delivery_order_bill.png"), printUI);
 
         // setzt ToolTip
-        startPanel.setToolTipText("Copyright @ JFuckers");
+        startPanel.add(new JLabel("Economy Bill Agenda"));
         // fügt JLabels tab0 zu
         tab.add(startPanel, BorderLayout.CENTER);
 
@@ -491,7 +463,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         String ec = "Economy Bill Agenda" + LINE_SEPARATOR + "        Version 1.0";
 
         // erstellt PopUp About
-        JOptionPane.showMessageDialog(this, ec, ab, 1, new ImageIcon("images/About.gif"));
+        JOptionPane.showMessageDialog(this, ec, ab, JOptionPane.DEFAULT_OPTION, new ImageIcon("images/About.gif"));
     }
 
     // wird aufgerufen bei Help Topics
@@ -502,7 +474,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         String ec = "Economy Bill Agenda" + LINE_SEPARATOR + "        Version 1.0";
 
         // erstellt PopUp Topic
-        JOptionPane.showMessageDialog(this, ec, to, 1, new ImageIcon("images/Topic.gif"));
+        JOptionPane.showMessageDialog(this, ec, to, JOptionPane.DEFAULT_OPTION, new ImageIcon("images/Topic.gif"));
     }
 
     /**
@@ -511,7 +483,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     public void german() {
         WorkArea.setLocale(Locale.GERMAN);
         reinitI18N();
-        startPanel.setIcon(new ImageIcon("images/StartbildGer.jpg"));
     }
 
     /**
@@ -520,7 +491,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     public void english() {
         WorkArea.setLocale(Locale.ENGLISH);
         reinitI18N();
-        startPanel.setIcon(new ImageIcon("images/StartbildEng.jpg"));
     }
 
     /**

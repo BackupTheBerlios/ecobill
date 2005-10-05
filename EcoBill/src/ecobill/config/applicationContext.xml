@@ -109,6 +109,15 @@
 
     <bean id="workArea" class="ecobill.core.system.WorkArea"/>
 
+    <bean id="splashScreen" class="ecobill.core.ui.SplashScreen">
+        <constructor-arg index="0">
+            <value>images/StartbildGer.jpg</value>
+        </constructor-arg>
+        <property name="splashable">
+            <ref local="mainFrame"/>
+        </property>
+    </bean>
+
     <bean id="mainFrame" class="ecobill.core.ui.MainFrame">
         <property name="articleUI">
             <ref bean="articleUI"/>
