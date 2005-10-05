@@ -1,7 +1,5 @@
 package ecobill.module.base.domain;
 
-import java.text.Collator;
-
 /**
  * Der <code>ReduplicatedArticle</code> beinhaltet die dazugehörige Anzahl, den eingetragenen
  * Einzelpreis und die Beschreibung von diesem. Dieses Objekt wird für einen Lieferschein
@@ -12,7 +10,7 @@ import java.text.Collator;
  * Time: 22:23:14
  *
  * @author Roman R&auml;dle
- * @version $Id: ReduplicatedArticle.java,v 1.3 2005/09/28 15:44:18 raedler Exp $
+ * @version $Id: ReduplicatedArticle.java,v 1.4 2005/10/05 23:41:27 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ReduplicatedArticle extends AbstractDomain {
@@ -25,7 +23,7 @@ public class ReduplicatedArticle extends AbstractDomain {
     /**
      * Die Anzahl des Artikels.
      */
-    private Double amount;
+    private Double quantity;
 
     /**
      * Der Einzelpreis des Artikels.
@@ -76,8 +74,8 @@ public class ReduplicatedArticle extends AbstractDomain {
      *
      * @return Die Anzahl des Artikels.
      */
-    public Double getAmount() {
-        return amount;
+    public Double getQuantity() {
+        return quantity;
     }
 
     /**
@@ -101,10 +99,10 @@ public class ReduplicatedArticle extends AbstractDomain {
     /**
      * Setzt die Anzahl des Artikels.
      *
-     * @param amount Die Anzahl des Artikels.
+     * @param quantity Die Anzahl des Artikels.
      */
-    public void setAmount(Double amount) {
-        this.amount = amount;
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
     }
 
     /**
@@ -193,7 +191,7 @@ public class ReduplicatedArticle extends AbstractDomain {
 
         final ReduplicatedArticle that = (ReduplicatedArticle) o;
 
-        if (this.getAmount() != null ? !this.getAmount().equals(that.getAmount()) : that.getAmount() != null) return false;
+        if (this.getQuantity() != null ? !this.getQuantity().equals(that.getQuantity()) : that.getQuantity() != null) return false;
         if (this.getDescription() != null ? !this.getDescription().equals(that.getDescription()) : that.getDescription() != null) return false;
         return !(this.getPrice() != null ? !this.getPrice().equals(that.getPrice()) : that.getPrice() != null);
     }
@@ -203,7 +201,7 @@ public class ReduplicatedArticle extends AbstractDomain {
      */
     public int hashCode() {
         int result;
-        result = (this.getAmount() != null ? this.getAmount().hashCode() : 0);
+        result = (this.getQuantity() != null ? this.getQuantity().hashCode() : 0);
         result = 29 * result + (this.getPrice() != null ? this.getPrice().hashCode() : 0);
         result = 29 * result + (this.getDescription() != null ? this.getDescription().hashCode() : 0);
         return result;

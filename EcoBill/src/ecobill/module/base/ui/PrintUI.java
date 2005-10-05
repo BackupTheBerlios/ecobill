@@ -30,7 +30,7 @@ import java.awt.event.ActionEvent;
  * Time: 16:45:41
  *
  * @author Andreas Weiler
- * @version $Id: PrintUI.java,v 1.19 2005/10/04 20:31:05 jfuckerweiler Exp $
+ * @version $Id: PrintUI.java,v 1.20 2005/10/05 23:41:27 raedler Exp $
  * @since EcoBill 1.0
  */
 public class PrintUI extends JPanel implements InitializingBean {
@@ -257,7 +257,7 @@ public class PrintUI extends JPanel implements InitializingBean {
 
         // Id aus Textfeld customerTF als Parameter an den JV übergeben
         jasperViewer.addParameter("BP_ID", bp.getId());
-        jasperViewer.addParameter("TITLE", WorkArea.getMessage(bp.getPerson().getLetterTitleKey()));
+        jasperViewer.addParameter("TITLE", WorkArea.getMessage(bp.getPerson().getLetterTitle()));
         jasperViewer.addParameter("FIRSTNAME", bp.getPerson().getFirstname());
         jasperViewer.addParameter("LASTNAME", bp.getPerson().getLastname());
         jasperViewer.addParameter("COMPANY_NAME", bp.getCompanyName());

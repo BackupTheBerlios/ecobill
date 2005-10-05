@@ -1,6 +1,7 @@
 package ecobill.module.base.ui.article;
 
 import ecobill.module.base.ui.component.VerticalButton;
+import ecobill.module.base.ui.component.Labelling;
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.Article;
 import ecobill.module.base.domain.SystemLocale;
@@ -42,7 +43,7 @@ import java.io.FileOutputStream;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.6 2005/10/04 20:16:21 jfuckerweiler Exp $
+ * @version $Id: ArticleUI.java,v 1.7 2005/10/05 23:41:27 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JPanel implements InitializingBean, Internationalization, DisposableBean {
@@ -122,14 +123,15 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         // Versuche evtl. abgelegte/serialisierte Objekte zu laden.
         try {
             articleTableOverview.unpersist(new FileInputStream(serializeIdentifiers.getProperty("article_table")));
-            descriptionTableOverview.unpersist(new FileInputStream(serializeIdentifiers.getProperty("residual_labelling_table")));
-            descriptionTableLabelling.unpersist(new FileInputStream(serializeIdentifiers.getProperty("labelling_table")));
+            labellingTableOverview.unpersist(new FileInputStream(serializeIdentifiers.getProperty("residual_labelling_table")));
+            labellingTableLabelling.unpersist(new FileInputStream(serializeIdentifiers.getProperty("labelling_table")));
         }
         catch (FileNotFoundException fnfe) {
             if (LOG.isErrorEnabled()) {
                 LOG.error(fnfe.getMessage(), fnfe);
             }
         }
+
         reinitI18N();
     }
 
@@ -139,23 +141,23 @@ public class ArticleUI extends JPanel implements InitializingBean, International
     public void destroy() throws Exception {
 
         if (LOG.isInfoEnabled()) {
-            LOG.info("Schließe ArticleUI");
+            LOG.info("Schließe ArticleUI und speichere die Daten.");
         }
 
         // Serialisiere diese Objekte um sie bei einem neuen Start des Programmes wieder laden
         // zu können.
         articleTableOverview.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("article_table"))));
-        descriptionTableOverview.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("residual_labelling_table"))));
-        descriptionTableLabelling.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("labelling_table"))));
+        labellingTableOverview.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("residual_labelling_table"))));
+        labellingTableLabelling.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("labelling_table"))));
     }
 
     private ArticleTable articleTableOverview;
-    private Description descriptionLabelling = new Description();
-    private Description descriptionOverview = new Description();
-    private DescriptionTable descriptionTableLabelling;
-    private DescriptionTable descriptionTableOverview;
+    private Labelling labellingLabelling = new Labelling();
+    private Labelling labellingOverview = new Labelling();
+    private LabellingTable labellingTableLabelling;
+    private LabellingTable labellingTableOverview;
     private InputBundle inputBundleOverview;
-    private InputDescription inputDescriptionLabelling;
+    private InputLabelling inputLabellingLabelling;
     private Input inputOverview;
     private JPanel labelling = new JPanel();
     private JPanel overview = new JPanel();
@@ -172,9 +174,9 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         articleTableOverview = new ArticleTable(this, baseService);
         inputOverview = new Input(baseService);
         inputBundleOverview = new InputBundle(baseService);
-        inputDescriptionLabelling = new InputDescription(baseService);
-        descriptionTableOverview = new DescriptionTable(this, baseService);
-        descriptionTableLabelling = new DescriptionTable(this, baseService);
+        inputLabellingLabelling = new InputLabelling(baseService);
+        labellingTableOverview = new LabellingTable(this, baseService);
+        labellingTableLabelling = new LabellingTable(this, baseService);
 
         verticalButtonOverview.getButton1().setVisible(true);
         verticalButtonOverview.getButton1().setIcon(new ImageIcon("images/article_new.png"));
@@ -241,20 +243,21 @@ public class ArticleUI extends JPanel implements InitializingBean, International
                 if (actualArticleId != null) {
                     Article article = (Article) baseService.load(Article.class, actualArticleId);
 
-                    descriptionTableOverview.renewTableModel(article);
-                    descriptionTableLabelling.renewTableModel(article);
+                    labellingTableOverview.renewTableModel(article);
+                    labellingTableLabelling.renewTableModel(article);
                 }
             }
         });
 
         verticalButtonLabelling.getButton1().setVisible(true);
+        verticalButtonLabelling.getButton1().setIcon(new ImageIcon("images/article_labelling_new.png"));
         verticalButtonLabelling.getButton1().addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
 
                 Article article = (Article) baseService.load(Article.class, actualArticleId);
 
-                Locale locale = inputDescriptionLabelling.getPreparedLocale();
+                Locale locale = inputLabellingLabelling.getPreparedLocale();
 
                 ArticleDescription articleDescription;
                 try {
@@ -273,9 +276,26 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         });
 
         verticalButtonLabelling.getButton2().setVisible(true);
+        verticalButtonLabelling.getButton2().setIcon(new ImageIcon("images/article_labelling_ok.png"));
         verticalButtonLabelling.getButton2().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                saveOrUpdateArticleDescription();
+                System.out.println("ArticleUI.actionPerformed");
+            }
+        });
+
+        verticalButtonLabelling.getButton3().setVisible(true);
+        verticalButtonLabelling.getButton3().setIcon(new ImageIcon("images/article_labelling_delete.png"));
+        verticalButtonLabelling.getButton3().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("ArticleUI.actionPerformed");
+            }
+        });
+
+        verticalButtonLabelling.getButton4().setVisible(true);
+        verticalButtonLabelling.getButton4().setIcon(new ImageIcon("images/refresh.png"));
+        verticalButtonLabelling.getButton4().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("ArticleUI.actionPerformed");
             }
         });
     }
@@ -306,9 +326,9 @@ public class ArticleUI extends JPanel implements InitializingBean, International
                                                 .add(inputOverview, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(LayoutStyle.RELATED)
                                                 .add(inputBundleOverview, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                        .add(descriptionOverview, 0, 0, Short.MAX_VALUE))
+                                        .add(labellingOverview, 0, 0, Short.MAX_VALUE))
                                 .addPreferredGap(LayoutStyle.RELATED)
-                                .add(descriptionTableOverview, GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)))
+                                .add(labellingTableOverview, GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)))
                         .addContainerGap())
         );
         overviewLayout.setVerticalGroup(
@@ -316,14 +336,14 @@ public class ArticleUI extends JPanel implements InitializingBean, International
                         .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
                         .addContainerGap()
                         .add(overviewLayout.createParallelGroup(GroupLayout.TRAILING, false)
-                                .add(GroupLayout.LEADING, descriptionTableOverview, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(GroupLayout.LEADING, labellingTableOverview, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .add(verticalButtonOverview, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
                                 .add(overviewLayout.createParallelGroup(GroupLayout.TRAILING, false)
                                         .add(GroupLayout.LEADING, inputBundleOverview, 0, 0, Short.MAX_VALUE)
                                         .add(inputOverview, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(LayoutStyle.RELATED)
-                                .add(descriptionOverview, 0, 166, Short.MAX_VALUE)))
+                                .add(labellingOverview, 0, 166, Short.MAX_VALUE)))
                         .addPreferredGap(LayoutStyle.RELATED)
                         .add(articleTableOverview, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
@@ -337,13 +357,13 @@ public class ArticleUI extends JPanel implements InitializingBean, International
                         .add(GroupLayout.LEADING, labellingLayout.createSequentialGroup()
                         .addContainerGap()
                         .add(labellingLayout.createParallelGroup(GroupLayout.LEADING)
-                                .add(descriptionTableLabelling, GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
+                                .add(labellingTableLabelling, GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
                                 .add(GroupLayout.LEADING, labellingLayout.createSequentialGroup()
                                 .add(verticalButtonLabelling, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.RELATED)
-                                .add(inputDescriptionLabelling, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .add(inputLabellingLabelling, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.RELATED)
-                                .add(descriptionLabelling, GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)))
+                                .add(labellingLabelling, GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)))
                         .addContainerGap())
         );
         labellingLayout.setVerticalGroup(
@@ -351,11 +371,11 @@ public class ArticleUI extends JPanel implements InitializingBean, International
                         .add(GroupLayout.LEADING, labellingLayout.createSequentialGroup()
                         .addContainerGap()
                         .add(labellingLayout.createParallelGroup(GroupLayout.TRAILING, false)
-                                .add(GroupLayout.LEADING, descriptionLabelling, 0, 0, Short.MAX_VALUE)
-                                .add(GroupLayout.LEADING, inputDescriptionLabelling, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(GroupLayout.LEADING, labellingLabelling, 0, 0, Short.MAX_VALUE)
+                                .add(GroupLayout.LEADING, inputLabellingLabelling, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .add(verticalButtonLabelling, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(LayoutStyle.RELATED)
-                        .add(descriptionTableLabelling, GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                        .add(labellingTableLabelling, GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
                         .addContainerGap())
         );
         tabbedPane.addTab(WorkArea.getMessage(Constants.LABELLING), labelling);
@@ -365,11 +385,11 @@ public class ArticleUI extends JPanel implements InitializingBean, International
 
     private void initListeners() {
 
-        descriptionTableLabelling.getTable().addMouseListener(new MouseAdapter() {
+        labellingTableLabelling.getTable().addMouseListener(new MouseAdapter() {
 
             public void mouseClicked(MouseEvent e) {
 
-                JTable table = descriptionTableLabelling.getTable();
+                JTable table = labellingTableLabelling.getTable();
 
                 int col = table.getColumnModel().getColumnIndex(WorkArea.getMessage(Constants.KEY));
 
@@ -388,7 +408,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
             }
         });
 
-        inputDescriptionLabelling.getLanguage().addItemListener(new ItemListener() {
+        inputLabellingLabelling.getLanguage().addItemListener(new ItemListener() {
 
             /**
              * @see ItemListener#itemStateChanged(java.awt.event.ItemEvent)
@@ -398,29 +418,29 @@ public class ArticleUI extends JPanel implements InitializingBean, International
                 SystemLanguage systemLanguage = (SystemLanguage) e.getItem();
 
                 ComboBoxModel countryModel = new DefaultComboBoxModel(systemLanguage.getSystemCountries().toArray());
-                inputDescriptionLabelling.getCountry().setModel(countryModel);
+                inputLabellingLabelling.getCountry().setModel(countryModel);
 
                 Article article = (Article) baseService.load(Article.class, actualArticleId);
 
-                Locale locale = inputDescriptionLabelling.getPreparedLocale();
+                Locale locale = inputLabellingLabelling.getPreparedLocale();
 
                 ArticleDescription articleDescription;
                 try {
                     articleDescription = (ArticleDescription) LocalizerUtils.getExactLocalizedObject(article.getDescriptions(), locale);
 
-                    descriptionLabelling.setDescription(articleDescription.getDescription());
+                    labellingLabelling.setDescription(articleDescription.getDescription());
                 }
                 catch (LocalizerException le) {
                     if (LOG.isDebugEnabled()) {
                         LOG.debug(le.getMessage());
                     }
 
-                    descriptionLabelling.setDescription("");
+                    labellingLabelling.setDescription("");
                 }
             }
         });
 
-        inputDescriptionLabelling.getCountry().addItemListener(new ItemListener() {
+        inputLabellingLabelling.getCountry().addItemListener(new ItemListener() {
 
             /**
              * @see ItemListener#itemStateChanged(java.awt.event.ItemEvent)
@@ -429,20 +449,20 @@ public class ArticleUI extends JPanel implements InitializingBean, International
 
                 Article article = (Article) baseService.load(Article.class, actualArticleId);
 
-                Locale locale = inputDescriptionLabelling.getPreparedLocale();
+                Locale locale = inputLabellingLabelling.getPreparedLocale();
 
                 ArticleDescription articleDescription;
                 try {
                     articleDescription = (ArticleDescription) LocalizerUtils.getExactLocalizedObject(article.getDescriptions(), locale);
 
-                    descriptionLabelling.setDescription(articleDescription.getDescription());
+                    labellingLabelling.setDescription(articleDescription.getDescription());
                 }
                 catch (LocalizerException le) {
                     if (LOG.isDebugEnabled()) {
                         LOG.debug(le.getMessage());
                     }
 
-                    descriptionLabelling.setDescription("");
+                    labellingLabelling.setDescription("");
                 }
             }
         });
@@ -452,8 +472,8 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         return articleTableOverview;
     }
 
-    public DescriptionTable getDescriptionTable() {
-        return descriptionTableOverview;
+    public LabellingTable getDescriptionTable() {
+        return labellingTableOverview;
     }
 
     /**
@@ -472,12 +492,12 @@ public class ArticleUI extends JPanel implements InitializingBean, International
 
 
         articleTableOverview.reinitI18N();
-        descriptionLabelling.reinitI18N();
-        descriptionOverview.reinitI18N();
-        descriptionTableLabelling.reinitI18N();
-        descriptionTableOverview.reinitI18N();
+        labellingLabelling.reinitI18N();
+        labellingOverview.reinitI18N();
+        labellingTableLabelling.reinitI18N();
+        labellingTableOverview.reinitI18N();
         inputBundleOverview.reinitI18N();
-        inputDescriptionLabelling.reinitI18N();
+        inputLabellingLabelling.reinitI18N();
         inputOverview.reinitI18N();
     }
 
@@ -489,10 +509,10 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         inputOverview.setPrice(0D);
         inputOverview.setInStock(0D);
         inputBundleOverview.setCapacity(0D);
-        descriptionOverview.setDescription("");
+        labellingOverview.setDescription("");
 
-        ((DefaultTableModel) descriptionTableOverview.getTable().getModel()).getDataVector().removeAllElements();
-        ((DefaultTableModel) descriptionTableLabelling.getTable().getModel()).getDataVector().removeAllElements();
+        ((DefaultTableModel) labellingTableOverview.getTable().getModel()).getDataVector().removeAllElements();
+        ((DefaultTableModel) labellingTableLabelling.getTable().getModel()).getDataVector().removeAllElements();
     }
 
     public void showArticle(Long id) {
@@ -503,8 +523,8 @@ public class ArticleUI extends JPanel implements InitializingBean, International
 
         Article article = (Article) baseService.load(Article.class, id);
 
-        descriptionTableOverview.renewTableModel(article);
-        descriptionTableLabelling.renewTableModel(article);
+        labellingTableOverview.renewTableModel(article);
+        labellingTableLabelling.renewTableModel(article);
 
         inputOverview.setArticleNumber(article.getArticleNumber());
         inputOverview.setUnit(article.getUnit());
@@ -512,7 +532,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         inputOverview.setInStock(article.getInStock());
         inputBundleOverview.setUnit(article.getBundleUnit());
         inputBundleOverview.setCapacity(article.getBundleCapacity());
-        descriptionOverview.setDescription(article.getLocalizedDescription());
+        labellingOverview.setDescription(article.getLocalizedDescription());
 
         try {
             showArticleDescription(article.getLocalizedArticleDescription());
@@ -533,12 +553,12 @@ public class ArticleUI extends JPanel implements InitializingBean, International
 
     public void showArticleDescription(ArticleDescription articleDescription) {
 
-        descriptionLabelling.setDescription(articleDescription.getDescription());
+        labellingLabelling.setDescription(articleDescription.getDescription());
 
         SystemLocale systemLocale = articleDescription.getSystemLocale();
 
-        inputDescriptionLabelling.setSystemLanguage(systemLocale.getSystemLanguage());
-        inputDescriptionLabelling.setSystemCountry(systemLocale.getSystemCountry());
+        inputLabellingLabelling.setSystemLanguage(systemLocale.getSystemLanguage());
+        inputLabellingLabelling.setSystemCountry(systemLocale.getSystemCountry());
     }
 
     /**
@@ -577,7 +597,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
             articleDescription = new ArticleDescription();
         }
 
-        articleDescription.setDescription(descriptionOverview.getDescription());
+        articleDescription.setDescription(labellingOverview.getDescription());
         articleDescription.setSystemLocale(systemLocale);
 
         article.addArticleDescription(articleDescription);
@@ -586,8 +606,8 @@ public class ArticleUI extends JPanel implements InitializingBean, International
 
         baseService.saveOrUpdate(article);
 
-        descriptionTableOverview.renewTableModel(article);
-        descriptionTableLabelling.renewTableModel(article);
+        labellingTableOverview.renewTableModel(article);
+        labellingTableLabelling.renewTableModel(article);
 
         actualArticleId = article.getId();
     }
@@ -599,7 +619,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
             article = (Article) baseService.load(Article.class, actualArticleId);
         }
 
-        Locale locale = inputDescriptionLabelling.getPreparedLocale();
+        Locale locale = inputLabellingLabelling.getPreparedLocale();
 
         SystemLocale systemLocale = baseService.getSystemLocaleByLocale(locale);
 
@@ -618,14 +638,14 @@ public class ArticleUI extends JPanel implements InitializingBean, International
             article.addArticleDescription(articleDescription);
         }
 
-        articleDescription.setDescription(descriptionLabelling.getDescription());
+        articleDescription.setDescription(labellingLabelling.getDescription());
 
         baseService.saveOrUpdate(article);
 
-        descriptionTableOverview.renewTableModel(article);
-        descriptionTableLabelling.renewTableModel(article);
+        labellingTableOverview.renewTableModel(article);
+        labellingTableLabelling.renewTableModel(article);
 
-        descriptionOverview.setDescription(article.getLocalizedDescription());
+        labellingOverview.setDescription(article.getLocalizedDescription());
         articleTableOverview.renewTableModel();
     }
 

@@ -6,6 +6,7 @@ import ecobill.module.base.domain.SystemUnit;
 import ecobill.module.base.domain.SystemCounty;
 import ecobill.core.system.Constants;
 import ecobill.core.system.WorkArea;
+import ecobill.core.system.Internationalization;
 import ecobill.core.util.ComboBoxUtils;
 
 import javax.swing.*;
@@ -13,6 +14,8 @@ import javax.swing.border.TitledBorder;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jdesktop.layout.GroupLayout;
+import org.jdesktop.layout.LayoutStyle;
 
 import java.util.List;
 import java.util.Collections;
@@ -20,17 +23,28 @@ import java.util.Set;
 import java.util.ArrayList;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import java.awt.*;
 
 /**
- * @author Roman Georg Rädle
+ * Das <code>Input</code> <code>JPanel</code> stellt die Eingabemöglichkeit für einen
+ * Geschäftspartner zur Verfügung, die restlichen Daten werden über weitere <code>JPanel</code>
+ * angeboten.
+ * <p/>
+ * User: rro
+ * Date: 15.07.2005
+ * Time: 17:49:23
+ *
+ * @author Roman R&auml;dle
+ * @version $Id: Input.java,v 1.5 2005/10/05 23:41:27 raedler Exp $
+ * @since EcoBill 1.0
  */
-public class Input extends JPanel {
+public class Input extends JPanel implements Internationalization {
 
     /**
      * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
      * Diese Ausgaben können in einem separaten File spezifiziert werden.
      */
-    protected final Log LOG = LogFactory.getLog(getClass());
+    protected final static Log LOG = LogFactory.getLog(Input.class);
 
     /**
      * Der <code>BaseService</code> ist die Business Logik. Unter anderem können hierdurch Daten
@@ -57,47 +71,61 @@ public class Input extends JPanel {
         this.baseService = baseService;
     }
 
-    private JLabel titleL;
+    private TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.DATA), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
+
+    private JLabel customerNumberL = new JLabel();
+    private JTextField customerNumber = new JTextField();
+
+    private JLabel titleL = new JLabel();
     private ComboBoxModel titleModel;
-    private JComboBox title;
+    private JComboBox title = new JComboBox();
 
-    private JLabel academicTitleL;
+    private JLabel academicTitleL = new JLabel();
     private ComboBoxModel academicTitleModel;
-    private JComboBox academicTitle;
+    private JComboBox academicTitle = new JComboBox();
 
-    private JLabel zipCodeL;
-    private JTextField zipCode;
+    private JLabel firstnameL = new JLabel();
+    private JTextField firstname = new JTextField();
 
-    private JLabel countryL;
+    private JLabel lastnameL = new JLabel();
+    private JTextField lastname = new JTextField();
+
+    private JLabel streetL = new JLabel();
+    private JTextField street = new JTextField();
+
+    private JLabel zipCodeL = new JLabel();
+    private JTextField zipCode = new JTextField();
+
+    private JLabel cityL = new JLabel();
+    private JTextField city = new JTextField();
+
+    private JLabel countryL = new JLabel();
     private ComboBoxModel countryModel;
-    private JComboBox country;
+    private JComboBox country = new JComboBox();
 
-    private JLabel countyL;
+    private JLabel countyL = new JLabel();
     private ComboBoxModel countyModel;
-    private JComboBox county;
-
-
-    private JTextField city;
-    private JLabel cityL;
-    private JTextField customerNumber;
-    private JLabel customerNumberL;
-    private JTextField firstname;
-    private JLabel firstnameL;
-    private JTextField lastname;
-    private JLabel lastnameL;
-    private JTextField street;
-    private JLabel streetL;
-
-    private TitledBorder border = BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.DATA), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 0));
+    private JComboBox county = new JComboBox();
 
     /**
-     * Creates new form Input
+     * Erzeugt eine neues <code>Input</code> Panel.
      */
     public Input(BaseService baseService) {
 
         this.baseService = baseService;
 
         initComponents();
+        initLayout();
+
+        reinitI18N();
+    }
+
+    /**
+     * Initialisiert die Komponenten.
+     */
+    private void initComponents() {
+
+        setBorder(border);
 
         titleModel = new DefaultComboBoxModel(ComboBoxUtils.createNullLeadingItems(baseService.getSystemUnitsByCategory(Constants.SYSTEM_UNIT_TITLE)));
         title.setModel(titleModel);
@@ -108,6 +136,7 @@ public class Input extends JPanel {
         countryModel = new DefaultComboBoxModel(ComboBoxUtils.createNullLeadingItems(baseService.loadAll(SystemCountry.class)));
         country.setModel(countryModel);
 
+        // TODO: Nochmal über den Code blicken!!!
         if (countryModel.getSelectedItem() != null) {
 
             Set counties = ((SystemCountry) countryModel.getSelectedItem()).getSystemCounties();
@@ -121,51 +150,13 @@ public class Input extends JPanel {
             countyModel = new DefaultComboBoxModel(countiesList.toArray());
             county.setModel(countyModel);
         }
-    }
-
-    /**
-     * This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
-     */
-    // <editor-fold defaultstate="collapsed" desc=" Generated Code ">
-    private void initComponents() {
-
-        setBorder(border);
-
-        customerNumberL = new javax.swing.JLabel();
-        customerNumber = new javax.swing.JTextField();
-        titleL = new javax.swing.JLabel();
-        title = new javax.swing.JComboBox();
-        academicTitleL = new javax.swing.JLabel();
-        academicTitle = new javax.swing.JComboBox();
-        firstnameL = new javax.swing.JLabel();
-        firstname = new javax.swing.JTextField();
-        lastnameL = new javax.swing.JLabel();
-        lastname = new javax.swing.JTextField();
-        streetL = new javax.swing.JLabel();
-        street = new javax.swing.JTextField();
-        zipCodeL = new javax.swing.JLabel();
-        zipCode = new JTextField();
-        cityL = new javax.swing.JLabel();
-        city = new javax.swing.JTextField();
-        countryL = new javax.swing.JLabel();
-        country = new javax.swing.JComboBox();
-        countyL = new javax.swing.JLabel();
-        county = new javax.swing.JComboBox();
 
         country.addItemListener(new ItemListener() {
 
             public void itemStateChanged(ItemEvent e) {
 
-                System.out.println("#################");
-
+                // TODO: Redundanter Code - siehe darüber!!!
                 if (countryModel.getSelectedItem() != null) {
-
-                    System.out.println("MODEL: " + ((SystemCountry) countryModel.getSelectedItem()).getSystemCounties());
-
-                    SystemCountry systemCountry = (SystemCountry) countryModel.getSelectedItem();
 
                     Set counties = ((SystemCountry) countryModel.getSelectedItem()).getSystemCounties();
 
@@ -182,134 +173,167 @@ public class Input extends JPanel {
         });
 
 
-        title.setMinimumSize(new java.awt.Dimension(80, 20));
-        title.setPreferredSize(new java.awt.Dimension(80, 20));
-        title.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                titleActionPerformed(evt);
-            }
-        });
+        title.setMinimumSize(new Dimension(80, 20));
+        title.setPreferredSize(new Dimension(80, 20));
 
-        academicTitle.setMinimumSize(new java.awt.Dimension(80, 20));
-        academicTitle.setPreferredSize(new java.awt.Dimension(80, 20));
+        academicTitle.setMinimumSize(new Dimension(80, 20));
+        academicTitle.setPreferredSize(new Dimension(80, 20));
 
-        firstname.setMinimumSize(new java.awt.Dimension(120, 20));
-        firstname.setPreferredSize(new java.awt.Dimension(120, 20));
+        firstname.setMinimumSize(new Dimension(120, 20));
+        firstname.setPreferredSize(new Dimension(120, 20));
 
-        lastname.setMinimumSize(new java.awt.Dimension(120, 20));
-        lastname.setPreferredSize(new java.awt.Dimension(120, 20));
+        lastname.setMinimumSize(new Dimension(120, 20));
+        lastname.setPreferredSize(new Dimension(120, 20));
 
-        street.setMinimumSize(new java.awt.Dimension(120, 20));
-        street.setPreferredSize(new java.awt.Dimension(120, 20));
+        street.setMinimumSize(new Dimension(120, 20));
+        street.setPreferredSize(new Dimension(120, 20));
 
-        zipCode.setMinimumSize(new java.awt.Dimension(80, 20));
-        zipCode.setPreferredSize(new java.awt.Dimension(80, 20));
+        zipCode.setMinimumSize(new Dimension(80, 20));
+        zipCode.setPreferredSize(new Dimension(80, 20));
 
-        city.setMinimumSize(new java.awt.Dimension(120, 20));
-        city.setPreferredSize(new java.awt.Dimension(120, 20));
+        city.setMinimumSize(new Dimension(120, 20));
+        city.setPreferredSize(new Dimension(120, 20));
 
-        country.setMinimumSize(new java.awt.Dimension(120, 20));
-        country.setPreferredSize(new java.awt.Dimension(120, 20));
+        country.setMinimumSize(new Dimension(120, 20));
+        country.setPreferredSize(new Dimension(120, 20));
 
-        county.setMinimumSize(new java.awt.Dimension(120, 20));
-        county.setPreferredSize(new java.awt.Dimension(120, 20));
+        county.setMinimumSize(new Dimension(120, 20));
+        county.setPreferredSize(new Dimension(120, 20));
+    }
 
-        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
-        this.setLayout(layout);
+    /**
+     * Initilisiert das Layout und somit die Positionen an denen die Komponenten
+     * liegen.
+     */
+    private void initLayout() {
+
+        GroupLayout layout = new GroupLayout(this);
+
+        setLayout(layout);
+
         layout.setHorizontalGroup(
-                layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                        .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                .add(customerNumber, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                        .add(layout.createParallelGroup(GroupLayout.LEADING)
+                                .add(customerNumber, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
                                 .add(customerNumberL)
-                                .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
-                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                                        .add(layout.createParallelGroup(GroupLayout.LEADING)
                                                 .add(titleL)
-                                                .add(title, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 80, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                        .add(academicTitle, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 80, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                .add(title, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(LayoutStyle.RELATED)
+                                        .add(layout.createParallelGroup(GroupLayout.LEADING)
+                                        .add(academicTitle, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
                                         .add(academicTitleL)))
-                                .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
-                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                                .add(firstname, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                                .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                                        .add(layout.createParallelGroup(GroupLayout.LEADING)
+                                                .add(firstname, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
                                                 .add(firstnameL))
-                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                        .addPreferredGap(LayoutStyle.RELATED)
+                                        .add(layout.createParallelGroup(GroupLayout.LEADING)
                                         .add(lastnameL)
-                                        .add(lastname, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)))
+                                        .add(lastname, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)))
                                 .add(streetL)
-                                .add(street, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
-                                .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
-                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                                .add(zipCode, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 80, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(street, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                                .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                                        .add(layout.createParallelGroup(GroupLayout.LEADING)
+                                                .add(zipCode, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
                                                 .add(zipCodeL))
-                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                        .addPreferredGap(LayoutStyle.RELATED)
+                                        .add(layout.createParallelGroup(GroupLayout.LEADING)
                                         .add(cityL)
-                                        .add(city, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)))
-                                .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
-                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                        .add(country, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                                        .add(city, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)))
+                                .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                                .add(layout.createParallelGroup(GroupLayout.LEADING)
+                                        .add(country, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
                                         .add(countryL))
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                .addPreferredGap(LayoutStyle.RELATED)
+                                .add(layout.createParallelGroup(GroupLayout.LEADING)
                                 .add(countyL)
-                                .add(county, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))))
+                                .add(county, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))))
                         .addContainerGap())
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                        .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
                         .add(customerNumberL)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(customerNumber, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(customerNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(GroupLayout.TRAILING)
                                 .add(titleL)
                                 .add(academicTitleL))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                .add(title, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(academicTitle, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(GroupLayout.LEADING)
+                                .add(title, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+                                .add(academicTitle, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(GroupLayout.LEADING)
                                 .add(firstnameL)
                                 .add(lastnameL))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                .add(firstname, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(lastname, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(GroupLayout.BASELINE)
+                                .add(firstname, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+                                .add(lastname, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(LayoutStyle.RELATED)
                         .add(streetL)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(street, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(street, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(GroupLayout.LEADING)
                                 .add(zipCodeL)
                                 .add(cityL))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                .add(zipCode, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(city, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(GroupLayout.BASELINE)
+                                .add(zipCode, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+                                .add(city, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(GroupLayout.LEADING)
                                 .add(countryL)
                                 .add(countyL))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                .add(country, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(county, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(GroupLayout.BASELINE)
+                                .add(country, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+                                .add(county, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        reinitI18N();
     }
-    // </editor-fold>
 
-    private void titleActionPerformed(java.awt.event.ActionEvent evt) {
-// TODO add your handling code here:
+    /**
+     * @see ecobill.core.system.Internationalization#reinitI18N()
+     */
+    public void reinitI18N() {
+
+        border.setTitle(WorkArea.getMessage(Constants.DATA));
+
+        customerNumberL.setText(WorkArea.getMessage(Constants.CUSTOMER_NUMBER));
+        titleL.setText(WorkArea.getMessage(Constants.TITLE));
+        academicTitleL.setText(WorkArea.getMessage(Constants.ACADEMIC_TITLE));
+        firstnameL.setText(WorkArea.getMessage(Constants.FIRSTNAME));
+        lastnameL.setText(WorkArea.getMessage(Constants.LASTNAME));
+        streetL.setText(WorkArea.getMessage(Constants.STREET));
+        zipCodeL.setText(WorkArea.getMessage(Constants.ZIP_CODE));
+        cityL.setText(WorkArea.getMessage(Constants.CITY));
+        countryL.setText(WorkArea.getMessage(Constants.COUNTRY));
+        countyL.setText(WorkArea.getMessage(Constants.COUNTY));
+    }
+
+    /**
+     * Setzt die Eingabefelder zurück.
+     */
+    public void resetInput() {
+        customerNumber.setText("");
+        title.setSelectedIndex(0);
+        academicTitle.setSelectedIndex(0);
+        firstname.setText("");
+        lastname.setText("");
+        street.setText("");
+        zipCode.setText("");
+        city.setText("");
+        country.setSelectedIndex(0);
+        country.updateUI();
+        county.setSelectedIndex(0);
     }
 
     public String getCustomerNumber() {
@@ -390,21 +414,5 @@ public class Input extends JPanel {
 
     public void setCounty(SystemCounty county) {
         this.county.setSelectedItem(county);
-    }
-
-    public void reinitI18N() {
-
-        border.setTitle(WorkArea.getMessage(Constants.DATA));
-
-        customerNumberL.setText(WorkArea.getMessage(Constants.CUSTOMER_NUMBER));
-        titleL.setText(WorkArea.getMessage(Constants.TITLE));
-        academicTitleL.setText(WorkArea.getMessage(Constants.ACADEMIC_TITLE));
-        firstnameL.setText(WorkArea.getMessage(Constants.FIRSTNAME));
-        lastnameL.setText(WorkArea.getMessage(Constants.LASTNAME));
-        streetL.setText(WorkArea.getMessage(Constants.STREET));
-        zipCodeL.setText(WorkArea.getMessage(Constants.ZIP_CODE));
-        cityL.setText(WorkArea.getMessage(Constants.CITY));
-        countryL.setText(WorkArea.getMessage(Constants.COUNTRY));
-        countyL.setText(WorkArea.getMessage(Constants.COUNTY));
     }
 }

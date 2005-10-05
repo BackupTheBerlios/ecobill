@@ -16,6 +16,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.swing.*;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.awt.event.*;
@@ -31,7 +33,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.66 2005/10/05 18:07:59 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.67 2005/10/05 23:41:27 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -260,6 +262,8 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         jtab.addTab(null, new ImageIcon("images/business_partner.png"), businessPartnerUI);
         // hier wird die RechnungsUI als neuer Tab eingefügt
         jtab.addTab(null, new ImageIcon("images/delivery_order_bill.png"), deliveryOrderUI);
+        jtab.setEnabledAt(3, false);
+
         // hier wird die RechnungsUI als neuer Tab eingefügt
         jtab.addTab(null, new ImageIcon("images/delivery_order_bill.png"), printUI);
 
@@ -267,6 +271,18 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         startPanel.add(new JLabel("Economy Bill Agenda"));
         // fügt JLabels tab0 zu
         tab.add(startPanel, BorderLayout.CENTER);
+
+        jtab.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+
+                if (jtab.getSelectedIndex() != 3) {
+                    jtab.setEnabledAt(3, false);
+                }
+                else {
+                    deliveryOrderUI.renewArticleTableModel();
+                }
+            }
+        });
 
         // fügt Tabfeld hinzu
         this.getContentPane().add(jtab, BorderLayout.CENTER);
@@ -663,5 +679,10 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         articleUI.reinitI18N();
         businessPartnerUI.reinitI18N();
         printUI.reinitI18N();
+    }
+
+    public void setSelectedTab(int index) {
+        jtab.setEnabledAt(index, true);
+        jtab.setSelectedIndex(index);
     }
 }

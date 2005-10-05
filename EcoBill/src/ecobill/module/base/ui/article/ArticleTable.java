@@ -32,7 +32,7 @@ import java.util.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleTable.java,v 1.6 2005/10/04 09:20:17 raedler Exp $
+ * @version $Id: ArticleTable.java,v 1.7 2005/10/05 23:41:27 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleTable extends AbstractTablePanel {
@@ -190,7 +190,9 @@ public class ArticleTable extends AbstractTablePanel {
                     }
 
                     // Zeige selektierten Artikel an.
-                    articleUI.showArticle(articleId);
+                    if (articleUI != null) {
+                        articleUI.showArticle(articleId);
+                    }
                 }
             }
         };
@@ -220,7 +222,9 @@ public class ArticleTable extends AbstractTablePanel {
                     articleId = ((IdKeyItem) getTableModel().getValueAt(row, 0)).getId();
 
                     // Zeige selektierten Artikel an.
-                    articleUI.showArticle(articleId);
+                    if (articleUI != null) {
+                        articleUI.showArticle(articleId);
+                    }
                 }
             }
         };
@@ -304,8 +308,10 @@ public class ArticleTable extends AbstractTablePanel {
                             LOG.debug("In der Spalte [" + col + "] und Zeile [" + row + "] wurde für den Artikel [id=\"" + articleId + "\"] der Wert auf \"" + getTableModel().getValueAt(row, col) + "\" geändert.");
                         }
 
-                        renewTableModel();
-                        articleUI.showArticle(articleId);
+                        if (articleUI != null) {
+                            renewTableModel();
+                            articleUI.showArticle(articleId);
+                        }
                     }
                 }
             }

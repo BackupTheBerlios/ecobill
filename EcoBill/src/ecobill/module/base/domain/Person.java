@@ -1,5 +1,7 @@
 package ecobill.module.base.domain;
 
+import ecobill.core.system.WorkArea;
+
 /**
  * Das <code>Person</code> Objekt beinhaltet alle für eine Person spezifischen Daten.
  * <p/>
@@ -8,7 +10,7 @@ package ecobill.module.base.domain;
  * Time: 13:31:22
  *
  * @author Roman R&auml;dle
- * @version $Id: Person.java,v 1.3 2005/10/04 09:21:29 raedler Exp $
+ * @version $Id: Person.java,v 1.4 2005/10/05 23:41:27 raedler Exp $
  * @since EcoBill 1.0
  */
 public class Person extends AbstractDomain {
@@ -81,9 +83,8 @@ public class Person extends AbstractDomain {
      *
      * @return Der Schlüssel für die Anrede, die in Briefen verwendet wird.
      */
-    public String getLetterTitleKey() {
-//        throw new UnsupportedOperationException("Es muss noch in SystemUnit eingefügt werden.");
-        return title + "_letter";
+    public String getLetterTitle() {
+        return WorkArea.getMessage(getTitle().getKey() + "_letter");
     }
 
     /**

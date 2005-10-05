@@ -125,6 +125,9 @@
         <property name="businessPartnerUI">
             <ref bean="businessPartnerUI"/>
         </property>
+        <property name="deliveryOrderUI">
+            <ref bean="deliveryOrderUI"/>
+        </property>
         <property name="printUI">
             <ref bean="printUI"/>
         </property>
@@ -150,6 +153,18 @@
         <property name="serializeIdentifiers">
             <props>
                 <prop key="business_partner_table">serialized/businesspartner/business_partner_table.ebs</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="deliveryOrderUI" class="ecobill.module.base.ui.deliveryorder.DeliveryOrderUI" singleton="true">
+        <property name="baseService">
+            <ref bean="baseService"/>
+        </property>
+        <property name="serializeIdentifiers">
+            <props>
+                <prop key="delivery_order_table">serialized/deliveryorder/delivery_order_table.ebs</prop>
+                <prop key="article_table">serialized/deliveryorder/article_table.ebs</prop>
             </props>
         </property>
     </bean>

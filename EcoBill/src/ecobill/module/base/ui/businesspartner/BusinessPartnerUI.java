@@ -4,11 +4,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.jdesktop.layout.GroupLayout;
 import org.jdesktop.layout.LayoutStyle;
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.ui.component.VerticalButton;
-import ecobill.module.base.ui.article.ArticleTable;
+import ecobill.module.base.ui.deliveryorder.DeliveryOrderUI;
 import ecobill.module.base.domain.BusinessPartner;
 import ecobill.module.base.domain.Person;
 import ecobill.module.base.domain.Address;
@@ -17,6 +20,7 @@ import ecobill.core.util.FileUtils;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import ecobill.core.system.Internationalization;
+import ecobill.core.ui.MainFrame;
 
 import javax.swing.*;
 import java.util.Properties;
@@ -35,16 +39,29 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerUI.java,v 1.7 2005/10/04 20:15:17 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.8 2005/10/05 23:41:27 raedler Exp $
  * @since EcoBill 1.0
  */
-public class BusinessPartnerUI extends JPanel implements InitializingBean, DisposableBean, Internationalization {
+public class BusinessPartnerUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
 
     /**
      * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
      * Diese Ausgaben können in einem separaten File spezifiziert werden.
      */
     private static final Log LOG = LogFactory.getLog(BusinessPartnerUI.class);
+
+    /**
+     * Der <code>ApplicationContext</code> beinhaltet alle Beans die darin angegeben sind
+     * und ermöglicht wahlfreien Zugriff auf diese.
+     */
+    protected ApplicationContext applicationContext;
+
+    /**
+     * @see org.springframework.context.ApplicationContextAware#setApplicationContext(org.springframework.context.ApplicationContext)
+     */
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
 
     /**
      * Der <code>BaseService</code> ist die Business Logik.
@@ -105,6 +122,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean, Dispo
 
         // Initialisieren der Komponenten und des Layouts.
         initComponents();
+        initButtons();
         initLayout();
 
         // Versuche evtl. abgelegte/serialisierte Objekte zu laden.
@@ -126,7 +144,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean, Dispo
     public void destroy() throws Exception {
 
         if (LOG.isInfoEnabled()) {
-            LOG.info("Schließe BusinessPartnerUI");
+            LOG.info("Schließe BusinessPartnerUI und speichere die Daten.");
         }
 
         // Serialisiere diese Objekte um sie bei einem neuen Start des Programmes wieder laden
@@ -155,6 +173,12 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean, Dispo
         overviewInputBanking = new ecobill.module.base.ui.businesspartner.InputBanking();
         overviewInputFirm = new ecobill.module.base.ui.businesspartner.InputFirm();
         overviewInput = new ecobill.module.base.ui.businesspartner.Input(baseService);
+    }
+
+    /**
+     * Initialisiert die Buttons und ihre <code>ActionListener</code>.
+     */
+    private void initButtons() {
 
         overviewVerticalButton.getButton1().setVisible(true);
         overviewVerticalButton.getButton1().setIcon(new ImageIcon("images/business_partner_new.png"));
@@ -164,7 +188,9 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean, Dispo
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
              */
             public void actionPerformed(ActionEvent e) {
+                overviewVerticalButton.getButton6().setEnabled(false);
 
+                resetInput();
             }
         });
 
@@ -178,6 +204,8 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean, Dispo
             public void actionPerformed(ActionEvent e) {
                 saveOrUpdateBusinessPartner();
                 overviewBusinessPartnerTable.renewTableModel();
+
+                overviewVerticalButton.getButton6().setEnabled(true);
             }
         });
 
@@ -191,6 +219,8 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean, Dispo
             public void actionPerformed(ActionEvent e) {
                 baseService.delete(BusinessPartner.class, actualBusinessPartnerId);
                 overviewBusinessPartnerTable.renewTableModel();
+
+                overviewVerticalButton.getButton6().setEnabled(false);
             }
         });
 
@@ -207,6 +237,7 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean, Dispo
         });
 
         overviewVerticalButton.getButton6().setVisible(true);
+        overviewVerticalButton.getButton6().setEnabled(false);
         overviewVerticalButton.getButton6().setIcon(new ImageIcon("images/delivery_order_new.png"));
         overviewVerticalButton.getButton6().addActionListener(new ActionListener() {
 
@@ -214,19 +245,22 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean, Dispo
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
              */
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = new JFrame("Test");
 
-                ArticleTable articleTable = new ArticleTable(null, baseService);
-                articleTable.getTable().removeEditor();
+                BusinessPartner businessPartner = (BusinessPartner) baseService.load(BusinessPartner.class, actualBusinessPartnerId);
 
-                frame.getContentPane().add(articleTable);
+                DeliveryOrderUI deliveryOrderUI = (DeliveryOrderUI) applicationContext.getBean("deliveryOrderUI");
+                deliveryOrderUI.setBusinessPartner(businessPartner);
 
-                frame.pack();
-                frame.setVisible(true);
+                MainFrame mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
+                mainFrame.setSelectedTab(3);
             }
         });
     }
 
+    /**
+     * Initilisiert das Layout und somit die Positionen an denen die Komponenten
+     * liegen.
+     */
     private void initLayout() {
         setLayout(new BorderLayout());
 
@@ -291,6 +325,19 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean, Dispo
         overviewVerticalButton.getButton6().setToolTipText(WorkArea.getMessage(Constants.BUTTON6_CUSTOMER_TOOLTIP));
     }
 
+    /**
+     * Setzt die Eingabefelder zurück.
+     */
+    public void resetInput() {
+
+        actualBusinessPartnerId = null;
+
+        overviewInput.resetInput();
+        overviewInputFirm.resetInput();
+        overviewInputContact.resetInput();
+        overviewInputBanking.resetInput();
+    }
+
     private Long actualBusinessPartnerId;
 
     public void showBusinessPartner(Long id) {
@@ -351,6 +398,8 @@ public class BusinessPartnerUI extends JPanel implements InitializingBean, Dispo
             overviewInputBanking.setBankEstablishment("");
             overviewInputBanking.setBankIdentificationNumber("");
         }
+
+        overviewVerticalButton.getButton6().setEnabled(true);
     }
 
     private void saveOrUpdateBusinessPartner() {

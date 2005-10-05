@@ -12,43 +12,82 @@ import java.awt.*;
 
 import org.jdesktop.layout.GroupLayout;
 import org.jdesktop.layout.LayoutStyle;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
- * ArticleUIOld.
+ * Das <code>Input</code> <code>JPanel</code> stellt die Eingabemöglichkeit für einen
+ * Artikel zur Verfügung, die restlichen Daten werden über weitere <code>JPanel</code>
+ * angeboten.
  * <p/>
  * User: rro
  * Date: 28.09.2005
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: Input.java,v 1.3 2005/10/04 09:20:17 raedler Exp $
+ * @version $Id: Input.java,v 1.4 2005/10/05 23:41:27 raedler Exp $
  * @since EcoBill 1.0
  */
 public class Input extends JPanel implements Internationalization {
 
+    /**
+     * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
+     * Diese Ausgaben können in einem separaten File spezifiziert werden.
+     */
+    protected final static Log LOG = LogFactory.getLog(Input.class);
+
+    /**
+     * Der <code>BaseService</code> ist die Business Logik. Unter anderem können hierdurch Daten
+     * aus der Datenbank ausgelesen und gespeichert werden.
+     */
     private BaseService baseService;
+
+    /**
+     * Gibt den <code>BaseService</code> und somit die Business Logik zurück.
+     *
+     * @return Der <code>BaseService</code>.
+     */
+    public BaseService getBaseService() {
+        return baseService;
+    }
+
+    /**
+     * Setzt den <code>BaseService</code> der die komplette Business Logik enthält
+     * um bspw Daten aus der Datenbank zu laden und dorthin auch wieder abzulegen.
+     *
+     * @param baseService Der <code>BaseService</code>.
+     */
+    public void setBaseService(BaseService baseService) {
+        this.baseService = baseService;
+    }
 
     private TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.DATA), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
 
-    private JTextField articleNumber = new JTextField();
     private JLabel articleNumberL = new JLabel();
-    private SpinnerModel inStockModel = new SpinnerNumberModel(0, 0, Double.MAX_VALUE, 1);
-    private JSpinner inStock = new JSpinner(inStockModel);
-    private JLabel inStockL = new JLabel();
-    private SpinnerModel priceModel = new SpinnerNumberModel(0, 0, Double.MAX_VALUE, 0.01);
-    private JSpinner price = new JSpinner(priceModel);
-    private JLabel priceL = new JLabel();
+    private JTextField articleNumber = new JTextField();
+
+    private JLabel unitL = new JLabel();
     private JComboBox unit = new JComboBox();
     private ComboBoxModel unitModel;
-    private JLabel unitL = new JLabel();
+
+    private JLabel priceL = new JLabel();
+    private SpinnerModel priceModel = new SpinnerNumberModel(0, 0, Double.MAX_VALUE, 0.01);
+    private JSpinner price = new JSpinner(priceModel);
+
+    private JLabel inStockL = new JLabel();
+    private SpinnerModel inStockModel = new SpinnerNumberModel(0, 0, Double.MAX_VALUE, 1);
+    private JSpinner inStock = new JSpinner(inStockModel);
 
     /**
-     * Erzeugt eine neues Input Panel für Artikel.
+     * Erzeugt eine neues <code>Input</code> Panel.
      */
     public Input(BaseService baseService) {
+
         this.baseService = baseService;
+
         initComponents();
         initLayout();
+
         reinitI18N();
     }
 
@@ -127,6 +166,9 @@ public class Input extends JPanel implements Internationalization {
         );
     }
 
+    /**
+     * @see ecobill.core.system.Internationalization#reinitI18N()
+     */
     public void reinitI18N() {
 
         border.setTitle(WorkArea.getMessage(Constants.DATA));
@@ -149,12 +191,12 @@ public class Input extends JPanel implements Internationalization {
         this.articleNumber.setText(articleNumber);
     }
 
-    public Double getInStock() {
-        return (Double) inStock.getValue();
+    public SystemUnit getUnit() {
+        return (SystemUnit) unit.getSelectedItem();
     }
 
-    public void setInStock(Double inStock) {
-        this.inStock.setValue(inStock);
+    public void setUnit(SystemUnit unit) {
+        this.unit.setSelectedItem(unit);
     }
 
     public Double getPrice() {
@@ -165,11 +207,11 @@ public class Input extends JPanel implements Internationalization {
         this.price.setValue(price);
     }
 
-    public SystemUnit getUnit() {
-        return (SystemUnit) unit.getSelectedItem();
+    public Double getInStock() {
+        return (Double) inStock.getValue();
     }
 
-    public void setUnit(SystemUnit unit) {
-        this.unit.setSelectedItem(unit);
+    public void setInStock(Double inStock) {
+        this.inStock.setValue(inStock);
     }
 }

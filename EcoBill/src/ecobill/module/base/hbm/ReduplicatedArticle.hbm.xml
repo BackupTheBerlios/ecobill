@@ -9,7 +9,7 @@
  Time: 22:24:58
  
  @author Roman R&auml;dle
- @version $Id: ReduplicatedArticle.hbm.xml,v 1.4 2005/09/28 15:57:29 raedler Exp $
+ @version $Id: ReduplicatedArticle.hbm.xml,v 1.5 2005/10/05 23:41:27 raedler Exp $
  @since EcoBill 1.0
 -->
 
@@ -25,15 +25,15 @@
         <many-to-one name="deliveryOrder"
                      column="DELIVERY_ORDER_ID"
                      class="ecobill.module.base.domain.DeliveryOrder"
-                     cascade="save-update"
+                     cascade="none"
                      lazy="false"/>
 
         <property name="articleNumber" type="string">
             <column name="ARTICLE_NUMBER" not-null="true"/>
         </property>
 
-        <property name="amount" type="double">
-            <column name="AMOUNT" not-null="true"/>
+        <property name="quantity" type="double">
+            <column name="QUANTITY" not-null="true"/>
         </property>
 
         <property name="unit" type="string">

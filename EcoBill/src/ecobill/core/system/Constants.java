@@ -10,7 +10,7 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.17 2005/10/04 20:30:58 jfuckerweiler Exp $
+ * @version $Id: Constants.java,v 1.18 2005/10/05 23:41:27 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {
@@ -32,6 +32,8 @@ public interface Constants {
     public final static String ACTIONS_TOOLTIP = "actions.tooltip";
     public final static String ADD = "add";
     public final static String ADD_TOOLTIP = "add.tooltip";
+    public final static String ALL_ROUND_PRICE = "all_round_price";
+    public final static String ALL_ROUND_PRICE_TOOLTIP = "all_round_price.tooltip";
     public final static String ARTICLE_NR = "article_nr";
     public final static String ARTICLE_NR_TOOLTIP = "article_nr.tooltip";
     public final static String BUNDLE = "bundle";
@@ -46,6 +48,8 @@ public interface Constants {
     public final static String COUNTRY_TOOLTIP = "country.tooltip";
     public final static String DATA = "data";
     public final static String DATA_TOOLTIP = "data.tooltip";
+    public final static String DELIVERY_ORDER = "delivery_order";
+    public final static String DELIVERY_ORDER_TOOLTIP = "delivery_order.tooltip";
     public final static String DESCRIPTION = "description";
     public final static String DESCRIPTION_TOOLTIP = "description.tooltip";
     public final static String DESCRIPTIONS = "descriptions";
@@ -66,6 +70,8 @@ public interface Constants {
     public final static String OVERVIEW_TOOLTIP = "overview.tooltip";
     public final static String PRICE = "price";
     public final static String PRICE_TOOLTIP = "price.tooltip";
+    public final static String QUANTITY = "quantity";
+    public final static String QUANTITY_TOOLTIP = "quantity.tooltip";
     public final static String RESIDUAL_DESCRIPTIONS = "residual_descriptions";
     public final static String RESIDUAL_DESCRIPTIONS_TOOLTIP = "residual_descriptions.tooltip";
     public final static String SINGLE_PRICE = "single_price";

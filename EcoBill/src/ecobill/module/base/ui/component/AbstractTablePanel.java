@@ -12,10 +12,7 @@ import javax.swing.table.TableColumnModel;
 
 import ecobill.core.util.I18NItem;
 import ecobill.core.system.Internationalization;
-import ecobill.core.system.WorkArea;
-import ecobill.core.system.Constants;
 import ecobill.module.base.service.BaseService;
-import ecobill.util.VectorUtils;
 
 import java.util.Vector;
 import java.util.Collection;
@@ -24,17 +21,16 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.io.*;
 
-// @todo document me!
-
 /**
- * AbstractTable.
+ * Das <code>AbstractTablePanel</code> ist eine abstrakte Klasse um auf einfache Art und Weise
+ * Tabellen für EcoBill zu erstellen.
  * <p/>
  * User: rro
  * Date: 02.10.2005
  * Time: 12:33:23
  *
  * @author Roman R&auml;dle
- * @version $Id: AbstractTablePanel.java,v 1.1 2005/10/04 09:33:59 raedler Exp $
+ * @version $Id: AbstractTablePanel.java,v 1.2 2005/10/05 23:41:27 raedler Exp $
  * @since EcoBill 1.0
  */
 public abstract class AbstractTablePanel extends JPanel implements Internationalization {
@@ -181,6 +177,8 @@ public abstract class AbstractTablePanel extends JPanel implements International
      * Initialisiert die Komponenten.
      */
     private void initComponents() {
+
+        setBorder(panelBorder);
 
         tableSP.setViewportView(table);
         tableSP.getViewport().setBackground(Color.WHITE);

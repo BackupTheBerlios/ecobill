@@ -28,10 +28,10 @@ import java.io.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerTable.java,v 1.2 2005/10/04 16:47:11 raedler Exp $
+ * @version $Id: BusinessPartnerTable.java,v 1.3 2005/10/05 23:41:27 raedler Exp $
  * @since EcoBill 1.0
  */
-public class BusinessPartnerTable extends AbstractTablePanel implements Internationalization, Persistable {
+public class BusinessPartnerTable extends AbstractTablePanel {
 
     /**
      * Die <code>BusinessPartnerUI</code> um den Geschäftspartner anzeigen zu können.
@@ -318,58 +318,5 @@ public class BusinessPartnerTable extends AbstractTablePanel implements Internat
         */
 
         return tableModelListeners;
-    }
-
-    /**
-     * @see Persistable#persist(java.io.OutputStream)
-     */
-    public void persist(OutputStream outputStream) {
-
-        try {
-            getTable().removeEditor();
-
-            ObjectOutputStream oos = new ObjectOutputStream(outputStream);
-            oos.writeObject(getTable().getColumnModel());
-            oos.flush();
-            oos.close();
-        }
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    /**
-     * @see Persistable#unpersist(java.io.InputStream)
-     */
-    public void unpersist(InputStream inputStream) {
-
-        ObjectInputStream ois = null;
-        try {
-            ois = new ObjectInputStream(inputStream);
-
-            TableColumnModel columnModel = (TableColumnModel) ois.readObject();
-
-            getTable().setColumnModel(columnModel);
-        }
-        catch (IOException ioe) {
-            if (LOG.isErrorEnabled()) {
-                LOG.error(ioe.getMessage(), ioe);
-            }
-        }
-        catch (ClassNotFoundException cnfe) {
-            if (LOG.isErrorEnabled()) {
-                LOG.error(cnfe.getMessage(), cnfe);
-            }
-        }
-        finally {
-            if (ois != null) {
-                try {
-                    ois.close();
-                }
-                catch (IOException ioe) {
-                    ioe.printStackTrace();
-                }
-            }
-        }
     }
 }

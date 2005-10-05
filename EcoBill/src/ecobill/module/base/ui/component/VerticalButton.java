@@ -9,6 +9,7 @@ import java.awt.*;
 
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
+import ecobill.core.system.Internationalization;
 
 /**
  * Die Klasse <code>VerticalButton</code> ist ein <code>JPanel</code> mit sieben
@@ -20,10 +21,10 @@ import ecobill.core.system.Constants;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: VerticalButton.java,v 1.5 2005/10/04 15:15:13 jfuckerweiler Exp $
+ * @version $Id: VerticalButton.java,v 1.6 2005/10/05 23:41:27 raedler Exp $
  * @since EcoBill 1.0
  */
-public class VerticalButton extends JPanel {
+public class VerticalButton extends JPanel implements Internationalization {
 
     private TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.ACTIONS), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
 
@@ -60,10 +61,11 @@ public class VerticalButton extends JPanel {
     }
 
     private void initLayout() {
+
         GroupLayout layout = new GroupLayout(this);
 
         setLayout(layout);
-        
+
         layout.setHorizontalGroup(
                 layout.createParallelGroup(GroupLayout.LEADING)
                         .add(GroupLayout.LEADING, layout.createSequentialGroup()
@@ -97,6 +99,13 @@ public class VerticalButton extends JPanel {
                         .add(button7, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+    }
+
+    /**
+     * @see ecobill.core.system.Internationalization#reinitI18N() 
+     */
+    public void reinitI18N() {
+        border.setTitle(WorkArea.getMessage(Constants.ACTIONS));
     }
 
     public JButton getButton1() {
@@ -153,9 +162,5 @@ public class VerticalButton extends JPanel {
 
     public void setButton7(JButton button7) {
         this.button7 = button7;
-    }
-
-    public void reinitI18N() {
-        border.setTitle(WorkArea.getMessage(Constants.ACTIONS));
     }
 }
