@@ -3,6 +3,7 @@ package ecobill.core.ui;
 import ecobill.module.base.ui.*;
 import ecobill.module.base.ui.article.ArticleUI;
 import ecobill.module.base.ui.businesspartner.BusinessPartnerUI;
+import ecobill.module.base.ui.deliveryorder.DeliveryOrderUI;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import ecobill.core.system.Internationalization;
@@ -30,7 +31,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.65 2005/10/05 13:55:40 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.66 2005/10/05 18:07:59 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -98,6 +99,29 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
      */
     public void setBusinessPartnerUI(BusinessPartnerUI businessPartnerUI) {
         this.businessPartnerUI = businessPartnerUI;
+    }
+
+    /**
+     * Die Instanz des DeliveryOrder User Interface.
+     */
+    public DeliveryOrderUI deliveryOrderUI;
+
+    /**
+     * Gibt die Instanz des DeliveryOrder User Interface zurück.
+     *
+     * @return Die Instanz des <code>DeliveryOrderUI</code>.
+     */
+    public DeliveryOrderUI getDeliveryOrderUI() {
+        return deliveryOrderUI;
+    }
+
+    /**
+     * Setzt die Instanz des DeliveryOrder User Interface.
+     *
+     * @param deliveryOrderUI Eine Instanz des <code>DeliveryOrderUI</code>.
+     */
+    public void setDeliveryOrderUI(DeliveryOrderUI deliveryOrderUI) {
+        this.deliveryOrderUI = deliveryOrderUI;
     }
 
     /**
@@ -235,6 +259,8 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // hier wird die BusinessPartnerUI als neuer Tab eingefügt
         jtab.addTab(null, new ImageIcon("images/business_partner.png"), businessPartnerUI);
         // hier wird die RechnungsUI als neuer Tab eingefügt
+        jtab.addTab(null, new ImageIcon("images/delivery_order_bill.png"), deliveryOrderUI);
+        // hier wird die RechnungsUI als neuer Tab eingefügt
         jtab.addTab(null, new ImageIcon("images/delivery_order_bill.png"), printUI);
 
         // setzt ToolTip
@@ -259,7 +285,11 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // OpenMenuItem Action Listener
         open.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Action: " + e.getActionCommand());
+
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Action: " + e.getActionCommand());
+                }
+
                 if (e.getSource().equals(open))
                     // Methode open() wird aufgerufen
                     open();
@@ -281,7 +311,11 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // ExitMenuItem Action Listener
         exit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Action: " + e.getActionCommand());
+
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Action: " + e.getActionCommand());
+                }
+
                 if (e.getSource().equals(exit))
 
                     // System wird beendet
@@ -308,7 +342,11 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // undo ActionListener
         undo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Action: " + e.getActionCommand());
+
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Action: " + e.getActionCommand());
+                }
+
                 if (e.getSource().equals(undo))
 
                     um.setLimit(1000);
@@ -322,7 +360,11 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // redo ActionListener
         redo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Action: " + e.getActionCommand());
+
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Action: " + e.getActionCommand());
+                }
+
                 if (e.getSource().equals(redo))
 
                     um.setLimit(1000);
@@ -340,7 +382,11 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // copy ActionListener
         copy.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Action: " + e.getActionCommand());
+
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Action: " + e.getActionCommand());
+                }
+
                 if (e.getSource().equals(copy))
                     // Methode topic() wird aufgerufen
                     copy();
@@ -350,7 +396,11 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // paste ActionListener
         paste.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Action: " + e.getActionCommand());
+
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Action: " + e.getActionCommand());
+                }
+
                 if (e.getSource().equals(paste))
                     // Methode topic() wird aufgerufen
                     paste();
@@ -374,7 +424,11 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // HelpTopic ActionListener
         ht.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Action: " + e.getActionCommand());
+
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Action: " + e.getActionCommand());
+                }
+
                 if (e.getSource().equals(ht))
                     // Methode topic() wird aufgerufen
                     topic();
@@ -389,7 +443,11 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // About ActionListener
         about.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Action: " + e.getActionCommand());
+
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Action: " + e.getActionCommand());
+                }
+
                 if (e.getSource().equals(about))
                     // Methode about() wird aufgerufen
                     about();
@@ -419,7 +477,11 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // German ActionListener
         german.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Action: " + e.getActionCommand());
+
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Action: " + e.getActionCommand());
+                }
+
                 if (e.getSource().equals(german))
                     // Methode german() wird aufgerufen
                     german();
@@ -436,7 +498,11 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // English ActionListener
         english.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Action: " + e.getActionCommand());
+
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Action: " + e.getActionCommand());
+                }
+
                 if (e.getSource().equals(english))
                     // Methode english() wird aufgerufen
                     english();
@@ -505,7 +571,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         String filename = fileDialog.getFile();
 
         if (filename != null) {
-            System.out.println("Die selektierte Datei heißt " + filename);
+            if (LOG.isErrorEnabled()) {
+                LOG.error("Die selektierte Datei heißt " + filename);
+            }
         }
 
         fileDialog.dispose();
