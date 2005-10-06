@@ -9,7 +9,7 @@
  Time: 17:32:05
 
  @author Roman R&auml;dle
- @version $Id: Message.hbm.xml,v 1.2 2005/10/06 21:17:04 jfuckerweiler Exp $
+ @version $Id: Message.hbm.xml,v 1.3 2005/10/06 21:21:03 jfuckerweiler Exp $
  @since EcoBill 1.0
 -->
 
@@ -21,6 +21,18 @@
             <column name="ID" not-null="true"/>
             <generator class="native"/>
         </id>
+
+        <property name="addresser" type="string">
+            <column name="ADDRESSER" not-null="true" unique="true"/>
+        </property>
+
+        <property name="subject" type="string">
+            <column name="SUBJECT" not-null="true" unique="true"/>
+        </property>
+
+        <property name="message" type="string">
+            <column name="MESSAGE" not-null="true" unique="true"/>
+        </property>
 
         </class>
 
