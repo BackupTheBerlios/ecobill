@@ -22,7 +22,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: StartUI.java,v 1.3 2005/10/06 14:07:10 jfuckerweiler Exp $
+ * @version $Id: StartUI.java,v 1.5 2005/10/06 14:45:56 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class StartUI extends JPanel implements InitializingBean {
