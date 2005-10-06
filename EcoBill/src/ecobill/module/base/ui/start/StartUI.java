@@ -11,6 +11,7 @@ import ecobill.module.base.service.BaseService;
 
 import javax.swing.*;
 import java.util.Properties;
+import java.awt.*;
 
 
 /**
@@ -21,7 +22,7 @@ import java.util.Properties;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: StartUI.java,v 1.1 2005/10/06 12:15:12 jfuckerweiler Exp $
+ * @version $Id: StartUI.java,v 1.2 2005/10/06 13:37:43 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class StartUI extends JPanel implements InitializingBean {
@@ -102,6 +103,7 @@ public class StartUI extends JPanel implements InitializingBean {
      */
     public void afterPropertiesSet() {
 
+
         // Initialisieren der Komponenten und des Layouts.
         initComponents();
 
@@ -118,7 +120,17 @@ public class StartUI extends JPanel implements InitializingBean {
         reinitI18N();
     }
 
+    /**
+     * Alle Komponenten die man braucht
+     */
+
+    private News newsOverview;
+
     public void initComponents() {
+
+        newsOverview = new ecobill.module.base.ui.start.News();
+
+        this.add(newsOverview);
 
     }
 
