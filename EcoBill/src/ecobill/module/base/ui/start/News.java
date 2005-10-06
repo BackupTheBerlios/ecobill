@@ -20,7 +20,7 @@ import javax.swing.border.TitledBorder;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: News.java,v 1.4 2005/10/06 14:45:32 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.5 2005/10/06 14:46:03 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
