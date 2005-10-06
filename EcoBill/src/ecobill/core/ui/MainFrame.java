@@ -34,7 +34,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.70 2005/10/06 14:36:04 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.71 2005/10/06 17:20:35 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -686,6 +686,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         startUI.reinitI18N();
         articleUI.reinitI18N();
         businessPartnerUI.reinitI18N();
+        startUI.reinitI18N();
     }
 
     public void setSelectedTab(int index) {
