@@ -9,13 +9,13 @@
  Time: 17:32:05
 
  @author Roman R&auml;dle
- @version $Id: Message.hbm.xml,v 1.1 2005/10/06 21:14:17 jfuckerweiler Exp $
+ @version $Id: Message.hbm.xml,v 1.2 2005/10/06 21:17:04 jfuckerweiler Exp $
  @since EcoBill 1.0
 -->
 
 <hibernate-mapping default-lazy="false">
 
-    <class name="ecobill.module.base.domain.SystemUnit" table="BASE_SYSTEM_UNIT">
+    <class name="ecobill.module.base.domain.Message" table="BASE_SYSTEM_MESSAGE">
 
         <id name="id" type="long" unsaved-value="-1">
             <column name="ID" not-null="true"/>
@@ -23,5 +23,5 @@
         </id>
 
         </class>
-        
+
 </hibernate-mapping>
