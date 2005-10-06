@@ -22,7 +22,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: News.java,v 1.14 2005/10/06 17:24:11 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.13 2005/10/06 17:20:46 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -191,11 +191,6 @@ public class News extends JPanel implements Internationalization {
         overviewVerticalButton.getButton2().setToolTipText(WorkArea.getMessage(Constants.START_BUTTON2_TOOLTIP));
         overviewVerticalButton.getButton3().setToolTipText(WorkArea.getMessage(Constants.START_BUTTON3_TOOLTIP));
         overviewVerticalButton.getButton4().setToolTipText(WorkArea.getMessage(Constants.START_BUTTON4_TOOLTIP));
-
-        addresserBorder.setTitle(WorkArea.getMessage(Constants.ADDRESSER));
-        subjectBorder.setTitle(WorkArea.getMessage(Constants.SUBJECT));
-        newsBorder.setTitle(WorkArea.getMessage(Constants.NEWS));
-        overviewBorder.setTitle(WorkArea.getMessage(Constants.OVERVIEW));
 
     }
 }
