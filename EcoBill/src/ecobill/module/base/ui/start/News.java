@@ -6,7 +6,8 @@ import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 
 import javax.swing.*;
-import javax.swing.border.Border;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 
@@ -21,7 +22,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: News.java,v 1.11 2005/10/06 16:30:12 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.12 2005/10/06 17:14:05 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -41,6 +42,11 @@ public class News extends JPanel implements Internationalization {
     //private TitledBorder actionsBorder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.BANK_DATA), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
     private TitledBorder overviewBorder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.OVERVIEW), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
 
+    private DefaultMutableTreeNode user = new DefaultMutableTreeNode("Benutzer");
+    private DefaultMutableTreeNode user1 = new DefaultMutableTreeNode("Maier");
+    private DefaultMutableTreeNode news = new DefaultMutableTreeNode("Alle Nachrichten");
+    private DefaultMutableTreeNode newNews = new DefaultMutableTreeNode("Neue Nachrichten");
+
     private void initComponents() {
             jPanel1 = new javax.swing.JPanel();
             jTextField1 = new javax.swing.JTextField();
@@ -50,8 +56,13 @@ public class News extends JPanel implements Internationalization {
             jTextArea1 = new javax.swing.JTextArea();
             jPanel3 = new javax.swing.JPanel();
             jScrollPane2 = new javax.swing.JScrollPane();
-            jTree1 = new javax.swing.JTree();
             overviewVerticalButton = new ecobill.module.base.ui.component.VerticalButton();
+
+
+            user.add(user1);
+            user1.add(news);
+            user1.add(newNews);
+            jTree1 = new JTree(user);
 
 
             overviewVerticalButton.getButton1().setVisible(true);
@@ -63,9 +74,6 @@ public class News extends JPanel implements Internationalization {
          overviewVerticalButton.getButton2().setIcon(new ImageIcon("images/news_ok.png"));
          overviewVerticalButton.getButton3().setIcon(new ImageIcon("images/news_delete.png"));
          overviewVerticalButton.getButton4().setIcon(new ImageIcon("images/refresh.png"));
-
-
-
 
             jPanel1.setBorder(addresserBorder);
 
