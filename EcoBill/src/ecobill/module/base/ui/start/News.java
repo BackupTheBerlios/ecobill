@@ -5,12 +5,15 @@ import ecobill.core.system.Internationalization;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import ecobill.module.base.domain.Message;
+import ecobill.module.base.ui.component.VerticalButton;
 
 import javax.swing.*;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 
@@ -23,7 +26,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.19 2005/10/06 21:43:23 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.20 2005/10/06 21:56:14 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -224,6 +227,10 @@ public class News extends JPanel implements Internationalization {
 
     public void setjTextField2(JTextField jTextField2) {
         this.jTextField2 = jTextField2;
+    }
+
+    public VerticalButton getOverviewVerticalButton() {
+        return overviewVerticalButton;
     }
 
 }

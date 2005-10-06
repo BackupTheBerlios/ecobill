@@ -13,6 +13,8 @@ import ecobill.module.base.domain.Message;
 import javax.swing.*;
 import java.util.Properties;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 /**
@@ -23,7 +25,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: StartUI.java,v 1.11 2005/10/06 21:38:29 jfuckerweiler Exp $
+ * @version $Id: StartUI.java,v 1.12 2005/10/06 21:56:20 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class StartUI extends JPanel implements InitializingBean {
@@ -131,6 +133,17 @@ public class StartUI extends JPanel implements InitializingBean {
 
         newsOverview = new ecobill.module.base.ui.start.News();
 
+        newsOverview.getOverviewVerticalButton().getButton2().addActionListener(new ActionListener() {
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+
+                saveOrUpdateMessage();
+            }
+        });
+
+
         this.add(newsOverview, BorderLayout.CENTER);
 
     }
@@ -148,6 +161,9 @@ public class StartUI extends JPanel implements InitializingBean {
         message.setAddresser(newsOverview.getjTextField1().getText());
         message.setSubject(newsOverview.getjTextField2().getText());
         message.setMessage(newsOverview.getjTextArea1().getText());
+
+
+        baseService.saveOrUpdate(message);
     }
 
 }
