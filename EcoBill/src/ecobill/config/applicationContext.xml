@@ -119,6 +119,9 @@
     </bean>
 
     <bean id="mainFrame" class="ecobill.core.ui.MainFrame">
+        <property name="startUI">
+            <ref bean="startUI"/>
+        </property>
         <property name="articleUI">
             <ref bean="articleUI"/>
         </property>
@@ -130,6 +133,12 @@
         </property>
         <property name="printUI">
             <ref bean="printUI"/>
+        </property>
+    </bean>
+
+    <bean id="startUI" class="ecobill.module.base.ui.start.StartUI" singleton="true">
+        <property name="baseService">
+            <ref bean="baseService"/>
         </property>
     </bean>
 

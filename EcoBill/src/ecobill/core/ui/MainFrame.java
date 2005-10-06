@@ -1,6 +1,7 @@
 package ecobill.core.ui;
 
 import ecobill.module.base.ui.*;
+import ecobill.module.base.ui.start.StartUI;
 import ecobill.module.base.ui.article.ArticleUI;
 import ecobill.module.base.ui.businesspartner.BusinessPartnerUI;
 import ecobill.module.base.ui.deliveryorder.DeliveryOrderUI;
@@ -33,7 +34,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.67 2005/10/05 23:41:27 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.68 2005/10/06 11:41:28 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -149,6 +150,29 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         this.printUI = printUI;
     }
 
+     /**
+     * Die Instanz des Start User Interface.
+     */
+    private StartUI startUI;
+
+    /**
+     * Gibt die Instanz des Start User Interface zurück.
+     *
+     * @return Die Instanz des <code>StartUI</code>.
+     */
+    public StartUI getStartUI() {
+        return startUI;
+    }
+
+    /**
+     * Setzt die Instanz des Start User Interface.
+     *
+     * @param startUI Eine Instanz des <code>StartUI</code>.
+     */
+    public void setStartUI(StartUI startUI) {
+        this.startUI = startUI;
+    }
+
     /**
      * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
      */
@@ -255,7 +279,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
     public void tabPane() {
 
-        jtab.addTab(null, new ImageIcon("images/home.png"), tab);
+        jtab.addTab(null, new ImageIcon("images/home.png"), startUI);
         // hier wird die ArtikleUI als neuer Tab eingefügt
         jtab.addTab(null, new ImageIcon("images/article.png"), articleUI);
         // hier wird die BusinessPartnerUI als neuer Tab eingefügt
