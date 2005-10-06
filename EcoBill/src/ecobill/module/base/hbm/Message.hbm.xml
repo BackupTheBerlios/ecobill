@@ -4,12 +4,12 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <!--
- User: rro
+ User: aw
  Date: 31.07.2005
  Time: 17:32:05
 
- @author Roman R&auml;dle
- @version $Id: Message.hbm.xml,v 1.8 2005/10/06 21:24:11 jfuckerweiler Exp $
+ @author Andreas Weiler
+ @version $Id: Message.hbm.xml,v 1.9 2005/10/06 21:25:19 jfuckerweiler Exp $
  @since EcoBill 1.0
 -->
 

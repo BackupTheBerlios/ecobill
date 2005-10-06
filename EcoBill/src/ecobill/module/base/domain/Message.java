@@ -5,12 +5,12 @@ package ecobill.module.base.domain;
 /**
  * Message.
  * <p/>
- * User: Paul Chef
+ * User: aw
  * Date: 06.10.2005
  * Time: 23:04:58
  *
  * @author Andreas Weiler
- * @version $Id: Message.java,v 1.2 2005/10/06 21:07:20 jfuckerweiler Exp $
+ * @version $Id: Message.java,v 1.3 2005/10/06 21:25:37 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class Message extends AbstractDomain {

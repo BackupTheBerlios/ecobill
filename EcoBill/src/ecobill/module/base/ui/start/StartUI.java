@@ -17,12 +17,12 @@ import java.awt.*;
 /**
  * Die <code>BusinessPartnerUI</code> erstellt das User Interface zur Eingabe von Benutzerdaten.
  * <p/>
- * User: rro
+ * User: aw
  * Date: 28.09.2005
  * Time: 17:49:23
  *
- * @author Roman R&auml;dle
- * @version $Id: StartUI.java,v 1.9 2005/10/06 17:22:04 jfuckerweiler Exp $
+ * @author Andreas Weiler
+ * @version $Id: StartUI.java,v 1.10 2005/10/06 21:31:04 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class StartUI extends JPanel implements InitializingBean {

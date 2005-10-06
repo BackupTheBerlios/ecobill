@@ -18,12 +18,12 @@ import java.awt.*;
  * Das <code>InputFirm</code> <code>JPanel</code> stellt die Eingabemöglichkeit für zusätzliche
  * Firmendaten zur Verfügung.
  * <p/>
- * User: rro
+ * User: aw
  * Date: 15.07.2005
  * Time: 17:49:23
  *
- * @author Roman R&auml;dle
- * @version $Id: News.java,v 1.17 2005/10/06 21:09:08 jfuckerweiler Exp $
+ * @author Andreas Weiler
+ * @version $Id: News.java,v 1.18 2005/10/06 21:26:54 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
