@@ -9,7 +9,7 @@
  Time: 13:37:24
 
  @author Roman R&auml;dle
- @version $Id: DeliveryOrder.hbm.xml,v 1.6 2005/10/05 23:41:27 raedler Exp $
+ @version $Id: DeliveryOrder.hbm.xml,v 1.7 2005/10/06 14:07:17 raedler Exp $
  @since EcoBill 1.0
 -->
 
@@ -48,7 +48,7 @@
             <column name="PREPARED_BILL" not-null="true"/>
         </property>
 
-        <set name="articles" table="BASE_REDUPLICATED_ARTICLE" cascade="all-delete-orphan" lazy="false">
+        <set name="articles" table="BASE_REDUPLICATED_ARTICLE" cascade="all-delete-orphan" lazy="false" sort="ecobill.module.base.hbm.sort.OrderPositionComparator">
             <key column="DELIVERY_ORDER_ID"/>
             <one-to-many class="ecobill.module.base.domain.ReduplicatedArticle"/>
         </set>

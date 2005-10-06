@@ -1,9 +1,6 @@
 package ecobill.module.base.domain;
 
-import java.util.Set;
-import java.util.Date;
-import java.util.HashSet;
-import java.text.Collator;
+import java.util.*;
 
 /**
  * Die <code>DeliveryOrder</code> ist ein Lieferschein Objekt, dem ein Geschäftspartner zugeordnet wird.
@@ -16,7 +13,7 @@ import java.text.Collator;
  * Time: 19:51:39
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrder.java,v 1.4 2005/10/05 23:41:27 raedler Exp $
+ * @version $Id: DeliveryOrder.java,v 1.5 2005/10/06 14:07:17 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrder extends AbstractDomain {
@@ -64,7 +61,7 @@ public class DeliveryOrder extends AbstractDomain {
      * Ein <code>Set</code> mit allen Artikeln und die Anzahl jedes dieser
      * Artikel, usw. dieses Lieferscheines.
      */
-    private Set<ReduplicatedArticle> articles;
+    private SortedSet<ReduplicatedArticle> articles;
 
     /**
      * Gibt den zu diesem Lieferschein dazugehörigen <code>BusinessPartner</code>
@@ -217,7 +214,7 @@ public class DeliveryOrder extends AbstractDomain {
      *
      * @param articles Ein <code>Set</code> mit <code>ReduplicatedArticle</code>
      */
-    public void setArticles(Set<ReduplicatedArticle> articles) {
+    public void setArticles(SortedSet<ReduplicatedArticle> articles) {
         this.articles = articles;
     }
 
@@ -229,7 +226,7 @@ public class DeliveryOrder extends AbstractDomain {
     public void addArticle(ReduplicatedArticle reduplicatedArticle) {
 
         if (articles == null) {
-            articles = new HashSet<ReduplicatedArticle>();
+            articles = new TreeSet<ReduplicatedArticle>();
         }
 
         articles.add(reduplicatedArticle);

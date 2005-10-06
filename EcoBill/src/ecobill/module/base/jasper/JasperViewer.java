@@ -11,6 +11,7 @@ import java.awt.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import ecobill.core.ui.MainFrame;
 
 /**
  * Der <code>JasperViewer</code> bietet die Möglichkeit einen Report auf einem <code>JPanel</code>
@@ -21,7 +22,7 @@ import org.apache.commons.logging.LogFactory;
  * Time: 12:43:59
  *
  * @author Andreas Weiler
- * @version $Id: JasperViewer.java,v 1.2 2005/09/27 13:04:03 raedler Exp $
+ * @version $Id: JasperViewer.java,v 1.3 2005/10/06 14:07:17 raedler Exp $
  * @since EcoBill 1.0
  */
 public class JasperViewer {
@@ -110,16 +111,26 @@ public class JasperViewer {
      * @throws Exception Diese wird geworfen wenn ein Fehler während des erzeugens auftreten
      *                   sollte.
      */
-    public void view(String jrxmlFilename, Collection<Object> datasets) throws Exception {
+    public void view(MainFrame mainFrame, String jrxmlFilename, Collection<Object> datasets) throws Exception {
 
         try {
             JasperReport report = JasperCompileManager.compileReport(jrxmlFilename);
+
+            mainFrame.setProgressPercentage(60);
+
             JasperDataSource dataSource = new JasperDataSource(datasets);
+
+            mainFrame.setProgressPercentage(70);
+
             JasperPrint print = JasperFillManager.fillReport(report, parameters, dataSource);
+
+            mainFrame.setProgressPercentage(80);
 
             viewer = new JRViewer(print);
 
             viewerPanel.add(viewer, BorderLayout.CENTER);
+
+            mainFrame.setProgressPercentage(90);
         }
         catch (JRException e) {
             e.printStackTrace();

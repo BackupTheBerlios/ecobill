@@ -106,7 +106,7 @@ create table BASE_REDUPLICATED_ARTICLE (
     ID bigint not null auto_increment,
     DELIVERY_ORDER_ID bigint,
     ARTICLE_NUMBER varchar(255) not null,
-    AMOUNT double precision not null,
+    QUANTITY double precision not null,
     UNIT varchar(255) not null,
     PRICE double precision not null,
     DESCRIPTION text not null,

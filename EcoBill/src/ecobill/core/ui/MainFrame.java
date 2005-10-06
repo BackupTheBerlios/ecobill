@@ -34,7 +34,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.68 2005/10/06 11:41:28 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.69 2005/10/06 14:07:17 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -56,6 +56,29 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
      */
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
+    }
+
+    /**
+     * Die Instanz des Article User Interface.
+     */
+    private StartUI startUI;
+
+    /**
+     * Gibt die Instanz des Start User Interface zurück.
+     *
+     * @return Die Instanz des <code>StartUI</code>.
+     */
+    public StartUI getStartUI() {
+        return startUI;
+    }
+
+    /**
+     * Setzt die Instanz des Start User Interface.
+     *
+     * @param startUI Eine Instanz des <code>StartUI</code>.
+     */
+    public void setStartUI(StartUI startUI) {
+        this.startUI = startUI;
     }
 
     /**
@@ -125,52 +148,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
      */
     public void setDeliveryOrderUI(DeliveryOrderUI deliveryOrderUI) {
         this.deliveryOrderUI = deliveryOrderUI;
-    }
-
-    /**
-     * Die Instanz des Print User Interface.
-     */
-    private PrintUI printUI;
-
-    /**
-     * Gibt die Instanz des Print User Interface zurück.
-     *
-     * @return Die Instanz des <code>PrintUI</code>.
-     */
-    public PrintUI getPrintUI() {
-        return printUI;
-    }
-
-    /**
-     * Setzt die Instanz des Print User Interface.
-     *
-     * @param printUI Eine Instanz des <code>PrintUI</code>.
-     */
-    public void setPrintUI(PrintUI printUI) {
-        this.printUI = printUI;
-    }
-
-     /**
-     * Die Instanz des Start User Interface.
-     */
-    private StartUI startUI;
-
-    /**
-     * Gibt die Instanz des Start User Interface zurück.
-     *
-     * @return Die Instanz des <code>StartUI</code>.
-     */
-    public StartUI getStartUI() {
-        return startUI;
-    }
-
-    /**
-     * Setzt die Instanz des Start User Interface.
-     *
-     * @param startUI Eine Instanz des <code>StartUI</code>.
-     */
-    public void setStartUI(StartUI startUI) {
-        this.startUI = startUI;
     }
 
     /**
@@ -277,6 +254,12 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
     private UndoManager um = new UndoManager();
 
+    private StatePanel statePanel = new StatePanel();
+
+    public void setProgressPercentage(int percentage) {
+        statePanel.setProgressPercentage(percentage);
+    }
+
     public void tabPane() {
 
         jtab.addTab(null, new ImageIcon("images/home.png"), startUI);
@@ -285,11 +268,8 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // hier wird die BusinessPartnerUI als neuer Tab eingefügt
         jtab.addTab(null, new ImageIcon("images/business_partner.png"), businessPartnerUI);
         // hier wird die RechnungsUI als neuer Tab eingefügt
-        jtab.addTab(null, new ImageIcon("images/delivery_order_bill.png"), deliveryOrderUI);
+        jtab.addTab(null, new ImageIcon("images/delivery_order.png"), deliveryOrderUI);
         jtab.setEnabledAt(3, false);
-
-        // hier wird die RechnungsUI als neuer Tab eingefügt
-        jtab.addTab(null, new ImageIcon("images/delivery_order_bill.png"), printUI);
 
         // setzt ToolTip
         startPanel.add(new JLabel("Economy Bill Agenda"));
@@ -310,6 +290,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // fügt Tabfeld hinzu
         this.getContentPane().add(jtab, BorderLayout.CENTER);
+
+        statePanel.setPreferredSize(new Dimension(200, 19));
+        this.getContentPane().add(statePanel, BorderLayout.SOUTH);
     }
 
 
@@ -700,9 +683,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         ebutton.setText(WorkArea.getMessage(Constants.EXIT));
 
+        startUI.reinitI18N();
         articleUI.reinitI18N();
         businessPartnerUI.reinitI18N();
-        printUI.reinitI18N();
     }
 
     public void setSelectedTab(int index) {

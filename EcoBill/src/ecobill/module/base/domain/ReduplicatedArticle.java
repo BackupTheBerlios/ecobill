@@ -1,5 +1,7 @@
 package ecobill.module.base.domain;
 
+import ecobill.module.base.hbm.sort.OrderPositionComparable;
+
 /**
  * Der <code>ReduplicatedArticle</code> beinhaltet die dazugehörige Anzahl, den eingetragenen
  * Einzelpreis und die Beschreibung von diesem. Dieses Objekt wird für einen Lieferschein
@@ -10,10 +12,16 @@ package ecobill.module.base.domain;
  * Time: 22:23:14
  *
  * @author Roman R&auml;dle
- * @version $Id: ReduplicatedArticle.java,v 1.4 2005/10/05 23:41:27 raedler Exp $
+ * @version $Id: ReduplicatedArticle.java,v 1.5 2005/10/06 14:07:17 raedler Exp $
  * @since EcoBill 1.0
  */
-public class ReduplicatedArticle extends AbstractDomain {
+public class ReduplicatedArticle extends AbstractDomain implements OrderPositionComparable, Comparable<ReduplicatedArticle> {
+
+    /**
+     * Die Position an der dieser Artikel in einem Lieferschein oder einer Rechnung
+     * erscheinen soll.
+     */
+    private Integer orderPosition;
 
     /**
      * Die Artikelnummer des Artikels.
@@ -49,6 +57,28 @@ public class ReduplicatedArticle extends AbstractDomain {
      * Der ursprüngliche Artikel aus dem dieser duplizierte Artikel hervorging.
      */
     private Article article;
+
+    /**
+     * Gibt die Position an der dieser Artikel in einem Lieferschein oder einer Rechnung
+     * erscheinen soll zurück.
+     *
+     * @return Die Position an der dieser Artikel in einem Lieferschein oder einer Rechnung
+     *         erscheinen soll.
+     */
+    public Integer getOrderPosition() {
+        return orderPosition;
+    }
+
+    /**
+     * Setzt die Position an der dieser Artikel in einem Lieferschein oder einer Rechnung
+     * erscheinen soll.
+     *
+     * @param orderPosition Die Position an der dieser Artikel in einem Lieferschein oder einer
+     *                      Rechnung erscheinen soll.
+     */
+    public void setOrderPosition(Integer orderPosition) {
+        this.orderPosition = orderPosition;
+    }
 
     /**
      * Gibt die Artikelnummer des Artikels zurück.
@@ -177,6 +207,16 @@ public class ReduplicatedArticle extends AbstractDomain {
      */
     public void setArticle(Article article) {
         this.article = article;
+    }
+
+    /**
+     * @see Comparable#compareTo(ReduplicatedArticle)
+     */
+    public int compareTo(ReduplicatedArticle article) {
+
+        Integer oOrderPosition = article.getOrderPosition();
+
+        return orderPosition.compareTo(oOrderPosition);
     }
 
     /**

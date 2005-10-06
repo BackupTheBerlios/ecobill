@@ -19,10 +19,13 @@ import ecobill.module.base.domain.DeliveryOrder;
 import ecobill.core.util.FileUtils;
 import ecobill.core.util.IdKeyItem;
 import ecobill.core.system.Internationalization;
+import ecobill.core.ui.MainFrame;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.event.TableModelListener;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -31,8 +34,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 /**
- *
- * @author  Roman Georg Rädle
+ * @author Roman Georg Rädle
  */
 public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
 
@@ -116,6 +118,8 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         initComponents();
         initLayout();
 
+        tabbedPane.setEnabledAt(1, false);
+
         // Versuche evtl. abgelegte/serialisierte Objekte zu laden.
         try {
             deliveryOrderTable.unpersist(new FileInputStream(serializeIdentifiers.getProperty("delivery_order_table")));
@@ -150,7 +154,19 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
      */
     private void initComponents() {
 
+        tabbedPane = new JTabbedPane();
+        overview = new JPanel();
+        verticalButton = new VerticalButton();
         splitPane = new JSplitPane();
+        splitPanePanelRight = new JPanel();
+        address = new Address();
+        deliveryOrderData = new DeliveryOrderData();
+        deliveryOrderTable = new DeliveryOrderTable(null, baseService);
+        detail = new JPanel();
+
+        MainFrame mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
+
+        deliveryOrderPrintPanel = new DeliveryOrderPrintPanel(mainFrame, baseService);
 
         articleTable = new ArticleTable(null, baseService) {
             protected KeyListener[] createKeyListeners() {
@@ -172,21 +188,16 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
             public void mouseClicked(MouseEvent e) {
 
                 //if (e.getClickCount() == 2) {
-                    int row = articleTable.getTable().getSelectedRow();
+                int row = articleTable.getTable().getSelectedRow();
 
-                    IdKeyItem idKeyItem = (IdKeyItem) articleTable.getTableModel().getValueAt(row, 0);
+                IdKeyItem idKeyItem = (IdKeyItem) articleTable.getTableModel().getValueAt(row, 0);
 
-                    System.out.println("ID: " + idKeyItem.getId());
+                System.out.println("ID: " + idKeyItem.getId());
 
-                    showAddArticleDialog(idKeyItem.getId());
+                showAddArticleDialog(idKeyItem.getId());
                 //}
             }
         });
-
-        deliveryOrderPanel = new JPanel();
-        address = new Address();
-        deliveryOrderTable = new DeliveryOrderTable(null, baseService);
-        verticalButton = new VerticalButton();
 
         verticalButton.getButton1().setVisible(true);
         verticalButton.getButton1().setIcon(new ImageIcon("images/delivery_order_new.png"));
@@ -200,6 +211,8 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
              */
             public void actionPerformed(ActionEvent e) {
                 saveOrUpdateDeliveryOrder();
+
+                tabbedPane.setEnabledAt(1, true);
             }
         });
 
@@ -208,6 +221,24 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
         verticalButton.getButton4().setVisible(true);
         verticalButton.getButton4().setIcon(new ImageIcon("images/refresh.png"));
+
+        tabbedPane.addChangeListener(new ChangeListener() {
+
+            public void stateChanged(ChangeEvent e) {
+
+                if (tabbedPane.getSelectedComponent().equals(detail)) {
+                    System.out.println("DETAIL ANSICHT");
+
+                    try {
+                        deliveryOrderPrintPanel.doJasper(actualDeliveryOrderId);
+
+                    }
+                    catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        });
 
         splitPane.setDividerLocation(200);
         splitPane.setLeftComponent(articleTable);
@@ -219,42 +250,68 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
      */
     private void initLayout() {
 
-        GroupLayout jPanel1Layout = new GroupLayout(deliveryOrderPanel);
-        deliveryOrderPanel.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(GroupLayout.LEADING)
-            .add(address, GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
-            .add(deliveryOrderTable, GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, jPanel1Layout.createSequentialGroup()
-                .add(address, GroupLayout.PREFERRED_SIZE, 185, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(deliveryOrderTable, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE))
-        );
-        splitPane.setRightComponent(deliveryOrderPanel);
+        setLayout(new BorderLayout());
 
-        GroupLayout layout = new GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, layout.createSequentialGroup()
+        splitPane.setDividerLocation(200);
+        splitPane.setLastDividerLocation(84);
+        splitPane.setLeftComponent(articleTable);
+
+        GroupLayout splitPanePanelRightLayout = new GroupLayout(splitPanePanelRight);
+        splitPanePanelRight.setLayout(splitPanePanelRightLayout);
+        splitPanePanelRightLayout.setHorizontalGroup(
+            splitPanePanelRightLayout.createParallelGroup(GroupLayout.LEADING)
+            .add(GroupLayout.TRAILING, splitPanePanelRightLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(splitPanePanelRightLayout.createParallelGroup(GroupLayout.TRAILING)
+                    .add(GroupLayout.LEADING, deliveryOrderTable, GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
+                    .add(GroupLayout.TRAILING, splitPanePanelRightLayout.createSequentialGroup()
+                        .add(address, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(deliveryOrderData, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .add(71, 71, 71))
+        );
+        splitPanePanelRightLayout.setVerticalGroup(
+            splitPanePanelRightLayout.createParallelGroup(GroupLayout.LEADING)
+            .add(GroupLayout.LEADING, splitPanePanelRightLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(splitPanePanelRightLayout.createParallelGroup(GroupLayout.LEADING, false)
+                    .add(address, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(GroupLayout.TRAILING, deliveryOrderData, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(LayoutStyle.RELATED)
+                .add(deliveryOrderTable, GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        splitPane.setRightComponent(splitPanePanelRight);
+
+        GroupLayout overviewLayout = new GroupLayout(overview);
+        overview.setLayout(overviewLayout);
+        overviewLayout.setHorizontalGroup(
+            overviewLayout.createParallelGroup(GroupLayout.LEADING)
+            .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(verticalButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.RELATED)
-                .add(splitPane, GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
+                .add(splitPane, GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.TRAILING, layout.createSequentialGroup()
+        overviewLayout.setVerticalGroup(
+            overviewLayout.createParallelGroup(GroupLayout.LEADING)
+            .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(GroupLayout.TRAILING)
-                    .add(GroupLayout.LEADING, splitPane, GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)
-                    .add(GroupLayout.LEADING, verticalButton, GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE))
+                .add(overviewLayout.createParallelGroup(GroupLayout.LEADING)
+                    .add(splitPane, GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+                    .add(verticalButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
+        tabbedPane.addTab("Übersicht", overview);
+
+        detail.setLayout(new BorderLayout());
+
+        detail.add(deliveryOrderPrintPanel, BorderLayout.CENTER);
+
+        tabbedPane.addTab("Detail", detail);
+
+        add(tabbedPane, BorderLayout.CENTER);
     }
 
     /**
@@ -272,11 +329,17 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
     }
 
     private Address address;
+    private DeliveryOrderData deliveryOrderData;
     private ArticleTable articleTable;
     private DeliveryOrderTable deliveryOrderTable;
-    private JPanel deliveryOrderPanel;
+    private JPanel detail;
+    private JPanel overview;
     private JSplitPane splitPane;
+    private JPanel splitPanePanelRight;
+    private JTabbedPane tabbedPane;
     private VerticalButton verticalButton;
+
+    private DeliveryOrderPrintPanel deliveryOrderPrintPanel;
 
     public void setBusinessPartner(BusinessPartner businessPartner) {
         address.setBusinessPartner(businessPartner);
@@ -328,7 +391,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         }
 
         deliveryOrder.setBusinessPartner(address.getBusinessPartner());
-        deliveryOrder.setCharacterisationType("delivery");
+        deliveryOrder.setCharacterisationType("delivery_order");
         deliveryOrder.setDeliveryOrderDate(new Date());
         deliveryOrder.setDeliveryOrderNumber("deli-number");
         deliveryOrder.setPrefixFreetext("PREFIX_TEXT");
@@ -338,13 +401,18 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         Vector dataVector = ((DefaultTableModel) deliveryOrderTable.getTable().getModel()).getDataVector();
 
         Enumeration lines = dataVector.elements();
-        while (lines.hasMoreElements()) {
+        for (int i = 1; lines.hasMoreElements(); i++) {
 
             Vector line = (Vector) lines.nextElement();
 
-            deliveryOrder.addArticle((ReduplicatedArticle) line.get(5));
+            ReduplicatedArticle reduplicatedArticle = (ReduplicatedArticle) line.get(5);
+            reduplicatedArticle.setOrderPosition(i);
+
+            deliveryOrder.addArticle(reduplicatedArticle);
         }
 
         baseService.saveOrUpdate(deliveryOrder);
+
+        actualDeliveryOrderId = deliveryOrder.getId();
     }
 }

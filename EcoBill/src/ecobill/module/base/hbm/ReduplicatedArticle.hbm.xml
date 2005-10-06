@@ -9,7 +9,7 @@
  Time: 22:24:58
  
  @author Roman R&auml;dle
- @version $Id: ReduplicatedArticle.hbm.xml,v 1.5 2005/10/05 23:41:27 raedler Exp $
+ @version $Id: ReduplicatedArticle.hbm.xml,v 1.6 2005/10/06 14:07:17 raedler Exp $
  @since EcoBill 1.0
 -->
 
@@ -27,6 +27,10 @@
                      class="ecobill.module.base.domain.DeliveryOrder"
                      cascade="none"
                      lazy="false"/>
+
+        <property name="orderPosition" type="integer">
+            <column name="ORDER_POSITION" not-null="true"/>
+        </property>
 
         <property name="articleNumber" type="string">
             <column name="ARTICLE_NUMBER" not-null="true"/>

@@ -1,5 +1,7 @@
 package ecobill.module.base.domain;
 
+import ecobill.core.system.WorkArea;
+
 import java.util.Set;
 
 /**
@@ -13,7 +15,7 @@ import java.util.Set;
  * Time: 18:24:14
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartner.java,v 1.5 2005/10/04 09:21:29 raedler Exp $
+ * @version $Id: BusinessPartner.java,v 1.6 2005/10/06 14:07:17 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartner extends AbstractDomain {
@@ -104,6 +106,21 @@ public class BusinessPartner extends AbstractDomain {
      */
     public void setCompanyTitle(String companyTitle) {
         this.companyTitle = companyTitle;
+    }
+
+    /**
+     * Gibt auf jedenfall eine Anrede zurück. Sollte der Geschäftspartner keine Firma sein
+     * dann wird die Anrede der Person zurückgegeben.
+     *
+     * @return Eine Anrede der Firma oder der Person.
+     */
+    public String getAssuredTitle() {
+
+        if (companyTitle != null && !"".equals(companyTitle)) {
+            return companyTitle;
+        }
+
+        return getPerson().getLetterTitle();
     }
 
     /**

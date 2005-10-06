@@ -26,6 +26,7 @@
                 <value>ecobill/config/bundle/base/county</value>
                 <value>ecobill/config/bundle/base/article</value>
                 <value>ecobill/config/bundle/base/businesspartner</value>
+                <value>ecobill/config/bundle/base/reports</value>
             </list>
         </property>
     </bean>
@@ -111,7 +112,7 @@
 
     <bean id="splashScreen" class="ecobill.core.ui.SplashScreen">
         <constructor-arg index="0">
-            <value>images/StartbildGer.jpg</value>
+            <value>images/startbild.png</value>
         </constructor-arg>
         <property name="splashable">
             <ref local="mainFrame"/>
@@ -130,9 +131,6 @@
         </property>
         <property name="deliveryOrderUI">
             <ref bean="deliveryOrderUI"/>
-        </property>
-        <property name="printUI">
-            <ref bean="printUI"/>
         </property>
     </bean>
 
@@ -175,12 +173,6 @@
                 <prop key="delivery_order_table">serialized/deliveryorder/delivery_order_table.ebs</prop>
                 <prop key="article_table">serialized/deliveryorder/article_table.ebs</prop>
             </props>
-        </property>
-    </bean>
-
-    <bean id="printUI" class="ecobill.module.base.ui.PrintUI" singleton="true">
-        <property name="baseService">
-            <ref bean="baseService"/>
         </property>
     </bean>
 

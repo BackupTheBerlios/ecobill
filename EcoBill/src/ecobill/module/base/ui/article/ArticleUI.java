@@ -43,7 +43,7 @@ import java.io.FileOutputStream;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.7 2005/10/05 23:41:27 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.8 2005/10/06 14:07:17 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JPanel implements InitializingBean, Internationalization, DisposableBean {
@@ -279,7 +279,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         verticalButtonLabelling.getButton2().setIcon(new ImageIcon("images/article_labelling_ok.png"));
         verticalButtonLabelling.getButton2().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("ArticleUI.actionPerformed");
+                throw new RuntimeException("Diese Methode muss noch implementiert werden.");
             }
         });
 
@@ -287,7 +287,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         verticalButtonLabelling.getButton3().setIcon(new ImageIcon("images/article_labelling_delete.png"));
         verticalButtonLabelling.getButton3().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("ArticleUI.actionPerformed");
+                throw new RuntimeException("Diese Methode muss noch implementiert werden.");
             }
         });
 
@@ -295,7 +295,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         verticalButtonLabelling.getButton4().setIcon(new ImageIcon("images/refresh.png"));
         verticalButtonLabelling.getButton4().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("ArticleUI.actionPerformed");
+                throw new RuntimeException("Diese Methode muss noch implementiert werden.");
             }
         });
     }

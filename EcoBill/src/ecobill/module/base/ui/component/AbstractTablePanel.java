@@ -30,7 +30,7 @@ import java.io.*;
  * Time: 12:33:23
  *
  * @author Roman R&auml;dle
- * @version $Id: AbstractTablePanel.java,v 1.2 2005/10/05 23:41:27 raedler Exp $
+ * @version $Id: AbstractTablePanel.java,v 1.3 2005/10/06 14:07:17 raedler Exp $
  * @since EcoBill 1.0
  */
 public abstract class AbstractTablePanel extends JPanel implements Internationalization {
@@ -303,6 +303,9 @@ public abstract class AbstractTablePanel extends JPanel implements International
             // Entferne alle Editoren, da sonst das <code>TableModel</code> nicht serialisiert
             // werden kann.
             table.removeEditor();
+
+            // Entferne alle Daten aus dem Datenvektor.
+            tableModel.getDataVector().removeAllElements();
 
             // Erzeuge einen <code>ObjectOutputStream</code> um das <code>TableModel</code>
             // zu serialisieren. Danach wird das serialisierte <code>Object</code> geschrieben,

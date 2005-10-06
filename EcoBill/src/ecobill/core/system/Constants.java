@@ -10,7 +10,7 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.21 2005/10/06 14:08:47 jfuckerweiler Exp $
+ * @version $Id: Constants.java,v 1.20 2005/10/06 14:07:16 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {
@@ -165,12 +165,6 @@ public interface Constants {
     public final static String BUTTON4_ARTICLE_TOOLTIP = "button4articletooltip";
 
     public final static String DATA_ACTIONS = "dataaction";
-
-    public final static String NEWS = "news";
-
-    public final static String NAME = "name";
-    public final static String SUBJECT = "subject";
-
 
 
 
