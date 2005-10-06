@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationContext;
 
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.Message;
+import ecobill.core.util.IdKeyItem;
 
 
 import javax.swing.*;
@@ -25,7 +26,7 @@ import java.awt.event.ActionEvent;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: StartUI.java,v 1.12 2005/10/06 21:56:20 jfuckerweiler Exp $
+ * @version $Id: StartUI.java,v 1.13 2005/10/06 23:56:15 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class StartUI extends JPanel implements InitializingBean {
@@ -131,7 +132,7 @@ public class StartUI extends JPanel implements InitializingBean {
 
     public void initComponents() {
 
-        newsOverview = new ecobill.module.base.ui.start.News();
+        newsOverview = new ecobill.module.base.ui.start.News(baseService);
 
         newsOverview.getOverviewVerticalButton().getButton2().addActionListener(new ActionListener() {
             /**
@@ -140,6 +141,16 @@ public class StartUI extends JPanel implements InitializingBean {
             public void actionPerformed(ActionEvent e) {
 
                 saveOrUpdateMessage();
+            }
+        });
+
+        newsOverview.getOverviewVerticalButton().getButton3().addActionListener(new ActionListener() {
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+
+                deleteMessage();
             }
         });
 
@@ -164,6 +175,10 @@ public class StartUI extends JPanel implements InitializingBean {
 
 
         baseService.saveOrUpdate(message);
+    }
+
+    public void deleteMessage() {
+
     }
 
 }

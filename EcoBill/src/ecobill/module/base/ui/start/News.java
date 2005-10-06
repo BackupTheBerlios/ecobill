@@ -26,7 +26,7 @@ import java.util.List;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.25 2005/10/06 23:36:52 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.26 2005/10/06 23:56:04 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -77,13 +77,13 @@ public class News extends JPanel implements Internationalization {
                      Message message = (Message) o;
 
                     nodeAddresser = message.getAddresser();
-                    DefaultMutableTreeNode names = new DefaultMutableTreeNode(nodeAddresser);
-                    user.add(names);
+                    DefaultMutableTreeNode name = new DefaultMutableTreeNode(nodeAddresser);
 
-                    for (int i = 1; i <= user.getChildCount(); i++) {
-                        TreeNode next = user.getChildAt(i);
+                    user.add(name);
 
-                    }
+                    for (int i = 1; i <= 3; i++) {
+                       name.add(news);
+                     }
 
                    // String m = names.toString();
 
