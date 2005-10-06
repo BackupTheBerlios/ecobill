@@ -47,6 +47,7 @@
 	<parameter name="SUFFIX_FREE_TEXT" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="BRANCH" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="COUNTY" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="PERSON_TITLE" isForPrompting="false" class="java.lang.String"/>
 	<field name="quantity" class="java.lang.Double"/>
 	<field name="price" class="java.lang.Double"/>
 	<field name="description" class="java.lang.String"/>
@@ -204,7 +205,7 @@
 					<reportElement
 						mode="Transparent"
 						x="0"
-						y="141"
+						y="157"
 						width="250"
 						height="16"
 						forecolor="#000000"
@@ -226,7 +227,7 @@
 					<reportElement
 						mode="Transparent"
 						x="0"
-						y="157"
+						y="173"
 						width="250"
 						height="16"
 						forecolor="#000000"
@@ -248,7 +249,7 @@
 					<reportElement
 						mode="Transparent"
 						x="0"
-						y="183"
+						y="199"
 						width="250"
 						height="16"
 						forecolor="#000000"
@@ -301,9 +302,11 @@
 						stretchType="NoStretch"
 						positionType="FixRelativeToTop"
 						isPrintRepeatedValues="true"
-						isRemoveLineWhenBlank="false"
+						isRemoveLineWhenBlank="true"
 						isPrintInFirstWholeBand="false"
-						isPrintWhenDetailOverflows="false"/>
+						isPrintWhenDetailOverflows="false">
+							<printWhenExpression><![CDATA[new Boolean(!"".equals($P{COMPANY_NAME}))]]></printWhenExpression>
+						</reportElement>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
 						<font fontName="" pdfFontName="Helvetica" size="12" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="CP1252" isStrikeThrough="false" />
@@ -403,8 +406,8 @@
 						mode="Opaque"
 						x="9"
 						y="244"
-						width="94"
-						height="21"
+						width="102"
+						height="22"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-27"
@@ -443,6 +446,30 @@
 						<font fontName="" pdfFontName="Helvetica" size="12" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="CP1252" isStrikeThrough="false" />
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{BRANCH}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="0"
+						y="141"
+						width="250"
+						height="16"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-15"
+						stretchType="NoStretch"
+						positionType="FixRelativeToTop"
+						isPrintRepeatedValues="true"
+						isRemoveLineWhenBlank="true"
+						isPrintInFirstWholeBand="false"
+						isPrintWhenDetailOverflows="false">
+							<printWhenExpression><![CDATA[new Boolean("".equals($P{COMPANY_NAME}))]]></printWhenExpression>
+						</reportElement>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
+						<font fontName="" pdfFontName="Helvetica" size="12" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="CP1252" isStrikeThrough="false" />
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["z.Hd. " + $P{PERSON_TITLE} + " " + $P{LASTNAME}]]></textFieldExpression>
 				</textField>
 			</band>
 		</pageHeader>
@@ -738,6 +765,28 @@
 		</detail>
 		<columnFooter>
 			<band height="44"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="6"
+						y="11"
+						width="524"
+						height="14"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-12"
+						stretchType="NoStretch"
+						positionType="FixRelativeToTop"
+						isPrintRepeatedValues="true"
+						isRemoveLineWhenBlank="true"
+						isPrintInFirstWholeBand="false"
+						isPrintWhenDetailOverflows="false"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
+						<font fontName="Arial" pdfFontName="Helvetica" size="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{SUFFIX_FREE_TEXT}]]></textFieldExpression>
+				</textField>
 			</band>
 		</columnFooter>
 		<pageFooter>
@@ -780,34 +829,12 @@
 					<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single">
 						<font fontName="" pdfFontName="Helvetica" size="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="CP1252" isStrikeThrough="false" />
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA["Seite " + $V{PAGE_NUMBER} + "/" + ($V{PAGE_COUNT}.intValue() - 1)]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Seite " + $V{PAGE_NUMBER} + "/" + $V{PAGE_COUNT}]]></textFieldExpression>
 				</textField>
 			</band>
 		</pageFooter>
 		<lastPageFooter>
 			<band height="57"  isSplitAllowed="true" >
-				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						mode="Transparent"
-						x="6"
-						y="5"
-						width="524"
-						height="14"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="textField-12"
-						stretchType="NoStretch"
-						positionType="FixRelativeToTop"
-						isPrintRepeatedValues="true"
-						isRemoveLineWhenBlank="true"
-						isPrintInFirstWholeBand="false"
-						isPrintWhenDetailOverflows="false"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
-						<font fontName="Arial" pdfFontName="Helvetica" size="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{SUFFIX_FREE_TEXT}]]></textFieldExpression>
-				</textField>
 				<line direction="TopDown">
 					<reportElement
 						mode="Opaque"
@@ -846,7 +873,7 @@
 					<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single">
 						<font fontName="" pdfFontName="Helvetica" size="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="CP1252" isStrikeThrough="false" />
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA["Seite " + $V{PAGE_NUMBER} + "/" + ($V{PAGE_COUNT}.intValue() - 1)]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Seite " + $V{PAGE_NUMBER} + "/" + $V{PAGE_COUNT}]]></textFieldExpression>
 				</textField>
 			</band>
 		</lastPageFooter>

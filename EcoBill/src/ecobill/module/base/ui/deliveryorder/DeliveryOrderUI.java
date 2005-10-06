@@ -19,6 +19,8 @@ import ecobill.module.base.domain.DeliveryOrder;
 import ecobill.core.util.FileUtils;
 import ecobill.core.util.IdKeyItem;
 import ecobill.core.system.Internationalization;
+import ecobill.core.system.WorkArea;
+import ecobill.core.system.Constants;
 import ecobill.core.ui.MainFrame;
 
 import javax.swing.*;
@@ -165,7 +167,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         addressPanel = new JPanel();
         address = new Address();
         deliveryOrderDataPanel = new JPanel();
-        deliveryOrderData = new DeliveryOrderData();
+        deliveryOrderData = new DeliveryOrderData(baseService);
         deliveryOrderTable = new DeliveryOrderTable(actualDeliveryOrderId, baseService);
         detail = new JPanel();
 
@@ -255,84 +257,84 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
      */
     private void initLayout() {
 
-        setLayout(new java.awt.BorderLayout());
+        setLayout(new BorderLayout());
 
         splitPane.setBorder(null);
         splitPane.setDividerLocation(200);
         splitPane.setOneTouchExpandable(true);
 
-        org.jdesktop.layout.GroupLayout panelLeftLayout = new org.jdesktop.layout.GroupLayout(panelLeft);
+        GroupLayout panelLeftLayout = new GroupLayout(panelLeft);
         panelLeft.setLayout(panelLeftLayout);
         panelLeftLayout.setHorizontalGroup(
-            panelLeftLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.LEADING, panelLeftLayout.createSequentialGroup()
-                .add(articleTable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+            panelLeftLayout.createParallelGroup(GroupLayout.LEADING)
+            .add(GroupLayout.LEADING, panelLeftLayout.createSequentialGroup()
+                .add(articleTable, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelLeftLayout.setVerticalGroup(
-            panelLeftLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(articleTable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
+            panelLeftLayout.createParallelGroup(GroupLayout.LEADING)
+            .add(articleTable, GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
         );
         splitPane.setLeftComponent(panelLeft);
 
-        addressPanel.setLayout(new java.awt.BorderLayout());
+        addressPanel.setLayout(new BorderLayout());
 
-        addressPanel.add(address, java.awt.BorderLayout.CENTER);
+        addressPanel.add(address, BorderLayout.CENTER);
 
-        tabbedPaneRight.addTab("tab1", addressPanel);
+        tabbedPaneRight.addTab(WorkArea.getMessage(Constants.ADDRESS), addressPanel);
 
-        deliveryOrderDataPanel.setLayout(new java.awt.BorderLayout());
+        deliveryOrderDataPanel.setLayout(new BorderLayout());
 
-        deliveryOrderDataPanel.add(deliveryOrderData, java.awt.BorderLayout.CENTER);
+        deliveryOrderDataPanel.add(deliveryOrderData, BorderLayout.CENTER);
 
-        tabbedPaneRight.addTab("tab2", deliveryOrderDataPanel);
+        tabbedPaneRight.addTab(WorkArea.getMessage(Constants.DATA), deliveryOrderDataPanel);
 
-        org.jdesktop.layout.GroupLayout panelRightLayout = new org.jdesktop.layout.GroupLayout(panelRight);
+        GroupLayout panelRightLayout = new GroupLayout(panelRight);
         panelRight.setLayout(panelRightLayout);
         panelRightLayout.setHorizontalGroup(
-            panelRightLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
+            panelRightLayout.createParallelGroup(GroupLayout.LEADING)
+            .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(panelRightLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(deliveryOrderTable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
-                    .add(tabbedPaneRight, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)))
+                .add(panelRightLayout.createParallelGroup(GroupLayout.LEADING)
+                    .add(deliveryOrderTable, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
+                    .add(tabbedPaneRight, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)))
         );
         panelRightLayout.setVerticalGroup(
-            panelRightLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
-                .add(tabbedPaneRight, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 342, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(deliveryOrderTable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE))
+            panelRightLayout.createParallelGroup(GroupLayout.LEADING)
+            .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
+                .add(tabbedPaneRight, GroupLayout.PREFERRED_SIZE, 342, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.RELATED)
+                .add(deliveryOrderTable, GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE))
         );
         splitPane.setRightComponent(panelRight);
 
-        org.jdesktop.layout.GroupLayout overviewLayout = new org.jdesktop.layout.GroupLayout(overview);
+        GroupLayout overviewLayout = new GroupLayout(overview);
         overview.setLayout(overviewLayout);
         overviewLayout.setHorizontalGroup(
-            overviewLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.LEADING, overviewLayout.createSequentialGroup()
+            overviewLayout.createParallelGroup(GroupLayout.LEADING)
+            .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(verticalButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(splitPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
+                .add(verticalButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.RELATED)
+                .add(splitPane, GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
                 .addContainerGap())
         );
         overviewLayout.setVerticalGroup(
-            overviewLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, overviewLayout.createSequentialGroup()
+            overviewLayout.createParallelGroup(GroupLayout.LEADING)
+            .add(GroupLayout.TRAILING, overviewLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(overviewLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, splitPane)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, verticalButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE))
+                .add(overviewLayout.createParallelGroup(GroupLayout.TRAILING)
+                    .add(GroupLayout.LEADING, splitPane)
+                    .add(GroupLayout.LEADING, verticalButton, GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        tabbedPane.addTab("Übersicht", overview);
+        tabbedPane.addTab(WorkArea.getMessage(Constants.OVERVIEW), overview);
 
         detail.setLayout(new BorderLayout());
 
         detail.add(deliveryOrderPrintPanel, BorderLayout.CENTER);
 
-        tabbedPane.addTab("Detail", detail);
+        tabbedPane.addTab(WorkArea.getMessage(Constants.DETAIL), detail);
 
         add(tabbedPane, BorderLayout.CENTER);
     }
@@ -419,10 +421,10 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
         deliveryOrder.setBusinessPartner(address.getBusinessPartner());
         deliveryOrder.setCharacterisationType("delivery_order");
-        deliveryOrder.setDeliveryOrderDate(new Date());
-        deliveryOrder.setDeliveryOrderNumber("deli-number");
-        deliveryOrder.setPrefixFreetext("PREFIX_TEXT");
-        deliveryOrder.setSuffixFreetext("SUFFIX_TEXT");
+        deliveryOrder.setDeliveryOrderNumber(deliveryOrderData.getDeliveryOrderNumber());
+        deliveryOrder.setDeliveryOrderDate(deliveryOrderData.getDeliveryOrderDate());
+        deliveryOrder.setPrefixFreetext(deliveryOrderData.getPrefix());
+        deliveryOrder.setSuffixFreetext(deliveryOrderData.getSuffix());
         deliveryOrder.setPreparedBill(false);
 
         Vector dataVector = ((DefaultTableModel) deliveryOrderTable.getTable().getModel()).getDataVector();

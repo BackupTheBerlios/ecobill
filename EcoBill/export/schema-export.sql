@@ -105,6 +105,7 @@ create table BASE_PERSON (
 create table BASE_REDUPLICATED_ARTICLE (
     ID bigint not null auto_increment,
     DELIVERY_ORDER_ID bigint,
+    ORDER_POSITION integer not null,
     ARTICLE_NUMBER varchar(255) not null,
     QUANTITY double precision not null,
     UNIT varchar(255) not null,
