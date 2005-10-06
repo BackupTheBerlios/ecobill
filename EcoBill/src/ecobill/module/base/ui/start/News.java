@@ -25,7 +25,7 @@ import java.util.List;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.23 2005/10/06 22:59:29 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.24 2005/10/06 23:08:15 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -78,10 +78,13 @@ public class News extends JPanel implements Internationalization {
 
                      nodeAddresser = message.getAddresser();
 
-                    if (nodeAddresser.equals(user1)) {
+                    String m = user1.toString();
+
+                    if (nodeAddresser.equals(m)) {
 
                      nodeSubject = message.getSubject();
                      news.add(new DefaultMutableTreeNode(nodeSubject));
+
                     }
             }
             user.add(user1);
