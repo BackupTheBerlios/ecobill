@@ -23,7 +23,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: News.java,v 1.16 2005/10/06 21:04:01 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.17 2005/10/06 21:09:08 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -205,8 +205,8 @@ public class News extends JPanel implements Internationalization {
     public void save() {
         Message message = new Message();
 
-        message.subject = jTextField1.getText();
-        message.addresser = jTextField2.getText();
-        message.message = jTextArea1.getText();
+        message.setAddresser(jTextField1.getText());
+        message.setSubject(jTextField2.getText());
+        message.setMessage(jTextArea1.getText());
     }
 }
