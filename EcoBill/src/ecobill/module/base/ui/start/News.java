@@ -10,6 +10,7 @@ import ecobill.module.base.service.BaseService;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.util.List;
@@ -25,7 +26,7 @@ import java.util.List;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.24 2005/10/06 23:08:15 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.25 2005/10/06 23:36:52 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -50,9 +51,8 @@ public class News extends JPanel implements Internationalization {
     private TitledBorder overviewBorder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.OVERVIEW), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
 
     private DefaultMutableTreeNode user = new DefaultMutableTreeNode("Benutzer");
-    private DefaultMutableTreeNode user1 = new DefaultMutableTreeNode("Maier");
     private DefaultMutableTreeNode news = new DefaultMutableTreeNode("Alle Nachrichten");
-    private DefaultMutableTreeNode newNews = new DefaultMutableTreeNode("Neue Nachrichten");
+    //private DefaultMutableTreeNode newNews = new DefaultMutableTreeNode("Neue Nachrichten");
 
     private String nodeSubject;
     private String nodeAddresser;
@@ -76,21 +76,24 @@ public class News extends JPanel implements Internationalization {
                 for (Object o : messages) {
                      Message message = (Message) o;
 
-                     nodeAddresser = message.getAddresser();
+                    nodeAddresser = message.getAddresser();
+                    DefaultMutableTreeNode names = new DefaultMutableTreeNode(nodeAddresser);
+                    user.add(names);
 
-                    String m = user1.toString();
-
-                    if (nodeAddresser.equals(m)) {
-
-                     nodeSubject = message.getSubject();
-                     news.add(new DefaultMutableTreeNode(nodeSubject));
+                    for (int i = 1; i <= user.getChildCount(); i++) {
+                        TreeNode next = user.getChildAt(i);
 
                     }
-            }
-            user.add(user1);
-            user1.add(news);
 
-            user1.add(newNews);
+                   // String m = names.toString();
+
+                    //if (nodeAddresser.equals(m)) {
+
+                     //nodeSubject = message.getSubject();
+                     //news.add(new DefaultMutableTreeNode(nodeSubject));
+                    //}
+            }
+
             jTree1 = new JTree(user);
 
 
