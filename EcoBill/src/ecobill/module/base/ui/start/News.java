@@ -21,7 +21,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: News.java,v 1.9 2005/10/06 16:13:46 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.10 2005/10/06 16:26:00 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -51,7 +51,21 @@ public class News extends JPanel implements Internationalization {
             jPanel3 = new javax.swing.JPanel();
             jScrollPane2 = new javax.swing.JScrollPane();
             jTree1 = new javax.swing.JTree();
-            verticalButton1 = new ecobill.module.base.ui.component.VerticalButton();
+            overviewVerticalButton = new ecobill.module.base.ui.component.VerticalButton();
+
+
+            overviewVerticalButton.getButton1().setVisible(true);
+            overviewVerticalButton.getButton2().setVisible(true);
+            overviewVerticalButton.getButton3().setVisible(true);
+            overviewVerticalButton.getButton4().setVisible(true);
+
+         overviewVerticalButton.getButton1().setIcon(new ImageIcon("images/news.png"));
+         overviewVerticalButton.getButton2().setIcon(new ImageIcon("images/news_ok.png"));
+         overviewVerticalButton.getButton3().setIcon(new ImageIcon("images/news_delete.png"));
+         overviewVerticalButton.getButton4().setIcon(new ImageIcon("images/refresh.png"));
+
+
+
 
             jPanel1.setBorder(addresserBorder);
 
@@ -125,7 +139,7 @@ public class News extends JPanel implements Internationalization {
                                     .add(jPanel1)))
                             .add(33, 33, 33))
                         .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
-                            .add(verticalButton1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(overviewVerticalButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(19, 19, 19)
                             .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .addContainerGap())))
@@ -141,7 +155,7 @@ public class News extends JPanel implements Internationalization {
                     .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 111, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                     .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                        .add(verticalButton1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(overviewVerticalButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .addContainerGap(30, Short.MAX_VALUE))
             );
@@ -159,7 +173,7 @@ public class News extends JPanel implements Internationalization {
         private javax.swing.JTextField jTextField1;
         private javax.swing.JTextField jTextField2;
         private javax.swing.JTree jTree1;
-        private ecobill.module.base.ui.component.VerticalButton verticalButton1;
+        private ecobill.module.base.ui.component.VerticalButton overviewVerticalButton;
         // End of variables declaration
 
          
