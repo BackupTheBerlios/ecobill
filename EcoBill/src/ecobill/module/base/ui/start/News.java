@@ -23,7 +23,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.18 2005/10/06 21:26:54 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.19 2005/10/06 21:43:23 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -202,11 +202,28 @@ public class News extends JPanel implements Internationalization {
 
     }
 
-    public void save() {
-        Message message = new Message();
-
-        message.setAddresser(jTextField1.getText());
-        message.setSubject(jTextField2.getText());
-        message.setMessage(jTextArea1.getText());
+    public JTextArea getjTextArea1() {
+        return jTextArea1;
     }
+
+    public void setjTextArea1(JTextArea jTextArea1) {
+        this.jTextArea1 = jTextArea1;
+    }
+
+    public JTextField getjTextField1() {
+        return jTextField1;
+    }
+
+    public void setjTextField1(JTextField jTextField1) {
+        this.jTextField1 = jTextField1;
+    }
+
+    public JTextField getjTextField2() {
+        return jTextField2;
+    }
+
+    public void setjTextField2(JTextField jTextField2) {
+        this.jTextField2 = jTextField2;
+    }
+
 }

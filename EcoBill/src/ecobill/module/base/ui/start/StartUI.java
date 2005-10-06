@@ -7,6 +7,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 
 import ecobill.module.base.service.BaseService;
+import ecobill.module.base.domain.Message;
 
 
 import javax.swing.*;
@@ -22,7 +23,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: StartUI.java,v 1.10 2005/10/06 21:31:04 jfuckerweiler Exp $
+ * @version $Id: StartUI.java,v 1.11 2005/10/06 21:38:29 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class StartUI extends JPanel implements InitializingBean {
@@ -140,5 +141,13 @@ public class StartUI extends JPanel implements InitializingBean {
 
     }
 
+
+    public void saveOrUpdateMessage() {
+        Message message = new Message();
+
+        message.setAddresser(newsOverview.getjTextField1().getText());
+        message.setSubject(newsOverview.getjTextField2().getText());
+        message.setMessage(newsOverview.getjTextArea1().getText());
+    }
 
 }
