@@ -10,7 +10,7 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.23 2005/10/06 16:13:32 jfuckerweiler Exp $
+ * @version $Id: Constants.java,v 1.24 2005/10/06 16:30:18 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {

@@ -21,7 +21,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: News.java,v 1.10 2005/10/06 16:26:00 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.11 2005/10/06 16:30:12 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -59,7 +59,7 @@ public class News extends JPanel implements Internationalization {
             overviewVerticalButton.getButton3().setVisible(true);
             overviewVerticalButton.getButton4().setVisible(true);
 
-         overviewVerticalButton.getButton1().setIcon(new ImageIcon("images/news.png"));
+         overviewVerticalButton.getButton1().setIcon(new ImageIcon("images/news_new.png"));
          overviewVerticalButton.getButton2().setIcon(new ImageIcon("images/news_ok.png"));
          overviewVerticalButton.getButton3().setIcon(new ImageIcon("images/news_delete.png"));
          overviewVerticalButton.getButton4().setIcon(new ImageIcon("images/refresh.png"));
