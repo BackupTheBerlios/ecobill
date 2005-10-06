@@ -9,7 +9,7 @@
  Time: 17:32:05
 
  @author Roman R&auml;dle
- @version $Id: Message.hbm.xml,v 1.5 2005/10/06 21:22:36 jfuckerweiler Exp $
+ @version $Id: Message.hbm.xml,v 1.6 2005/10/06 21:22:53 jfuckerweiler Exp $
  @since EcoBill 1.0
 -->
 
@@ -27,7 +27,7 @@
         </property>
 
         <property name="subject" type="string">
-            <column name="SUBJECT" not-null="true" unique="false"/>
+            <column name="SUBJECT" not-null="true" unique="false" />
         </property>
 
         <property name="message" type="string">
