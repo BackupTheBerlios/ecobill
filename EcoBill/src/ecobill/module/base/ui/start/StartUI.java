@@ -22,7 +22,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: StartUI.java,v 1.4 2005/10/06 14:45:38 jfuckerweiler Exp $
+ * @version $Id: StartUI.java,v 1.6 2005/10/06 15:00:02 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class StartUI extends JPanel implements InitializingBean {
@@ -104,6 +104,7 @@ public class StartUI extends JPanel implements InitializingBean {
     public void afterPropertiesSet() {
 
         // Initialisieren der Komponenten und des Layouts.
+        this.setLayout(new BorderLayout());
         initComponents();
 
         // Versuche evtl. abgelegte/serialisierte Objekte zu laden.
@@ -129,7 +130,7 @@ public class StartUI extends JPanel implements InitializingBean {
 
         newsOverview = new ecobill.module.base.ui.start.News();
 
-        this.add(newsOverview);
+        this.add(newsOverview, BorderLayout.WEST);
 
     }
 
