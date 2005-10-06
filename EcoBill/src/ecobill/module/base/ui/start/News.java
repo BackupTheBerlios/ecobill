@@ -25,7 +25,7 @@ import java.util.List;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.22 2005/10/06 22:48:53 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.23 2005/10/06 22:59:29 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -54,7 +54,8 @@ public class News extends JPanel implements Internationalization {
     private DefaultMutableTreeNode news = new DefaultMutableTreeNode("Alle Nachrichten");
     private DefaultMutableTreeNode newNews = new DefaultMutableTreeNode("Neue Nachrichten");
 
-    private String lumpi;
+    private String nodeSubject;
+    private String nodeAddresser;
 
     private void initComponents() {
             jPanel1 = new javax.swing.JPanel();
@@ -69,17 +70,23 @@ public class News extends JPanel implements Internationalization {
 
 
 
-            List hello = baseService.loadAll(Message.class);
-            hello.iterator();
+            List messages = baseService.loadAll(Message.class);
+            messages.iterator();
 
-                for (Object o : hello) {
+                for (Object o : messages) {
                      Message message = (Message) o;
-                     lumpi = message.getSubject();
-            }
 
+                     nodeAddresser = message.getAddresser();
+
+                    if (nodeAddresser.equals(user1)) {
+
+                     nodeSubject = message.getSubject();
+                     news.add(new DefaultMutableTreeNode(nodeSubject));
+                    }
+            }
             user.add(user1);
             user1.add(news);
-            news.add(new DefaultMutableTreeNode(lumpi));
+
             user1.add(newNews);
             jTree1 = new JTree(user);
 
