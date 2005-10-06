@@ -9,12 +9,10 @@ import ecobill.module.base.ui.component.VerticalButton;
 import ecobill.module.base.service.BaseService;
 
 import javax.swing.*;
-import javax.swing.tree.TreeNode;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import java.util.List;
 
 
 
@@ -27,7 +25,7 @@ import java.awt.event.ActionEvent;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.21 2005/10/06 22:25:51 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.22 2005/10/06 22:48:53 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -37,11 +35,14 @@ public class News extends JPanel implements Internationalization {
      */
     public News(BaseService baseService) {
 
+        this.baseService = baseService;
+
         initComponents();
 
         reinitI18N();
     }
-   
+    private BaseService baseService;
+
     private TitledBorder addresserBorder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.ADDRESSER), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
     private TitledBorder subjectBorder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.SUBJECT), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
     private TitledBorder newsBorder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.NEWS), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
@@ -52,6 +53,8 @@ public class News extends JPanel implements Internationalization {
     private DefaultMutableTreeNode user1 = new DefaultMutableTreeNode("Maier");
     private DefaultMutableTreeNode news = new DefaultMutableTreeNode("Alle Nachrichten");
     private DefaultMutableTreeNode newNews = new DefaultMutableTreeNode("Neue Nachrichten");
+
+    private String lumpi;
 
     private void initComponents() {
             jPanel1 = new javax.swing.JPanel();
@@ -64,10 +67,23 @@ public class News extends JPanel implements Internationalization {
             jScrollPane2 = new javax.swing.JScrollPane();
             overviewVerticalButton = new ecobill.module.base.ui.component.VerticalButton();
 
+
+
+            List hello = baseService.loadAll(Message.class);
+            hello.iterator();
+
+                for (Object o : hello) {
+                     Message message = (Message) o;
+                     lumpi = message.getSubject();
+            }
+
             user.add(user1);
             user1.add(news);
+            news.add(new DefaultMutableTreeNode(lumpi));
             user1.add(newNews);
             jTree1 = new JTree(user);
+
+
 
             overviewVerticalButton.getButton1().setVisible(true);
             overviewVerticalButton.getButton2().setVisible(true);
