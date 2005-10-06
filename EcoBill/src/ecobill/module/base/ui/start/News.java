@@ -4,6 +4,7 @@ package ecobill.module.base.ui.start;
 import ecobill.core.system.Internationalization;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
+import ecobill.module.base.domain.Message;
 
 import javax.swing.*;
 import javax.swing.tree.TreeNode;
@@ -22,7 +23,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: News.java,v 1.15 2005/10/06 17:26:27 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.16 2005/10/06 21:04:01 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -199,5 +200,13 @@ public class News extends JPanel implements Internationalization {
 
         overviewVerticalButton.reinitI18N();
 
+    }
+
+    public void save() {
+        Message message = new Message();
+
+        message.subject = jTextField1.getText();
+        message.addresser = jTextField2.getText();
+        message.message = jTextArea1.getText();
     }
 }
