@@ -32,7 +32,7 @@ import java.util.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleTable.java,v 1.7 2005/10/05 23:41:27 raedler Exp $
+ * @version $Id: ArticleTable.java,v 1.8 2005/10/06 14:36:04 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleTable extends AbstractTablePanel {
@@ -46,6 +46,13 @@ public class ArticleTable extends AbstractTablePanel {
      * Die id des <code>Article</code> der in der aktuell ausgewählt ist.
      */
     private Long articleId;
+
+    /**
+     * Erzeugt eine neues Article Table Panel für Artikel.
+     */
+    public ArticleTable(BaseService baseService) {
+        this(null, baseService);
+    }
 
     /**
      * Erzeugt eine neues Article Table Panel für Artikel.

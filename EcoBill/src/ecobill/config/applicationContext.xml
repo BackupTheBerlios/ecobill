@@ -26,6 +26,7 @@
                 <value>ecobill/config/bundle/base/county</value>
                 <value>ecobill/config/bundle/base/article</value>
                 <value>ecobill/config/bundle/base/businesspartner</value>
+                <value>ecobill/config/bundle/base/deliveryorder</value>
                 <value>ecobill/config/bundle/base/reports</value>
             </list>
         </property>

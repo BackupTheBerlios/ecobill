@@ -34,7 +34,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.69 2005/10/06 14:07:17 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.70 2005/10/06 14:36:04 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -675,8 +675,8 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         jtab.setTitleAt(0, WorkArea.getMessage(Constants.START));
         jtab.setTitleAt(1, WorkArea.getMessage(Constants.ARTICLE));
-        jtab.setTitleAt(2, WorkArea.getMessage(Constants.CUSTOMER));
-        jtab.setTitleAt(3, WorkArea.getMessage(Constants.BILLS));
+        jtab.setTitleAt(2, WorkArea.getMessage(Constants.CUSTOMERS));
+        jtab.setTitleAt(3, WorkArea.getMessage(Constants.DELIVERY_ORDERS));
 
         english.setText(WorkArea.getMessage(Constants.ENGLISH));
         german.setText(WorkArea.getMessage(Constants.GERMAN));

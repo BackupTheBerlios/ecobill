@@ -158,10 +158,15 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         overview = new JPanel();
         verticalButton = new VerticalButton();
         splitPane = new JSplitPane();
-        splitPanePanelRight = new JPanel();
+        panelLeft = new JPanel();
+        articleTable = new ArticleTable(baseService);
+        panelRight = new JPanel();
+        tabbedPaneRight = new JTabbedPane();
+        addressPanel = new JPanel();
         address = new Address();
+        deliveryOrderDataPanel = new JPanel();
         deliveryOrderData = new DeliveryOrderData();
-        deliveryOrderTable = new DeliveryOrderTable(null, baseService);
+        deliveryOrderTable = new DeliveryOrderTable(actualDeliveryOrderId, baseService);
         detail = new JPanel();
 
         MainFrame mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
@@ -250,57 +255,75 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
      */
     private void initLayout() {
 
-        setLayout(new BorderLayout());
+        setLayout(new java.awt.BorderLayout());
 
+        splitPane.setBorder(null);
         splitPane.setDividerLocation(200);
-        splitPane.setLastDividerLocation(84);
-        splitPane.setLeftComponent(articleTable);
+        splitPane.setOneTouchExpandable(true);
 
-        GroupLayout splitPanePanelRightLayout = new GroupLayout(splitPanePanelRight);
-        splitPanePanelRight.setLayout(splitPanePanelRightLayout);
-        splitPanePanelRightLayout.setHorizontalGroup(
-            splitPanePanelRightLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.TRAILING, splitPanePanelRightLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(splitPanePanelRightLayout.createParallelGroup(GroupLayout.TRAILING)
-                    .add(GroupLayout.LEADING, deliveryOrderTable, GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
-                    .add(GroupLayout.TRAILING, splitPanePanelRightLayout.createSequentialGroup()
-                        .add(address, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.RELATED)
-                        .add(deliveryOrderData, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .add(71, 71, 71))
-        );
-        splitPanePanelRightLayout.setVerticalGroup(
-            splitPanePanelRightLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, splitPanePanelRightLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(splitPanePanelRightLayout.createParallelGroup(GroupLayout.LEADING, false)
-                    .add(address, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(GroupLayout.TRAILING, deliveryOrderData, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(deliveryOrderTable, GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
+        org.jdesktop.layout.GroupLayout panelLeftLayout = new org.jdesktop.layout.GroupLayout(panelLeft);
+        panelLeft.setLayout(panelLeftLayout);
+        panelLeftLayout.setHorizontalGroup(
+            panelLeftLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.LEADING, panelLeftLayout.createSequentialGroup()
+                .add(articleTable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        splitPane.setRightComponent(splitPanePanelRight);
+        panelLeftLayout.setVerticalGroup(
+            panelLeftLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(articleTable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
+        );
+        splitPane.setLeftComponent(panelLeft);
 
-        GroupLayout overviewLayout = new GroupLayout(overview);
+        addressPanel.setLayout(new java.awt.BorderLayout());
+
+        addressPanel.add(address, java.awt.BorderLayout.CENTER);
+
+        tabbedPaneRight.addTab("tab1", addressPanel);
+
+        deliveryOrderDataPanel.setLayout(new java.awt.BorderLayout());
+
+        deliveryOrderDataPanel.add(deliveryOrderData, java.awt.BorderLayout.CENTER);
+
+        tabbedPaneRight.addTab("tab2", deliveryOrderDataPanel);
+
+        org.jdesktop.layout.GroupLayout panelRightLayout = new org.jdesktop.layout.GroupLayout(panelRight);
+        panelRight.setLayout(panelRightLayout);
+        panelRightLayout.setHorizontalGroup(
+            panelRightLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(panelRightLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(deliveryOrderTable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
+                    .add(tabbedPaneRight, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)))
+        );
+        panelRightLayout.setVerticalGroup(
+            panelRightLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
+                .add(tabbedPaneRight, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 342, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(deliveryOrderTable, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE))
+        );
+        splitPane.setRightComponent(panelRight);
+
+        org.jdesktop.layout.GroupLayout overviewLayout = new org.jdesktop.layout.GroupLayout(overview);
         overview.setLayout(overviewLayout);
         overviewLayout.setHorizontalGroup(
-            overviewLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
+            overviewLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.LEADING, overviewLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(verticalButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(splitPane, GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
+                .add(verticalButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(splitPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
                 .addContainerGap())
         );
         overviewLayout.setVerticalGroup(
-            overviewLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
+            overviewLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, overviewLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(overviewLayout.createParallelGroup(GroupLayout.LEADING)
-                    .add(splitPane, GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
-                    .add(verticalButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .add(overviewLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, splitPane)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, verticalButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE))
                 .addContainerGap())
         );
         tabbedPane.addTab("Übersicht", overview);
@@ -329,14 +352,18 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
     }
 
     private Address address;
-    private DeliveryOrderData deliveryOrderData;
+    private JPanel addressPanel;
     private ArticleTable articleTable;
+    private DeliveryOrderData deliveryOrderData;
+    private JPanel deliveryOrderDataPanel;
     private DeliveryOrderTable deliveryOrderTable;
     private JPanel detail;
     private JPanel overview;
+    private JPanel panelLeft;
+    private JPanel panelRight;
     private JSplitPane splitPane;
-    private JPanel splitPanePanelRight;
     private JTabbedPane tabbedPane;
+    private JTabbedPane tabbedPaneRight;
     private VerticalButton verticalButton;
 
     private DeliveryOrderPrintPanel deliveryOrderPrintPanel;

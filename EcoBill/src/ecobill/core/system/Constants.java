@@ -10,7 +10,7 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.20 2005/10/06 14:07:16 raedler Exp $
+ * @version $Id: Constants.java,v 1.22 2005/10/06 14:36:04 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {
@@ -49,10 +49,16 @@ public interface Constants {
     public final static String CAPACITY_TOOLTIP = "capacity.tooltip";
     public final static String COUNTRY = "country";
     public final static String COUNTRY_TOOLTIP = "country.tooltip";
+    public final static String CUSTOMER = "customer";
+    public final static String CUSTOMER_TOOLTIP = "customer.tooltip";
+    public final static String CUSTOMERS = "customers";
+    public final static String CUSTOMERS_TOOLTIP = "customers.tooltip";
     public final static String DATA = "data";
     public final static String DATA_TOOLTIP = "data.tooltip";
     public final static String DELIVERY_ORDER = "delivery_order";
     public final static String DELIVERY_ORDER_TOOLTIP = "delivery_order.tooltip";
+    public final static String DELIVERY_ORDERS = "delivery_orders";
+    public final static String DELIVERY_ORDERS_TOOLTIP = "delivery_orders.tooltip";
     public final static String DESCRIPTION = "description";
     public final static String DESCRIPTION_TOOLTIP = "description.tooltip";
     public final static String DESCRIPTIONS = "descriptions";
@@ -137,7 +143,6 @@ public interface Constants {
 
     public final static String START = "start";
     public final static String ARTICLE = "article";
-    public final static String CUSTOMER = "customer";
     public final static String BILLS = "bills";
 
     public final static String ENGLISH = "english";
@@ -165,6 +170,12 @@ public interface Constants {
     public final static String BUTTON4_ARTICLE_TOOLTIP = "button4articletooltip";
 
     public final static String DATA_ACTIONS = "dataaction";
+
+    public final static String NEWS = "news";
+
+    public final static String NAME = "name";
+    public final static String SUBJECT = "subject";
+
 
 
 
