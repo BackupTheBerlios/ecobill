@@ -11,7 +11,6 @@ import ecobill.module.base.service.BaseService;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.util.List;
@@ -27,7 +26,7 @@ import java.util.Enumeration;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.30 2005/10/07 09:58:07 raedler Exp $
+ * @version $Id: News.java,v 1.31 2005/10/07 10:03:52 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -65,46 +64,7 @@ public class News extends JPanel implements Internationalization {
         jScrollPane2 = new javax.swing.JScrollPane();
         overviewVerticalButton = new ecobill.module.base.ui.component.VerticalButton();
 
-
-        List messages = baseService.loadAll(Message.class);
-
-        boolean found = false;
-
-        for (Object o : messages) {
-            Message message = (Message) o;
-
-            IdValueItem idValueItem = new IdValueItem();
-            idValueItem.setId(message.getId());
-            idValueItem.setValue(message.getSubject());
-
-            Enumeration childs = root.children();
-
-            while (childs.hasMoreElements()) {
-
-                System.out.println("ECHO");
-
-                DefaultMutableTreeNode node = (DefaultMutableTreeNode) childs.nextElement();
-
-                if (node.getUserObject().equals(message.getAddresser())) {
-
-                    found = true;
-
-                    node.add(new DefaultMutableTreeNode(idValueItem));
-
-                    break;
-                }
-            }
-
-            if (!found) {
-                DefaultMutableTreeNode node = new DefaultMutableTreeNode(message.getAddresser());
-                node.add(new DefaultMutableTreeNode(idValueItem));
-
-                root.add(node);
-            }
-        }
-
-        jTree1 = new JTree(root);
-
+        buildTree();
 
         overviewVerticalButton.getButton1().setVisible(true);
         overviewVerticalButton.getButton2().setVisible(true);
@@ -276,6 +236,49 @@ public class News extends JPanel implements Internationalization {
 
     public void setjTree1(JTree jTree1) {
         this.jTree1 = jTree1;
+    }
+
+    public void buildTree() {
+
+        List messages = baseService.loadAll(Message.class);
+
+        boolean found = false;
+
+        for (Object o : messages) {
+            Message message = (Message) o;
+
+            IdValueItem idValueItem = new IdValueItem();
+            idValueItem.setId(message.getId());
+            idValueItem.setValue(message.getSubject());
+
+            Enumeration childs = root.children();
+
+            while (childs.hasMoreElements()) {
+
+                System.out.println("ECHO");
+
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode) childs.nextElement();
+
+                if (node.getUserObject().equals(message.getAddresser())) {
+
+                    found = true;
+
+                    node.add(new DefaultMutableTreeNode(idValueItem));
+
+                    break;
+                }
+            }
+
+            if (!found) {
+                DefaultMutableTreeNode node = new DefaultMutableTreeNode(message.getAddresser());
+                node.add(new DefaultMutableTreeNode(idValueItem));
+
+                root.add(node);
+            }
+        }
+
+        jTree1 = new JTree(root);
+
     }
 
 }
