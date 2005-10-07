@@ -29,7 +29,7 @@ import java.util.Enumeration;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.35 2005/10/07 13:22:43 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.36 2005/10/07 13:27:20 raedler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -272,10 +272,19 @@ public class News extends JPanel implements Internationalization {
     }
 
     public void deleteMessage() {
+
         jTree1.addTreeSelectionListener(new TreeSelectionListener() {
+
             public void valueChanged(TreeSelectionEvent e) {
+
                 TreePath path = e.getNewLeadSelectionPath();
                 System.out.println(path);
+
+                Object o = jTree1.getLastSelectedPathComponent();
+
+                IdValueItem idValueItem = (IdValueItem) o;
+
+                System.out.println("OBJ: " + o);
             }
         });
     }
