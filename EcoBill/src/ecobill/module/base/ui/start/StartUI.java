@@ -26,7 +26,7 @@ import java.awt.event.ActionEvent;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: StartUI.java,v 1.14 2005/10/07 09:58:07 raedler Exp $
+ * @version $Id: StartUI.java,v 1.15 2005/10/07 10:14:51 raedler Exp $
  * @since EcoBill 1.0
  */
 public class StartUI extends JPanel implements InitializingBean {
@@ -143,7 +143,6 @@ public class StartUI extends JPanel implements InitializingBean {
                 saveOrUpdateMessage();
 
                 newsOverview.getjTree1().updateUI();
-                newsOverview.getjTree1().repaint();
             }
         });
 
@@ -178,6 +177,8 @@ public class StartUI extends JPanel implements InitializingBean {
 
 
         baseService.saveOrUpdate(message);
+
+        newsOverview.addMessageToTree(message);
     }
 
     public void deleteMessage() {

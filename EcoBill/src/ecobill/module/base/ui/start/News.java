@@ -26,7 +26,7 @@ import java.util.Enumeration;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.33 2005/10/07 10:09:44 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.34 2005/10/07 10:14:51 raedler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -242,45 +242,47 @@ public class News extends JPanel implements Internationalization {
 
         List messages = baseService.loadAll(Message.class);
 
-        boolean found = false;
-
         for (Object o : messages) {
             Message message = (Message) o;
 
-    }
-    }
-
-    public void addMessageToTree(Message message) {
-        IdValueItem idValueItem = new IdValueItem();
-            idValueItem.setId(message.getId());
-            idValueItem.setValue(message.getSubject());
-
-            Enumeration childs = root.children();
-
-            while (childs.hasMoreElements()) {
-
-                System.out.println("ECHO");
-
-                DefaultMutableTreeNode node = (DefaultMutableTreeNode) childs.nextElement();
-
-                if (node.getUserObject().equals(message.getAddresser())) {
-
-                    found = true;
-
-                    node.add(new DefaultMutableTreeNode(idValueItem));
-
-                    break;
-                }
-            }
-
-            if (!found) {
-                DefaultMutableTreeNode node = new DefaultMutableTreeNode(message.getAddresser());
-                node.add(new DefaultMutableTreeNode(idValueItem));
-
-                root.add(node);
-            }
+            addMessageToTree(message);
         }
 
         jTree1 = new JTree(root);
     }
+
+    public void addMessageToTree(Message message) {
+
+        IdValueItem idValueItem = new IdValueItem();
+        idValueItem.setId(message.getId());
+        idValueItem.setValue(message.getSubject());
+
+        boolean found = false;
+
+        Enumeration childs = root.children();
+
+        while (childs.hasMoreElements()) {
+
+            System.out.println("ECHO");
+
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode) childs.nextElement();
+
+            if (node.getUserObject().equals(message.getAddresser())) {
+
+                found = true;
+
+                node.add(new DefaultMutableTreeNode(idValueItem));
+
+                break;
+            }
+        }
+
+        if (!found) {
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode(message.getAddresser());
+            node.add(new DefaultMutableTreeNode(idValueItem));
+
+            root.add(node);
+        }
+    }
+}
 
