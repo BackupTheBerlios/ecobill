@@ -26,7 +26,7 @@ import java.util.Enumeration;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.31 2005/10/07 10:03:52 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.32 2005/10/07 10:05:43 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -51,7 +51,7 @@ public class News extends JPanel implements Internationalization {
     //private TitledBorder actionsBorder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.BANK_DATA), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
     private TitledBorder overviewBorder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.OVERVIEW), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
 
-    private DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
+    private DefaultMutableTreeNode root = new DefaultMutableTreeNode("Übersicht");
 
     private void initComponents() {
         jPanel1 = new javax.swing.JPanel();
