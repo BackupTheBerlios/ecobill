@@ -14,6 +14,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeNode;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.util.List;
@@ -29,7 +30,7 @@ import java.util.Enumeration;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.39 2005/10/07 14:07:06 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.40 2005/10/07 14:16:12 raedler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -67,8 +68,7 @@ public class News extends JPanel implements Internationalization {
         jScrollPane2 = new javax.swing.JScrollPane();
         overviewVerticalButton = new ecobill.module.base.ui.component.VerticalButton();
 
-        readTree();
-        showMessage();
+        initTree();
 
         overviewVerticalButton.getButton1().setVisible(true);
         overviewVerticalButton.getButton2().setVisible(true);
@@ -132,12 +132,12 @@ public class News extends JPanel implements Internationalization {
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                 .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 523, Short.MAX_VALUE)
-                .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel2)
-                .add(jPanel1)))
-                .add(33, 33, 33))
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 523, Short.MAX_VALUE)
+                                .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                                .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel2)
+                                .add(jPanel1)))
+                        .add(33, 33, 33))
                 .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
                 .add(overviewVerticalButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(19, 19, 19)
@@ -153,8 +153,8 @@ public class News extends JPanel implements Internationalization {
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 111, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(overviewVerticalButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(overviewVerticalButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(30, Short.MAX_VALUE)));
     }
     // </editor-fold>
@@ -226,7 +226,7 @@ public class News extends JPanel implements Internationalization {
         this.jTree1 = jTree1;
     }
 
-    public void readTree() {
+    private void initTree() {
 
         List messages = baseService.loadAll(Message.class);
 
@@ -237,6 +237,28 @@ public class News extends JPanel implements Internationalization {
         }
 
         jTree1 = new JTree(root);
+
+        // Tree listener
+        jTree1.addTreeSelectionListener(new TreeSelectionListener() {
+
+            public void valueChanged(TreeSelectionEvent e) {
+
+                Object o = jTree1.getLastSelectedPathComponent();
+
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode) o;
+
+                if (node.isLeaf()) {
+
+                    IdValueItem idValueItem = (IdValueItem) node.getUserObject();
+
+                    Long diaId = idValueItem.getId();
+
+                    Message m = (Message) baseService.load(Message.class, diaId);
+
+                    showMessage(m);
+                }
+            }
+        });
     }
 
     public void addMessageToTree(Message message) {
@@ -271,56 +293,35 @@ public class News extends JPanel implements Internationalization {
         }
     }
 
-    public void showMessage() {
+    public void showMessage(Message message) {
 
-        jTree1.addTreeSelectionListener(new TreeSelectionListener() {
-
-            public void valueChanged(TreeSelectionEvent e) {
-
-                Object o = jTree1.getLastSelectedPathComponent();
-
-                DefaultMutableTreeNode node = (DefaultMutableTreeNode) o;
-
-                if (node.isLeaf()) {
-
-                IdValueItem idValueItem = (IdValueItem) node.getUserObject();
-
-                Long diaId = idValueItem.getId();
-
-                Message m = (Message) baseService.load(Message.class, diaId);
-
-
-                jTextField1.setText(m.getAddresser());
-                jTextField2.setText(m.getSubject());
-                jTextArea1.setText(m.getMessage());
-                }
-            }
-        });
+        jTextField1.setText(message.getAddresser());
+        jTextField2.setText(message.getSubject());
+        jTextArea1.setText(message.getMessage());
     }
 
     public void deleteMessage() {
 
-        jTree1.addTreeSelectionListener(new TreeSelectionListener() {
+        Object o = jTree1.getLastSelectedPathComponent();
 
-            public void valueChanged(TreeSelectionEvent e) {
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) o;
 
-                Object o = jTree1.getLastSelectedPathComponent();
+        if (node.isLeaf()) {
 
-                DefaultMutableTreeNode node = (DefaultMutableTreeNode) o;
+            DefaultMutableTreeNode parent = (DefaultMutableTreeNode) node.getParent();
 
-                if (node.isLeaf()) {
+            node.removeFromParent();
 
-                    root.remove(node);
-
-                IdValueItem idValueItem = (IdValueItem) node.getUserObject();
-
-                Long diaId = idValueItem.getId();
-
-                baseService.delete(Message.class, diaId);
-
-    }
+            if (parent.getChildCount() < 1) {
+                parent.removeFromParent();
             }
-});
-}
+
+            IdValueItem idValueItem = (IdValueItem) node.getUserObject();
+
+            Long diaId = idValueItem.getId();
+
+            baseService.delete(Message.class, diaId);
+        }
+    }
 }
 
