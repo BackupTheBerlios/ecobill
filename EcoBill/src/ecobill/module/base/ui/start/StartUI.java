@@ -26,7 +26,7 @@ import java.awt.event.ActionEvent;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: StartUI.java,v 1.13 2005/10/06 23:56:15 jfuckerweiler Exp $
+ * @version $Id: StartUI.java,v 1.14 2005/10/07 09:58:07 raedler Exp $
  * @since EcoBill 1.0
  */
 public class StartUI extends JPanel implements InitializingBean {
@@ -141,6 +141,9 @@ public class StartUI extends JPanel implements InitializingBean {
             public void actionPerformed(ActionEvent e) {
 
                 saveOrUpdateMessage();
+
+                newsOverview.getjTree1().updateUI();
+                newsOverview.getjTree1().repaint();
             }
         });
 
