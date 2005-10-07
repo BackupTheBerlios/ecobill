@@ -30,7 +30,7 @@ import java.util.Enumeration;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.40 2005/10/07 14:16:12 raedler Exp $
+ * @version $Id: News.java,v 1.41 2005/10/07 14:42:41 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -226,7 +226,7 @@ public class News extends JPanel implements Internationalization {
         this.jTree1 = jTree1;
     }
 
-    private void initTree() {
+    public void initTree() {
 
         List messages = baseService.loadAll(Message.class);
 
@@ -322,6 +322,16 @@ public class News extends JPanel implements Internationalization {
 
             baseService.delete(Message.class, diaId);
         }
+    }
+
+    public void newMessage() {
+
+        jTextField1.setText(null);
+        jTextField2.setText(null);
+        jTextArea1.setText(null);
+    }
+
+    public void refreshTree() {
     }
 }
 

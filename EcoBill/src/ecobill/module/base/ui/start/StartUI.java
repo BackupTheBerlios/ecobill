@@ -26,7 +26,7 @@ import java.awt.event.ActionEvent;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: StartUI.java,v 1.18 2005/10/07 14:16:12 raedler Exp $
+ * @version $Id: StartUI.java,v 1.19 2005/10/07 14:42:48 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class StartUI extends JPanel implements InitializingBean {
@@ -134,6 +134,16 @@ public class StartUI extends JPanel implements InitializingBean {
 
         newsOverview = new ecobill.module.base.ui.start.News(baseService);
 
+        newsOverview.getOverviewVerticalButton().getButton1().addActionListener(new ActionListener() {
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+
+                newMessage();
+            }
+        });
+
         newsOverview.getOverviewVerticalButton().getButton2().addActionListener(new ActionListener() {
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -156,6 +166,17 @@ public class StartUI extends JPanel implements InitializingBean {
                 newsOverview.getjTree1().updateUI();
             }
         });
+
+        newsOverview.getOverviewVerticalButton().getButton4().addActionListener(new ActionListener() {
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+
+                refreshTree();
+            }
+        });
+
 
 
         this.add(newsOverview, BorderLayout.CENTER);
@@ -186,5 +207,15 @@ public class StartUI extends JPanel implements InitializingBean {
 
         newsOverview.deleteMessage();
 
+    }
+
+    public void refreshTree() {
+
+        newsOverview.refreshTree();
+    }
+
+    public void newMessage() {
+
+        newsOverview.newMessage();
     }
 }
