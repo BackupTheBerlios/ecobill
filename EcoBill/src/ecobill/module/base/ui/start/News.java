@@ -26,7 +26,7 @@ import java.util.List;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.26 2005/10/06 23:56:04 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.27 2005/10/07 09:40:38 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -51,8 +51,10 @@ public class News extends JPanel implements Internationalization {
     private TitledBorder overviewBorder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.OVERVIEW), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
 
     private DefaultMutableTreeNode user = new DefaultMutableTreeNode("Benutzer");
-    private DefaultMutableTreeNode news = new DefaultMutableTreeNode("Alle Nachrichten");
-    //private DefaultMutableTreeNode newNews = new DefaultMutableTreeNode("Neue Nachrichten");
+    private DefaultMutableTreeNode news = new DefaultMutableTreeNode("Nachrichten");
+    private DefaultMutableTreeNode news1 = new DefaultMutableTreeNode("Nachrichten");
+    private DefaultMutableTreeNode news2 = new DefaultMutableTreeNode("Nachrichten");
+
 
     private String nodeSubject;
     private String nodeAddresser;
@@ -78,12 +80,9 @@ public class News extends JPanel implements Internationalization {
 
                     nodeAddresser = message.getAddresser();
                     DefaultMutableTreeNode name = new DefaultMutableTreeNode(nodeAddresser);
-
                     user.add(name);
 
-                    for (int i = 1; i <= 3; i++) {
-                       name.add(news);
-                     }
+
 
                    // String m = names.toString();
 
@@ -93,6 +92,14 @@ public class News extends JPanel implements Internationalization {
                      //news.add(new DefaultMutableTreeNode(nodeSubject));
                     //}
             }
+                    DefaultMutableTreeNode first = user.getFirstLeaf();
+                    DefaultMutableTreeNode second = first.getNextLeaf();
+                    DefaultMutableTreeNode third = second.getNextLeaf();
+
+                    first.add(news);
+                    second.add(news1);
+                    third.add(news2);
+
 
             jTree1 = new JTree(user);
 
