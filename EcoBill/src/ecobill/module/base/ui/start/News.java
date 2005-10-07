@@ -30,7 +30,7 @@ import java.util.Enumeration;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.41 2005/10/07 14:42:41 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.42 2005/10/07 14:53:37 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -332,6 +332,10 @@ public class News extends JPanel implements Internationalization {
     }
 
     public void refreshTree() {
+
+        jScrollPane2.remove(jTree1);
+        initTree();
+        jScrollPane2.add(jTree1);
     }
 }
 
