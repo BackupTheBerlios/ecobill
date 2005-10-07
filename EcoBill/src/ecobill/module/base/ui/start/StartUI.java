@@ -26,7 +26,7 @@ import java.awt.event.ActionEvent;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: StartUI.java,v 1.16 2005/10/07 13:45:09 jfuckerweiler Exp $
+ * @version $Id: StartUI.java,v 1.17 2005/10/07 14:07:12 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class StartUI extends JPanel implements InitializingBean {
@@ -153,6 +153,7 @@ public class StartUI extends JPanel implements InitializingBean {
             public void actionPerformed(ActionEvent e) {
 
                 deleteMessage();
+                newsOverview.getjTree1().updateUI();
             }
         });
 
@@ -183,7 +184,7 @@ public class StartUI extends JPanel implements InitializingBean {
 
     public void deleteMessage() {
 
-        //newsOverview.deleteMessage();
+        newsOverview.deleteMessage();
 
     }
 }

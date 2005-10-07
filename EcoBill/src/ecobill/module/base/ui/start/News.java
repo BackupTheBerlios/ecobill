@@ -29,7 +29,7 @@ import java.util.Enumeration;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.38 2005/10/07 13:45:02 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.39 2005/10/07 14:07:06 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -277,9 +277,6 @@ public class News extends JPanel implements Internationalization {
 
             public void valueChanged(TreeSelectionEvent e) {
 
-                TreePath path = e.getNewLeadSelectionPath();
-                System.out.println(path);
-
                 Object o = jTree1.getLastSelectedPathComponent();
 
                 DefaultMutableTreeNode node = (DefaultMutableTreeNode) o;
@@ -297,11 +294,33 @@ public class News extends JPanel implements Internationalization {
                 jTextField2.setText(m.getSubject());
                 jTextArea1.setText(m.getMessage());
                 }
-
-
-                //System.out.println("OBJ: " + idValueItem);
             }
         });
     }
+
+    public void deleteMessage() {
+
+        jTree1.addTreeSelectionListener(new TreeSelectionListener() {
+
+            public void valueChanged(TreeSelectionEvent e) {
+
+                Object o = jTree1.getLastSelectedPathComponent();
+
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode) o;
+
+                if (node.isLeaf()) {
+
+                    root.remove(node);
+
+                IdValueItem idValueItem = (IdValueItem) node.getUserObject();
+
+                Long diaId = idValueItem.getId();
+
+                baseService.delete(Message.class, diaId);
+
+    }
+            }
+});
+}
 }
 
