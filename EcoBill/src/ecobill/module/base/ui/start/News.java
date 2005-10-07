@@ -30,7 +30,7 @@ import java.util.Enumeration;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.44 2005/10/07 15:00:34 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.45 2005/10/07 15:05:31 raedler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -54,8 +54,6 @@ public class News extends JPanel implements Internationalization {
     private TitledBorder newsBorder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.NEWS), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
     //private TitledBorder actionsBorder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.BANK_DATA), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
     private TitledBorder overviewBorder = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.OVERVIEW), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
-
-    private DefaultMutableTreeNode root = new DefaultMutableTreeNode("Übersicht");
 
     private void initComponents() {
         jPanel1 = new javax.swing.JPanel();
@@ -228,6 +226,8 @@ public class News extends JPanel implements Internationalization {
 
     public void initTree() {
 
+        jTree1 = new JTree(new DefaultMutableTreeNode("Übersicht"));
+
         List messages = baseService.loadAll(Message.class);
 
         for (Object o : messages) {
@@ -235,8 +235,6 @@ public class News extends JPanel implements Internationalization {
 
             addMessageToTree(message);
         }
-
-        jTree1 = new JTree(root);
 
         // Tree listener
         jTree1.addTreeSelectionListener(new TreeSelectionListener() {
@@ -259,6 +257,8 @@ public class News extends JPanel implements Internationalization {
                 }
             }
         });
+
+        jTree1.updateUI();
     }
 
     public void addMessageToTree(Message message) {
@@ -268,6 +268,8 @@ public class News extends JPanel implements Internationalization {
         idValueItem.setValue(message.getSubject());
 
         boolean found = false;
+
+        DefaultMutableTreeNode root = (DefaultMutableTreeNode) jTree1.getModel().getRoot();
 
         Enumeration childs = root.children();
 
@@ -335,7 +337,7 @@ public class News extends JPanel implements Internationalization {
 
         jScrollPane2.remove(jTree1);
         initTree();
-        jScrollPane2.add(jTree1);
+        jScrollPane2.setViewportView(jTree1);
         jScrollPane2.validate();
     }
 }
