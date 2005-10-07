@@ -26,7 +26,7 @@ import java.util.List;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.28 2005/10/07 09:44:51 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.29 2005/10/07 09:45:22 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -90,7 +90,6 @@ public class News extends JPanel implements Internationalization {
                      name.add(new DefaultMutableTreeNode(nodeSubject));
                     }
             }
-
 
             jTree1 = new JTree(user);
 
