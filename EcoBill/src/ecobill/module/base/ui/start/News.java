@@ -29,7 +29,7 @@ import java.util.Enumeration;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.37 2005/10/07 13:32:44 raedler Exp $
+ * @version $Id: News.java,v 1.38 2005/10/07 13:45:02 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -68,7 +68,7 @@ public class News extends JPanel implements Internationalization {
         overviewVerticalButton = new ecobill.module.base.ui.component.VerticalButton();
 
         readTree();
-        deleteMessage();
+        showMessage();
 
         overviewVerticalButton.getButton1().setVisible(true);
         overviewVerticalButton.getButton2().setVisible(true);
@@ -271,7 +271,7 @@ public class News extends JPanel implements Internationalization {
         }
     }
 
-    public void deleteMessage() {
+    public void showMessage() {
 
         jTree1.addTreeSelectionListener(new TreeSelectionListener() {
 
@@ -284,9 +284,22 @@ public class News extends JPanel implements Internationalization {
 
                 DefaultMutableTreeNode node = (DefaultMutableTreeNode) o;
 
+                if (node.isLeaf()) {
+
                 IdValueItem idValueItem = (IdValueItem) node.getUserObject();
 
-                System.out.println("OBJ: " + idValueItem);
+                Long diaId = idValueItem.getId();
+
+                Message m = (Message) baseService.load(Message.class, diaId);
+
+
+                jTextField1.setText(m.getAddresser());
+                jTextField2.setText(m.getSubject());
+                jTextArea1.setText(m.getMessage());
+                }
+
+
+                //System.out.println("OBJ: " + idValueItem);
             }
         });
     }
