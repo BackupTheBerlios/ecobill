@@ -26,7 +26,7 @@ import java.util.Enumeration;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.32 2005/10/07 10:05:43 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.33 2005/10/07 10:09:44 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -64,7 +64,7 @@ public class News extends JPanel implements Internationalization {
         jScrollPane2 = new javax.swing.JScrollPane();
         overviewVerticalButton = new ecobill.module.base.ui.component.VerticalButton();
 
-        buildTree();
+        readTree();
 
         overviewVerticalButton.getButton1().setVisible(true);
         overviewVerticalButton.getButton2().setVisible(true);
@@ -238,7 +238,7 @@ public class News extends JPanel implements Internationalization {
         this.jTree1 = jTree1;
     }
 
-    public void buildTree() {
+    public void readTree() {
 
         List messages = baseService.loadAll(Message.class);
 
@@ -247,7 +247,11 @@ public class News extends JPanel implements Internationalization {
         for (Object o : messages) {
             Message message = (Message) o;
 
-            IdValueItem idValueItem = new IdValueItem();
+    }
+    }
+
+    public void addMessageToTree(Message message) {
+        IdValueItem idValueItem = new IdValueItem();
             idValueItem.setId(message.getId());
             idValueItem.setValue(message.getSubject());
 
@@ -278,7 +282,5 @@ public class News extends JPanel implements Internationalization {
         }
 
         jTree1 = new JTree(root);
-
     }
 
-}
