@@ -25,7 +25,7 @@ import java.awt.event.ActionEvent;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: StartUI.java,v 1.20 2005/10/08 12:11:21 jfuckerweiler Exp $
+ * @version $Id: StartUI.java,v 1.21 2005/10/08 12:24:39 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class StartUI extends JPanel implements InitializingBean {
@@ -151,7 +151,7 @@ public class StartUI extends JPanel implements InitializingBean {
 
                 saveOrUpdateMessage();
 
-                newsOverview.getnewsTree().updateUI();
+                newsOverview.getNewsTree().updateUI();
             }
         });
 
@@ -162,7 +162,7 @@ public class StartUI extends JPanel implements InitializingBean {
             public void actionPerformed(ActionEvent e) {
 
                 deleteMessage();
-                newsOverview.getnewsTree().updateUI();
+                newsOverview.getNewsTree().updateUI();
             }
         });
 
@@ -192,9 +192,9 @@ public class StartUI extends JPanel implements InitializingBean {
     public void saveOrUpdateMessage() {
         Message message = new Message();
 
-        message.setAddresser(newsOverview.getaddresserTextField().getText());
-        message.setSubject(newsOverview.getsubjectTextField().getText());
-        message.setMessage(newsOverview.getnewsTextArea().getText());
+        message.setAddresser(newsOverview.getAddresserTextField().getText());
+        message.setSubject(newsOverview.getSubjectTextField().getText());
+        message.setMessage(newsOverview.getNewsTextArea().getText());
 
 
         baseService.saveOrUpdate(message);

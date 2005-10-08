@@ -28,7 +28,7 @@ import java.util.Enumeration;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.47 2005/10/08 12:11:29 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.48 2005/10/08 12:24:13 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -276,27 +276,27 @@ public class News extends JPanel implements Internationalization {
 
     }
 
-    public JTextArea getnewsTextArea() {
+    public JTextArea getNewsTextArea() {
         return newsTextArea;
     }
 
-    public void setnewsTextArea(JTextArea newsTextArea) {
+    public void setNewsTextArea(JTextArea newsTextArea) {
         this.newsTextArea = newsTextArea;
     }
 
-    public JTextField getaddresserTextField() {
+    public JTextField getAddresserTextField() {
         return addresserTextField;
     }
 
-    public void setaddresserTextField(JTextField addresserTextField) {
+    public void setAddresserTextField(JTextField addresserTextField) {
         this.addresserTextField = addresserTextField;
     }
 
-    public JTextField getsubjectTextField() {
+    public JTextField getSubjectTextField() {
         return subjectTextField;
     }
 
-    public void setsubjectTextField(JTextField subjectTextField) {
+    public void setSubjectTextField(JTextField subjectTextField) {
         this.subjectTextField = subjectTextField;
     }
 
@@ -304,11 +304,11 @@ public class News extends JPanel implements Internationalization {
         return overviewVerticalButton;
     }
 
-    public JTree getnewsTree() {
+    public JTree getNewsTree() {
         return newsTree;
     }
 
-    public void setnewsTree(JTree newsTree) {
+    public void setNewsTree(JTree newsTree) {
         this.newsTree = newsTree;
     }
 
