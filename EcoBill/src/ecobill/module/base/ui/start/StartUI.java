@@ -8,7 +8,6 @@ import org.springframework.context.ApplicationContext;
 
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.Message;
-import ecobill.core.util.IdKeyItem;
 
 
 import javax.swing.*;
@@ -26,7 +25,7 @@ import java.awt.event.ActionEvent;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: StartUI.java,v 1.19 2005/10/07 14:42:48 jfuckerweiler Exp $
+ * @version $Id: StartUI.java,v 1.20 2005/10/08 12:11:21 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class StartUI extends JPanel implements InitializingBean {
@@ -152,7 +151,7 @@ public class StartUI extends JPanel implements InitializingBean {
 
                 saveOrUpdateMessage();
 
-                newsOverview.getjTree1().updateUI();
+                newsOverview.getnewsTree().updateUI();
             }
         });
 
@@ -163,7 +162,7 @@ public class StartUI extends JPanel implements InitializingBean {
             public void actionPerformed(ActionEvent e) {
 
                 deleteMessage();
-                newsOverview.getjTree1().updateUI();
+                newsOverview.getnewsTree().updateUI();
             }
         });
 
@@ -193,9 +192,9 @@ public class StartUI extends JPanel implements InitializingBean {
     public void saveOrUpdateMessage() {
         Message message = new Message();
 
-        message.setAddresser(newsOverview.getjTextField1().getText());
-        message.setSubject(newsOverview.getjTextField2().getText());
-        message.setMessage(newsOverview.getjTextArea1().getText());
+        message.setAddresser(newsOverview.getaddresserTextField().getText());
+        message.setSubject(newsOverview.getsubjectTextField().getText());
+        message.setMessage(newsOverview.getnewsTextArea().getText());
 
 
         baseService.saveOrUpdate(message);
