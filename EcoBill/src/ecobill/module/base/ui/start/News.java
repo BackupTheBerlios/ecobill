@@ -30,7 +30,7 @@ import java.util.Enumeration;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.45 2005/10/07 15:05:31 raedler Exp $
+ * @version $Id: News.java,v 1.46 2005/10/08 11:10:14 raedler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -245,7 +245,7 @@ public class News extends JPanel implements Internationalization {
 
                 DefaultMutableTreeNode node = (DefaultMutableTreeNode) o;
 
-                if (node.isLeaf()) {
+                if (node != null && node.isLeaf()) {
 
                     IdValueItem idValueItem = (IdValueItem) node.getUserObject();
 

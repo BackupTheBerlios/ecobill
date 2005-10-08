@@ -3,6 +3,10 @@ package ecobill.core.ui;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ApplicationContext;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,16 +17,19 @@ import java.io.FileInputStream;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
+import ecobill.core.system.WorkArea;
+import ecobill.core.system.Constants;
+
 /**
  *
  */
-public class SplashScreen extends JFrame implements InitializingBean, Runnable {
+public class SplashScreen extends JFrame implements InitializingBean, DisposableBean, Runnable {
 
     /**
      * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
      * Diese Ausgaben können in einem separaten File spezifiziert werden.
      */
-    private static final Log LOG = LogFactory.getLog(SplashScreen.class);
+    private static final Log LOG = LogFactory.getLog(MainFrame.class);
 
     /**
      * Ein eigenständiger <code>Thread</code> der während des Ladens der eigentlichen Applikation
@@ -56,6 +63,11 @@ public class SplashScreen extends JFrame implements InitializingBean, Runnable {
      * @param splashImageFilename Der Dateiname incl. des relativen Pfades des anzuzeigenden Images.
      */
     public SplashScreen(String splashImageFilename) {
+
+        // Setzt das IconImage des <code>JFrame</code>.
+        setIconImage(Toolkit.getDefaultToolkit().getImage("images/ico/currency_dollar.png"));
+
+        setTitle(WorkArea.getMessage(Constants.APPLICATION_TITLE));
 
         // Setze die für einen SplashScreen üblichen Einstellungen.
         setUndecorated(true);
@@ -102,6 +114,16 @@ public class SplashScreen extends JFrame implements InitializingBean, Runnable {
      * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
      */
     public void afterPropertiesSet() {
+        thread = null;
+    }
+
+    /**
+     * Diese Methode wird nur verwendet um, nach dem Setzen des <code>Splashable</code>, das
+     * <code>SplashScreen</code> zu schließen. -> Nur im Fehlerfall.
+     *
+     * @throws Exception - sollte nicht auftreten.
+     */
+    public void destroy() throws Exception {
         thread = null;
     }
 

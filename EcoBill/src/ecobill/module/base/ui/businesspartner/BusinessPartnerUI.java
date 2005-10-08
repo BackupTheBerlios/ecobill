@@ -39,7 +39,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerUI.java,v 1.8 2005/10/05 23:41:27 raedler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.9 2005/10/08 11:10:14 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -188,8 +188,11 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
              */
             public void actionPerformed(ActionEvent e) {
+
+                // Setzt den Lieferschein Button disabled.
                 overviewVerticalButton.getButton6().setEnabled(false);
 
+                // Löscht den Inhalt der Eingabefelder.
                 resetInput();
             }
         });
@@ -202,9 +205,15 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
              */
             public void actionPerformed(ActionEvent e) {
+
+                // Speichert den aktuell eingegebenen Geschäftspartner oder aktualisiert diesen
+                // gegebenenfalls.
                 saveOrUpdateBusinessPartner();
+
+                // Erneuert die <code>BusinessPartnerTable</code>.
                 overviewBusinessPartnerTable.renewTableModel();
 
+                // Setzt den Lieferschein Button enabled.
                 overviewVerticalButton.getButton6().setEnabled(true);
             }
         });
@@ -217,9 +226,14 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
              */
             public void actionPerformed(ActionEvent e) {
+
+                // Löscht den aktuell markierten Geschäftspartner.
                 baseService.delete(BusinessPartner.class, actualBusinessPartnerId);
+
+                // Erneuert die <code>BusinessPartnerTable</code>.
                 overviewBusinessPartnerTable.renewTableModel();
 
+                // Setzt den Lieferschein Button disabled.
                 overviewVerticalButton.getButton6().setEnabled(false);
             }
         });
@@ -233,6 +247,8 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
              */
             public void actionPerformed(ActionEvent e) {
 
+                // Erneuert die <code>BusinessPartnerTable</code>.
+                overviewBusinessPartnerTable.renewTableModel();
             }
         });
 
@@ -246,11 +262,15 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
              */
             public void actionPerformed(ActionEvent e) {
 
+                // Lädt den aktuell markierten Geschäftspartner.
                 BusinessPartner businessPartner = (BusinessPartner) baseService.load(BusinessPartner.class, actualBusinessPartnerId);
 
+                // Holt das Lieferschein User Interface aus dem <code>ApplicationContext</code> um den
+                // Geschäftspartner zu setzen und ihm dann einen Lieferschein auszustellen.
                 DeliveryOrderUI deliveryOrderUI = (DeliveryOrderUI) applicationContext.getBean("deliveryOrderUI");
                 deliveryOrderUI.setBusinessPartner(businessPartner);
 
+                // Wechselt auf das Lieferschein User Interface.
                 MainFrame mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
                 mainFrame.setSelectedTab(3);
             }
@@ -262,10 +282,13 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
      * liegen.
      */
     private void initLayout() {
+        
         setLayout(new BorderLayout());
 
         GroupLayout overviewLayout = new GroupLayout(overview);
+
         overview.setLayout(overviewLayout);
+
         overviewLayout.setHorizontalGroup(
                 overviewLayout.createParallelGroup(GroupLayout.LEADING)
                         .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()

@@ -9,7 +9,7 @@
  Time: 17:32:05
 
  @author Andreas Weiler
- @version $Id: Message.hbm.xml,v 1.9 2005/10/06 21:25:19 jfuckerweiler Exp $
+ @version $Id: Message.hbm.xml,v 1.10 2005/10/08 11:10:14 raedler Exp $
  @since EcoBill 1.0
 -->
 
@@ -34,6 +34,6 @@
             <column name="MESSAGE" not-null="true" unique="false"/>
         </property>
 
-        </class>
+    </class>
 
 </hibernate-mapping>

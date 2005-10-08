@@ -33,6 +33,19 @@
     </bean>
     <!-- ============================================ END MESSAGE BUNDLE =========================================== -->
 
+    <!-- ==================================== BEGIN APPLICATION START DEFINITION =================================== -->
+    <bean id="workArea" class="ecobill.core.system.WorkArea"/>
+
+    <bean id="splashScreen" class="ecobill.core.ui.SplashScreen">
+        <constructor-arg index="0">
+            <value>images/startbild.png</value>
+        </constructor-arg>
+        <property name="splashable">
+            <ref local="mainFrame"/>
+        </property>
+    </bean>
+    <!-- ===================================== END APPLICATION START DEFINITION ==================================== -->
+
     <!-- ================================ BEGIN SESSION FACTORY BUILDING DEFINITION ================================ -->
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
         <property name="mappingResources">
@@ -109,17 +122,7 @@
     </bean>
     <!-- =========================================== END SERVICE SUPPORT =========================================== -->
 
-    <bean id="workArea" class="ecobill.core.system.WorkArea"/>
-
-    <bean id="splashScreen" class="ecobill.core.ui.SplashScreen">
-        <constructor-arg index="0">
-            <value>images/startbild.png</value>
-        </constructor-arg>
-        <property name="splashable">
-            <ref local="mainFrame"/>
-        </property>
-    </bean>
-
+    <!-- ============================================= BEGIN UI SUPPORT ============================================ -->
     <bean id="mainFrame" class="ecobill.core.ui.MainFrame">
         <property name="startUI">
             <ref bean="startUI"/>
@@ -176,5 +179,6 @@
             </props>
         </property>
     </bean>
+    <!-- ============================================== END UI SUPPORT ============================================= -->
 
 </beans>

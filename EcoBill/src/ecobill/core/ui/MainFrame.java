@@ -1,6 +1,5 @@
 package ecobill.core.ui;
 
-import ecobill.module.base.ui.*;
 import ecobill.module.base.ui.start.StartUI;
 import ecobill.module.base.ui.article.ArticleUI;
 import ecobill.module.base.ui.businesspartner.BusinessPartnerUI;
@@ -34,7 +33,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.71 2005/10/06 17:20:35 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.72 2005/10/08 11:10:14 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -155,8 +154,11 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
      */
     public void afterPropertiesSet() throws Exception {
 
+        // Setzt das IconImage des <code>JFrame</code>.
+        setIconImage(Toolkit.getDefaultToolkit().getImage("images/ico/currency_dollar.png"));
+
         // Setzt Title des <code>MainFrame</code>.
-        setTitle(WorkArea.getMessage("application_title"));
+        setTitle(WorkArea.getMessage(Constants.APPLICATION_TITLE));
 
         // Setzt Größe des <code>MainFrame</code>.
         setSize(new Dimension(950, 700));
@@ -172,10 +174,10 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         center();
 
-        this.reinitI18N();
+        reinitI18N();
 
         // Setzt die Operation, die auf X am Fenster gemacht wird.
-        this.addWindowListener(new WindowAdapter() {
+        addWindowListener(new WindowAdapter() {
 
             /**
              * @see WindowAdapter#windowClosing(java.awt.event.WindowEvent)

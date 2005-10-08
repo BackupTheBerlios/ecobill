@@ -9,7 +9,7 @@
  Time: 13:37:24
 
  @author Roman R&auml;dle
- @version $Id: BusinessPartner.hbm.xml,v 1.4 2005/10/04 09:21:14 raedler Exp $
+ @version $Id: BusinessPartner.hbm.xml,v 1.5 2005/10/08 11:10:14 raedler Exp $
  @since EcoBill 1.0
 -->
 
@@ -42,18 +42,27 @@
             <column name="FOR_ATTENTION_OF" not-null="true"/>
         </property>
 
-        <many-to-one name="person" class="ecobill.module.base.domain.Person" column="PERSON_ID" cascade="save-update"/>
+        <many-to-one name="person"
+                     column="PERSON_ID"
+                     class="ecobill.module.base.domain.Person"
+                     cascade="all-delete-orphan"/>
 
-        <many-to-one name="address" class="ecobill.module.base.domain.Address" column="ADDRESS_ID" cascade="save-update"/>
+        <many-to-one name="address"
+                     column="ADDRESS_ID"
+                     class="ecobill.module.base.domain.Address"
+                     cascade="all-delete-orphan"/>
 
-        <many-to-one name="banking" class="ecobill.module.base.domain.Banking" column="BANKING_ID" cascade="save-update"/>
+        <many-to-one name="banking"
+                     column="BANKING_ID"
+                     class="ecobill.module.base.domain.Banking"
+                     cascade="all-delete-orphan"/>
 
-        <set name="deliveryOrders" table="BASE_DELIVERY_ORDER" inverse="true" cascade="all" lazy="false">
+        <set name="deliveryOrders" table="BASE_DELIVERY_ORDER" inverse="true" cascade="all-delete-orphan" lazy="false">
             <key column="BUSINESS_PARTNER_ID"/>
             <one-to-many class="ecobill.module.base.domain.DeliveryOrder"/>
         </set>
 
-        <set name="bills" table="BASE_BILL" inverse="true" cascade="all" lazy="false">
+        <set name="bills" table="BASE_BILL" inverse="true" cascade="all-delete-orphan" lazy="false">
             <key column="BUSINESS_PARTNER_ID"/>
             <one-to-many class="ecobill.module.base.domain.Bill"/>
         </set>

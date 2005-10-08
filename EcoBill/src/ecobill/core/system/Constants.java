@@ -10,18 +10,18 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.26 2005/10/06 17:19:47 jfuckerweiler Exp $
+ * @version $Id: Constants.java,v 1.27 2005/10/08 11:10:14 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {
 
-    public final static String DELIVERY_ORDER_JRXML = "delivery_order.jrxml";
-    public final static String PART_DELIVERY_ORDER_JRXML = "part_delivery_order.jrxml";
-
     /**
      * Alle Schlüssel die für die Fenstertitel nötig sind.
      */
-    public final static String UI_TITLE_ARTICLE = "ui.title.article";
+    public final static String APPLICATION_TITLE = "application_title";
+
+    public final static String DELIVERY_ORDER_JRXML = "delivery_order.jrxml";
+    public final static String PART_DELIVERY_ORDER_JRXML = "part_delivery_order.jrxml";
 
     public final static String SYSTEM_UNIT_UNIT = "unit";
     public final static String SYSTEM_UNIT_BUNDLE_UNIT = "bundle_unit";
