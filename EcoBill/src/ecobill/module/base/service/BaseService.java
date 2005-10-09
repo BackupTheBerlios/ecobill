@@ -21,7 +21,7 @@ import java.io.Serializable;
  * Time: 12:30:55
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseService.java,v 1.13 2005/10/04 09:18:58 raedler Exp $
+ * @version $Id: BaseService.java,v 1.14 2005/10/09 10:48:37 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface BaseService extends Service {
@@ -91,16 +91,6 @@ public interface BaseService extends Service {
     public SystemLocale getSystemLocaleByLocale(Locale locale);
 
     /**
-     * @see ecobill.module.base.dao.BaseDao#getAllSystemLocales()
-     */
-    public List getAllSystemLocales();
-
-    /**
-     * @see ecobill.module.base.dao.BaseDao#getAllSystemUnits()
-     */
-    public List getAllSystemUnits();
-
-    /**
      * @see BaseDao#getSystemUnitsByCategory(String) 
      */
     public List getSystemUnitsByCategory(String category);
@@ -110,45 +100,15 @@ public interface BaseService extends Service {
      */
     public List getAllBusinessPartnerIds();
 
-
-    /**
-     * @see BaseDao#getBusinessPartnerById(Long)
-     */
-    public BusinessPartner getBusinessPartnerById(Long id);
-
-    /**
-     * @see BaseDao#saveOrUpdateBusinessPartner(ecobill.module.base.domain.BusinessPartner)
-     */
-    public void saveOrUpdateBusinessPartner(BusinessPartner bp);
-
-    /**
-     * @see BaseDao#getArticleById(Long)
-     */
-    public Article getArticleById(Long id);
-
     /**
      * @see BaseDao#getAllReduplicatedArticleByDOId(Long)
      */
     public List getAllReduplicatedArticleByDOId(Long id);
-    /**
-     * @see BaseDao#getPersonById(Long)
-     */
-    public Person getPersonById(Long id);
 
     /**
      * @see BaseDao#getArticleByArticleNumber(String)
      */
     public Article getArticleByArticleNumber(String articleNumber) throws NoSuchArticleException;
-
-    /**
-     * @see BaseDao#saveOrUpdateArticle(ecobill.module.base.domain.Article)
-     */
-    public void saveOrUpdateArticle(Article article);
-
-    /**
-     * @see ecobill.module.base.dao.BaseDao#getAllArticles()
-     */
-    public List getAllArticles();
 
     /**
      * @see ecobill.module.base.dao.BaseDao#getAllDeliveryOrderByBPID(Long)
@@ -159,5 +119,4 @@ public interface BaseService extends Service {
      * @see ecobill.module.base.dao.BaseDao#getAllBillsByBPID(Long)
      */
     public List getAllBillsByBPID(Long id);
-
 }

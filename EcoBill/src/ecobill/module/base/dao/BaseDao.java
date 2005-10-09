@@ -21,7 +21,7 @@ import java.io.Serializable;
  * Time: 12:29:36
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDao.java,v 1.11 2005/10/04 09:18:47 raedler Exp $
+ * @version $Id: BaseDao.java,v 1.12 2005/10/09 10:48:37 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface BaseDao {
@@ -87,26 +87,6 @@ public interface BaseDao {
     public SystemLocale getSystemLocaleBySystemLocaleKey(String systemLocaleKey) throws DataAccessException, NoSuchSystemLocaleException, NonUniqueHibernateResultException;
 
     /**
-     * Gibt eine <code>List</code> mit allen <code>SystemLocale</code> die in der Datenbank verfügbar
-     * sind zurück.
-     *
-     * @return Eine <code>List</code> mit allen <code>SystemLocale</code> in der Datenbank.
-     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
-     *                             auftritt.
-     */
-    public List getAllSystemLocales() throws DataAccessException;
-
-    /**
-     * Gibt eine <code>List</code> mit allen <code>SystemUnit</code> die in der Datenbank verfügbar
-     * sind zurück.
-     *
-     * @return Eine <code>List</code> mit allen <code>SystemUnit</code> in der Datenbank.
-     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
-     *                             auftritt.
-     */
-    public List getAllSystemUnits() throws DataAccessException;
-
-    /**
      * Gibt eine <code>List</code> mit <code>SystemUnit</code>, die zu einer bestimmten Kategorie gehört,
      * zurück.
      *
@@ -126,32 +106,6 @@ public interface BaseDao {
     public List getAllBusinessPartnerIds() throws DataAccessException;
 
     /**
-     * Gibt den <code>BusinessPartner</code>, dessen ID der Parameter ID entspricht, zurück.
-     *
-     * @param id Die ID unter der ein <code>BusinessPartner</code> in der Datenbank abegelegt
-     *           ist.
-     * @return Der <code>BusinessPartner</code> der unter dieser ID gefunden wurde.
-     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
-     *                             aufgetritt.
-     */
-    public BusinessPartner getBusinessPartnerById(Long id) throws DataAccessException;
-
-    /**
-     * Speichert den <code>BusinessPartner</code> falls dieser in der Datenbank noch nicht existiert
-     * andernfalls wird dieser geändert.
-     * <br/>
-     * -> ausschlaggebend ist die ID
-     * - nicht vorhanden bedeutet speichern
-     * - vorhanden und existiert in der Datenbank bedeutet ändern.
-     *
-     * @param bp Der <code>BusinessPartner</code> der in der Datenbank bespeichert oder geändert
-     *           werden soll.
-     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
-     *                             aufgetritt.
-     */
-    public void saveOrUpdateBusinessPartner(BusinessPartner bp) throws DataAccessException;
-
-    /**
      * Gibt den <code>ReduolicatedArticle</code>, dessen ID der Parameter ID entspricht, zurück.
      *
      * @param id Die ID unter der ein <code>Article</code> in der Datenbank abgelegt
@@ -161,29 +115,6 @@ public interface BaseDao {
      *                             aufgetritt.
      */
     public List getAllReduplicatedArticleByDOId(Long id) throws DataAccessException;
-
-    /**
-     * Gibt den <code>Article</code>, dessen ID der Parameter ID entspricht, zurück.
-     *
-     * @param id Die ID unter der ein <code>ReduplicateArticle</code> in der Datenbank abgelegt
-     *           ist.
-     * @return Der <code>ReduplicateArticle</code> der unter dieser ID gefunden wurde.
-     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
-     *                             aufgetritt.
-     */
-    public Article getArticleById(Long id) throws DataAccessException;
-
-
-    /**
-     * Gibt den <code>Person</code>, dessen ID der Parameter ID entspricht, zurück.
-     *
-     * @param id Die ID unter der ein <code>Person</code> in der Datenbank abgelegt
-     *           ist.
-     * @return Der <code>Person</code> der unter dieser ID gefunden wurde.
-     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
-     *                             aufgetritt.
-     */
-    public Person getPersonById(Long id) throws DataAccessException;
 
     /**
      * Gibt den <code>Article</code>, dessen Artikelnummer dem <code>String</code> articleNumber
@@ -204,31 +135,6 @@ public interface BaseDao {
      * @see NonUniqueHibernateResultException
      */
     public Article getArticleByArticleNumber(String articleNumber) throws DataAccessException, NoSuchArticleException, NonUniqueHibernateResultException;
-
-    /**
-     * Speichert einen <code>Article</code> falls dieser in der Datenbank noch nicht existiert,
-     * andernfalls wird dieser geändert.
-     * <br/>
-     * -> ausschlaggebend ist die ID
-     * - nicht vorhanden bedeutet speichern
-     * - vorhanden und existiert in der Datenbank bedeutet ändern.
-     *
-     * @param article Der <code>Article</code> der in der Datenbank gespeichert oder geändert werden
-     *                soll.
-     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
-     *                             auftritt.
-     */
-    public void saveOrUpdateArticle(Article article) throws DataAccessException;
-
-    /**
-     * Gibt eine <code>List</code> mit allen <code>Article</code> die in der Datenbank verfügbar
-     * sind zurück.
-     *
-     * @return Eine <code>List</code> mit allen <code>Article</code> in der Datenbank.
-     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
-     *                             auftritt.
-     */
-    public List getAllArticles() throws DataAccessException;
 
     /**
      * Gibt eine <code>List</code> mit allen <code>DerliveryOrder</code> die in der Datenbank verfügbar

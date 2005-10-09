@@ -19,7 +19,7 @@ import java.io.Serializable;
  * Time: 12:29:43
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDaoImpl.java,v 1.11 2005/10/04 09:18:47 raedler Exp $
+ * @version $Id: BaseDaoImpl.java,v 1.12 2005/10/09 10:48:37 raedler Exp $
  * @see BaseDao
  * @since EcoBill 1.0
  */
@@ -38,6 +38,14 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
         return getHibernateTemplate().load(clazz, id);
     }
 
+    /**
+     * Lädt alle Objekte der persistenten Klasse und gibt diese in einer <code>List</code>
+     * zurück.
+     *
+     * @param clazz Die Klasse zu der diese Objekte gehören.
+     * @return Die <code>List</code> die alle persistenten Objekte beinhaltet.
+     * @see BaseDao#loadAll(Class)
+     */
     public List loadAll(Class clazz) {
         return getHibernateTemplate().loadAll(clazz);
     }
@@ -99,32 +107,6 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
     }
 
     /**
-     * Gibt eine <code>List</code> mit allen <code>SystemLocale</code> die in der Datenbank verfügbar
-     * sind zurück.
-     *
-     * @return Eine <code>List</code> mit allen <code>SystemLocale</code> in der Datenbank.
-     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
-     *                             auftritt.
-     * @see ecobill.module.base.dao.BaseDao#getAllSystemLocales()
-     */
-    public List getAllSystemLocales() throws DataAccessException {
-        return getHibernateTemplate().loadAll(SystemLocale.class);
-    }
-
-    /**
-     * Gibt eine <code>List</code> mit allen <code>SystemUnit</code> die in der Datenbank verfügbar
-     * sind zurück.
-     *
-     * @return Eine <code>List</code> mit allen <code>SystemUnit</code> in der Datenbank.
-     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
-     *                             auftritt.
-     * @see ecobill.module.base.dao.BaseDao#getAllSystemUnits()
-     */
-    public List getAllSystemUnits() throws DataAccessException {
-        return getHibernateTemplate().loadAll(SystemUnit.class);
-    }
-
-    /**
      * Gibt eine <code>List</code> mit <code>SystemUnit</code>, die zu einer bestimmten Kategorie gehört,
      * zurück.
      *
@@ -150,69 +132,8 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
     public List getAllBusinessPartnerIds() throws DataAccessException {
         return getHibernateTemplate().find("select bp.id from ecobill.module.base.domain.BusinessPartner as bp");
     }
-    /**
-     * Gibt den <code>BusinessPartner</code>, dessen ID der Parameter ID entspricht, zurück.
-     *
-     * @param id Die ID unter der ein <code>BusinessPartner</code> in der Datenbank abegelegt
-     *           ist.
-     * @return Der <code>BusinessPartner</code> der unter dieser ID gefunden wurde.
-     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
-     *                             aufgetritt.
-     * @see BaseDao#getBusinessPartnerById(Long)
-     */
-    public BusinessPartner getBusinessPartnerById(Long id) {
-        return (BusinessPartner) getHibernateTemplate().load(BusinessPartner.class, id);
-    }
-
-
-     /**
-     * Gibt den <code>Person</code>, dessen ID der Parameter ID entspricht, zurück.
-     *
-     * @param id Die ID unter der ein <code>Person</code> in der Datenbank abegelegt
-     *           ist.
-     * @return Der <code>Person</code> der unter dieser ID gefunden wurde.
-     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
-     *                             aufgetritt.
-     * @see BaseDao#getPersonById(Long)
-     */
-    public Person getPersonById(Long id) {
-        return (Person) getHibernateTemplate().load(Person.class, id);
-    }
 
     /**
-     * Speichert den <code>BusinessPartner</code> falls dieser in der Datenbank noch nicht existiert
-     * andernfalls wird dieser geändert.
-     * <br/>
-     * -> ausschlaggebend ist die ID
-     * - nicht vorhanden bedeutet speichern
-     * - vorhanden und existiert in der Datenbank bedeutet ändern.
-     *
-     * @param bp Der <code>BusinessPartner</code> der in der Datenbank bespeichert oder geändert
-     *           werden soll.
-     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
-     *                             aufgetritt.
-     * @see BaseDao#saveOrUpdateBusinessPartner(ecobill.module.base.domain.BusinessPartner)
-     */
-    public void saveOrUpdateBusinessPartner(BusinessPartner bp) throws DataAccessException {
-        getHibernateTemplate().saveOrUpdate(bp);
-    }
-
-    /**
-     * Gibt den <code>Article</code>, dessen ID der Parameter ID entspricht, zurück.
-     *
-     * @param id Die ID unter der ein <code>Article</code> in der Datenbank abgelegt
-     *           ist.
-     * @return Der <code>Article</code> der unter dieser ID gefunden wurde.
-     * @throws org.springframework.dao.DataAccessException
-     *          Diese wird geworfen falls ein Fehler beim Datenzugriff
-     *          aufgetritt.
-     * @see BaseDao#getArticleById(Long)
-     */
-    public Article getArticleById(Long id) throws DataAccessException {
-        return (Article) getHibernateTemplate().load(Article.class, id);
-    }
-
-     /**
      * Gibt den <code>ReduplicateArticle</code>, dessen ID der Parameter ID entspricht, zurück.
      *
      * @param id Die ID unter der ein <code>ReduplicateArticle</code> in der Datenbank abgelegt
@@ -226,6 +147,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
     public List getAllReduplicatedArticleByDOId(Long id) throws DataAccessException {
         return getHibernateTemplate().find("from ecobill.module.base.domain.ReduplicatedArticle as ra where ra.deliveryOrder = ?", new Object[]{id});
     }
+
     /**
      * Gibt den <code>Article</code>, dessen Artikelnummer dem <code>String</code> articleNumber
      * entspricht zurück.
@@ -253,39 +175,6 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
 
         return (Article) articleList.get(0);
     }
-
-    /**
-     * Speichert einen <code>Article</code> falls dieser in der Datenbank noch nicht vorhanden ist,
-     * andernfalls wird dieser geändert.
-     * <br/>
-     * -> ausschlaggebend ist die ID
-     * - nicht vorhanden bedeutet speichern
-     * - vorhanden und existiert in der Datenbank bedeutet ändern.
-     *
-     * @param article Der <code>Article</code> der in der Datenbank gespeichert oder geändert werden
-     *                soll.
-     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
-     *                             auftritt.
-     * @see BaseDao#saveOrUpdateArticle(ecobill.module.base.domain.Article)
-     */
-    public void saveOrUpdateArticle(Article article) {
-        getHibernateTemplate().saveOrUpdate(article);
-    }
-
-    /**
-     * Gibt eine <code>List</code> mit allen <code>Article</code> die in der Datenbank verfügbar
-     * sind zurück.
-     *
-     * @return Eine <code>List</code> mit allen <code>Article</code> in der Datenbank.
-     * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
-     *                             auftritt.
-     * @see ecobill.module.base.dao.BaseDao#getAllArticles()
-     */
-    public List getAllArticles() throws DataAccessException {
-        return getHibernateTemplate().loadAll(Article.class);
-    }
-
-
 
     /**
      * Gibt eine <code>List</code> mit allen <code>DerliveryOrder</code> die in der Datenbank verfügbar
