@@ -92,9 +92,9 @@
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="210"
+						x="224"
 						y="35"
-						width="105"
+						width="84"
 						height="11"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -471,6 +471,25 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA["z.Hd. " + $P{PERSON_TITLE} + " " + $P{LASTNAME}]]></textFieldExpression>
 				</textField>
+				<image  scaleImage="FillFrame" vAlign="Top" hAlign="Left" isUsingCache="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="391"
+						y="8"
+						width="141"
+						height="112"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="image-1"
+						stretchType="NoStretch"
+						positionType="FixRelativeToTop"
+						isPrintRepeatedValues="true"
+						isRemoveLineWhenBlank="false"
+						isPrintInFirstWholeBand="false"
+						isPrintWhenDetailOverflows="false"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<graphicElement stretchType="NoStretch" pen="None" fill="Solid" />
+					<imageExpression class="java.lang.String"><![CDATA["\\images\\report.png"]]></imageExpression>				</image>
 			</band>
 		</pageHeader>
 		<columnHeader>
