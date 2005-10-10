@@ -430,10 +430,10 @@
 				<image  scaleImage="FillFrame" vAlign="Top" hAlign="Left" isUsingCache="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="395"
+						x="373"
 						y="1"
-						width="137"
-						height="66"
+						width="159"
+						height="115"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="image-1"
