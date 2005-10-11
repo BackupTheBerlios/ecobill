@@ -245,7 +245,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
                 }
 
                 Bill bill = new Bill();
-                bill.setBusinessPartner(baseService.getBusinessPartnerById(actualBusinessPartnerId));
+                bill.setBusinessPartner((BusinessPartner) baseService.load(BusinessPartner.class, actualBusinessPartnerId));
                 bill.setBillNumber(max+1);
                 bill.setBillDate(Calendar.getInstance().getTime());
 
