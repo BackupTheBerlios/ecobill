@@ -4,6 +4,7 @@ import ecobill.module.base.ui.start.StartUI;
 import ecobill.module.base.ui.article.ArticleUI;
 import ecobill.module.base.ui.businesspartner.BusinessPartnerUI;
 import ecobill.module.base.ui.deliveryorder.DeliveryOrderUI;
+import ecobill.module.base.ui.bill.BillUI;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import ecobill.core.system.Internationalization;
@@ -33,7 +34,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.77 2005/10/11 20:27:49 gath Exp $
+ * @version $Id: MainFrame.java,v 1.78 2005/10/11 20:32:41 gath Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -148,6 +149,30 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     public void setDeliveryOrderUI(DeliveryOrderUI deliveryOrderUI) {
         this.deliveryOrderUI = deliveryOrderUI;
     }
+
+    /**
+     * Gibt die Instanz des Bill User Interface zurück.
+     *
+     * @return Die Instanz des <code>BillUI</code>.
+     */
+
+    public BillUI getBillUI() {
+        return billUI;
+    }
+
+    /**
+     * Setzt die Instanz des Bill User Interface zurück.
+     *
+     */
+
+    public void setBillUI(BillUI billUI) {
+        this.billUI = billUI;
+    }
+
+    /**
+     * Die Instanz des DeliveryOrder User Interface.
+     */
+    public BillUI billUI;
 
     /**
      * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
@@ -269,9 +294,13 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         jtab.addTab(null, new ImageIcon("images/article.png"), articleUI);
         // hier wird die BusinessPartnerUI als neuer Tab eingefügt
         jtab.addTab(null, new ImageIcon("images/business_partner.png"), businessPartnerUI);
-        // hier wird die RechnungsUI als neuer Tab eingefügt
+        // hier wird die LieferscheinUI als neuer Tab eingefügt
         jtab.addTab(null, new ImageIcon("images/delivery_order.png"), deliveryOrderUI);
         jtab.setEnabledAt(3, false);
+        // hier wird die RechnungsUI als neuer Tab eingefügt
+        jtab.addTab(null, new ImageIcon("images/bill.png"), billUI);
+        jtab.setEnabledAt(4, false);
+
 
         // setzt ToolTip
         startPanel.add(new JLabel("Economy Bill Agenda"));
@@ -689,6 +718,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         articleUI.reinitI18N();
         businessPartnerUI.reinitI18N();
         startUI.reinitI18N();
+        billUI.reinitI18N();
     }
 
     public void setSelectedTab(int index) {
