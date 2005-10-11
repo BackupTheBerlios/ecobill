@@ -32,7 +32,7 @@ import java.util.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleTable.java,v 1.8 2005/10/06 14:36:04 raedler Exp $
+ * @version $Id: ArticleTable.java,v 1.9 2005/10/11 08:24:52 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleTable extends AbstractTablePanel {
@@ -61,10 +61,6 @@ public class ArticleTable extends AbstractTablePanel {
         super(baseService);
 
         this.articleUI = articleUI;
-
-        // TODO: Untersuche auf Notwendigkeit, schaue bei unpersist(IntputStream)
-        getTable().getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(new JComboBox(new DefaultComboBoxModel(VectorUtils.listToVector(baseService.getSystemUnitsByCategory(Constants.SYSTEM_UNIT_UNIT))))));
-        getTable().getColumnModel().getColumn(5).setCellEditor(new DefaultCellEditor(new JComboBox(new DefaultComboBoxModel(VectorUtils.listToVector(baseService.getSystemUnitsByCategory(Constants.SYSTEM_UNIT_BUNDLE_UNIT))))));
     }
 
     /**
