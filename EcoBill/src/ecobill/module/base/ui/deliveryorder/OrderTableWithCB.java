@@ -13,6 +13,8 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 import java.util.Vector;
 import java.util.Collection;
 import java.util.Collections;
@@ -151,11 +153,28 @@ public class OrderTableWithCB extends AbstractTablePanel {
      */
     protected TableColumnModel createEditoredColumnModelAfterUnpersist(TableColumnModel columnModel) {
         System.out.println("aufgerufen wurde ich ");
+
         int checkBox = columnModel.getColumnIndex(WorkArea.getMessage(Constants.CHECKBOX_NEEDED));
-        columnModel.getColumn(checkBox).setCellEditor(new DefaultCellEditor(new JCheckBox()));
+
+        columnModel.getColumn(checkBox).setCellEditor(new DefaultCellEditor(new JCheckBox("asdf", false)));
+        columnModel.getColumn(checkBox).setCellRenderer(new Renderer());
 
         return columnModel;
     }
 
+    public class Renderer extends JCheckBox implements TableCellRenderer {
 
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+
+            if (value instanceof Boolean) {
+
+                Boolean booleanValue = (Boolean) value;
+
+                this.setSelected(booleanValue);
+            }
+
+
+            return this;
+        }
+    }
 }
