@@ -30,7 +30,7 @@ import java.io.*;
  * Time: 12:33:23
  *
  * @author Roman R&auml;dle
- * @version $Id: AbstractTablePanel.java,v 1.3 2005/10/06 14:07:17 raedler Exp $
+ * @version $Id: AbstractTablePanel.java,v 1.4 2005/10/11 08:25:11 raedler Exp $
  * @since EcoBill 1.0
  */
 public abstract class AbstractTablePanel extends JPanel implements Internationalization {
@@ -171,6 +171,10 @@ public abstract class AbstractTablePanel extends JPanel implements International
         // Dieser renew wird ausgeführt um die Tabelle beim ersten Laden mit Daten zu
         // füllen.
         renewTableModel();
+
+        // Ruft die Methode auch beim ersten Start um das <code>TableColumnModel</code> zu
+        // initialisieren.
+        createEditoredColumnModelAfterUnpersist(table.getColumnModel());
     }
 
     /**
