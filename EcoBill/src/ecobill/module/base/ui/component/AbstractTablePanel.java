@@ -13,6 +13,7 @@ import javax.swing.table.TableColumnModel;
 import ecobill.core.util.I18NItem;
 import ecobill.core.system.Internationalization;
 import ecobill.module.base.service.BaseService;
+import ecobill.module.base.domain.DeliveryOrder;
 
 import java.util.Vector;
 import java.util.Collection;
@@ -30,7 +31,7 @@ import java.io.*;
  * Time: 12:33:23
  *
  * @author Roman R&auml;dle
- * @version $Id: AbstractTablePanel.java,v 1.4 2005/10/11 08:25:11 raedler Exp $
+ * @version $Id: AbstractTablePanel.java,v 1.5 2005/10/11 19:41:27 gath Exp $
  * @since EcoBill 1.0
  */
 public abstract class AbstractTablePanel extends JPanel implements Internationalization {
@@ -265,7 +266,6 @@ public abstract class AbstractTablePanel extends JPanel implements International
      * {@link this#getDataCollection()} richtig implementiert werden.
      */
     public void renewTableModel() {
-
         // Entfernt alle schon vorhandenen Zeilen aus dem <code>TableModel</code>.
         // Dies muss gemacht werden, das sonst alle Einträge die schon vorhanden
         // sind auch nochmal angezeigt werden.
@@ -283,6 +283,7 @@ public abstract class AbstractTablePanel extends JPanel implements International
 
             // Fügt den erzeugten <code>Vector</code> als Zeile dem Datenvektor hinzu.
             dataVector.add(createLineVector(o));
+
         }
 
         // Zeichnet die Tabelle nach hinzufügen aller Objekte neu.
@@ -359,6 +360,10 @@ public abstract class AbstractTablePanel extends JPanel implements International
                 }
             }
         }
+    }
+
+    public void setTableColumnOrder(Vector<I18NItem> tableColumnOrderNew) {
+        tableColumnOrder = tableColumnOrderNew;
     }
 
     /**

@@ -27,7 +27,7 @@
 
         <schemaexport
                 properties="${src.dir}/ecobill/config/hibernate.properties"
-                quiet="no"
+                quiet="yes"
                 text="no"
                 drop="no"
                 delimiter=";"

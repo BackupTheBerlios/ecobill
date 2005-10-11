@@ -12,11 +12,13 @@ import org.jdesktop.layout.LayoutStyle;
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.ui.component.VerticalButton;
 import ecobill.module.base.ui.deliveryorder.DeliveryOrderUI;
+import ecobill.module.base.ui.bill.BillUI;
 import ecobill.module.base.domain.BusinessPartner;
 import ecobill.module.base.domain.Person;
 import ecobill.module.base.domain.Address;
 import ecobill.module.base.domain.Banking;
 import ecobill.core.util.FileUtils;
+import ecobill.core.util.IdValueItem;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import ecobill.core.system.Internationalization;
@@ -39,7 +41,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerUI.java,v 1.9 2005/10/08 11:10:14 raedler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.10 2005/10/11 19:41:27 gath Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -269,12 +271,43 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
                 // Geschäftspartner zu setzen und ihm dann einen Lieferschein auszustellen.
                 DeliveryOrderUI deliveryOrderUI = (DeliveryOrderUI) applicationContext.getBean("deliveryOrderUI");
                 deliveryOrderUI.setBusinessPartner(businessPartner);
+                int row = overviewBusinessPartnerTable.getTable().getSelectedRow();
+                System.out.println("row:" + row);
+                System.out.println("id:" + (((IdValueItem) overviewBusinessPartnerTable.getTable().getValueAt(row,0)).getId()));
+                deliveryOrderUI.setActualBusinessPartnerId(((IdValueItem) overviewBusinessPartnerTable.getTable().getValueAt(row,0)).getId());
 
                 // Wechselt auf das Lieferschein User Interface.
                 MainFrame mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
                 mainFrame.setSelectedTab(3);
             }
         });
+
+        overviewVerticalButton.getButton7().setVisible(true);
+        overviewVerticalButton.getButton7().setEnabled(false);
+        overviewVerticalButton.getButton7().setIcon(new ImageIcon("images/delivery_order_new.png"));
+        overviewVerticalButton.getButton7().addActionListener(new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+
+                // Lädt den aktuell markierten Geschäftspartner.
+                BusinessPartner businessPartner = (BusinessPartner) baseService.load(BusinessPartner.class, actualBusinessPartnerId);
+
+                // Holt das Bill User Interface aus dem <code>ApplicationContext</code> um den
+                // Geschäftspartner zu setzen und ihm dann eine Rechnung auszustellen.
+                BillUI billUI = (BillUI) applicationContext.getBean("billUI");
+                int row = overviewBusinessPartnerTable.getTable().getSelectedRow();
+                billUI.setActualBusinessPartnerId(((IdValueItem) overviewBusinessPartnerTable.getTable().getValueAt(row,0)).getId());
+
+                // Wechselt auf das Lieferschein User Interface.
+                MainFrame mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
+                mainFrame.setSelectedTab(4);
+            }
+        });
+
+
     }
 
     /**
@@ -423,6 +456,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
         }
 
         overviewVerticalButton.getButton6().setEnabled(true);
+        overviewVerticalButton.getButton7().setEnabled(true);
     }
 
     private void saveOrUpdateBusinessPartner() {

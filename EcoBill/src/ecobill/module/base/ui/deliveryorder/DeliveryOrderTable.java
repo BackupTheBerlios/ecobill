@@ -29,10 +29,11 @@ import java.util.Collections;
  * Time: 16:57:16
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderTable.java,v 1.1 2005/10/05 23:42:17 raedler Exp $
+ * @version $Id: DeliveryOrderTable.java,v 1.2 2005/10/11 19:41:27 gath Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderTable extends AbstractTablePanel {
+
 
     /**
      * Die id eines Lieferscheines.
@@ -61,7 +62,6 @@ public class DeliveryOrderTable extends AbstractTablePanel {
     protected Vector<I18NItem> createTableColumnOrder() {
 
         Vector<I18NItem> tableColumnOrder = new Vector<I18NItem>();
-
         tableColumnOrder.add(new I18NItem(Constants.ARTICLE_NR));
         tableColumnOrder.add(new I18NItem(Constants.LABELLING));
         tableColumnOrder.add(new I18NItem(Constants.QUANTITY));
@@ -114,7 +114,6 @@ public class DeliveryOrderTable extends AbstractTablePanel {
             for (I18NItem order : getTableColumnOrder()) {
 
                 String key = order.getKey();
-
                 if (Constants.ARTICLE_NR.equals(key)) {
                     line.add(new IdKeyItem(article.getId(), article.getArticleNumber()));
                 }

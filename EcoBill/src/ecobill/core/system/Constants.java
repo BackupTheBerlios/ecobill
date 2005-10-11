@@ -10,7 +10,7 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.29 2005/10/10 21:08:51 jfuckerweiler Exp $
+ * @version $Id: Constants.java,v 1.30 2005/10/11 19:41:26 gath Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {
@@ -41,6 +41,7 @@ public interface Constants {
     public final static String ALL_ROUND_PRICE_TOOLTIP = "all_round_price.tooltip";
     public final static String ARTICLE_NR = "article_nr";
     public final static String ARTICLE_NR_TOOLTIP = "article_nr.tooltip";
+    public final static String BILL_PREVIEW = "bill_preview";
     public final static String BUNDLE = "bundle";
     public final static String BUNDLE_TOOLTIP = "bundle.tooltip";
     public final static String BUNDLE_CAPACITY = "bundle_capacity";
@@ -49,6 +50,8 @@ public interface Constants {
     public final static String BUNDLE_UNIT_TOOLTIP = "bundle_unit.tooltip";
     public final static String CAPACITY = "capacity";
     public final static String CAPACITY_TOOLTIP = "capacity.tooltip";
+    public final static String CHARACTERISATION_TYP = "characterisation_type";
+    public final static String CHECKBOX_NEEDED ="checkbox_needed";
     public final static String COUNTRY = "country";
     public final static String COUNTRY_TOOLTIP = "country.tooltip";
     public final static String CUSTOMER = "customer";
@@ -60,11 +63,13 @@ public interface Constants {
     public final static String DATE = "data";
     public final static String DATE_TOOLTIP = "data.tooltip";
     public final static String DELIVERY_ORDER = "delivery_order";
+    public final static String DELIVERY_ORDER_DATE = "date";
     public final static String DELIVERY_ORDER_TOOLTIP = "delivery_order.tooltip";
     public final static String DELIVERY_ORDER_NUMBER = "delivery_order_number";
     public final static String DELIVERY_ORDER_NUMBER_TOOLTIP = "delivery_order_number.tooltip";
     public final static String DELIVERY_ORDERS = "delivery_orders";
     public final static String DELIVERY_ORDERS_TOOLTIP = "delivery_orders.tooltip";
+    public final static String DELIVERY_ORDER_AMOUNT ="delivery_order_amaunt";
     public final static String DESCRIPTION = "description";
     public final static String DESCRIPTION_TOOLTIP = "description.tooltip";
     public final static String DESCRIPTIONS = "descriptions";
@@ -87,6 +92,7 @@ public interface Constants {
     public final static String OVERVIEW_TOOLTIP = "overview.tooltip";
     public final static String PRICE = "price";
     public final static String PRICE_TOOLTIP = "price.tooltip";
+    public final static String PREFIX_FREE_TEXT = "text_prefix";
     public final static String QUANTITY = "quantity";
     public final static String QUANTITY_TOOLTIP = "quantity.tooltip";
     public final static String RESIDUAL_DESCRIPTIONS = "residual_descriptions";
@@ -95,6 +101,7 @@ public interface Constants {
     public final static String SINGLE_PRICE_TOOLTIP = "single_price.tooltip";
     public final static String SAVE = "save";
     public final static String SAVE_TOOLTIP = "save.tooltip";
+    public final static String SUFFIX_FREE_TEXT = "text_suffix";
     public final static String TEXT_PREFIX = "text_prefix";
     public final static String TEXT_PREFIX_TOOLTIP = "text_prefix.tooltip";
     public final static String TEXT_SUFFIX = "text_suffix";

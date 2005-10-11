@@ -2,6 +2,7 @@ package ecobill.module.base.ui.businesspartner;
 
 import ecobill.core.util.I18NItem;
 import ecobill.core.util.IdKeyItem;
+import ecobill.core.util.IdValueItem;
 import ecobill.core.system.Constants;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Internationalization;
@@ -28,7 +29,7 @@ import java.io.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerTable.java,v 1.3 2005/10/05 23:41:27 raedler Exp $
+ * @version $Id: BusinessPartnerTable.java,v 1.4 2005/10/11 19:41:27 gath Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerTable extends AbstractTablePanel {
@@ -65,7 +66,6 @@ public class BusinessPartnerTable extends AbstractTablePanel {
     protected Vector<I18NItem> createTableColumnOrder() {
 
         Vector<I18NItem> tableColumnOrder = new Vector<I18NItem>();
-
         tableColumnOrder.add(new I18NItem(Constants.CUSTOMER_NUMBER));
         tableColumnOrder.add(new I18NItem(Constants.TITLE));
         tableColumnOrder.add(new I18NItem(Constants.ACADEMIC_TITLE));
@@ -105,7 +105,7 @@ public class BusinessPartnerTable extends AbstractTablePanel {
                 String key = order.getKey();
 
                 if (Constants.CUSTOMER_NUMBER.equals(key)) {
-                    line.add(new IdKeyItem(businessPartner.getId(), businessPartner.getCustomerNumber()));
+                    line.add(new IdValueItem(businessPartner.getId(), businessPartner.getCustomerNumber()));
                 }
                 else if (Constants.TITLE.equals(key)) {
                     line.add(businessPartner.getPerson().getTitle());
@@ -222,7 +222,7 @@ public class BusinessPartnerTable extends AbstractTablePanel {
                 if (e.getButton() == MouseEvent.BUTTON1) {
                     int row = getTable().getSelectedRow();
 
-                    businessPartnerId = ((IdKeyItem) getTableModel().getValueAt(row, 0)).getId();
+                    businessPartnerId = ((IdValueItem) getTableModel().getValueAt(row, 0)).getId();
 
                     businessPartnerUI.showBusinessPartner(businessPartnerId);
                 }

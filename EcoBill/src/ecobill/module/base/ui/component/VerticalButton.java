@@ -21,7 +21,7 @@ import ecobill.core.system.Internationalization;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: VerticalButton.java,v 1.6 2005/10/05 23:41:27 raedler Exp $
+ * @version $Id: VerticalButton.java,v 1.7 2005/10/11 19:41:27 gath Exp $
  * @since EcoBill 1.0
  */
 public class VerticalButton extends JPanel implements Internationalization {
@@ -163,4 +163,62 @@ public class VerticalButton extends JPanel implements Internationalization {
     public void setButton7(JButton button7) {
         this.button7 = button7;
     }
+
+    public void setButtonX(int x, JButton buttonX) {
+        if (x == 1) {
+            setButton1(buttonX);
+        }
+        else if (x == 2) {
+            setButton2(buttonX);
+        }
+        else if (x == 3) {
+            setButton3(buttonX);
+        }
+        else if (x == 4) {
+            setButton4(buttonX);
+        }
+        else if (x == 5) {
+            setButton5(buttonX);
+        }
+        else if (x == 6) {
+            setButton6(buttonX);
+        }
+        else if (x == 7) {
+            setButton7(buttonX);
+        }
+        else {
+            System.out.println("Kein Button x=" + x + "gefunden");
+        }
+
+    }
+
+    public JButton getButtonX(int x) {
+        if (x == 1) {
+            return button1;
+        }
+        else if (x == 2) {
+            return button2;
+        }
+        else if (x == 3) {
+            return button3;
+        }
+        else if (x == 4) {
+            return button4;
+        }
+        else if (x == 5) {
+            return button5;
+        }
+        else if (x == 6) {
+            return button6;
+        }
+        else if (x == 7) {
+            return button7;
+        }
+        else {
+            System.out.println("Kein Button x=" + x + "gefunden");
+            return null;
+        }
+
+    }
+
 }

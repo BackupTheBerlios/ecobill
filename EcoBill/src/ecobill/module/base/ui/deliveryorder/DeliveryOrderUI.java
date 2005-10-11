@@ -18,6 +18,7 @@ import ecobill.module.base.domain.BusinessPartner;
 import ecobill.module.base.domain.DeliveryOrder;
 import ecobill.core.util.FileUtils;
 import ecobill.core.util.IdKeyItem;
+import ecobill.core.util.IdValueItem;
 import ecobill.core.system.Internationalization;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
@@ -169,11 +170,13 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         deliveryOrderDataPanel = new JPanel();
         deliveryOrderData = new DeliveryOrderData(baseService);
         deliveryOrderTable = new DeliveryOrderTable(actualDeliveryOrderId, baseService);
+        this.orderTable = new OrderTable(actualBusinessPartnerId, baseService);
         detail = new JPanel();
 
         MainFrame mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
 
         deliveryOrderPrintPanel = new DeliveryOrderPrintPanel(mainFrame, baseService);
+        deliveryOrderPrintPanelOverview  = new DeliveryOrderPrintPanel(mainFrame, baseService);
 
         articleTable = new ArticleTable(null, baseService) {
             protected KeyListener[] createKeyListeners() {
@@ -336,7 +339,39 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
         tabbedPane.addTab(WorkArea.getMessage(Constants.DETAIL), detail);
 
+        OverviewPanel deliveryOrderOverview = new OverviewPanel(orderTable, deliveryOrderPrintPanelOverview);
+        ActionListener actionListener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int row = orderTable.getTable().getSelectedRow();
+                    deliveryOrderPrintPanelOverview.doJasper(((IdValueItem) orderTable.getTable().getValueAt(row,0)).getId());
+                }
+                catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
+        };
+
+        ActionListener actionListenerClose = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+
+                    deliveryOrderPrintPanelOverview.removeAll();
+                    deliveryOrderPrintPanelOverview.repaint();
+                }
+                catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
+        };
+
+        deliveryOrderOverview.addButtonToVerticalButton(1,new ImageIcon("images/open.png"), "Lieferschein in Vorschaufernster anzeigen", actionListener );
+        deliveryOrderOverview.addButtonToVerticalButton(2,new ImageIcon("images/exit.png"), "Vorschaufernster schließen", actionListenerClose );
+        deliveryOrderOverview.init();
+        tabbedPane.addTab("Gesamtübersicht",deliveryOrderOverview);
+
         add(tabbedPane, BorderLayout.CENTER);
+
     }
 
     /**
@@ -365,6 +400,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
     private DeliveryOrderData deliveryOrderData;
     private JPanel deliveryOrderDataPanel;
     private DeliveryOrderTable deliveryOrderTable;
+    private OrderTable orderTable;
     private JPanel detail;
     private JPanel overview;
     private JPanel panelLeft;
@@ -375,6 +411,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
     private VerticalButton verticalButton;
 
     private DeliveryOrderPrintPanel deliveryOrderPrintPanel;
+    private DeliveryOrderPrintPanel deliveryOrderPrintPanelOverview;
 
     public void setBusinessPartner(BusinessPartner businessPartner) {
         address.setBusinessPartner(businessPartner);
@@ -412,6 +449,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
     }
 
     private Long actualDeliveryOrderId;
+    private Long actualBusinessPartnerId;
 
     private void saveOrUpdateDeliveryOrder() {
 
@@ -450,4 +488,14 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
         actualDeliveryOrderId = deliveryOrder.getId();
     }
+
+    public void setActualBusinessPartnerId(Long actualBusinessPartnerId) {
+        this.actualBusinessPartnerId = actualBusinessPartnerId;
+        orderTable.updateDataCollectionFromDB(actualBusinessPartnerId);
+        orderTable.renewTableModel();
+        this.validate();
+
+    }
+
+
 }

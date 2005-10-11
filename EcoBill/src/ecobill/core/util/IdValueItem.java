@@ -12,7 +12,7 @@ import java.io.Serializable;
  * Time: 11:31:56
  *
  * @author Roman R&auml;dle
- * @version $Id: IdValueItem.java,v 1.1 2005/10/07 09:59:54 raedler Exp $
+ * @version $Id: IdValueItem.java,v 1.2 2005/10/11 19:41:26 gath Exp $
  * @since EcoBill 1.0
  */
 public class IdValueItem implements Serializable {
@@ -34,6 +34,12 @@ public class IdValueItem implements Serializable {
     }
 
     public void setValue(Object value) {
+        this.value = value;
+    }
+
+    public IdValueItem(Long id, Object value)
+    {
+        this.id = id;
         this.value = value;
     }
 

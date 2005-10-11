@@ -28,7 +28,7 @@ import java.util.Enumeration;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.48 2005/10/08 12:24:13 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.49 2005/10/11 19:41:27 gath Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -351,9 +351,7 @@ public class News extends JPanel implements Internationalization {
 
     public void addMessageToTree(Message message) {
 
-        IdValueItem idValueItem = new IdValueItem();
-        idValueItem.setId(message.getId());
-        idValueItem.setValue(message.getSubject());
+        IdValueItem idValueItem = new IdValueItem(message.getId(), message.getSubject());
 
         boolean found = false;
 
