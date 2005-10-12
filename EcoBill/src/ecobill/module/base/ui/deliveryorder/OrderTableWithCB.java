@@ -82,7 +82,7 @@ public class OrderTableWithCB extends AbstractTablePanel {
 
             businessPartnerId = null;
 
-            return businessPartner.getDeliveryOrders();
+            return businessPartner.getOpenDeliveryOrders();
         }
 
         if (dataCollection != null) {

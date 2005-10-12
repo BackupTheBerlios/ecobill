@@ -3,6 +3,7 @@ package ecobill.module.base.domain;
 import ecobill.core.system.WorkArea;
 
 import java.util.Set;
+import java.util.HashSet;
 
 /**
  * Der <code>BusinessPartner</code> stellt den Geschäftspartner und somit bspw. den Adressaten
@@ -15,7 +16,7 @@ import java.util.Set;
  * Time: 18:24:14
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartner.java,v 1.6 2005/10/06 14:07:17 raedler Exp $
+ * @version $Id: BusinessPartner.java,v 1.7 2005/10/12 11:52:58 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartner extends AbstractDomain {
@@ -257,6 +258,26 @@ public class BusinessPartner extends AbstractDomain {
      */
     public void setDeliveryOrders(Set<DeliveryOrder> deliveryOrders) {
         this.deliveryOrders = deliveryOrders;
+    }
+
+    /**
+     * Gibt ein <code>Set</code> mit allen offenen Lieferscheinen dieses Kunden zurück.
+     * Offen heißt es wurde noch keine Rechnung davon erstellt.
+     *
+     * @return Ein <code>Set</code> mit allen offenen <code>DeliveryOrder</code>.
+     */
+    public Set<DeliveryOrder> getOpenDeliveryOrders() {
+
+        Set<DeliveryOrder> openDeliveryOrders = new HashSet<DeliveryOrder>();
+
+        for (DeliveryOrder deliveryOrder : deliveryOrders) {
+
+            if (!deliveryOrder.isPreparedBill()) {
+                openDeliveryOrders.add(deliveryOrder);
+            }
+        }
+
+        return openDeliveryOrders;
     }
 
     /**
