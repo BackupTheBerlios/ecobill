@@ -253,8 +253,8 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
             }
         };
-        overview.addButtonToVerticalButton(2,new ImageIcon("images/delivery_order_ok.png"), "Rechung speichern", a2);
-        overview.addButtonToVerticalButton(4,new ImageIcon("images/refresh.png"), "Aktualisieren", null);
+        overview.addButtonToVerticalButton(2,new ImageIcon("images/delivery_order_ok.png"), "Rechung generieren", a2);
+        overview.addButtonToVerticalButton(4,new ImageIcon("images/refresh.png"), "Lieferscheine aktualisieren", null);
 
         overview.init();
         BillUI.this.add(overview,BorderLayout.CENTER);
