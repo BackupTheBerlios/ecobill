@@ -21,7 +21,7 @@ import java.io.Serializable;
  * Time: 12:30:55
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseService.java,v 1.14 2005/10/09 10:48:37 raedler Exp $
+ * @version $Id: BaseService.java,v 1.15 2005/10/12 22:32:26 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface BaseService extends Service {
@@ -75,6 +75,18 @@ public interface BaseService extends Service {
      * @param id Die Id des <code>Object</code>.
      */
     public void delete(Class clazz, Serializable id);
+
+    /**
+     * @see BaseDao#getMaximumByParam(Class, String)
+     */
+    public Long getMaximumByParam(Class clazz, String param);
+
+    /**
+     * Gibt die nächste Rechnungsnummer zurück.
+     *
+     * @return Die nächste Rechnungsnummer.
+     */
+    public Long getNextBillNumber();
 
     /**
      * @see BaseDao#getSystemLocaleBySystemLocaleKey(String)

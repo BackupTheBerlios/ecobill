@@ -19,7 +19,7 @@ import java.io.Serializable;
  * Time: 12:29:43
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDaoImpl.java,v 1.12 2005/10/09 10:48:37 raedler Exp $
+ * @version $Id: BaseDaoImpl.java,v 1.13 2005/10/12 22:32:26 raedler Exp $
  * @see BaseDao
  * @since EcoBill 1.0
  */
@@ -77,6 +77,20 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
      */
     public void delete(Object entity) {
         getHibernateTemplate().delete(entity);
+    }
+
+    /**
+     * Sucht den maximalen Wert einer Spalte in der Datenbank.
+     *
+     * @param clazz Die Klasse zu der dieser Parameter gehört.
+     * @param param Der Parameter aus dem der maximale Wert herausgeholt werden soll.
+     * @return Der maximale Wert.
+     * @see BaseDao#getMaximumByParam(Class, String)
+     */
+    public Long getMaximumByParam(Class clazz, String param) {
+        List l = getHibernateTemplate().find("select max(" + param + ") from " + clazz.getName());
+
+        return (Long) l.get(0);
     }
 
     /**

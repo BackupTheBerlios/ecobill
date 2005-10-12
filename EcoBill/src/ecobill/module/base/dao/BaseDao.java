@@ -21,7 +21,7 @@ import java.io.Serializable;
  * Time: 12:29:36
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDao.java,v 1.12 2005/10/09 10:48:37 raedler Exp $
+ * @version $Id: BaseDao.java,v 1.13 2005/10/12 22:32:26 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface BaseDao {
@@ -65,6 +65,15 @@ public interface BaseDao {
      * @param entity Das zu löschende <code>Object</code>.
      */
     public void delete(Object entity);
+
+    /**
+     * Sucht den maximalen Wert einer Spalte in der Datenbank.
+     *
+     * @param clazz Die Klasse zu der dieser Parameter gehört.
+     * @param param Der Parameter aus dem der maximale Wert herausgeholt werden soll.
+     * @return Der maximale Wert.
+     */
+    public Long getMaximumByParam(Class clazz, String param);
 
     /**
      * Gibt die <code>SystemLocale</code>, deren localeKey des Parameter localeKey entspricht,

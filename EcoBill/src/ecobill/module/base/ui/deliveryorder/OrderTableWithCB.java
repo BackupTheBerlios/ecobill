@@ -156,7 +156,7 @@ public class OrderTableWithCB extends AbstractTablePanel {
 
         int checkBox = columnModel.getColumnIndex(WorkArea.getMessage(Constants.CHECKBOX_NEEDED));
 
-        columnModel.getColumn(checkBox).setCellEditor(new DefaultCellEditor(new JCheckBox("asdf", false)));
+        columnModel.getColumn(checkBox).setCellEditor(new DefaultCellEditor(new JCheckBox()));
         columnModel.getColumn(checkBox).setCellRenderer(new Renderer());
 
         return columnModel;
@@ -165,6 +165,8 @@ public class OrderTableWithCB extends AbstractTablePanel {
     public class Renderer extends JCheckBox implements TableCellRenderer {
 
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+
+            this.setBackground(Color.WHITE);
 
             if (value instanceof Boolean) {
 

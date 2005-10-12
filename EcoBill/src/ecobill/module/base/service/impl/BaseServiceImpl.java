@@ -20,7 +20,7 @@ import java.io.Serializable;
  * Time: 12:31:05
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseServiceImpl.java,v 1.16 2005/10/09 10:48:37 raedler Exp $
+ * @version $Id: BaseServiceImpl.java,v 1.17 2005/10/12 22:32:26 raedler Exp $
  * @see BaseService
  * @since EcoBill 1.0
  */
@@ -104,6 +104,25 @@ public class BaseServiceImpl implements BaseService {
 
         // Löscht das <code>Object</code> aus der Datenbank.
         baseDao.delete(entity);
+    }
+
+    /**
+     * @see BaseService#getMaximumByParam(Class, String)
+     */
+    public Long getMaximumByParam(Class clazz, String param) {
+        return baseDao.getMaximumByParam(clazz, param);
+    }
+
+    /**
+     * Gibt die nächste Rechnungsnummer zurück.
+     *
+     * @return Die nächste Rechnungsnummer.
+     * @see ecobill.module.base.service.BaseService#getNextBillNumber() 
+     */
+    public Long getNextBillNumber() {
+        Long max = baseDao.getMaximumByParam(Bill.class, "billNumber");
+
+        return max + 1L;
     }
 
     /**
