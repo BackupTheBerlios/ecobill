@@ -41,7 +41,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerUI.java,v 1.10 2005/10/11 19:41:27 gath Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.11 2005/10/12 09:43:39 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -379,6 +379,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
         overviewVerticalButton.getButton3().setToolTipText(WorkArea.getMessage(Constants.BUTTON3_CUSTOMER_TOOLTIP));
         overviewVerticalButton.getButton4().setToolTipText(WorkArea.getMessage(Constants.BUTTON4_CUSTOMER_TOOLTIP));
         overviewVerticalButton.getButton6().setToolTipText(WorkArea.getMessage(Constants.BUTTON6_CUSTOMER_TOOLTIP));
+        overviewVerticalButton.getButton7().setToolTipText(WorkArea.getMessage(Constants.BUTTON7_CUSTOMER_TOOLTIP));
     }
 
     /**
