@@ -198,7 +198,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
          //billRightPanel.add(billPreviewTable);
 
         overview = new OverviewPanel(orderTable, billRightPanel);
-        overview.addButtonToVerticalButton(1,new ImageIcon("images/delivery_order_new.png"), "neue Rechnung erstellen", null);
+        overview.addButtonToVerticalButton(1,new ImageIcon("images/delivery_order_new.png"), "Neue Rechnung erstellen", null);
         ActionListener a2 = new ActionListener() {
 
             /**
@@ -253,8 +253,8 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
             }
         };
-        overview.addButtonToVerticalButton(2,new ImageIcon("images/delivery_order_ok.png"), "Rechung generieren", a2);
-        overview.addButtonToVerticalButton(4,new ImageIcon("images/refresh.png"), "Lieferscheine aktualiesiren", null);
+        overview.addButtonToVerticalButton(2,new ImageIcon("images/delivery_order_ok.png"), "Rechung speichern", a2);
+        overview.addButtonToVerticalButton(4,new ImageIcon("images/refresh.png"), "Aktualisieren", null);
 
         overview.init();
         BillUI.this.add(overview,BorderLayout.CENTER);
