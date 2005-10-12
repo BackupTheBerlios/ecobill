@@ -37,7 +37,7 @@ import java.awt.event.*;
  * Time: 19:13:20
  * To change this template use File | Settings | File Templates.
  */
-public class BillUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization{
+public class BillUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
 
     /**
      * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
@@ -141,12 +141,12 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         if (LOG.isInfoEnabled()) {
             LOG.info("Schließe BillUI und speichere die Daten.");
         }
-    /*
-        // Serialisiere diese Objekte um sie bei einem neuen Start des Programmes wieder laden
-        // zu können.
-        deliveryOrderTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("delivery_order_table"))));
-        articleTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("article_table"))));
-*/    }
+        /*
+                // Serialisiere diese Objekte um sie bei einem neuen Start des Programmes wieder laden
+                // zu können.
+                deliveryOrderTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("delivery_order_table"))));
+                articleTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("article_table"))));
+        */    }
 
     /**
      * Initialisiert die Komponenten.
@@ -195,69 +195,61 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
         billRightPanel = new BillRightPanel(baseService);
 
-         //billRightPanel.add(billPreviewTable);
+        //billRightPanel.add(billPreviewTable);
 
         overview = new OverviewPanel(orderTable, billRightPanel);
-        overview.addButtonToVerticalButton(1,new ImageIcon("images/delivery_order_new.png"), "Neue Rechnung erstellen", null);
+        overview.addButtonToVerticalButton(1, new ImageIcon("images/delivery_order_new.png"), "Neue Rechnung erstellen", null);
         ActionListener a2 = new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
              */
             public void actionPerformed(ActionEvent e) {
-                for (int i=0; i<orderTable.getTable().getColumnCount(); i++) {
-                    if ((orderTable.getTable().getValueAt(i,0) instanceof Boolean)
-                       && ((Boolean)(orderTable.getTable().getValueAt(i,0))).booleanValue()) {
+                for (int i = 0; i < orderTable.getTable().getRowCount(); i++) {
+                    if ((orderTable.getTable().getValueAt(i, 0) instanceof Boolean)
+                        && ((Boolean) (orderTable.getTable().getValueAt(i, 0))).booleanValue()) {
 
-                        Object o = baseService.load(DeliveryOrder.class, ((IdValueItem) orderTable.getTable().getValueAt(i,1)).getId());
+                        Object o = baseService.load(DeliveryOrder.class, ((IdValueItem) orderTable.getTable().getValueAt(i, 1)).getId());
                         System.out.println(o.toString());
                         if (o instanceof DeliveryOrder) {
-                            DeliveryOrder dO = (DeliveryOrder)o;
+                            DeliveryOrder dO = (DeliveryOrder) o;
                             Set<ReduplicatedArticle> redArticles = dO.getArticles();
                             double sum = 0;
-                            while(redArticles.iterator().hasNext()){
+                            while (redArticles.iterator().hasNext()) {
                                 ReduplicatedArticle ra = redArticles.iterator().next();
                                 sum = sum + ra.getPrice() * ra.getQuantity();
                                 redArticles.remove(ra);
                             }
-                            BillPreviewCollection bpc = new BillPreviewCollection(dO.getDeliveryOrderNumber(),dO.getDeliveryOrderDate(),sum);
+                            BillPreviewCollection bpc = new BillPreviewCollection(dO.getDeliveryOrderNumber(), dO.getDeliveryOrderDate(), sum);
                             dO.setPreparedBill(true);
                             baseService.saveOrUpdate(dO);
                             billRightPanel.addDeliveryOrder(bpc);
                         }
                     }
 
-
-               // billPreviewTable = new BillPreviewTable(1,baseService);
-                //billRightPanel.add(billPreviewTable);
-                overview.validate();
+                    // billPreviewTable = new BillPreviewTable(1,baseService);
+                    //billRightPanel.add(billPreviewTable);
+                    overview.validate();
                 }
 
+                Long billNumber = baseService.getNextBillNumber();
 
-                List l = baseService.loadAll(Bill.class);
-                long max = 0;
-                while(l.listIterator().hasNext()) {
-                    Bill b = (Bill) l.listIterator().next();
-                    if (max<b.getBillNumber()) {
-                        max = b.getBillNumber();
-                    }
-                    l.remove((Object)b);
-                }
+                System.out.println("NÄCHSTE RECHNUNGSNUMMER: " + billNumber);
 
                 Bill bill = new Bill();
                 bill.setBusinessPartner((BusinessPartner) baseService.load(BusinessPartner.class, actualBusinessPartnerId));
-                bill.setBillNumber(max+1);
+                bill.setBillNumber(billNumber);
                 bill.setBillDate(Calendar.getInstance().getTime());
 
                 baseService.saveOrUpdate(bill);
 
             }
         };
-        overview.addButtonToVerticalButton(2,new ImageIcon("images/delivery_order_ok.png"), "Rechung generieren", a2);
-        overview.addButtonToVerticalButton(4,new ImageIcon("images/refresh.png"), "Lieferscheine aktualisieren", null);
+        overview.addButtonToVerticalButton(2, new ImageIcon("images/delivery_order_ok.png"), "Rechung speichern", a2);
+        overview.addButtonToVerticalButton(4, new ImageIcon("images/refresh.png"), "Aktualisieren", null);
 
         overview.init();
-        BillUI.this.add(overview,BorderLayout.CENTER);
+        BillUI.this.add(overview, BorderLayout.CENTER);
     }
 
 
