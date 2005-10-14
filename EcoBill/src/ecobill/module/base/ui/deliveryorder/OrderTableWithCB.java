@@ -15,6 +15,7 @@ import javax.swing.*;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import java.util.Vector;
 import java.util.Collection;
 import java.util.Collections;
@@ -121,7 +122,7 @@ public class OrderTableWithCB extends AbstractTablePanel {
 
                 String key = order.getKey();
                 if (Constants.CHECKBOX_NEEDED.equals(key)) {
-                    line.add(new Object());
+                    line.add(new Boolean(deliveryOrder.isPreparedBill()));
                 }
                 if (Constants.DELIVERY_ORDER_NUMBER.equals(key)) {
                     line.add(new IdValueItem(deliveryOrder.getId(), deliveryOrder.getDeliveryOrderNumber()));
@@ -141,7 +142,6 @@ public class OrderTableWithCB extends AbstractTablePanel {
             }
 
             line.add(deliveryOrder);
-            System.out.println("Was gefunden");
         }
 
         return line;
@@ -152,12 +152,11 @@ public class OrderTableWithCB extends AbstractTablePanel {
      * @see ecobill.module.base.ui.component.AbstractTablePanel#initColumnModelAfterUnpersist(javax.swing.table.TableColumnModel)
      */
     protected TableColumnModel createEditoredColumnModelAfterUnpersist(TableColumnModel columnModel) {
-        System.out.println("aufgerufen wurde ich ");
 
         int checkBox = columnModel.getColumnIndex(WorkArea.getMessage(Constants.CHECKBOX_NEEDED));
 
-        columnModel.getColumn(checkBox).setCellEditor(new DefaultCellEditor(new JCheckBox()));
-        columnModel.getColumn(checkBox).setCellRenderer(new Renderer());
+        //columnModel.getColumn(checkBox).setCellEditor(new DefaultCellEditor(new JCheckBox()));
+        //columnModel.getColumn(checkBox).setCellRenderer(new Renderer());
 
         return columnModel;
     }

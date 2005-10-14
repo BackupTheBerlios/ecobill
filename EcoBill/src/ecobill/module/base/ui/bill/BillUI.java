@@ -43,7 +43,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
      * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
      * Diese Ausgaben können in einem separaten File spezifiziert werden.
      */
-    private static final Log LOG = LogFactory.getLog(DeliveryOrderUI.class);
+    private static final Log LOG = LogFactory.getLog(BillUI.class);
 
     /**
      * Der <code>ApplicationContext</code> beinhaltet alle Beans die darin angegeben sind
@@ -205,24 +205,33 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
              */
             public void actionPerformed(ActionEvent e) {
+
+                Bill bill = new Bill();
+
                 for (int i = 0; i < orderTable.getTable().getRowCount(); i++) {
                     if ((orderTable.getTable().getValueAt(i, 0) instanceof Boolean)
                         && ((Boolean) (orderTable.getTable().getValueAt(i, 0))).booleanValue()) {
 
                         Object o = baseService.load(DeliveryOrder.class, ((IdValueItem) orderTable.getTable().getValueAt(i, 1)).getId());
-                        System.out.println(o.toString());
+
                         if (o instanceof DeliveryOrder) {
-                            DeliveryOrder dO = (DeliveryOrder) o;
-                            Set<ReduplicatedArticle> redArticles = dO.getArticles();
+
+                            DeliveryOrder deliveryOrder = (DeliveryOrder) o;
+
+                            Set<ReduplicatedArticle> reduplicatedArticles = deliveryOrder.getArticles();
+
                             double sum = 0;
-                            while (redArticles.iterator().hasNext()) {
-                                ReduplicatedArticle ra = redArticles.iterator().next();
-                                sum = sum + ra.getPrice() * ra.getQuantity();
-                                redArticles.remove(ra);
+
+                            for (ReduplicatedArticle article : reduplicatedArticles) {
+
+                                sum = sum + article.getPrice() * article.getQuantity();
                             }
-                            BillPreviewCollection bpc = new BillPreviewCollection(dO.getDeliveryOrderNumber(), dO.getDeliveryOrderDate(), sum);
-                            dO.setPreparedBill(true);
-                            baseService.saveOrUpdate(dO);
+
+                            BillPreviewCollection bpc = new BillPreviewCollection(deliveryOrder.getDeliveryOrderNumber(), deliveryOrder.getDeliveryOrderDate(), sum);
+
+                            deliveryOrder.setPreparedBill(true);
+                            bill.addDeliveryOrder(deliveryOrder);
+
                             billRightPanel.addDeliveryOrder(bpc);
                         }
                     }
@@ -236,7 +245,6 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
                 System.out.println("NÄCHSTE RECHNUNGSNUMMER: " + billNumber);
 
-                Bill bill = new Bill();
                 bill.setBusinessPartner((BusinessPartner) baseService.load(BusinessPartner.class, actualBusinessPartnerId));
                 bill.setBillNumber(billNumber);
                 bill.setBillDate(Calendar.getInstance().getTime());

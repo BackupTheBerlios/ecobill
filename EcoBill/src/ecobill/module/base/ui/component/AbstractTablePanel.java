@@ -31,7 +31,7 @@ import java.io.*;
  * Time: 12:33:23
  *
  * @author Roman R&auml;dle
- * @version $Id: AbstractTablePanel.java,v 1.5 2005/10/11 19:41:27 gath Exp $
+ * @version $Id: AbstractTablePanel.java,v 1.6 2005/10/14 11:17:50 raedler Exp $
  * @since EcoBill 1.0
  */
 public abstract class AbstractTablePanel extends JPanel implements Internationalization {
@@ -75,7 +75,20 @@ public abstract class AbstractTablePanel extends JPanel implements International
      * Das <code>TableModel</code> beinhaltet die eigentlichen Daten, die zur Anzeige verwendet werden
      * sollen.
      */
-    private DefaultTableModel tableModel = new DefaultTableModel();
+    private DefaultTableModel tableModel = new DefaultTableModel() {
+
+        /**
+         * @see DefaultTableModel#getColumnClass(int)
+         */
+        public Class<?> getColumnClass(int columnIndex) {
+            try {
+                return getValueAt(0, columnIndex).getClass();
+            }
+            catch (Exception e) {
+                return super.getColumnClass(columnIndex);
+            }
+        }
+    };
 
     /**
      * Gibt das <code>TableModel</code> der Tabelle zurück.

@@ -19,7 +19,7 @@ import java.io.Serializable;
  * Time: 12:29:43
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDaoImpl.java,v 1.13 2005/10/12 22:32:26 raedler Exp $
+ * @version $Id: BaseDaoImpl.java,v 1.14 2005/10/14 11:17:50 raedler Exp $
  * @see BaseDao
  * @since EcoBill 1.0
  */
@@ -90,7 +90,13 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
     public Long getMaximumByParam(Class clazz, String param) {
         List l = getHibernateTemplate().find("select max(" + param + ") from " + clazz.getName());
 
-        return (Long) l.get(0);
+        Long max = (Long) l.get(0);
+
+        if (max != null) {
+            return max;
+        }
+
+        return 0L;
     }
 
     /**

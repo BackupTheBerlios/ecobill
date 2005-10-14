@@ -4,6 +4,7 @@ import ecobill.module.base.domain.enumeration.CharacterisationType;
 
 import java.util.Date;
 import java.util.Set;
+import java.util.HashSet;
 import java.text.Collator;
 // @todo document me!
 
@@ -15,7 +16,7 @@ import java.text.Collator;
  * Time: 13:29:28
  *
  * @author Roman R&auml;dle
- * @version $Id: Bill.java,v 1.2 2005/09/28 15:44:18 raedler Exp $
+ * @version $Id: Bill.java,v 1.3 2005/10/14 11:17:50 raedler Exp $
  * @since DAPS INTRA 1.0
  */
 public class Bill extends AbstractDomain {
@@ -114,6 +115,22 @@ public class Bill extends AbstractDomain {
      */
     public void setDeliveryOrders(Set<DeliveryOrder> deliveryOrders) {
         this.deliveryOrders = deliveryOrders;
+    }
+
+    /**
+     * Fügt dem <code>Set</code> mit <code>DeliveryOrder</code> der Rechnung einen
+     * Lieferschein hinzu.
+     *
+     * @param deliveryOrder Eine <code>DeliveryOrder</code> die zur Rechnung hinzugefügt
+     *                      werden soll.
+     */
+    public void addDeliveryOrder(DeliveryOrder deliveryOrder) {
+
+        if (deliveryOrders == null) {
+            deliveryOrders = new HashSet<DeliveryOrder>();
+        }
+
+        deliveryOrders.add(deliveryOrder);
     }
 
     /**
