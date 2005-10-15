@@ -1,2 +1,7 @@
 ignore
 classes
+jar
+test
+EcoBill.ipr
+EcoBill.iws
+EcoBill.iml
