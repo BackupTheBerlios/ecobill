@@ -20,15 +20,13 @@ import java.util.Enumeration;
 
 
 /**
- * Das <code>InputFirm</code> <code>JPanel</code> stellt die Eingabemöglichkeit für zusätzliche
- * Firmendaten zur Verfügung.
  * <p/>
  * User: aw
  * Date: 15.07.2005
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.50 2005/10/21 10:51:26 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.51 2005/10/21 10:53:06 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -39,7 +37,6 @@ public class News extends JPanel implements Internationalization {
     public News(BaseService baseService) {
 
         this.baseService = baseService;
-
 
         initComponents();
 
@@ -222,12 +219,6 @@ public class News extends JPanel implements Internationalization {
 
     }
 
-    // </editor-fold>
-
-
-
-
-
     // Variables declaration - do not modify
 
     private javax.swing.JLabel addresserLabel;
@@ -257,8 +248,6 @@ public class News extends JPanel implements Internationalization {
     private ecobill.module.base.ui.component.VerticalButton overviewVerticalButton;
 
     // End of variables declaration
-
-
 
     public void reinitI18N() {
 
