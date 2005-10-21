@@ -368,7 +368,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         deliveryOrderOverview.addButtonToVerticalButton(1,new ImageIcon("images/open.png"), "Lieferschein in Vorschaufernster anzeigen", actionListener );
         deliveryOrderOverview.addButtonToVerticalButton(2,new ImageIcon("images/exit.png"), "Vorschaufernster schließen", actionListenerClose );
         deliveryOrderOverview.init();
-        tabbedPane.addTab("Gesamtübersicht",deliveryOrderOverview);
+        tabbedPane.addTab(null,deliveryOrderOverview);
 
         add(tabbedPane, BorderLayout.CENTER);
 
@@ -378,6 +378,11 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
      * @see ecobill.core.system.Internationalization#reinitI18N()
      */
     public void reinitI18N() {
+
+        tabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.OVERVIEW));
+        tabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.DETAIL));
+        tabbedPane.setTitleAt(2, WorkArea.getMessage(Constants.MAX_OVERVIEW));
+
 
         verticalButton.getButton1().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON1_TOOLTIP));
         verticalButton.getButton2().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON2_TOOLTIP));

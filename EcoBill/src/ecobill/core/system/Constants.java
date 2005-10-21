@@ -10,7 +10,7 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.33 2005/10/21 11:40:41 jfuckerweiler Exp $
+ * @version $Id: Constants.java,v 1.34 2005/10/21 12:03:22 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {
@@ -112,6 +112,7 @@ public interface Constants {
     public final static String UNIT_TOOLTIP = "unit.tooltip";
     public final static String VARIANT = "variant";
     public final static String VARIANT_TOOLTIP = "variant.tooltip";
+    public final static String MAX_OVERVIEW = "maxoverview";
 
 
     public final static String BUSINESS_PARTNER = "business_partner";
