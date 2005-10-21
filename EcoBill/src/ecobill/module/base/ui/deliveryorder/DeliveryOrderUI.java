@@ -383,6 +383,9 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         tabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.DETAIL));
         tabbedPane.setTitleAt(2, WorkArea.getMessage(Constants.MAX_OVERVIEW));
 
+        verticalButton.reinitI18N();
+        deliveryOrderData.reinitI18N();
+
 
         verticalButton.getButton1().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON1_TOOLTIP));
         verticalButton.getButton2().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON2_TOOLTIP));
