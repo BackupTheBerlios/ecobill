@@ -10,7 +10,7 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.35 2005/10/21 12:37:19 jfuckerweiler Exp $
+ * @version $Id: Constants.java,v 1.36 2005/10/21 13:17:20 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {
@@ -31,6 +31,7 @@ public interface Constants {
     /**
      * Alle Schlüssel die bspw. für Labels verwendet werden.
      */
+    public final static String ACADEMIC_TITLE = "academic_title";
     public final static String ACTIONS = "actions";
     public final static String ACTIONS_TOOLTIP = "actions.tooltip";
     public final static String ADD = "add";
@@ -41,6 +42,7 @@ public interface Constants {
     public final static String ALL_ROUND_PRICE_TOOLTIP = "all_round_price.tooltip";
     public final static String ARTICLE_NR = "article_nr";
     public final static String ARTICLE_NR_TOOLTIP = "article_nr.tooltip";
+
     public final static String BILL_PREVIEW = "bill_preview";
     public final static String BUNDLE = "bundle";
     public final static String BUNDLE_TOOLTIP = "bundle.tooltip";
@@ -48,6 +50,8 @@ public interface Constants {
     public final static String BUNDLE_CAPACITY_TOOLTIP = "bundle_capacity.tooltip";
     public final static String BUNDLE_UNIT = "bundle_unit";
     public final static String BUNDLE_UNIT_TOOLTIP = "bundle_unit.tooltip";
+    public final static String BUSINESS_PARTNER = "business_partner";
+
     public final static String CAPACITY = "capacity";
     public final static String CAPACITY_TOOLTIP = "capacity.tooltip";
     public final static String CHARACTERISATION_TYP = "characterisation_type";
@@ -56,8 +60,10 @@ public interface Constants {
     public final static String COUNTRY_TOOLTIP = "country.tooltip";
     public final static String CUSTOMER = "customer";
     public final static String CUSTOMER_TOOLTIP = "customer.tooltip";
+    public final static String CUSTOMER_NUMBER = "customer_number";
     public final static String CUSTOMERS = "customers";
     public final static String CUSTOMERS_TOOLTIP = "customers.tooltip";
+
     public final static String DATA = "data";
     public final static String DATA_TOOLTIP = "data.tooltip";
     public final static String DATE = "date";
@@ -76,51 +82,63 @@ public interface Constants {
     public final static String DESCRIPTIONS_TOOLTIP = "descriptions.tooltip";
     public final static String DETAIL = "detail";
     public final static String DETAIL_TOOLTIP = "detail.tooltip";
+    public final static String DORDER_BUTTON1_TOOLTIP = "dorderbutton1tooltip";
+    public final static String DORDER_BUTTON2_TOOLTIP = "dorderbutton2tooltip";
+    public final static String DORDER_BUTTON3_TOOLTIP = "dorderbutton3tooltip";
+    public final static String DORDER_BUTTON4_TOOLTIP = "dorderbutton4tooltip";
+
+    public final static String ID = "id";
     public final static String IN_STOCK = "in_stock";
     public final static String IN_STOCK_TOOLTIP = "in_stock.tooltip";
+
     public final static String KEY = "key";
     public final static String KEY_TOOLTIP = "key.tooltip";
+
     public final static String LABELLING = "labelling";
     public final static String LABELLING_TOOLTIP = "labelling.tooltip";
     public final static String LANGUAGE = "language";
     public final static String LANGUAGE_TOOLTIP = "language.tooltip";
     public final static String LOCALE_SETTING = "locale_setting";
     public final static String LOCALE_SETTING_TOOLTIP = "locale_setting.tooltip";
+
     public final static String NEW = "new";
     public final static String NEW_TOOLTIP = "new.tooltip";
+
     public final static String OVERVIEW = "overview";
     public final static String OVERVIEW_TOOLTIP = "overview.tooltip";
+
     public final static String PRICE = "price";
     public final static String PRICE_TOOLTIP = "price.tooltip";
     public final static String PREFIX_FREE_TEXT = "text_prefix";
+
     public final static String QUANTITY = "quantity";
     public final static String QUANTITY_TOOLTIP = "quantity.tooltip";
+
     public final static String RESIDUAL_DESCRIPTIONS = "residual_descriptions";
     public final static String RESIDUAL_DESCRIPTIONS_TOOLTIP = "residual_descriptions.tooltip";
+
     public final static String SINGLE_PRICE = "single_price";
     public final static String SINGLE_PRICE_TOOLTIP = "single_price.tooltip";
     public final static String SAVE = "save";
     public final static String SAVE_TOOLTIP = "save.tooltip";
     public final static String SUFFIX_FREE_TEXT = "text_suffix";
+
     public final static String TEXT_PREFIX = "text_prefix";
     public final static String TEXT_PREFIX_TOOLTIP = "text_prefix.tooltip";
     public final static String TEXT_SUFFIX = "text_suffix";
     public final static String TEXT_SUFFIX_TOOLTIP = "text_suffix.tooltip";
+    public final static String TITLE = "title";
     public final static String TYPE = "type";
     public final static String TYPE_TOOLTIP = "type.tooltip";
+
     public final static String UNIT = "unit";
     public final static String UNIT_TOOLTIP = "unit.tooltip";
+
     public final static String VARIANT = "variant";
     public final static String VARIANT_TOOLTIP = "variant.tooltip";
+
     public final static String MAX_OVERVIEW = "maxoverview";
 
-
-    public final static String BUSINESS_PARTNER = "business_partner";
-    public final static String CUSTOMER_NUMBER = "customer_number";
-
-    public final static String ID = "id";
-    public final static String TITLE = "title";
-    public final static String ACADEMIC_TITLE = "academic_title";
     public final static String LASTNAME = "lastname";
     public final static String FIRSTNAME = "firstname";
     public final static String STREET = "street";
@@ -213,10 +231,7 @@ public interface Constants {
     public final static String MESSAGE = "message";
 
 
-    public final static String DORDER_BUTTON1_TOOLTIP = "dorderbutton1tooltip";
-    public final static String DORDER_BUTTON2_TOOLTIP = "dorderbutton2tooltip";
-    public final static String DORDER_BUTTON3_TOOLTIP = "dorderbutton3tooltip";
-    public final static String DORDER_BUTTON4_TOOLTIP = "dorderbutton4tooltip";
+
 
 
 
