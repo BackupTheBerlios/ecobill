@@ -34,7 +34,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.83 2005/10/21 11:29:45 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.84 2005/10/21 11:52:30 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -718,7 +718,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         startUI.reinitI18N();
         articleUI.reinitI18N();
         businessPartnerUI.reinitI18N();
-        startUI.reinitI18N();
         billUI.reinitI18N();
     }
 
