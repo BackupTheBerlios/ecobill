@@ -130,7 +130,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         }
         catch (FileNotFoundException fnfe) {
             if (LOG.isErrorEnabled()) {
-                LOG.error(fnfe.getMessage(), fnfe);
+                LOG.error(fnfe.getMessage());
             }
         }
 

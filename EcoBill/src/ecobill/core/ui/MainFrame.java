@@ -35,7 +35,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.86 2005/10/21 14:35:30 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.87 2005/10/21 14:44:31 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -175,29 +175,10 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
      */
     public BillUI billUI;
 
-       /**
-     * Gibt die Instanz des Bill User Interface zurück.
-     *
-     * @return Die Instanz des <code>BillUI</code>.
-     */
-
-    public HelpUI getHelpUI() {
-        return helpUI;
-    }
-
     /**
-     * Setzt die Instanz des Bill User Interface zurück.
-     *
+     * Die Instanz des Help User Interface.
      */
-
-    public void setHelpUI(HelpUI helpUI) {
-        this.helpUI = helpUI;
-    }
-
-    /**
-     * Die Instanz des Bill User Interface.
-     */
-    public HelpUI helpUI;
+    public HelpUI helpUI = new HelpUI();
 
     /**
      * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
