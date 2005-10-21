@@ -34,7 +34,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.82 2005/10/21 10:54:25 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.83 2005/10/21 11:29:45 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {

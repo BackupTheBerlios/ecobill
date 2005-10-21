@@ -26,7 +26,7 @@ import java.util.Enumeration;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.51 2005/10/21 10:53:06 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.52 2005/10/21 11:29:24 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -368,6 +368,9 @@ public class News extends JPanel implements Internationalization {
 
             root.add(node);
         }
+        addresserTextField.setText(null);
+        subjectTextField.setText(null);
+        newsTextArea.setText(null);
     }
 
     public void showMessage(Message message) {
@@ -398,6 +401,10 @@ public class News extends JPanel implements Internationalization {
             Long diaId = idValueItem.getId();
 
             baseService.delete(Message.class, diaId);
+
+            addresserTextField.setText(null);
+            subjectTextField.setText(null);
+            newsTextArea.setText(null);
         }
     }
 
