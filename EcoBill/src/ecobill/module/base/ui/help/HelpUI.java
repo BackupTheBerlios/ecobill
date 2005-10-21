@@ -12,7 +12,7 @@ import javax.swing.*;
  * Time: 16:16:40
  *
  * @author Andreas Weiler
- * @version $Id: HelpUI.java,v 1.1 2005/10/21 14:34:12 jfuckerweiler Exp $
+ * @version $Id: HelpUI.java,v 1.2 2005/10/21 14:37:16 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class HelpUI extends JFrame {

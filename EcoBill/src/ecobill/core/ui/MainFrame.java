@@ -5,6 +5,7 @@ import ecobill.module.base.ui.article.ArticleUI;
 import ecobill.module.base.ui.businesspartner.BusinessPartnerUI;
 import ecobill.module.base.ui.deliveryorder.DeliveryOrderUI;
 import ecobill.module.base.ui.bill.BillUI;
+import ecobill.module.base.ui.help.HelpUI;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import ecobill.core.system.Internationalization;
@@ -34,7 +35,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.85 2005/10/21 12:03:43 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.86 2005/10/21 14:35:30 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -170,9 +171,33 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     }
 
     /**
-     * Die Instanz des DeliveryOrder User Interface.
+     * Die Instanz des Bill User Interface.
      */
     public BillUI billUI;
+
+       /**
+     * Gibt die Instanz des Bill User Interface zurück.
+     *
+     * @return Die Instanz des <code>BillUI</code>.
+     */
+
+    public HelpUI getHelpUI() {
+        return helpUI;
+    }
+
+    /**
+     * Setzt die Instanz des Bill User Interface zurück.
+     *
+     */
+
+    public void setHelpUI(HelpUI helpUI) {
+        this.helpUI = helpUI;
+    }
+
+    /**
+     * Die Instanz des Bill User Interface.
+     */
+    public HelpUI helpUI;
 
     /**
      * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
@@ -585,16 +610,23 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // erstellt PopUp About
         JOptionPane.showMessageDialog(this, ec, ab, JOptionPane.DEFAULT_OPTION, new ImageIcon("images/About.gif"));
     }
-
     // wird aufgerufen bei Help Topics
     public void topic() {
 
         // AusgabeStrings im PopUp Fenster Topic
-        String to = "Help Topics";
-        String ec = "Economy Bill Agenda" + LINE_SEPARATOR + "        Version 1.0";
+        //String to = "Help Topics";
+        //String ec = "Economy Bill Agenda" + LINE_SEPARATOR + "        Version 1.0";
 
         // erstellt PopUp Topic
-        JOptionPane.showMessageDialog(this, ec, to, JOptionPane.DEFAULT_OPTION, new ImageIcon("images/Topic.gif"));
+        //JOptionPane.showMessageDialog(this, ec, to, JOptionPane.DEFAULT_OPTION, new ImageIcon("images/Topic.gif"));
+        //JPanel helpPanel = new JPanel();
+        //jtab.addTab("Help",helpPanel);
+        helpUI.setVisible(true);
+        JDialog dialog = new JDialog(helpUI, "Help Topics");
+        dialog.setSize(400,400);
+        dialog.setDefaultCloseOperation(
+                 WindowConstants.DISPOSE_ON_CLOSE);
+        dialog.setVisible(true);
     }
 
     /**
@@ -720,6 +752,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         businessPartnerUI.reinitI18N();
         billUI.reinitI18N();
         deliveryOrderUI.reinitI18N();
+
     }
 
     public void setSelectedTab(int index) {
