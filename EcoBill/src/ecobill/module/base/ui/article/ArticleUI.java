@@ -43,7 +43,7 @@ import java.io.FileOutputStream;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.8 2005/10/06 14:07:17 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.9 2005/10/21 11:40:51 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JPanel implements InitializingBean, Internationalization, DisposableBean {
@@ -489,6 +489,11 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         verticalButtonOverview.getButton2().setToolTipText(WorkArea.getMessage(Constants.BUTTON2_ARTICLE_TOOLTIP));
         verticalButtonOverview.getButton3().setToolTipText(WorkArea.getMessage(Constants.BUTTON3_ARTICLE_TOOLTIP));
         verticalButtonOverview.getButton4().setToolTipText(WorkArea.getMessage(Constants.BUTTON4_ARTICLE_TOOLTIP));
+
+        verticalButtonLabelling.getButton1().setToolTipText(WorkArea.getMessage(Constants.BUTTON1_LABELLING_TOOLTIP));
+        verticalButtonLabelling.getButton2().setToolTipText(WorkArea.getMessage(Constants.BUTTON2_LABELLING_TOOLTIP));
+        verticalButtonLabelling.getButton3().setToolTipText(WorkArea.getMessage(Constants.BUTTON3_LABELLING_TOOLTIP));
+        verticalButtonLabelling.getButton4().setToolTipText(WorkArea.getMessage(Constants.BUTTON4_LABELLING_TOOLTIP));
 
 
         articleTableOverview.reinitI18N();
