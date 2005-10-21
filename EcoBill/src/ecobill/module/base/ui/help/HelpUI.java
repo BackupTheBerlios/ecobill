@@ -1,6 +1,7 @@
 package ecobill.module.base.ui.help;
 
 import javax.swing.*;
+import java.awt.*;
 
 // @todo document me!
 
@@ -12,15 +13,19 @@ import javax.swing.*;
  * Time: 16:16:40
  *
  * @author Andreas Weiler
- * @version $Id: HelpUI.java,v 1.2 2005/10/21 14:37:16 jfuckerweiler Exp $
+ * @version $Id: HelpUI.java,v 1.3 2005/10/21 15:05:46 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class HelpUI extends JFrame {
 
     /** Creates new form NewJFrame */
     public HelpUI() {
+
         initComponents();
+        center();
     }
+
+    public HelpBrowser helpBrowser = new HelpBrowser();
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -71,6 +76,8 @@ public class HelpUI extends JFrame {
         );
         pack();
 
+        this.add(helpBrowser.getPanel());
+
     }
     // </editor-fold>
 
@@ -79,6 +86,23 @@ public class HelpUI extends JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextPane jTextPane1;
     // End of variables declaration
+
+    private void center() {
+
+        // Größe der eingestellten Bildschirmauflösung.
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        double width = screenSize.getWidth();
+        double height = screenSize.getHeight();
+
+        // Größe des <code>JFrame</code>.
+        Dimension frameSize = this.getSize();
+
+        width -= frameSize.getWidth();
+        height -= frameSize.getHeight();
+
+        this.setLocation((int) width / 2, (int) height / 2);
+    }
 
 }
 
