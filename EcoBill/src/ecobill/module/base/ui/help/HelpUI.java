@@ -13,7 +13,7 @@ import java.awt.*;
  * Time: 16:16:40
  *
  * @author Andreas Weiler
- * @version $Id: HelpUI.java,v 1.3 2005/10/21 15:05:46 jfuckerweiler Exp $
+ * @version $Id: HelpUI.java,v 1.4 2005/10/21 15:09:32 raedler Exp $
  * @since EcoBill 1.0
  */
 public class HelpUI extends JFrame {
@@ -76,7 +76,7 @@ public class HelpUI extends JFrame {
         );
         pack();
 
-        this.add(helpBrowser.getPanel());
+        this.add(helpBrowser);
 
     }
     // </editor-fold>

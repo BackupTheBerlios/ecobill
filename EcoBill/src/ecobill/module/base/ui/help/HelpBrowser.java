@@ -15,17 +15,16 @@ import java.io.File;
  * Time: 17:00:54
  *
  * @author Andreas Weiler
- * @version $Id: HelpBrowser.java,v 1.1 2005/10/21 15:04:03 jfuckerweiler Exp $
+ * @version $Id: HelpBrowser.java,v 1.2 2005/10/21 15:09:14 raedler Exp $
  * @since EcoBill 1.0
  */
-public class HelpBrowser{
+public class HelpBrowser extends JPanel {
 
     private String htmlPath = "file:\\c:\\App\\de\\App\\vorlagen\\";
         private String page = htmlPath+"vorlage1.htm";
 
         private JEditorPane browser = null;
         private JScrollPane sp = null;
-        private JPanel panel = null;
 
         public HelpBrowser()
         {
@@ -49,16 +48,6 @@ public class HelpBrowser{
             browser.setPreferredSize(new Dimension(400, 300));
             sp = new JScrollPane(browser);
 
-            panel = new JPanel();
-            panel.add(sp);
+            add(sp);
         }
-
-    public JPanel getPanel() {
-        return panel;
-    }
-
-    public void setPanel(JPanel panel) {
-        this.panel = panel;
-    }
-
 }
