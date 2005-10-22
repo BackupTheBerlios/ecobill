@@ -16,7 +16,7 @@ import java.awt.*;
  * Time: 16:16:40
  *
  * @author Andreas Weiler
- * @version $Id: HelpUI.java,v 1.11 2005/10/22 15:41:34 jfuckerweiler Exp $
+ * @version $Id: HelpUI.java,v 1.12 2005/10/22 16:00:26 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class HelpUI extends JFrame {
@@ -30,7 +30,7 @@ public class HelpUI extends JFrame {
     }
 
     public JPanel imagePanel = new JPanel();
-    public JLabel imageLabel = new JLabel(new ImageIcon("images/About.gif"));
+    public JLabel imageLabel = new JLabel(new ImageIcon("images/Topic.gif"));
     public HelpBrowser helpBrowser1 = new HelpBrowser("./html/help/help1.html");
     public HelpBrowser helpBrowser2 = new HelpBrowser("./html/help/help2.html");
     public HelpBrowser helpBrowser3 = new HelpBrowser("./html/help/help3.html");
@@ -46,7 +46,8 @@ public class HelpUI extends JFrame {
     private void initComponents() {
           helpTabbedPane = new javax.swing.JTabbedPane();
 
-        imagePanel.add(imageLabel);
+        imagePanel.setLayout(new BorderLayout());
+        imagePanel.add(imageLabel, BorderLayout.CENTER);
 
         helpTabbedPane.add(imagePanel);
         helpTabbedPane.add(helpBrowser1);
@@ -73,7 +74,7 @@ public class HelpUI extends JFrame {
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
                 .addContainerGap()
-                .add(helpTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
+                .add(helpTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
