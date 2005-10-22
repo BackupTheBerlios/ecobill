@@ -16,7 +16,7 @@ import java.awt.*;
  * Time: 16:16:40
  *
  * @author Andreas Weiler
- * @version $Id: HelpUI.java,v 1.10 2005/10/22 15:29:14 jfuckerweiler Exp $
+ * @version $Id: HelpUI.java,v 1.11 2005/10/22 15:41:34 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class HelpUI extends JFrame {
@@ -29,6 +29,8 @@ public class HelpUI extends JFrame {
         center();
     }
 
+    public JPanel imagePanel = new JPanel();
+    public JLabel imageLabel = new JLabel(new ImageIcon("images/About.gif"));
     public HelpBrowser helpBrowser1 = new HelpBrowser("./html/help/help1.html");
     public HelpBrowser helpBrowser2 = new HelpBrowser("./html/help/help2.html");
     public HelpBrowser helpBrowser3 = new HelpBrowser("./html/help/help3.html");
@@ -44,6 +46,9 @@ public class HelpUI extends JFrame {
     private void initComponents() {
           helpTabbedPane = new javax.swing.JTabbedPane();
 
+        imagePanel.add(imageLabel);
+
+        helpTabbedPane.add(imagePanel);
         helpTabbedPane.add(helpBrowser1);
         helpTabbedPane.add(helpBrowser2);
         helpTabbedPane.add(helpBrowser3);
@@ -55,6 +60,7 @@ public class HelpUI extends JFrame {
         helpTabbedPane.setIconAt(2, new ImageIcon("images/help.png"));
         helpTabbedPane.setIconAt(3, new ImageIcon("images/help.png"));
         helpTabbedPane.setIconAt(4, new ImageIcon("images/help.png"));
+        helpTabbedPane.setIconAt(5, new ImageIcon("images/help.png"));
 
 
 
@@ -103,11 +109,12 @@ public class HelpUI extends JFrame {
     }
 
     public void reinitI18N() {
-        helpTabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.HELP_TABBED_PANE1));
-        helpTabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.HELP_TABBED_PANE2));
-        helpTabbedPane.setTitleAt(2, WorkArea.getMessage(Constants.HELP_TABBED_PANE3));
-        helpTabbedPane.setTitleAt(3, WorkArea.getMessage(Constants.HELP_TABBED_PANE4));
-        helpTabbedPane.setTitleAt(4, WorkArea.getMessage(Constants.HELP_TABBED_PANE5));
+        helpTabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.HELP_TABBED_PANE0));
+        helpTabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.HELP_TABBED_PANE1));
+        helpTabbedPane.setTitleAt(2, WorkArea.getMessage(Constants.HELP_TABBED_PANE2));
+        helpTabbedPane.setTitleAt(3, WorkArea.getMessage(Constants.HELP_TABBED_PANE3));
+        helpTabbedPane.setTitleAt(4, WorkArea.getMessage(Constants.HELP_TABBED_PANE4));
+        helpTabbedPane.setTitleAt(5, WorkArea.getMessage(Constants.HELP_TABBED_PANE5));
     }
 
 }

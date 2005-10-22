@@ -17,7 +17,7 @@ import java.net.MalformedURLException;
  * Time: 17:00:54
  *
  * @author Andreas Weiler
- * @version $Id: HelpBrowser.java,v 1.8 2005/10/22 14:54:55 raedler Exp $
+ * @version $Id: HelpBrowser.java,v 1.9 2005/10/22 15:41:40 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class HelpBrowser extends JPanel {
@@ -48,7 +48,7 @@ public class HelpBrowser extends JPanel {
                 e.printStackTrace();
             }
 
-            browser.setPreferredSize(new Dimension(400, 300));
+            browser.setPreferredSize(new Dimension(600, 400));
             sp = new JScrollPane(browser);
 
             add(sp);
