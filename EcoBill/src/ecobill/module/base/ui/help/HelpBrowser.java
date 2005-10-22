@@ -15,24 +15,25 @@ import java.io.File;
  * Time: 17:00:54
  *
  * @author Andreas Weiler
- * @version $Id: HelpBrowser.java,v 1.2 2005/10/21 15:09:14 raedler Exp $
+ * @version $Id: HelpBrowser.java,v 1.3 2005/10/22 14:03:10 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class HelpBrowser extends JPanel {
 
-    private String htmlPath = "file:\\c:\\App\\de\\App\\vorlagen\\";
-        private String page = htmlPath+"vorlage1.htm";
+    //private String htmlPath = "file:\\C:\\Andreas\\RobiShop\\Alles\\";
+      //  private String page = htmlPath+"index.html";
 
         private JEditorPane browser = null;
         private JScrollPane sp = null;
 
-        public HelpBrowser()
+        public HelpBrowser(String page)
         {
             browser = new JEditorPane();
             browser.setEditable(false);
+            createBrowser(page);
         }
 
-        public void createBrowser()
+        public void createBrowser(String page)
         {
             File localFile = new File(page);
 
