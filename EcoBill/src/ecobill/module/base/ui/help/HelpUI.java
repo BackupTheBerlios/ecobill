@@ -13,7 +13,7 @@ import java.awt.*;
  * Time: 16:16:40
  *
  * @author Andreas Weiler
- * @version $Id: HelpUI.java,v 1.4 2005/10/21 15:09:32 raedler Exp $
+ * @version $Id: HelpUI.java,v 1.5 2005/10/22 14:12:21 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class HelpUI extends JFrame {
@@ -25,7 +25,7 @@ public class HelpUI extends JFrame {
         center();
     }
 
-    public HelpBrowser helpBrowser = new HelpBrowser();
+    public HelpBrowser helpBrowser = new HelpBrowser("htmlfiles/help1.html");
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -34,57 +34,35 @@ public class HelpUI extends JFrame {
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">
     private void initComponents() {
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
+          jTabbedPane1 = new javax.swing.JTabbedPane();
+
+        jTabbedPane1.add(helpBrowser);
+        jTabbedPane1.setTitleAt(0, "Harry");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        jTextPane1.setText("Hier werden alle ihre Fragen beantwortet!");
-        jScrollPane1.setViewportView(jTextPane1);
-
-        org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel1Layout.createSequentialGroup()
-                .add(131, 131, 131)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 210, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(136, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel1Layout.createSequentialGroup()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(340, Short.MAX_VALUE))
-        );
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jPanel1)
+                .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jPanel1)
+                .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pack();
-
-        this.add(helpBrowser);
-
     }
     // </editor-fold>
 
     // Variables declaration - do not modify
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextPane jTextPane1;
+    private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration
 
     private void center() {

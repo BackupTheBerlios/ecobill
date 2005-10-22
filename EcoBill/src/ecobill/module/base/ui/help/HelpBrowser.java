@@ -15,21 +15,22 @@ import java.io.File;
  * Time: 17:00:54
  *
  * @author Andreas Weiler
- * @version $Id: HelpBrowser.java,v 1.3 2005/10/22 14:03:10 jfuckerweiler Exp $
+ * @version $Id: HelpBrowser.java,v 1.4 2005/10/22 14:12:27 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class HelpBrowser extends JPanel {
 
-    //private String htmlPath = "file:\\C:\\Andreas\\RobiShop\\Alles\\";
+    private String htmlPath = "file:\\EcoBill\\htmlfiles";
       //  private String page = htmlPath+"index.html";
 
         private JEditorPane browser = null;
         private JScrollPane sp = null;
 
-        public HelpBrowser(String page)
+        public HelpBrowser(String bummel)
         {
             browser = new JEditorPane();
             browser.setEditable(false);
+            String page = htmlPath+bummel;
             createBrowser(page);
         }
 
