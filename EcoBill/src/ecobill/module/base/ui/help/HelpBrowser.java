@@ -17,7 +17,7 @@ import java.net.MalformedURLException;
  * Time: 17:00:54
  *
  * @author Andreas Weiler
- * @version $Id: HelpBrowser.java,v 1.7 2005/10/22 14:51:14 jfuckerweiler Exp $
+ * @version $Id: HelpBrowser.java,v 1.8 2005/10/22 14:54:55 raedler Exp $
  * @since EcoBill 1.0
  */
 public class HelpBrowser extends JPanel {
@@ -29,19 +29,18 @@ public class HelpBrowser extends JPanel {
         private JScrollPane sp = new JScrollPane();
 
 
-        public HelpBrowser(String page) throws MalformedURLException {
+        public HelpBrowser(String page) {
 
             createBrowser(page);
         }
 
-        public void createBrowser(String page) throws MalformedURLException {
+        public void createBrowser(String page) {
 
             File localFile = new File(page);
 
             try
             {
-               localFile.toURL();
-               browser = new JEditorPane(localFile);
+               browser = new JEditorPane(localFile.toURL());
                browser.setEditable(false);
             }
             catch (IOException e)

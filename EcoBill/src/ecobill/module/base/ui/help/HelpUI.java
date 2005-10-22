@@ -13,7 +13,7 @@ import java.awt.*;
  * Time: 16:16:40
  *
  * @author Andreas Weiler
- * @version $Id: HelpUI.java,v 1.6 2005/10/22 14:39:46 jfuckerweiler Exp $
+ * @version $Id: HelpUI.java,v 1.7 2005/10/22 14:54:55 raedler Exp $
  * @since EcoBill 1.0
  */
 public class HelpUI extends JFrame {
@@ -25,7 +25,7 @@ public class HelpUI extends JFrame {
         center();
     }
 
-    public HelpBrowser helpBrowser = new HelpBrowser("/htmlfiles/help1.html");
+    public HelpBrowser helpBrowser = new HelpBrowser("./html/help/index.html");
 
     /** This method is called from within the constructor to
      * initialize the form.
