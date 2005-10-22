@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.io.File;
+import java.net.URL;
 
 // @todo document me!
 
@@ -15,22 +16,20 @@ import java.io.File;
  * Time: 17:00:54
  *
  * @author Andreas Weiler
- * @version $Id: HelpBrowser.java,v 1.4 2005/10/22 14:12:27 jfuckerweiler Exp $
+ * @version $Id: HelpBrowser.java,v 1.5 2005/10/22 14:39:39 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class HelpBrowser extends JPanel {
 
-    private String htmlPath = "file:\\EcoBill\\htmlfiles";
+    //private String htmlPath = "file:\\EcoBill\\htmlfiles";
       //  private String page = htmlPath+"index.html";
 
         private JEditorPane browser = null;
         private JScrollPane sp = null;
 
-        public HelpBrowser(String bummel)
+        public HelpBrowser(String page)
         {
-            browser = new JEditorPane();
             browser.setEditable(false);
-            String page = htmlPath+bummel;
             createBrowser(page);
         }
 
@@ -40,7 +39,7 @@ public class HelpBrowser extends JPanel {
 
             try
             {
-                browser.setPage(page);
+               browser = new JEditorPane(new URL(page));
             }
             catch (IOException e)
             {
