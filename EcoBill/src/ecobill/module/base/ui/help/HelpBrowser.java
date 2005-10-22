@@ -17,7 +17,7 @@ import java.net.MalformedURLException;
  * Time: 17:00:54
  *
  * @author Andreas Weiler
- * @version $Id: HelpBrowser.java,v 1.6 2005/10/22 14:49:08 jfuckerweiler Exp $
+ * @version $Id: HelpBrowser.java,v 1.7 2005/10/22 14:51:14 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class HelpBrowser extends JPanel {
