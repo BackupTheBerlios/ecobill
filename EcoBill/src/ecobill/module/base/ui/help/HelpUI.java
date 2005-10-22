@@ -13,7 +13,7 @@ import java.awt.*;
  * Time: 16:16:40
  *
  * @author Andreas Weiler
- * @version $Id: HelpUI.java,v 1.7 2005/10/22 14:54:55 raedler Exp $
+ * @version $Id: HelpUI.java,v 1.8 2005/10/22 15:12:07 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class HelpUI extends JFrame {
@@ -25,7 +25,11 @@ public class HelpUI extends JFrame {
         center();
     }
 
-    public HelpBrowser helpBrowser = new HelpBrowser("./html/help/index.html");
+    public HelpBrowser helpBrowser1 = new HelpBrowser("./html/help/help1.html");
+    public HelpBrowser helpBrowser2 = new HelpBrowser("./html/help/help2.html");
+    public HelpBrowser helpBrowser3 = new HelpBrowser("./html/help/help3.html");
+    public HelpBrowser helpBrowser4 = new HelpBrowser("./html/help/help4.html");
+    public HelpBrowser helpBrowser5 = new HelpBrowser("./html/help/help4.html");
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -34,10 +38,25 @@ public class HelpUI extends JFrame {
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">
     private void initComponents() {
-          jTabbedPane1 = new javax.swing.JTabbedPane();
+          helpTabbedPane = new javax.swing.JTabbedPane();
 
-        jTabbedPane1.add(helpBrowser);
-        jTabbedPane1.setTitleAt(0, "Harry");
+        helpTabbedPane.add(helpBrowser1);
+        helpTabbedPane.setTitleAt(0, "News Help");
+
+        helpTabbedPane.add(helpBrowser2);
+        helpTabbedPane.setTitleAt(0, "Articel Help");
+
+        helpTabbedPane.add(helpBrowser3);
+        helpTabbedPane.setTitleAt(0, "Customer Help");
+
+        helpTabbedPane.add(helpBrowser4);
+        helpTabbedPane.setTitleAt(0, "Delivery Order Help");
+
+        helpTabbedPane.add(helpBrowser5);
+        helpTabbedPane.setTitleAt(0, "Bill Help");
+
+
+
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,14 +66,14 @@ public class HelpUI extends JFrame {
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
+                .add(helpTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
+                .add(helpTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pack();
@@ -62,7 +81,7 @@ public class HelpUI extends JFrame {
     // </editor-fold>
 
     // Variables declaration - do not modify
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane helpTabbedPane;
     // End of variables declaration
 
     private void center() {
