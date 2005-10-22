@@ -16,7 +16,7 @@ import java.awt.*;
  * Time: 16:16:40
  *
  * @author Andreas Weiler
- * @version $Id: HelpUI.java,v 1.9 2005/10/22 15:22:27 jfuckerweiler Exp $
+ * @version $Id: HelpUI.java,v 1.10 2005/10/22 15:29:14 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class HelpUI extends JFrame {
@@ -50,6 +50,14 @@ public class HelpUI extends JFrame {
         helpTabbedPane.add(helpBrowser4);
         helpTabbedPane.add(helpBrowser5);
 
+        helpTabbedPane.setIconAt(0, new ImageIcon("images/help.png"));
+        helpTabbedPane.setIconAt(1, new ImageIcon("images/help.png"));
+        helpTabbedPane.setIconAt(2, new ImageIcon("images/help.png"));
+        helpTabbedPane.setIconAt(3, new ImageIcon("images/help.png"));
+        helpTabbedPane.setIconAt(4, new ImageIcon("images/help.png"));
+
+
+
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,14 +67,14 @@ public class HelpUI extends JFrame {
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
                 .addContainerGap()
-                .add(helpTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
+                .add(helpTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
                 .addContainerGap()
-                .add(helpTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
+                .add(helpTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pack();
