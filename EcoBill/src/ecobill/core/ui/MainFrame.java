@@ -35,7 +35,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.87 2005/10/21 14:44:31 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.88 2005/10/22 15:22:08 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -598,16 +598,8 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         //String to = "Help Topics";
         //String ec = "Economy Bill Agenda" + LINE_SEPARATOR + "        Version 1.0";
 
-        // erstellt PopUp Topic
-        //JOptionPane.showMessageDialog(this, ec, to, JOptionPane.DEFAULT_OPTION, new ImageIcon("images/Topic.gif"));
-        //JPanel helpPanel = new JPanel();
-        //jtab.addTab("Help",helpPanel);
+
         helpUI.setVisible(true);
-        JDialog dialog = new JDialog(helpUI, "Help Topics");
-        dialog.setSize(400,400);
-        dialog.setDefaultCloseOperation(
-                 WindowConstants.DISPOSE_ON_CLOSE);
-        dialog.setVisible(true);
     }
 
     /**
@@ -733,6 +725,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         businessPartnerUI.reinitI18N();
         billUI.reinitI18N();
         deliveryOrderUI.reinitI18N();
+        helpUI.reinitI18N();
 
     }
 

@@ -10,7 +10,7 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.36 2005/10/21 13:17:20 jfuckerweiler Exp $
+ * @version $Id: Constants.java,v 1.37 2005/10/22 15:19:32 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {
@@ -229,6 +229,12 @@ public interface Constants {
     public final static String ADDRESSER = "addresser";
 
     public final static String MESSAGE = "message";
+
+    public final static String HELP_TABBED_PANE1 = "helptabbedpane1";
+    public final static String HELP_TABBED_PANE2 = "helptabbedpane2";
+    public final static String HELP_TABBED_PANE3 = "helptabbedpane3";
+    public final static String HELP_TABBED_PANE4 = "helptabbedpane4";
+    public final static String HELP_TABBED_PANE5 = "helptabbedpane5";
 
 
 

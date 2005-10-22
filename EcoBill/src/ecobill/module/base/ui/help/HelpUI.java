@@ -1,5 +1,8 @@
 package ecobill.module.base.ui.help;
 
+import ecobill.core.system.WorkArea;
+import ecobill.core.system.Constants;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,7 +16,7 @@ import java.awt.*;
  * Time: 16:16:40
  *
  * @author Andreas Weiler
- * @version $Id: HelpUI.java,v 1.8 2005/10/22 15:12:07 jfuckerweiler Exp $
+ * @version $Id: HelpUI.java,v 1.9 2005/10/22 15:22:27 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class HelpUI extends JFrame {
@@ -22,6 +25,7 @@ public class HelpUI extends JFrame {
     public HelpUI() {
 
         initComponents();
+        reinitI18N();
         center();
     }
 
@@ -29,7 +33,7 @@ public class HelpUI extends JFrame {
     public HelpBrowser helpBrowser2 = new HelpBrowser("./html/help/help2.html");
     public HelpBrowser helpBrowser3 = new HelpBrowser("./html/help/help3.html");
     public HelpBrowser helpBrowser4 = new HelpBrowser("./html/help/help4.html");
-    public HelpBrowser helpBrowser5 = new HelpBrowser("./html/help/help4.html");
+    public HelpBrowser helpBrowser5 = new HelpBrowser("./html/help/help5.html");
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -41,21 +45,10 @@ public class HelpUI extends JFrame {
           helpTabbedPane = new javax.swing.JTabbedPane();
 
         helpTabbedPane.add(helpBrowser1);
-        helpTabbedPane.setTitleAt(0, "News Help");
-
         helpTabbedPane.add(helpBrowser2);
-        helpTabbedPane.setTitleAt(0, "Articel Help");
-
         helpTabbedPane.add(helpBrowser3);
-        helpTabbedPane.setTitleAt(0, "Customer Help");
-
         helpTabbedPane.add(helpBrowser4);
-        helpTabbedPane.setTitleAt(0, "Delivery Order Help");
-
         helpTabbedPane.add(helpBrowser5);
-        helpTabbedPane.setTitleAt(0, "Bill Help");
-
-
 
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -99,6 +92,14 @@ public class HelpUI extends JFrame {
         height -= frameSize.getHeight();
 
         this.setLocation((int) width / 2, (int) height / 2);
+    }
+
+    public void reinitI18N() {
+        helpTabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.HELP_TABBED_PANE1));
+        helpTabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.HELP_TABBED_PANE2));
+        helpTabbedPane.setTitleAt(2, WorkArea.getMessage(Constants.HELP_TABBED_PANE3));
+        helpTabbedPane.setTitleAt(3, WorkArea.getMessage(Constants.HELP_TABBED_PANE4));
+        helpTabbedPane.setTitleAt(4, WorkArea.getMessage(Constants.HELP_TABBED_PANE5));
     }
 
 }
