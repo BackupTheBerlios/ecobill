@@ -10,7 +10,7 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.38 2005/10/22 15:40:07 jfuckerweiler Exp $
+ * @version $Id: Constants.java,v 1.39 2005/10/22 22:23:00 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {
@@ -150,7 +150,6 @@ public interface Constants {
     public final static String FAX = "fax";
     public final static String EMAIL = "email";
     public final static String ORDER = "order";
-    public final static String DORDER = "dorder";
     public final static String BILL = "bill";
     public final static String MR = "mr";
     public final static String MS = "ms";
@@ -181,7 +180,6 @@ public interface Constants {
     public final static String HT = "ht";
     public final static String ABOUT = "about";
 
-    public final static String START = "start";
     public final static String ARTICLE = "article";
     public final static String BILLS = "bills";
 
@@ -215,10 +213,10 @@ public interface Constants {
     public final static String BUTTON3_LABELLING_TOOLTIP = "button3labellingtooltip";
     public final static String BUTTON4_LABELLING_TOOLTIP = "button4labellingtooltip";
 
-    public final static String START_BUTTON1_TOOLTIP = "startbutton1tooltip";
-    public final static String START_BUTTON2_TOOLTIP = "startbutton2tooltip";
-    public final static String START_BUTTON3_TOOLTIP = "startbutton3tooltip";
-    public final static String START_BUTTON4_TOOLTIP = "startbutton4tooltip";
+    public final static String MESSAGE_BUTTON1_TOOLTIP = "startbutton1tooltip";
+    public final static String MESSAGE_BUTTON2_TOOLTIP = "startbutton2tooltip";
+    public final static String MESSAGE_BUTTON3_TOOLTIP = "startbutton3tooltip";
+    public final static String MESSAGE_BUTTON4_TOOLTIP = "startbutton4tooltip";
 
     public final static String DATA_ACTIONS = "dataaction";
 

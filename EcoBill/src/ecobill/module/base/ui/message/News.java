@@ -1,4 +1,4 @@
-package ecobill.module.base.ui.start;
+package ecobill.module.base.ui.message;
 
 
 import ecobill.core.system.Internationalization;
@@ -26,7 +26,7 @@ import java.util.Enumeration;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.52 2005/10/21 11:29:24 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.1 2005/10/22 22:23:00 raedler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -251,10 +251,10 @@ public class News extends JPanel implements Internationalization {
 
     public void reinitI18N() {
 
-        overviewVerticalButton.getButton1().setToolTipText(WorkArea.getMessage(Constants.START_BUTTON1_TOOLTIP));
-        overviewVerticalButton.getButton2().setToolTipText(WorkArea.getMessage(Constants.START_BUTTON2_TOOLTIP));
-        overviewVerticalButton.getButton3().setToolTipText(WorkArea.getMessage(Constants.START_BUTTON3_TOOLTIP));
-        overviewVerticalButton.getButton4().setToolTipText(WorkArea.getMessage(Constants.START_BUTTON4_TOOLTIP));
+        overviewVerticalButton.getButton1().setToolTipText(WorkArea.getMessage(Constants.MESSAGE_BUTTON1_TOOLTIP));
+        overviewVerticalButton.getButton2().setToolTipText(WorkArea.getMessage(Constants.MESSAGE_BUTTON2_TOOLTIP));
+        overviewVerticalButton.getButton3().setToolTipText(WorkArea.getMessage(Constants.MESSAGE_BUTTON3_TOOLTIP));
+        overviewVerticalButton.getButton4().setToolTipText(WorkArea.getMessage(Constants.MESSAGE_BUTTON4_TOOLTIP));
 
         messageLabel.setText(WorkArea.getMessage(Constants.MESSAGE));
         subjectLabel.setText(WorkArea.getMessage(Constants.SUBJECT));

@@ -16,7 +16,7 @@ import java.awt.*;
  * Time: 16:16:40
  *
  * @author Andreas Weiler
- * @version $Id: HelpUI.java,v 1.14 2005/10/22 16:30:48 jfuckerweiler Exp $
+ * @version $Id: HelpUI.java,v 1.15 2005/10/22 22:23:00 raedler Exp $
  * @since EcoBill 1.0
  */
 public class HelpUI extends JFrame {
@@ -63,10 +63,7 @@ public class HelpUI extends JFrame {
         helpTabbedPane.setIconAt(4, new ImageIcon("images/help.png"));
         helpTabbedPane.setIconAt(5, new ImageIcon("images/help.png"));
 
-
-
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

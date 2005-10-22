@@ -41,7 +41,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerUI.java,v 1.11 2005/10/12 09:43:39 jfuckerweiler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.12 2005/10/22 22:23:00 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -133,7 +133,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
         }
         catch (FileNotFoundException fnfe) {
             if (LOG.isErrorEnabled()) {
-                LOG.error(fnfe.getMessage(), fnfe);
+                LOG.error(fnfe.getMessage());
             }
         }
 

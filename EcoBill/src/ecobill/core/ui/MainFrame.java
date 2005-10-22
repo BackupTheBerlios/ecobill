@@ -1,6 +1,6 @@
 package ecobill.core.ui;
 
-import ecobill.module.base.ui.start.StartUI;
+import ecobill.module.base.ui.message.MessageUI;
 import ecobill.module.base.ui.article.ArticleUI;
 import ecobill.module.base.ui.businesspartner.BusinessPartnerUI;
 import ecobill.module.base.ui.deliveryorder.DeliveryOrderUI;
@@ -35,7 +35,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.89 2005/10/22 15:41:47 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.90 2005/10/22 22:23:00 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -62,24 +62,24 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     /**
      * Die Instanz des Start User Interface.
      */
-    private StartUI startUI;
+    private MessageUI messageUI;
 
     /**
-     * Gibt die Instanz des Start User Interface zurück.
+     * Gibt die Instanz des Message User Interface zurück.
      *
-     * @return Die Instanz des <code>StartUI</code>.
+     * @return Die Instanz des <code>MessageUI</code>.
      */
-    public StartUI getStartUI() {
-        return startUI;
+    public MessageUI getMessageUI() {
+        return messageUI;
     }
 
     /**
-     * Setzt die Instanz des Start User Interface.
+     * Setzt die Instanz des Message User Interface.
      *
-     * @param startUI Eine Instanz des <code>StartUI</code>.
+     * @param messageUI Eine Instanz des <code>MessageUI</code>.
      */
-    public void setStartUI(StartUI startUI) {
-        this.startUI = startUI;
+    public void setMessageUI(MessageUI messageUI) {
+        this.messageUI = messageUI;
     }
 
     /**
@@ -248,7 +248,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     private JButton ebutton = new JButton();
     // erstellt TabFeld mit Komponenten
     private JTabbedPane jtab = new JTabbedPane();
-    private JComponent tab = new JPanel(new BorderLayout());
+
     // erstellt MenuBar
     private JMenuBar menuBar = new JMenuBar();
 
@@ -276,9 +276,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     private JMenuItem ht = new JMenuItem(new ImageIcon("images/help.png"));
     private JMenuItem about = new JMenuItem(new ImageIcon("images/about.png"));
 
-    //erstellt JLabels
-    private JPanel startPanel = new JPanel();
-
     // CheckBox English wird erstellt
     private JCheckBoxMenuItem english = new JCheckBoxMenuItem(new ImageIcon("images/flag_great_britain.png"));
 
@@ -295,7 +292,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
     public void tabPane() {
 
-        jtab.addTab(null, new ImageIcon("images/home.png"), startUI);
+        jtab.addTab(null, new ImageIcon("images/home.png"), messageUI);
         // hier wird die ArtikleUI als neuer Tab eingefügt
         jtab.addTab(null, new ImageIcon("images/article.png"), articleUI);
         // hier wird die BusinessPartnerUI als neuer Tab eingefügt
@@ -306,12 +303,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // hier wird die RechnungsUI als neuer Tab eingefügt
         jtab.addTab(null, new ImageIcon("images/delivery_order.png"), billUI);
         jtab.setEnabledAt(4, false);
-
-
-        // setzt ToolTip
-        startPanel.add(new JLabel("Economy Bill Agenda"));
-        // fügt JLabels tab0 zu
-        tab.add(startPanel, BorderLayout.CENTER);
 
         jtab.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
@@ -709,10 +700,10 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         ht.setText(WorkArea.getMessage(Constants.HT));
         about.setText(WorkArea.getMessage(Constants.ABOUT));
 
-        jtab.setTitleAt(0, WorkArea.getMessage(Constants.START));
+        jtab.setTitleAt(0, WorkArea.getMessage(Constants.MESSAGE));
         jtab.setTitleAt(1, WorkArea.getMessage(Constants.ARTICLE));
-        jtab.setTitleAt(2, WorkArea.getMessage(Constants.CUSTOMERS));
-        jtab.setTitleAt(3, WorkArea.getMessage(Constants.DORDER));
+        jtab.setTitleAt(2, WorkArea.getMessage(Constants.CUSTOMER));
+        jtab.setTitleAt(3, WorkArea.getMessage(Constants.DELIVERY_ORDER));
         jtab.setTitleAt(4, WorkArea.getMessage(Constants.BILL));
 
         english.setText(WorkArea.getMessage(Constants.ENGLISH));
@@ -720,7 +711,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         ebutton.setText(WorkArea.getMessage(Constants.EXIT));
 
-        startUI.reinitI18N();
+        messageUI.reinitI18N();
         articleUI.reinitI18N();
         businessPartnerUI.reinitI18N();
         billUI.reinitI18N();

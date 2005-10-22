@@ -1,4 +1,4 @@
-package ecobill.module.base.ui.start;
+package ecobill.module.base.ui.message;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,16 +25,16 @@ import java.awt.event.ActionEvent;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: StartUI.java,v 1.21 2005/10/08 12:24:39 jfuckerweiler Exp $
+ * @version $Id: MessageUI.java,v 1.1 2005/10/22 22:23:00 raedler Exp $
  * @since EcoBill 1.0
  */
-public class StartUI extends JPanel implements InitializingBean {
+public class MessageUI extends JPanel implements InitializingBean {
 
     /**
      * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
      * Diese Ausgaben können in einem separaten File spezifiziert werden.
      */
-    private static final Log LOG = LogFactory.getLog(StartUI.class);
+    private static final Log LOG = LogFactory.getLog(MessageUI.class);
 
     /**
      * Der <code>ApplicationContext</code> beinhaltet alle Beans die darin angegeben sind
@@ -131,7 +131,7 @@ public class StartUI extends JPanel implements InitializingBean {
 
     public void initComponents() {
 
-        newsOverview = new ecobill.module.base.ui.start.News(baseService);
+        newsOverview = new ecobill.module.base.ui.message.News(baseService);
 
         newsOverview.getOverviewVerticalButton().getButton1().addActionListener(new ActionListener() {
             /**

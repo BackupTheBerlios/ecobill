@@ -44,7 +44,7 @@ public class BillRightPanel extends JPanel implements Internationalization {
      * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
      * Diese Ausgaben können in einem separaten File spezifiziert werden.
      */
-    private static final Log LOG = LogFactory.getLog(DeliveryOrderUI.class);
+    private static final Log LOG = LogFactory.getLog(BillRightPanel.class);
 
     /**
      * Der <code>ApplicationContext</code> beinhaltet alle Beans die darin angegeben sind
@@ -82,72 +82,6 @@ public class BillRightPanel extends JPanel implements Internationalization {
     public void setBaseService(BaseService baseService) {
         this.baseService = baseService;
     }
-
-    /**
-     * Enthält die Pfade an denen die bestimmten Objekte serialisiert werden
-     * sollen.
-     */
-    private Properties serializeIdentifiers;
-
-    /**
-     * Gibt die Pfade, an denen die bestimmten Objekte serialisiert werden
-     * sollen, zurück.
-     *
-     * @return Die Pfade an denen die bestimmten Objekte serialisiert werden
-     *         sollen.
-     */
-    public Properties getSerializeIdentifiers() {
-        return serializeIdentifiers;
-    }
-
-    /**
-     * Setzt die Pfade, an denen die bestimmten Objekte serialisiert werden
-     * sollen.
-     *
-     * @param serializeIdentifiers Die Pfade an denen die bestimmten Objekte
-     *                             serialisiert werden sollen.
-     */
-    public void setSerializeIdentifiers(Properties serializeIdentifiers) {
-        this.serializeIdentifiers = serializeIdentifiers;
-    }
-
-    /**
-     * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
-     */
-    public void afterPropertiesSet() {
-
-        // Initialisieren der Komponenten und des Layouts.
-        initComponents();
-        initLayout();
-
-/*        // Versuche evtl. abgelegte/serialisierte Objekte zu laden.
-        try {
-            deliveryOrderTable.unpersist(new FileInputStream(serializeIdentifiers.getProperty("delivery_order_table")));
-            articleTable.unpersist(new FileInputStream(serializeIdentifiers.getProperty("article_table")));
-        }
-        catch (FileNotFoundException fnfe) {
-            if (LOG.isErrorEnabled()) {
-                LOG.error(fnfe.getMessage(), fnfe);
-            }
-        }
-  */
-        reinitI18N();
-    }
-
-    /**
-     * @see org.springframework.beans.factory.DisposableBean#destroy()
-     */
-    public void destroy() throws Exception {
-
-        if (LOG.isInfoEnabled()) {
-            LOG.info("Schließe BillUI und speichere die Daten.");
-        }
-    /*
-        // Serialisiere diese Objekte um sie bei einem neuen Start des Programmes wieder laden
-        // zu können.
-        deliveryOrderTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("delivery_order_table"))));
-        articleTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("article_table"))));
-*/    }
 
     /**
      * Initialisiert die Komponenten.

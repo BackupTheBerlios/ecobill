@@ -1,4 +1,4 @@
-package ecobill.module.base.ui.start;
+package ecobill.module.base.ui.message;
 
 import ecobill.core.system.Internationalization;
 
@@ -13,7 +13,7 @@ import javax.swing.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: List.java,v 1.1 2005/10/06 12:15:17 jfuckerweiler Exp $
+ * @version $Id: List.java,v 1.1 2005/10/22 22:23:00 raedler Exp $
  * @since EcoBill 1.0
  */
 public class List extends JPanel implements Internationalization {

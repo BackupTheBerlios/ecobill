@@ -31,7 +31,7 @@ import java.io.*;
  * Time: 12:33:23
  *
  * @author Roman R&auml;dle
- * @version $Id: AbstractTablePanel.java,v 1.6 2005/10/14 11:17:50 raedler Exp $
+ * @version $Id: AbstractTablePanel.java,v 1.7 2005/10/22 22:23:00 raedler Exp $
  * @since EcoBill 1.0
  */
 public abstract class AbstractTablePanel extends JPanel implements Internationalization {
@@ -360,7 +360,7 @@ public abstract class AbstractTablePanel extends JPanel implements International
         }
         catch (Exception e) {
             if (LOG.isErrorEnabled()) {
-                LOG.error(e.getMessage(), e);
+                LOG.error(e.getMessage());
             }
         }
         finally {
@@ -369,7 +369,9 @@ public abstract class AbstractTablePanel extends JPanel implements International
                     ois.close();
                 }
                 catch (IOException ioe) {
-                    ioe.printStackTrace();
+                    if (LOG.isErrorEnabled()) {
+                        LOG.error(ioe.getMessage(), ioe);
+                    }
                 }
             }
         }

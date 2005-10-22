@@ -43,7 +43,7 @@ import java.io.FileOutputStream;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.9 2005/10/21 11:40:51 jfuckerweiler Exp $
+ * @version $Id: ArticleUI.java,v 1.10 2005/10/22 22:23:00 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JPanel implements InitializingBean, Internationalization, DisposableBean {
@@ -128,7 +128,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         }
         catch (FileNotFoundException fnfe) {
             if (LOG.isErrorEnabled()) {
-                LOG.error(fnfe.getMessage(), fnfe);
+                LOG.error(fnfe.getMessage());
             }
         }
 
@@ -254,6 +254,22 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         verticalButtonLabelling.getButton1().addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
+                labellingLabelling.setDescription("");
+            }
+        });
+
+        verticalButtonLabelling.getButton2().setVisible(true);
+        verticalButtonLabelling.getButton2().setIcon(new ImageIcon("images/article_labelling_ok.png"));
+        verticalButtonLabelling.getButton2().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                saveOrUpdateArticleDescription();
+            }
+        });
+
+        verticalButtonLabelling.getButton3().setVisible(true);
+        verticalButtonLabelling.getButton3().setIcon(new ImageIcon("images/article_labelling_delete.png"));
+        verticalButtonLabelling.getButton3().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
 
                 Article article = (Article) baseService.load(Article.class, actualArticleId);
 
@@ -275,27 +291,14 @@ public class ArticleUI extends JPanel implements InitializingBean, International
             }
         });
 
-        verticalButtonLabelling.getButton2().setVisible(true);
-        verticalButtonLabelling.getButton2().setIcon(new ImageIcon("images/article_labelling_ok.png"));
-        verticalButtonLabelling.getButton2().addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                throw new RuntimeException("Diese Methode muss noch implementiert werden.");
-            }
-        });
-
-        verticalButtonLabelling.getButton3().setVisible(true);
-        verticalButtonLabelling.getButton3().setIcon(new ImageIcon("images/article_labelling_delete.png"));
-        verticalButtonLabelling.getButton3().addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                throw new RuntimeException("Diese Methode muss noch implementiert werden.");
-            }
-        });
-
         verticalButtonLabelling.getButton4().setVisible(true);
         verticalButtonLabelling.getButton4().setIcon(new ImageIcon("images/refresh.png"));
         verticalButtonLabelling.getButton4().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                throw new RuntimeException("Diese Methode muss noch implementiert werden.");
+
+                Article article = (Article) baseService.load(Article.class, actualArticleId);
+
+                labellingTableLabelling.renewTableModel(article);
             }
         });
     }
@@ -556,7 +559,11 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         showArticleDescription(articleDescription);
     }
 
+    private Long actualArticleDescriptionId;
+
     public void showArticleDescription(ArticleDescription articleDescription) {
+
+        actualArticleDescriptionId = articleDescription.getId();
 
         labellingLabelling.setDescription(articleDescription.getDescription());
 

@@ -124,8 +124,8 @@
 
     <!-- ============================================= BEGIN UI SUPPORT ============================================ -->
     <bean id="mainFrame" class="ecobill.core.ui.MainFrame">
-        <property name="startUI">
-            <ref bean="startUI"/>
+        <property name="messageUI">
+            <ref bean="messageUI"/>
         </property>
         <property name="articleUI">
             <ref bean="articleUI"/>
@@ -142,7 +142,7 @@
 
     </bean>
 
-    <bean id="startUI" class="ecobill.module.base.ui.start.StartUI" singleton="true">
+    <bean id="messageUI" class="ecobill.module.base.ui.message.MessageUI" singleton="true">
         <property name="baseService">
             <ref bean="baseService"/>
         </property>

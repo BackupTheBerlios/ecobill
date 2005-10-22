@@ -7,6 +7,8 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.BeansException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jdesktop.layout.GroupLayout;
+import org.jdesktop.layout.LayoutStyle;
 
 import javax.swing.*;
 import javax.swing.event.TableModelListener;
@@ -19,6 +21,7 @@ import ecobill.core.ui.MainFrame;
 import ecobill.module.base.ui.deliveryorder.*;
 import ecobill.module.base.ui.article.ArticleTable;
 import ecobill.module.base.ui.component.VerticalButton;
+import ecobill.module.base.ui.component.AbstractTablePanel;
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.*;
 
@@ -130,6 +133,27 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
             }
         }
   */
+
+        //tabbedPane.setEnabledAt(1, false);
+
+        // Versuche evtl. abgelegte/serialisierte Objekte zu laden.
+        /*
+        try {
+            if (leftTable instanceof DeliveryOrderTable) {
+                leftTable.unpersist(new FileInputStream(serializeIdentifiers.getProperty("delivery_order_table")));
+            }
+            else if (leftTable instanceof ArticleTable)
+            {
+                leftTable.unpersist(new FileInputStream(serializeIdentifiers.getProperty("article_table")));
+            }
+        }
+        catch (FileNotFoundException fnfe) {
+            if (LOG.isErrorEnabled()) {
+                LOG.error(fnfe.getMessage(), fnfe);
+            }
+        }
+        */
+
         reinitI18N();
     }
 
@@ -139,14 +163,19 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
     public void destroy() throws Exception {
 
         if (LOG.isInfoEnabled()) {
-            LOG.info("Schließe BillUI und speichere die Daten.");
+            LOG.info("Schließe OverviewPanel und speichere die Daten.");
         }
-        /*
-                // Serialisiere diese Objekte um sie bei einem neuen Start des Programmes wieder laden
-                // zu können.
-                deliveryOrderTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("delivery_order_table"))));
-                articleTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("article_table"))));
-        */    }
+
+        // Serialisiere diese Objekte um sie bei einem neuen Start des Programmes wieder laden
+        // zu können.
+        if (leftTable instanceof DeliveryOrderTable) {
+            leftTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("delivery_order_table"))));
+        }
+        else if (leftTable instanceof ArticleTable) {
+            leftTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("article_table"))));
+        }
+
+    }
 
     /**
      * Initialisiert die Komponenten.
@@ -184,6 +213,22 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
             }
         });*/
 
+        leftTable = new DeliveryOrderTable(null, baseService);
+        verticalButton = new VerticalButton();
+
+        tabbedPane = new JTabbedPane();
+       // overview = new JPanel();
+        splitPane = new JSplitPane();
+        panelLeft = new JPanel();
+
+        overviewPanel = new JPanel();
+//        detail = new JPanel();
+
+//        MainFrame mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
+
+//        deliveryOrderPrintPanel = new DeliveryOrderPrintPanel(mainFrame, baseService);
+
+        
     }
 
     /**
@@ -191,14 +236,61 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
      * liegen.
      */
     private void initLayout() {
+
         setLayout(new BorderLayout());
 
-        billRightPanel = new BillRightPanel(baseService);
+        splitPane.setBorder(null);
+        splitPane.setDividerLocation(200);
+        splitPane.setOneTouchExpandable(true);
+
+        GroupLayout panelLeftLayout = new GroupLayout(panelLeft);
+        panelLeft.setLayout(panelLeftLayout);
+        panelLeftLayout.setHorizontalGroup(
+            panelLeftLayout.createParallelGroup(GroupLayout.LEADING)
+            .add(GroupLayout.LEADING, panelLeftLayout.createSequentialGroup()
+                .add(leftTable, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panelLeftLayout.setVerticalGroup(
+            panelLeftLayout.createParallelGroup(GroupLayout.LEADING)
+            .add(leftTable, GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
+        );
+        splitPane.setLeftComponent(panelLeft);
+        splitPane.setRightComponent(new BillRightPanel(baseService));
+
+        GroupLayout overviewLayout = new GroupLayout(this);
+        this.setLayout(overviewLayout);
+        overviewLayout.setHorizontalGroup(
+            overviewLayout.createParallelGroup(GroupLayout.LEADING)
+            .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(verticalButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.RELATED)
+                .add(splitPane, GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        overviewLayout.setVerticalGroup(
+            overviewLayout.createParallelGroup(GroupLayout.LEADING)
+            .add(GroupLayout.TRAILING, overviewLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(overviewLayout.createParallelGroup(GroupLayout.TRAILING)
+                    .add(GroupLayout.LEADING, splitPane)
+                    .add(GroupLayout.LEADING, verticalButton, GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+
+
+
+        //OverviewPanel.this.add(verticalButton);
+        //OverviewPanel.this.add(splitPane);
+
+        //billRightPanel = new BillRightPanel(baseService);
 
         //billRightPanel.add(billPreviewTable);
 
-        overview = new OverviewPanel(orderTable, billRightPanel);
-        overview.addButtonToVerticalButton(1, new ImageIcon("images/delivery_order_new.png"), "Neue Rechnung erstellen", null);
+        //overview = new OverviewPanel(orderTable, billRightPanel);
+        //overview.addButtonToVerticalButton(1, new ImageIcon("images/delivery_order_new.png"), "Neue Rechnung erstellen", null);
         ActionListener a2 = new ActionListener() {
 
             /**
@@ -238,7 +330,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
                     // billPreviewTable = new BillPreviewTable(1,baseService);
                     //billRightPanel.add(billPreviewTable);
-                    overview.validate();
+                    //overview.validate();
                 }
 
                 Long billNumber = baseService.getNextBillNumber();
@@ -253,11 +345,11 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
             }
         };
-        overview.addButtonToVerticalButton(2, new ImageIcon("images/delivery_order_ok.png"), "Rechung speichern", a2);
-        overview.addButtonToVerticalButton(4, new ImageIcon("images/refresh.png"), "Aktualisieren", null);
+        //overview.addButtonToVerticalButton(2, new ImageIcon("images/delivery_order_ok.png"), "Rechung speichern", a2);
+        //overview.addButtonToVerticalButton(4, new ImageIcon("images/refresh.png"), "Aktualisieren", null);
 
-        overview.init();
-        BillUI.this.add(overview, BorderLayout.CENTER);
+        //overview.init();
+        //BillUI.this.add(overview, BorderLayout.CENTER);
     }
 
 
@@ -268,7 +360,18 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
     }
 
-    private OverviewPanel overview;
+    private AbstractTablePanel leftTable;
+    private JPanel overviewPanel;
+ //   private JPanel detail;
+ //   private JPanel overview;
+    private JPanel panelLeft;
+    private JPanel panelRight;
+    private JPanel panelDataRight;
+    private JSplitPane splitPane;
+    private JTabbedPane tabbedPane;
+    private VerticalButton verticalButton;
+
+    //private OverviewPanel overview;
     private OrderTableWithCB orderTable;
     private long actualBusinessPartnerId;
     private BillRightPanel billRightPanel;
