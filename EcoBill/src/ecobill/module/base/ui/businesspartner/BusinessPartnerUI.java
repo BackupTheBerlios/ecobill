@@ -41,7 +41,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerUI.java,v 1.12 2005/10/22 22:23:00 raedler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.13 2005/10/24 21:41:37 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -256,7 +256,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
 
         overviewVerticalButton.getButton6().setVisible(true);
         overviewVerticalButton.getButton6().setEnabled(false);
-        overviewVerticalButton.getButton6().setIcon(new ImageIcon("images/delivery_order_new.png"));
+        overviewVerticalButton.getButton6().setIcon(new ImageIcon("images/delivery_order_new_l.png"));
         overviewVerticalButton.getButton6().addActionListener(new ActionListener() {
 
             /**
@@ -284,7 +284,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
 
         overviewVerticalButton.getButton7().setVisible(true);
         overviewVerticalButton.getButton7().setEnabled(false);
-        overviewVerticalButton.getButton7().setIcon(new ImageIcon("images/delivery_order_new.png"));
+        overviewVerticalButton.getButton7().setIcon(new ImageIcon("images/delivery_order_new_r.png"));
         overviewVerticalButton.getButton7().addActionListener(new ActionListener() {
 
             /**
