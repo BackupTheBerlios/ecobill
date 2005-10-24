@@ -16,7 +16,7 @@ import java.awt.*;
  * Time: 16:16:40
  *
  * @author Andreas Weiler
- * @version $Id: HelpUI.java,v 1.16 2005/10/24 22:13:43 jfuckerweiler Exp $
+ * @version $Id: HelpUI.java,v 1.17 2005/10/24 22:31:29 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class HelpUI extends JFrame {
@@ -34,7 +34,6 @@ public class HelpUI extends JFrame {
     public HelpBrowser helpBrowser1 = new HelpBrowser("./html/help/help1.html");
     public HelpBrowser helpBrowser2 = new HelpBrowser("./html/help/help2.html");
     public HelpBrowser helpBrowser3 = new HelpBrowser("./html/help/help3.html");
-    public HelpBrowser helpBrowser4 = new HelpBrowser("./html/help/help4.html");
     public HelpBrowser helpBrowser5 = new HelpBrowser("./html/help/help5.html");
     public HelpBrowser dOBrowser1 = new HelpBrowser("./html/help/do1.html");
     public HelpBrowser dOBrowser2 = new HelpBrowser("./html/help/do2.html");
