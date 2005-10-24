@@ -16,7 +16,7 @@ import java.awt.*;
  * Time: 16:16:40
  *
  * @author Andreas Weiler
- * @version $Id: HelpUI.java,v 1.15 2005/10/22 22:23:00 raedler Exp $
+ * @version $Id: HelpUI.java,v 1.16 2005/10/24 22:13:43 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class HelpUI extends JFrame {
@@ -36,6 +36,10 @@ public class HelpUI extends JFrame {
     public HelpBrowser helpBrowser3 = new HelpBrowser("./html/help/help3.html");
     public HelpBrowser helpBrowser4 = new HelpBrowser("./html/help/help4.html");
     public HelpBrowser helpBrowser5 = new HelpBrowser("./html/help/help5.html");
+    public HelpBrowser dOBrowser1 = new HelpBrowser("./html/help/do1.html");
+    public HelpBrowser dOBrowser2 = new HelpBrowser("./html/help/do2.html");
+    public HelpBrowser dOBrowser3 = new HelpBrowser("./html/help/do3.html");
+    private JTabbedPane deliveryOrder = new JTabbedPane();
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -49,11 +53,18 @@ public class HelpUI extends JFrame {
         imagePanel.setLayout(new BorderLayout());
         imagePanel.add(imageLabel, BorderLayout.CENTER);
 
+        deliveryOrder.add(dOBrowser1);
+        deliveryOrder.add(dOBrowser2);
+        deliveryOrder.add(dOBrowser3);
+        deliveryOrder.setIconAt(0, new ImageIcon("images/help.png"));
+        deliveryOrder.setIconAt(1, new ImageIcon("images/help.png"));
+        deliveryOrder.setIconAt(2, new ImageIcon("images/help.png"));
+
         helpTabbedPane.add(imagePanel);
         helpTabbedPane.add(helpBrowser1);
         helpTabbedPane.add(helpBrowser2);
         helpTabbedPane.add(helpBrowser3);
-        helpTabbedPane.add(helpBrowser4);
+        helpTabbedPane.add(deliveryOrder);
         helpTabbedPane.add(helpBrowser5);
 
         helpTabbedPane.setIconAt(0, new ImageIcon("images/help.png"));
@@ -62,6 +73,7 @@ public class HelpUI extends JFrame {
         helpTabbedPane.setIconAt(3, new ImageIcon("images/help.png"));
         helpTabbedPane.setIconAt(4, new ImageIcon("images/help.png"));
         helpTabbedPane.setIconAt(5, new ImageIcon("images/help.png"));
+
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -107,12 +119,18 @@ public class HelpUI extends JFrame {
     }
 
     public void reinitI18N() {
+
+        deliveryOrder.setTitleAt(0, WorkArea.getMessage(Constants.DO_TABBED1));
+        deliveryOrder.setTitleAt(1, WorkArea.getMessage(Constants.DO_TABBED2));
+        deliveryOrder.setTitleAt(2, WorkArea.getMessage(Constants.DO_TABBED3));
+
         helpTabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.HELP_TABBED_PANE0));
         helpTabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.HELP_TABBED_PANE1));
         helpTabbedPane.setTitleAt(2, WorkArea.getMessage(Constants.HELP_TABBED_PANE2));
         helpTabbedPane.setTitleAt(3, WorkArea.getMessage(Constants.HELP_TABBED_PANE3));
         helpTabbedPane.setTitleAt(4, WorkArea.getMessage(Constants.HELP_TABBED_PANE4));
         helpTabbedPane.setTitleAt(5, WorkArea.getMessage(Constants.HELP_TABBED_PANE5));
+
     }
 
 }
