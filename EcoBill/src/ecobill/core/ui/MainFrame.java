@@ -35,7 +35,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.91 2005/10/25 07:37:56 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.92 2005/10/25 07:39:24 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -468,51 +468,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // Language wir zur MenuBar hinzugefügt
         menuBar.add(language);
-        // setzt Mnemonic beim MenuItem Hilfe
-        help.setMnemonic(KeyEvent.VK_H);
-        // setzt ToolTip
-        help.setToolTipText("Benutzen Sie ShortCuts um schneller zu navigieren");
-        // fügt HilfeMenuItem der MenuBar zu
-        menuBar.add(help);
-
-        // HelpTopic ActionListener
-        ht.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Action: " + e.getActionCommand());
-                }
-
-                if (e.getSource().equals(ht))
-                    // Methode topic() wird aufgerufen
-                    topic();
-            }
-        });
-
-        // setzt HelpTopic Shortcut
-        ht.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_MASK));
-        // fügt HelpTopic zu Help hinzu
-        help.add(ht);
-
-        // About ActionListener
-        about.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Action: " + e.getActionCommand());
-                }
-
-                if (e.getSource().equals(about))
-                    // Methode about() wird aufgerufen
-                    about();
-            }
-        });
-
-        // setzt About ShortCut
-        about.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_MASK));
-        // fügt About zu Help hinzu
-        help.add(about);
-
 
         // setzt Language Mnemonic
         language.setMnemonic(KeyEvent.VK_L);
@@ -569,6 +524,53 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // fügt LanguageMenüItems German und English dem LanguageMenü zu
         language.add(german);
         language.add(english);
+
+
+        // setzt Mnemonic beim MenuItem Hilfe
+        help.setMnemonic(KeyEvent.VK_H);
+        // setzt ToolTip
+        help.setToolTipText("Benutzen Sie ShortCuts um schneller zu navigieren");
+        // fügt HilfeMenuItem der MenuBar zu
+        menuBar.add(help);
+
+        // HelpTopic ActionListener
+        ht.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Action: " + e.getActionCommand());
+                }
+
+                if (e.getSource().equals(ht))
+                    // Methode topic() wird aufgerufen
+                    topic();
+            }
+        });
+
+        // setzt HelpTopic Shortcut
+        ht.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_MASK));
+        // fügt HelpTopic zu Help hinzu
+        help.add(ht);
+
+        // About ActionListener
+        about.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Action: " + e.getActionCommand());
+                }
+
+                if (e.getSource().equals(about))
+                    // Methode about() wird aufgerufen
+                    about();
+            }
+        });
+
+        // setzt About ShortCut
+        about.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_MASK));
+        // fügt About zu Help hinzu
+        help.add(about);
+
     }
 
     // wird benutzt um neue Zeile zu erzeugen
