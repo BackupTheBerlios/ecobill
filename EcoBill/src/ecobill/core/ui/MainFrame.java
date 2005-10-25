@@ -35,7 +35,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.90 2005/10/22 22:23:00 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.91 2005/10/25 07:37:56 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -465,6 +465,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         edit.add(paste);
         edit.add(delete);
 
+
+        // Language wir zur MenuBar hinzugefügt
+        menuBar.add(language);
         // setzt Mnemonic beim MenuItem Hilfe
         help.setMnemonic(KeyEvent.VK_H);
         // setzt ToolTip
@@ -510,8 +513,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // fügt About zu Help hinzu
         help.add(about);
 
-        // Language wir zur MenuBar hinzugefügt
-        menuBar.add(language);
+
         // setzt Language Mnemonic
         language.setMnemonic(KeyEvent.VK_L);
 
