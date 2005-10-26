@@ -188,12 +188,12 @@
         <property name="baseService">
             <ref bean="baseService"/>
         </property>
-        <property name="serializeIdentifiers">
+<!--        <property name="serializeIdentifiers">
             <props>
                 <prop key="order_table">serialized/bill/order_table.ebs</prop>
             </props>
         </property>
-    </bean>
+-->    </bean>
 
     <!-- ============================================== END UI SUPPORT ============================================= -->
 

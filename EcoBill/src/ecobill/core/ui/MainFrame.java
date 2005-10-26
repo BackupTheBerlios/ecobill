@@ -4,6 +4,7 @@ import ecobill.module.base.ui.message.MessageUI;
 import ecobill.module.base.ui.article.ArticleUI;
 import ecobill.module.base.ui.businesspartner.BusinessPartnerUI;
 import ecobill.module.base.ui.deliveryorder.DeliveryOrderUI;
+import ecobill.module.base.ui.bill.BillCreation;
 import ecobill.module.base.ui.bill.BillUI;
 import ecobill.module.base.ui.help.HelpUI;
 import ecobill.core.system.WorkArea;
@@ -35,7 +36,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.92 2005/10/25 07:39:24 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.93 2005/10/26 12:10:15 gath Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {

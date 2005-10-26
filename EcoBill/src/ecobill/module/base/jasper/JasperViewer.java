@@ -22,7 +22,7 @@ import ecobill.core.ui.MainFrame;
  * Time: 12:43:59
  *
  * @author Andreas Weiler
- * @version $Id: JasperViewer.java,v 1.3 2005/10/06 14:07:17 raedler Exp $
+ * @version $Id: JasperViewer.java,v 1.4 2005/10/26 12:10:16 gath Exp $
  * @since EcoBill 1.0
  */
 public class JasperViewer {
@@ -114,6 +114,7 @@ public class JasperViewer {
     public void view(MainFrame mainFrame, String jrxmlFilename, Collection<Object> datasets) throws Exception {
 
         try {
+
             JasperReport report = JasperCompileManager.compileReport(jrxmlFilename);
 
             mainFrame.setProgressPercentage(60);

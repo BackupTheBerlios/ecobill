@@ -1,9 +1,24 @@
 package ecobill.module.base.ui.bill;
 
-import org.springframework.context.ApplicationContextAware;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.DisposableBean;
+<<<<<<< BillUI.java
+import org.jdesktop.layout.GroupLayout;
+import org.jdesktop.layout.LayoutStyle;
+import ecobill.module.base.ui.deliveryorder.*;
+import ecobill.module.base.ui.component.VerticalButton;
+import ecobill.module.base.ui.article.ArticleTable;
+import ecobill.module.base.service.BaseService;
+import ecobill.module.base.domain.BusinessPartner;
+import ecobill.module.base.domain.Article;
+import ecobill.module.base.domain.ReduplicatedArticle;
+import ecobill.module.base.domain.DeliveryOrder;
+=======
 import org.springframework.beans.BeansException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,39 +29,51 @@ import javax.swing.*;
 import javax.swing.event.TableModelListener;
 
 import ecobill.core.system.Internationalization;
+>>>>>>> 1.7
 import ecobill.core.util.FileUtils;
 import ecobill.core.util.IdKeyItem;
 import ecobill.core.util.IdValueItem;
 import ecobill.core.ui.MainFrame;
+<<<<<<< BillUI.java
+import ecobill.core.system.WorkArea;
+import ecobill.core.system.Constants;
+import ecobill.core.system.Internationalization;
+=======
 import ecobill.module.base.ui.deliveryorder.*;
 import ecobill.module.base.ui.article.ArticleTable;
 import ecobill.module.base.ui.component.VerticalButton;
 import ecobill.module.base.ui.component.AbstractTablePanel;
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.*;
+>>>>>>> 1.7
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.event.TableModelListener;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 import java.util.*;
-import java.util.List;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.awt.*;
 import java.awt.event.*;
+import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.
  * User: basti
- * Date: 10.10.2005
- * Time: 19:13:20
+ * Date: 22.10.2005
+ * Time: 13:02:58
  * To change this template use File | Settings | File Templates.
  */
 public class BillUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
+
 
     /**
      * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
      * Diese Ausgaben können in einem separaten File spezifiziert werden.
      */
-    private static final Log LOG = LogFactory.getLog(BillUI.class);
+    private static final Log LOG = LogFactory.getLog(DeliveryOrderUI.class);
 
     /**
      * Der <code>ApplicationContext</code> beinhaltet alle Beans die darin angegeben sind
@@ -122,6 +149,10 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         initComponents();
         initLayout();
 
+<<<<<<< BillUI.java
+        // Versuche evtl. abgelegte/serialisierte Objekte zu laden.
+
+=======
 /*        // Versuche evtl. abgelegte/serialisierte Objekte zu laden.
         try {
             deliveryOrderTable.unpersist(new FileInputStream(serializeIdentifiers.getProperty("delivery_order_table")));
@@ -154,6 +185,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         }
         */
 
+>>>>>>> 1.7
         reinitI18N();
     }
 
@@ -174,45 +206,29 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         else if (leftTable instanceof ArticleTable) {
             leftTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("article_table"))));
         }
+<<<<<<< BillUI.java
+
+        // Serialisiere diese Objekte um sie bei einem neuen Start des Programmes wieder laden
+        // zu können.
+        //deliveryOrderTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("delivery_order_table"))));
+        //articleTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("article_table"))));
+    }
+=======
 
     }
+>>>>>>> 1.7
 
     /**
      * Initialisiert die Komponenten.
      */
     private void initComponents() {
-        MainFrame mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
-        orderTable = new OrderTableWithCB(actualBusinessPartnerId, baseService) /*{
-            protected KeyListener[] createKeyListeners() {
-                return null;
-            }
+        mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
+        tabbedPane = new JTabbedPane();
+        billCreation = new BillCreation(baseService, mainFrame);
 
-            protected MouseListener[] createMouseListeners() {
-                return null;
-            }
-
-            protected TableModelListener[] createTableModelListeners() {
-                return null;
-            }
-        }*/;
-
-        /*orderTable.getTable().getColumnModel().removeColumnModelListener(orderTable.getTable());
-
-        orderTable.getTable().addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-
-                //if (e.getClickCount() == 2) {
-                int row = orderTable.getTable().getSelectedRow();
-
-                IdValueItem idValueItem = (IdValueItem) orderTable.getTableModel().getValueAt(row, 0);
-
-                System.out.println("ID: " + idValueItem.getId());
-
-  //showAddArticleDialog(idValueItem.getId());
-                //}
-            }
-        });*/
-
+<<<<<<< BillUI.java
+        billOverviewPanel = new BillOverviewPanel(baseService, mainFrame);
+=======
         leftTable = new DeliveryOrderTable(null, baseService);
         verticalButton = new VerticalButton();
 
@@ -229,6 +245,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 //        deliveryOrderPrintPanel = new DeliveryOrderPrintPanel(mainFrame, baseService);
 
         
+>>>>>>> 1.7
     }
 
     /**
@@ -239,6 +256,10 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
         setLayout(new BorderLayout());
 
+<<<<<<< BillUI.java
+        tabbedPane.addTab(WorkArea.getMessage(Constants.OVERVIEW), billCreation);
+        tabbedPane.addTab(WorkArea.getMessage(Constants.DETAIL), billOverviewPanel);
+=======
         splitPane.setBorder(null);
         splitPane.setDividerLocation(200);
         splitPane.setOneTouchExpandable(true);
@@ -309,9 +330,12 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
                         if (o instanceof DeliveryOrder) {
 
                             DeliveryOrder deliveryOrder = (DeliveryOrder) o;
+>>>>>>> 1.7
 
-                            Set<ReduplicatedArticle> reduplicatedArticles = deliveryOrder.getArticles();
+        add(tabbedPane, BorderLayout.CENTER);
 
+<<<<<<< BillUI.java
+=======
                             double sum = 0;
 
                             for (ReduplicatedArticle article : reduplicatedArticles) {
@@ -350,8 +374,8 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
         //overview.init();
         //BillUI.this.add(overview, BorderLayout.CENTER);
+>>>>>>> 1.7
     }
-
 
     /**
      * @see ecobill.core.system.Internationalization#reinitI18N()
@@ -360,6 +384,15 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
     }
 
+<<<<<<< BillUI.java
+    private JTabbedPane tabbedPane;
+    private BillCreation billCreation;
+    private MainFrame mainFrame;
+    private BillOverviewPanel billOverviewPanel;
+
+    public BillCreation getBillCreation() {
+        return billCreation;
+=======
     private AbstractTablePanel leftTable;
     private JPanel overviewPanel;
  //   private JPanel detail;
@@ -382,7 +415,10 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         System.out.println("Müsste ein renewTableModel machen");
         orderTable.renewTableModel();
         validate();
+>>>>>>> 1.7
     }
 
-
+    public BillOverviewPanel getBillOverviewPanel() {
+        return billOverviewPanel;
+    }
 }

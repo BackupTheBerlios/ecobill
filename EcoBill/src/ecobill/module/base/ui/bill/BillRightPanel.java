@@ -1,10 +1,14 @@
 package ecobill.module.base.ui.bill;
 
 import ecobill.core.system.Internationalization;
+import ecobill.core.system.WorkArea;
+import ecobill.core.system.Constants;
+import ecobill.core.ui.MainFrame;
 import ecobill.module.base.ui.deliveryorder.DeliveryOrderUI;
+import ecobill.module.base.ui.deliveryorder.DeliveryOrderPrintPanel;
 import ecobill.module.base.service.BaseService;
-import ecobill.module.base.domain.DeliveryOrder;
-import ecobill.module.base.domain.ReduplicatedArticle;
+import ecobill.module.base.domain.*;
+import ecobill.module.base.jasper.JasperViewer;
 
 import javax.swing.*;
 
@@ -16,6 +20,8 @@ import org.jdesktop.layout.GroupLayout;
 import org.jdesktop.layout.LayoutStyle;
 
 import java.util.Properties;
+import java.util.Set;
+import java.util.HashSet;
 import java.awt.*;
 
 /**
@@ -29,9 +35,8 @@ public class BillRightPanel extends JPanel implements Internationalization {
     /**
      * Erzeugt eine neues <code>BillRight</code> Panel.
      */
-    public BillRightPanel(BaseService baseService) {
-
-        this.baseService = baseService;
+    public BillRightPanel(boolean previewTableNeeded) {
+        this.previewTableNeeded = previewTableNeeded;
         billPreviewTable = new BillPreviewTableN();
         dataInputPanel = new Panel();
         initComponents();
@@ -99,22 +104,39 @@ public class BillRightPanel extends JPanel implements Internationalization {
     private void initLayout() {
         GroupLayout panelRightLayout = new GroupLayout(this);
         this.setLayout(panelRightLayout);
-        panelRightLayout.setHorizontalGroup(
-            panelRightLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(panelRightLayout.createParallelGroup(GroupLayout.LEADING)
-                    .add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
-                    .add(dataInputPanel, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)))
-        );
-        panelRightLayout.setVerticalGroup(
-            panelRightLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
-                .add(dataInputPanel, GroupLayout.PREFERRED_SIZE, 342, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE))
-        );
-
+        if (!previewTableNeeded) {
+            panelRightLayout.setHorizontalGroup(
+                panelRightLayout.createParallelGroup(GroupLayout.LEADING)
+                .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .add(panelRightLayout.createParallelGroup(GroupLayout.LEADING)
+                        //.add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)))
+                        .add(dataInputPanel, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)))
+            );
+            panelRightLayout.setVerticalGroup(
+                panelRightLayout.createParallelGroup(GroupLayout.LEADING)
+                .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
+                    .add(dataInputPanel, GroupLayout.PREFERRED_SIZE, 342, GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(LayoutStyle.RELATED))
+                   // .add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE))
+            );
+        } else {
+            panelRightLayout.setHorizontalGroup(
+                panelRightLayout.createParallelGroup(GroupLayout.LEADING)
+                .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .add(panelRightLayout.createParallelGroup(GroupLayout.LEADING)
+                        .add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
+                        .add(dataInputPanel, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)))
+            );
+            panelRightLayout.setVerticalGroup(
+                panelRightLayout.createParallelGroup(GroupLayout.LEADING)
+                .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
+                    .add(dataInputPanel, GroupLayout.PREFERRED_SIZE, 342, GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(LayoutStyle.RELATED)
+                    .add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE))
+            );
+        }
     }
 
     /**
@@ -124,8 +146,23 @@ public class BillRightPanel extends JPanel implements Internationalization {
 
     }
 
+    /**
+     * Der <code>JasperViewer</code> enthält die Logik zum Füllen und zur Anzeige eines Reports.
+     */
+    private JasperViewer jasperViewer = new JasperViewer(this);
+    private boolean previewTableNeeded;
+
     private Panel dataInputPanel;
     private BillPreviewTableN billPreviewTable;
+
+    /**
+     * Der Hauptframe der Anwendung.
+     */
+    private MainFrame mainFrame;
+
+    public void setMainFrame(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
+    }
 
     public void addDeliveryOrder(BillPreviewCollection bpc) {
  /*       double sum =0;
@@ -140,4 +177,126 @@ public class BillRightPanel extends JPanel implements Internationalization {
         billPreviewTable.renewTableModel(bpc);
 
     }
+
+    /**
+     * JRViewer
+     */
+    public void doJasper(Long id) throws Exception {
+
+        // Entferne evtl. schon vorhandene Komponenten.
+        removeAll();
+
+        // TODO: Hier wäre es auch möglich direkt von Thread abzuleiten. SINNVOLL?!?
+        // Starte nebenläufigen <code>JasperThread</code>.
+        new Thread(new BillRightPanel.JasperThread(id)).start();
+        validate();
+    }
+
+    /**
+     *
+     * @param billId
+     * @throws Exception
+     */
+    private void jasper(Long billId) throws Exception {
+        String deliveryOrderNumbers = "";
+        mainFrame.setProgressPercentage(10);
+
+        System.out.println("billId:" + billId);
+        Bill bill = (Bill) baseService.load(Bill.class, billId);
+        System.out.println("BillDate" + bill.getBillDate());
+
+        BusinessPartner bp = bill.getBusinessPartner();
+        Person person = bp.getPerson();
+        ecobill.module.base.domain.Address address = bp.getAddress();
+
+        Set reduplicatedArticles = new HashSet();
+        Set deliveryOrders = bill.getDeliveryOrders();
+        System.out.println("Size von deliveryOrders:" + deliveryOrders.size());
+
+        int i = 0;
+        for (Object o : deliveryOrders) {
+           if (i==0) {
+               deliveryOrderNumbers = ((DeliveryOrder) o).getDeliveryOrderNumber();
+           } else if (i <= deliveryOrders.size() && i > 0) {
+               deliveryOrderNumbers = deliveryOrderNumbers + "," + ((DeliveryOrder) o).getDeliveryOrderNumber();
+           }
+           reduplicatedArticles.addAll(((DeliveryOrder) o).getArticles());
+        }
+
+        mainFrame.setProgressPercentage(30);
+
+        // Die Parameter, die an den <code>JasperViewer</code> übergeben werden und zum erstellen des
+        // Reports nötig sind.
+        jasperViewer.addParameter("TITLE", bp.getAssuredTitle());
+        jasperViewer.addParameter("FIRSTNAME", person.getFirstname());
+        jasperViewer.addParameter("LASTNAME", person.getLastname());
+        jasperViewer.addParameter("STREET", address.getStreet());
+        jasperViewer.addParameter("ZIP_CODE", address.getZipCode());
+        jasperViewer.addParameter("CITY", address.getCity());
+        jasperViewer.addParameter("COUNTRY", address.getCountry().toString());
+        jasperViewer.addParameter("COUNTY", address.getCounty().toString());
+
+        jasperViewer.addParameter("COMPANY_NAME", bp.getCompanyName());
+        jasperViewer.addParameter("BRANCH", bp.getCompanyBranch());
+        jasperViewer.addParameter("PERSON_TITLE", person.getTitle().toString());
+
+        jasperViewer.addParameter("DATE", bill.getBillDate());
+        jasperViewer.addParameter("CUSTOMER_NUMBER", bp.getCustomerNumber());
+        jasperViewer.addParameter("BILL_NUMBER", bill.getBillNumber().toString());
+        jasperViewer.addParameter("DELIVERY_ORDER_NUMBERS", deliveryOrderNumbers);
+
+        mainFrame.setProgressPercentage(50);
+
+        jasperViewer.view(mainFrame, WorkArea.getMessage(Constants.BILL_JRXML), reduplicatedArticles);
+
+        mainFrame.setProgressPercentage(100);
+
+        mainFrame.setProgressPercentage(0);
+
+        mainFrame.validate();
+
+    }
+
+    public void removeJasperViewer() {
+        jasperViewer.remove();
+    }
+
+    /**
+     * Dieser <code>Thread</code> erzeugt die Report Seiten und zeigt diese auf
+     * dem <code>JPanel</code> an. Er ist nebenläufig zum eigentlichen Programm.
+     */
+    private class JasperThread implements Runnable {
+
+        /**
+         * Die id zum Laden des <code>Object</code>.
+         */
+        private Long id;
+
+        /**
+         * Ein neuer <code>JasperThread</code> der eine id zum Laden eines, für den
+         * <code>JasperViewer</code> vorgesehenen, <code>Object</code>.
+         *
+         * @param id Die id zum Laden des <code>Object</code>.
+         */
+        protected JasperThread(Long id) {
+            this.id = id;
+        }
+
+        /**
+         * @see Runnable#run()
+         */
+        public void run() {
+            try {
+                jasper(id);
+                validate();
+            }
+            catch (Exception e) {
+                if (LOG.isErrorEnabled()) {
+                    LOG.error(e.getMessage(), e);
+                }
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

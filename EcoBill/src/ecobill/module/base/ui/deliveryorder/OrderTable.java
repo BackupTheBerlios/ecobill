@@ -39,11 +39,10 @@ public class OrderTable extends AbstractTablePanel {
     /**
      * Creates new form BusinessPartnerTable
      */
-    public OrderTable(Long businessPartnerId, BaseService baseService) {
+    public OrderTable(BaseService baseService) {
 
         super(baseService);
 
-        this.businessPartnerId = businessPartnerId;
      }
 
     /**

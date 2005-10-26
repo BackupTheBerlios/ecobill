@@ -29,7 +29,7 @@ import org.apache.commons.logging.LogFactory;
  * Time: 16:45:41
  *
  * @author Andreas Weiler
- * @version $Id: DeliveryOrderPrintPanel.java,v 1.1 2005/10/06 14:09:13 raedler Exp $
+ * @version $Id: DeliveryOrderPrintPanel.java,v 1.2 2005/10/26 12:10:17 gath Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderPrintPanel extends JPanel implements Internationalization {
@@ -56,10 +56,11 @@ public class DeliveryOrderPrintPanel extends JPanel implements Internationalizat
      */
     private TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.DELIVERY_ORDER), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", Font.PLAIN, 11), new Color(0, 0, 0));
 
+
     /**
-     * Der <code>JasperViewer</code> enthält die Logik zum Füllen und zur Anzeige eines Reports.
-     */
-    private JasperViewer jasperViewer = new JasperViewer(this);
+      * Der <code>JasperViewer</code> enthält die Logik zum Füllen und zur Anzeige eines Reports.
+      */
+     private JasperViewer jasperViewer = new JasperViewer(this);
 
     /**
      * Standard Konstruktor.

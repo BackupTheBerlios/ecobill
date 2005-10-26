@@ -78,7 +78,9 @@ public class OrderTableWithCB extends AbstractTablePanel {
     protected Collection<DeliveryOrder> getDataCollection() {
 
         if (businessPartnerId != null) {
+            System.out.println("BPid2:" +businessPartnerId);
             //DeliveryOrder deliveryOrder = (DeliveryOrder) getBaseService().load(DeliveryOrder.class, businessPartnerId);
+            System.out.println(getBaseService());
             BusinessPartner businessPartner = (BusinessPartner) getBaseService().load(BusinessPartner.class, businessPartnerId);
 
             businessPartnerId = null;

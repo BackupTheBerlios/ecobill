@@ -170,7 +170,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         deliveryOrderDataPanel = new JPanel();
         deliveryOrderData = new DeliveryOrderData(baseService);
         deliveryOrderTable = new DeliveryOrderTable(actualDeliveryOrderId, baseService);
-        this.orderTable = new OrderTable(actualBusinessPartnerId, baseService);
+        this.orderTable = new OrderTable(baseService);
         detail = new JPanel();
 
         MainFrame mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
