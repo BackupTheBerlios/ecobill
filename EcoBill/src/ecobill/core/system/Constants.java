@@ -10,7 +10,7 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.42 2005/10/26 12:28:23 gath Exp $
+ * @version $Id: Constants.java,v 1.43 2005/10/26 12:44:05 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {
@@ -31,6 +31,7 @@ public interface Constants {
     /**
      * Alle Schlüssel die bspw. für Labels verwendet werden.
      */
+    public final static String ACADEMIC_TITLE = "academic_title";
     public final static String ACTIONS = "actions";
     public final static String ACTIONS_TOOLTIP = "actions.tooltip";
     public final static String ADD = "add";
@@ -48,6 +49,7 @@ public interface Constants {
     public final static String BUNDLE_CAPACITY_TOOLTIP = "bundle_capacity.tooltip";
     public final static String BUNDLE_UNIT = "bundle_unit";
     public final static String BUNDLE_UNIT_TOOLTIP = "bundle_unit.tooltip";
+    public final static String BUSINESS_PARTNER = "business_partner";
     public final static String CAPACITY = "capacity";
     public final static String CAPACITY_TOOLTIP = "capacity.tooltip";
     public final static String CHARACTERISATION_TYP = "characterisation_type";
@@ -56,12 +58,13 @@ public interface Constants {
     public final static String COUNTRY_TOOLTIP = "country.tooltip";
     public final static String CUSTOMER = "customer";
     public final static String CUSTOMER_TOOLTIP = "customer.tooltip";
+    public final static String CUSTOMER_NUMBER = "customer_number";
     public final static String CUSTOMERS = "customers";
     public final static String CUSTOMERS_TOOLTIP = "customers.tooltip";
     public final static String DATA = "data";
     public final static String DATA_TOOLTIP = "data.tooltip";
-    public final static String DATE = "data";
-    public final static String DATE_TOOLTIP = "data.tooltip";
+    public final static String DATE = "date";
+    public final static String DATE_TOOLTIP = "date.tooltip";
     public final static String DELIVERY_ORDER = "delivery_order";
     public final static String DELIVERY_ORDER_DATE = "date";
     public final static String DELIVERY_ORDER_TOOLTIP = "delivery_order.tooltip";
@@ -76,6 +79,11 @@ public interface Constants {
     public final static String DESCRIPTIONS_TOOLTIP = "descriptions.tooltip";
     public final static String DETAIL = "detail";
     public final static String DETAIL_TOOLTIP = "detail.tooltip";
+    public final static String DORDER_BUTTON1_TOOLTIP = "dorderbutton1tooltip";
+    public final static String DORDER_BUTTON2_TOOLTIP = "dorderbutton2tooltip";
+    public final static String DORDER_BUTTON3_TOOLTIP = "dorderbutton3tooltip";
+    public final static String DORDER_BUTTON4_TOOLTIP = "dorderbutton4tooltip";
+    public final static String ID = "id";
     public final static String IN_STOCK = "in_stock";
     public final static String IN_STOCK_TOOLTIP = "in_stock.tooltip";
     public final static String KEY = "key";
@@ -106,6 +114,7 @@ public interface Constants {
     public final static String TEXT_PREFIX_TOOLTIP = "text_prefix.tooltip";
     public final static String TEXT_SUFFIX = "text_suffix";
     public final static String TEXT_SUFFIX_TOOLTIP = "text_suffix.tooltip";
+    public final static String TITLE = "title";
     public final static String TYPE = "type";
     public final static String TYPE_TOOLTIP = "type.tooltip";
     public final static String UNIT = "unit";
@@ -114,12 +123,6 @@ public interface Constants {
     public final static String VARIANT_TOOLTIP = "variant.tooltip";
 
 
-    public final static String BUSINESS_PARTNER = "business_partner";
-    public final static String CUSTOMER_NUMBER = "customer_number";
-
-    public final static String ID = "id";
-    public final static String TITLE = "title";
-    public final static String ACADEMIC_TITLE = "academic_title";
     public final static String LASTNAME = "lastname";
     public final static String FIRSTNAME = "firstname";
     public final static String STREET = "street";
@@ -131,7 +134,6 @@ public interface Constants {
     public final static String FAX = "fax";
     public final static String EMAIL = "email";
     public final static String ORDER = "order";
-    public final static String DORDER = "dorder";
     public final static String BILL = "bill";
     public final static String MR = "mr";
     public final static String MS = "ms";
@@ -162,7 +164,6 @@ public interface Constants {
     public final static String HT = "ht";
     public final static String ABOUT = "about";
 
-    public final static String START = "start";
     public final static String ARTICLE = "article";
     public final static String BILLS = "bills";
 
@@ -191,10 +192,15 @@ public interface Constants {
     public final static String BUTTON3_ARTICLE_TOOLTIP = "button3articletooltip";
     public final static String BUTTON4_ARTICLE_TOOLTIP = "button4articletooltip";
 
-    public final static String START_BUTTON1_TOOLTIP = "startbutton1tooltip";
-    public final static String START_BUTTON2_TOOLTIP = "startbutton2tooltip";
-    public final static String START_BUTTON3_TOOLTIP = "startbutton3tooltip";
-    public final static String START_BUTTON4_TOOLTIP = "startbutton4tooltip";
+    public final static String BUTTON1_LABELLING_TOOLTIP = "button1labellingtooltip";
+    public final static String BUTTON2_LABELLING_TOOLTIP = "button2labellingtooltip";
+    public final static String BUTTON3_LABELLING_TOOLTIP = "button3labellingtooltip";
+    public final static String BUTTON4_LABELLING_TOOLTIP = "button4labellingtooltip";
+
+    public final static String MESSAGE_BUTTON1_TOOLTIP = "startbutton1tooltip";
+    public final static String MESSAGE_BUTTON2_TOOLTIP = "startbutton2tooltip";
+    public final static String MESSAGE_BUTTON3_TOOLTIP = "startbutton3tooltip";
+    public final static String MESSAGE_BUTTON4_TOOLTIP = "startbutton4tooltip";
 
     public final static String DATA_ACTIONS = "dataaction";
 
@@ -206,11 +212,22 @@ public interface Constants {
 
     public final static String MESSAGE = "message";
 
+    public final static String HELP_TABBED_PANE0 = "helptabbedpane0";
+    public final static String HELP_TABBED_PANE1 = "helptabbedpane1";
+    public final static String HELP_TABBED_PANE2 = "helptabbedpane2";
+    public final static String HELP_TABBED_PANE3 = "helptabbedpane3";
+    public final static String HELP_TABBED_PANE4 = "helptabbedpane4";
+    public final static String HELP_TABBED_PANE5 = "helptabbedpane5";
 
-    public final static String DORDER_BUTTON1_TOOLTIP = "dorderbutton1tooltip";
-    public final static String DORDER_BUTTON2_TOOLTIP = "dorderbutton2tooltip";
-    public final static String DORDER_BUTTON3_TOOLTIP = "dorderbutton3tooltip";
-    public final static String DORDER_BUTTON4_TOOLTIP = "dorderbutton4tooltip";
+    public final static String DO_TABBED1 = "dotabbed1";
+    public final static String DO_TABBED2 = "dotabbed2";
+    public final static String DO_TABBED3 = "dotabbed3";
+
+
+    public final static String BILL_JRXML = "bill.jrxml";
+    public final static String BILL_NUMBER = "bill_number";
+    public final static String BILL_DATE = "bill_date";
+    public final static String MAX_OVERVIEW = "maxoverview";
 
 
 

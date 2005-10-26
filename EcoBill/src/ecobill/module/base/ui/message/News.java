@@ -26,7 +26,7 @@ import java.util.Enumeration;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.1 2005/10/22 22:23:00 raedler Exp $
+ * @version $Id: News.java,v 1.2 2005/10/26 12:44:05 raedler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
