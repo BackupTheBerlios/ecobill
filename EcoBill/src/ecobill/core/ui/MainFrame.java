@@ -36,7 +36,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.93 2005/10/26 12:10:15 gath Exp $
+ * @version $Id: MainFrame.java,v 1.94 2005/10/26 13:24:01 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -242,7 +242,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         this.setLocation((int) width / 2, (int) height / 2);
     }
-
 
 
     // alle Sachen erstellen die man braucht
@@ -648,6 +647,10 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // Dies ist notwendig um die gesamten Beans die auch dieses Interface
         // implementieren herunterzufahren und somit zu gewährleisten, dass
         // evtl. Daten persistiert werden.
+
+        if (JOptionPane.showConfirmDialog(this, "Wollen Sie wirklich beenden?", "Beenden", JOptionPane.YES_NO_OPTION)
+        == JOptionPane.YES_OPTION) {
+
         if (applicationContext instanceof DisposableBean) {
             try {
                 ((DisposableBean) applicationContext).destroy();
@@ -664,6 +667,11 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // Beendet die Anwendung ohne Fehler.
         System.exit(0);
+        }
+        else {
+           
+        }
+
     }
 
     /**
