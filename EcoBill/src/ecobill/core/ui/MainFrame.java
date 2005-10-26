@@ -36,11 +36,10 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.94 2005/10/26 13:24:01 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.95 2005/10/26 13:29:12 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
-
     /**
      * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
      * Diese Ausgaben können in einem separaten File spezifiziert werden.
@@ -157,16 +156,13 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
      *
      * @return Die Instanz des <code>BillUI</code>.
      */
-
     public BillUI getBillUI() {
         return billUI;
     }
 
     /**
      * Setzt die Instanz des Bill User Interface zurück.
-     *
      */
-
     public void setBillUI(BillUI billUI) {
         this.billUI = billUI;
     }
@@ -210,7 +206,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // Setzt die Operation, die auf X am Fenster gemacht wird.
         addWindowListener(new WindowAdapter() {
-
             /**
              * @see WindowAdapter#windowClosing(java.awt.event.WindowEvent)
              */
@@ -586,6 +581,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // erstellt PopUp About
         JOptionPane.showMessageDialog(this, ec, ab, JOptionPane.DEFAULT_OPTION, new ImageIcon("images/About.gif"));
     }
+
     // wird aufgerufen bei Help Topics
     public void topic() {
 
@@ -648,30 +644,27 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // implementieren herunterzufahren und somit zu gewährleisten, dass
         // evtl. Daten persistiert werden.
 
-        if (JOptionPane.showConfirmDialog(this, "Wollen Sie wirklich beenden?", "Beenden", JOptionPane.YES_NO_OPTION)
-        == JOptionPane.YES_OPTION) {
+        int option = JOptionPane.showConfirmDialog(this, "Wollen Sie wirklich beenden?", "Beenden", JOptionPane.YES_NO_OPTION);
 
-        if (applicationContext instanceof DisposableBean) {
-            try {
-                ((DisposableBean) applicationContext).destroy();
-            }
-            catch (Exception ex) {
-                if (LOG.isErrorEnabled()) {
-                    LOG.error(ex.getMessage(), ex);
+        if (option == JOptionPane.YES_OPTION) {
+
+            if (applicationContext instanceof DisposableBean) {
+                try {
+                    ((DisposableBean) applicationContext).destroy();
                 }
+                catch (Exception ex) {
+                    if (LOG.isErrorEnabled()) {
+                        LOG.error(ex.getMessage(), ex);
+                    }
 
-                // TODO: Status 100 bitte in der Dokumentation eintragen.
-                System.exit(100);
+                    // TODO: Status 100 bitte in der Dokumentation eintragen.
+                    System.exit(100);
+                }
             }
-        }
 
-        // Beendet die Anwendung ohne Fehler.
-        System.exit(0);
+            // Beendet die Anwendung ohne Fehler.
+            System.exit(0);
         }
-        else {
-           
-        }
-
     }
 
     /**
