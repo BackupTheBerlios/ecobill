@@ -4,8 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.io.File;
-import java.net.URL;
-import java.net.MalformedURLException;
 
 // @todo document me!
 
@@ -17,23 +15,26 @@ import java.net.MalformedURLException;
  * Time: 17:00:54
  *
  * @author Andreas Weiler
- * @version $Id: HelpBrowser.java,v 1.12 2005/10/22 16:34:29 jfuckerweiler Exp $
+ * @version $Id: HelpBrowser.java,v 1.13 2005/10/28 15:44:28 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class HelpBrowser extends JPanel {
 
-    //private String htmlPath = "file:\\EcoBill\\htmlfiles";
-      //  private String page = htmlPath+"index.html";
-
+    // Initialisierung der Komponenten
         private JEditorPane browser = new JEditorPane();
         private JScrollPane sp = new JScrollPane();
 
-
+        /**
+         * Konstruktor der den String page übergeben bekommt
+         */
         public HelpBrowser(String page) {
 
             createBrowser(page);
         }
-
+        /**
+         * Methode wird im Konstruktor aufgerufen um
+         * den Browser zu generieren
+         */
         public void createBrowser(String page) {
 
             File localFile = new File(page);

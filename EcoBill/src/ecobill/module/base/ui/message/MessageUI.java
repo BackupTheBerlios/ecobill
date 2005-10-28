@@ -25,7 +25,7 @@ import java.awt.event.ActionEvent;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: MessageUI.java,v 1.1 2005/10/22 22:23:00 raedler Exp $
+ * @version $Id: MessageUI.java,v 1.2 2005/10/28 15:47:34 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MessageUI extends JPanel implements InitializingBean {
@@ -129,6 +129,10 @@ public class MessageUI extends JPanel implements InitializingBean {
 
     private News newsOverview;
 
+    /**
+     * Initialisierung und Anordnung bzw. Gestaltung der ganzen Komponenten
+     */
+
     public void initComponents() {
 
         newsOverview = new ecobill.module.base.ui.message.News(baseService);
@@ -188,7 +192,9 @@ public class MessageUI extends JPanel implements InitializingBean {
 
     }
 
-
+    /**
+     * Methode um eine Nachricht abzuspeichern oder eine Nachricht zu ändern
+     */
     public void saveOrUpdateMessage() {
         Message message = new Message();
 
@@ -202,17 +208,26 @@ public class MessageUI extends JPanel implements InitializingBean {
         newsOverview.addMessageToTree(message);
     }
 
+    /**
+     * Methode um eine Nachricht zu löschen
+     */
     public void deleteMessage() {
 
         newsOverview.deleteMessage();
 
     }
 
+    /**
+     * Methode um den Baum zu aktualisieren
+     */
     public void refreshTree() {
 
         newsOverview.refreshTree();
     }
 
+    /**
+     * Methode um eine neue Nachricht zu generieren
+     */
     public void newMessage() {
 
         newsOverview.newMessage();
