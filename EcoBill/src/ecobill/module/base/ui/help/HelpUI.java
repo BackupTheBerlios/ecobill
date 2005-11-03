@@ -16,7 +16,7 @@ import java.awt.*;
  * Time: 16:16:40
  *
  * @author Andreas Weiler
- * @version $Id: HelpUI.java,v 1.19 2005/11/03 23:21:30 jfuckerweiler Exp $
+ * @version $Id: HelpUI.java,v 1.20 2005/11/03 23:23:15 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class HelpUI extends JFrame {
