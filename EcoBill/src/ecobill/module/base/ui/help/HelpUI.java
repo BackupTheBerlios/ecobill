@@ -16,7 +16,7 @@ import java.awt.*;
  * Time: 16:16:40
  *
  * @author Andreas Weiler
- * @version $Id: HelpUI.java,v 1.18 2005/10/28 15:42:38 jfuckerweiler Exp $
+ * @version $Id: HelpUI.java,v 1.19 2005/11/03 23:21:30 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class HelpUI extends JFrame {
@@ -42,6 +42,8 @@ public class HelpUI extends JFrame {
     public HelpBrowser dOBrowser2 = new HelpBrowser("./html/help/do2.html");
     public HelpBrowser dOBrowser3 = new HelpBrowser("./html/help/do3.html");
     private JTabbedPane deliveryOrder = new JTabbedPane();
+    // wird benutzt um neue Zeile zu erzeugen
+    //private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     /**
      * Diese Methode wird im Konstruktor aufgerufen
@@ -51,6 +53,7 @@ public class HelpUI extends JFrame {
         helpTabbedPane = new javax.swing.JTabbedPane();
 
         imagePanel.setLayout(new BorderLayout());
+        imageLabel.setToolTipText("<html><body>-> gath@inf.uni-konstanz.de <br>-> raedler@inf.uni-konstanz.de <br>-> weiler@inf.uni-konstanz.de </body></html>");
         imagePanel.add(imageLabel, BorderLayout.CENTER);
 
         // fügt die einzelnen Panels den Tabs hinzu
