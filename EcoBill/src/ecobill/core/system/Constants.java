@@ -10,7 +10,7 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.43 2005/10/26 12:44:05 raedler Exp $
+ * @version $Id: Constants.java,v 1.44 2005/11/04 14:56:46 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {
@@ -27,6 +27,8 @@ public interface Constants {
     public final static String SYSTEM_UNIT_BUNDLE_UNIT = "bundle_unit";
     public final static String SYSTEM_UNIT_TITLE = "title";
     public final static String SYSTEM_UNIT_ACADEMIC_TITLE = "academic_title";
+
+    public final static String SETTINGS_NUMBER_LENGTH = "settings.number_length";
 
     /**
      * Alle Schlüssel die bspw. für Labels verwendet werden.

@@ -12,7 +12,7 @@ import ecobill.module.base.hbm.sort.OrderPositionComparable;
  * Time: 22:23:14
  *
  * @author Roman R&auml;dle
- * @version $Id: ReduplicatedArticle.java,v 1.5 2005/10/06 14:07:17 raedler Exp $
+ * @version $Id: ReduplicatedArticle.java,v 1.6 2005/11/04 14:56:46 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ReduplicatedArticle extends AbstractDomain implements OrderPositionComparable, Comparable<ReduplicatedArticle> {
@@ -122,7 +122,7 @@ public class ReduplicatedArticle extends AbstractDomain implements OrderPosition
      *
      * @param deliveryOrder DeliverOrder des Artikels
      */
-    public void setDeliveryOrder(DeliveryOrder dO) {
+    public void setDeliveryOrder(DeliveryOrder deliveryOrder) {
         this.deliveryOrder = deliveryOrder;
     }
 

@@ -106,35 +106,36 @@ public class BillRightPanel extends JPanel implements Internationalization {
         this.setLayout(panelRightLayout);
         if (!previewTableNeeded) {
             panelRightLayout.setHorizontalGroup(
-                panelRightLayout.createParallelGroup(GroupLayout.LEADING)
-                .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .add(panelRightLayout.createParallelGroup(GroupLayout.LEADING)
-                        //.add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)))
-                        .add(dataInputPanel, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)))
+                    panelRightLayout.createParallelGroup(GroupLayout.LEADING)
+                            .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .add(panelRightLayout.createParallelGroup(GroupLayout.LEADING)
+                            //.add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)))
+                            .add(dataInputPanel, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)))
             );
             panelRightLayout.setVerticalGroup(
-                panelRightLayout.createParallelGroup(GroupLayout.LEADING)
-                .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
-                    .add(dataInputPanel, GroupLayout.PREFERRED_SIZE, 342, GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(LayoutStyle.RELATED))
-                   // .add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE))
+                    panelRightLayout.createParallelGroup(GroupLayout.LEADING)
+                            .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
+                            .add(dataInputPanel, GroupLayout.PREFERRED_SIZE, 342, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.RELATED))
+                    // .add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE))
             );
-        } else {
+        }
+        else {
             panelRightLayout.setHorizontalGroup(
-                panelRightLayout.createParallelGroup(GroupLayout.LEADING)
-                .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .add(panelRightLayout.createParallelGroup(GroupLayout.LEADING)
-                        .add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
-                        .add(dataInputPanel, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)))
+                    panelRightLayout.createParallelGroup(GroupLayout.LEADING)
+                            .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .add(panelRightLayout.createParallelGroup(GroupLayout.LEADING)
+                            .add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
+                            .add(dataInputPanel, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)))
             );
             panelRightLayout.setVerticalGroup(
-                panelRightLayout.createParallelGroup(GroupLayout.LEADING)
-                .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
-                    .add(dataInputPanel, GroupLayout.PREFERRED_SIZE, 342, GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(LayoutStyle.RELATED)
-                    .add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE))
+                    panelRightLayout.createParallelGroup(GroupLayout.LEADING)
+                            .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
+                            .add(dataInputPanel, GroupLayout.PREFERRED_SIZE, 342, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.RELATED)
+                            .add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE))
             );
         }
     }
@@ -165,14 +166,14 @@ public class BillRightPanel extends JPanel implements Internationalization {
     }
 
     public void addDeliveryOrder(BillPreviewCollection bpc) {
- /*       double sum =0;
-        java.util.Set<ReduplicatedArticle> redArticles = dO.getArticles();
-        System.out.println("Anzahl an Artikeln =" + redArticles.size());
-        while(redArticles.iterator().hasNext()) {
-            ReduplicatedArticle ra = redArticles.iterator().next();
-            sum = sum + ra.getPrice() * ra.getQuantity();
-        }
-        System.out.println("sum:" + sum);    */
+        /*       double sum =0;
+  java.util.Set<ReduplicatedArticle> redArticles = dO.getArticles();
+  System.out.println("Anzahl an Artikeln =" + redArticles.size());
+  while(redArticles.iterator().hasNext()) {
+      ReduplicatedArticle ra = redArticles.iterator().next();
+      sum = sum + ra.getPrice() * ra.getQuantity();
+  }
+  System.out.println("sum:" + sum);    */
         //BillPreviewCollection bpc = new BillPreviewCollection(dO.getDeliveryOrderNumber(),dO.getDeliveryOrderDate(),sum);
         billPreviewTable.renewTableModel(bpc);
 
@@ -193,7 +194,6 @@ public class BillRightPanel extends JPanel implements Internationalization {
     }
 
     /**
-     *
      * @param billId
      * @throws Exception
      */
@@ -215,12 +215,18 @@ public class BillRightPanel extends JPanel implements Internationalization {
 
         int i = 0;
         for (Object o : deliveryOrders) {
-           if (i==0) {
-               deliveryOrderNumbers = ((DeliveryOrder) o).getDeliveryOrderNumber();
-           } else if (i <= deliveryOrders.size() && i > 0) {
-               deliveryOrderNumbers = deliveryOrderNumbers + "," + ((DeliveryOrder) o).getDeliveryOrderNumber();
-           }
-           reduplicatedArticles.addAll(((DeliveryOrder) o).getArticles());
+            if (i == 0) {
+                deliveryOrderNumbers = ((DeliveryOrder) o).getDeliveryOrderNumber();
+            }
+            else if (i <= deliveryOrders.size() && i > 0) {
+                deliveryOrderNumbers = deliveryOrderNumbers + "," + ((DeliveryOrder) o).getDeliveryOrderNumber();
+            }
+
+            DeliveryOrder order = (DeliveryOrder) o;
+
+            System.out.println("IST: [" + order.getDeliveryOrderNumber() + "]" + order.getArticles().size());
+
+            reduplicatedArticles.addAll(((DeliveryOrder) o).getArticles());
         }
 
         mainFrame.setProgressPercentage(30);
@@ -246,6 +252,8 @@ public class BillRightPanel extends JPanel implements Internationalization {
         jasperViewer.addParameter("DELIVERY_ORDER_NUMBERS", deliveryOrderNumbers);
 
         mainFrame.setProgressPercentage(50);
+
+        System.out.println("SIUZEASDFA: " + reduplicatedArticles.size());
 
         jasperViewer.view(mainFrame, WorkArea.getMessage(Constants.BILL_JRXML), reduplicatedArticles);
 
