@@ -25,7 +25,7 @@ import java.awt.event.ActionEvent;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: MessageUI.java,v 1.2 2005/10/28 15:47:34 jfuckerweiler Exp $
+ * @version $Id: MessageUI.java,v 1.3 2005/11/05 18:26:06 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MessageUI extends JPanel implements InitializingBean {
@@ -111,14 +111,14 @@ public class MessageUI extends JPanel implements InitializingBean {
         initComponents();
 
         // Versuche evtl. abgelegte/serialisierte Objekte zu laden.
-       /**try {
-            overviewBusinessPartnerTable.unpersist(new FileInputStream(serializeIdentifiers.getProperty("business_partner_table")));
-        }
-        catch (FileNotFoundException fnfe) {
-            if (LOG.isErrorEnabled()) {
-                LOG.error(fnfe.getMessage(), fnfe);
-            }
-        }*/
+        /**try {
+         overviewBusinessPartnerTable.unpersist(new FileInputStream(serializeIdentifiers.getProperty("business_partner_table")));
+         }
+         catch (FileNotFoundException fnfe) {
+         if (LOG.isErrorEnabled()) {
+         LOG.error(fnfe.getMessage(), fnfe);
+         }
+         }*/
 
         reinitI18N();
     }
@@ -153,7 +153,10 @@ public class MessageUI extends JPanel implements InitializingBean {
              */
             public void actionPerformed(ActionEvent e) {
 
-                saveOrUpdateMessage();
+                if (checkIfFilled() == true) {
+
+                    saveOrUpdateMessage();
+                }
 
                 newsOverview.getNewsTree().updateUI();
             }
@@ -179,7 +182,6 @@ public class MessageUI extends JPanel implements InitializingBean {
                 refreshTree();
             }
         });
-
 
 
         this.add(newsOverview, BorderLayout.CENTER);
@@ -231,5 +233,24 @@ public class MessageUI extends JPanel implements InitializingBean {
     public void newMessage() {
 
         newsOverview.newMessage();
+    }
+
+    /**
+     * Methode um zu überprüfen ob die Textfelder ausgefüllt sind
+     */
+    public boolean checkIfFilled() {
+
+        String addresserCheck = newsOverview.getAddresserTextField().getText();
+        String subjectCheck = newsOverview.getSubjectTextField().getText();
+
+
+        if (!addresserCheck.equals("") && !subjectCheck.equals("")) {
+
+            return true;
+
+        }
+
+        return false;
+
     }
 }
