@@ -26,7 +26,7 @@ import java.util.Enumeration;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.2 2005/10/26 12:44:05 raedler Exp $
+ * @version $Id: News.java,v 1.3 2005/11/05 18:54:57 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -386,7 +386,7 @@ public class News extends JPanel implements Internationalization {
 
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) o;
 
-        if (node.isLeaf()) {
+        try { if (node.isLeaf()) {
 
             DefaultMutableTreeNode parent = (DefaultMutableTreeNode) node.getParent();
 
@@ -405,6 +405,10 @@ public class News extends JPanel implements Internationalization {
             addresserTextField.setText(null);
             subjectTextField.setText(null);
             newsTextArea.setText(null);
+        }
+        }
+        catch(NullPointerException e) {
+            JOptionPane.showMessageDialog(this, "Bitte eine Nachricht zum löschen wählen", "Information", 1);
         }
     }
 
