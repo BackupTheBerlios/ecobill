@@ -10,8 +10,8 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 
-import org.jdesktop.layout.GroupLayout;
 import org.jdesktop.layout.LayoutStyle;
+import org.jdesktop.layout.GroupLayout;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -25,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: Input.java,v 1.4 2005/10/05 23:41:27 raedler Exp $
+ * @version $Id: Input.java,v 1.5 2005/11/05 12:17:18 raedler Exp $
  * @since EcoBill 1.0
  */
 public class Input extends JPanel implements Internationalization {

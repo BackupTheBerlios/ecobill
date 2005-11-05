@@ -9,6 +9,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.DefaultTableColumnModel;
 
 import ecobill.core.util.I18NItem;
 import ecobill.core.system.Internationalization;
@@ -31,7 +32,7 @@ import java.io.*;
  * Time: 12:33:23
  *
  * @author Roman R&auml;dle
- * @version $Id: AbstractTablePanel.java,v 1.7 2005/10/22 22:23:00 raedler Exp $
+ * @version $Id: AbstractTablePanel.java,v 1.8 2005/11/05 12:17:18 raedler Exp $
  * @since EcoBill 1.0
  */
 public abstract class AbstractTablePanel extends JPanel implements Internationalization {
@@ -325,11 +326,16 @@ public abstract class AbstractTablePanel extends JPanel implements International
             // Entferne alle Daten aus dem Datenvektor.
             tableModel.getDataVector().removeAllElements();
 
+            // Beugt einer NotSerializableException vor. Der genaue Grund für diese
+            // Exception ist nicht bekannt. Es handelt sich hier lediglich um einen Hook.
+            TableColumnModel tableColumnModel = table.getColumnModel();
+            table.setColumnModel(new DefaultTableColumnModel());
+
             // Erzeuge einen <code>ObjectOutputStream</code> um das <code>TableModel</code>
             // zu serialisieren. Danach wird das serialisierte <code>Object</code> geschrieben,
             // der <code>ObjectOutputStream</code> geflusht und geschlossen.
             ObjectOutputStream oos = new ObjectOutputStream(outputStream);
-            oos.writeObject(table.getColumnModel());
+            oos.writeObject(tableColumnModel);
             oos.flush();
             oos.close();
         }

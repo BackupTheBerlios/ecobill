@@ -6,9 +6,9 @@
 
 package ecobill.module.base.ui.article;
 
-import org.jdesktop.layout.GroupLayout;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jdesktop.layout.GroupLayout;
 
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
@@ -135,6 +135,9 @@ public class LabellingTable extends JPanel implements Internationalization, Pers
         table.setShowGrid(false);
     }
 
+    /**
+     * Initialisiert den <code>LayoutManager</code>.
+     */
     private void initLayout() {
 
         GroupLayout layout = new GroupLayout(this);

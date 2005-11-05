@@ -4,8 +4,6 @@ import ecobill.core.system.Internationalization;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import ecobill.core.ui.MainFrame;
-import ecobill.module.base.ui.deliveryorder.DeliveryOrderUI;
-import ecobill.module.base.ui.deliveryorder.DeliveryOrderPrintPanel;
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.*;
 import ecobill.module.base.jasper.JasperViewer;
@@ -19,7 +17,6 @@ import org.springframework.beans.BeansException;
 import org.jdesktop.layout.GroupLayout;
 import org.jdesktop.layout.LayoutStyle;
 
-import java.util.Properties;
 import java.util.Set;
 import java.util.HashSet;
 import java.awt.*;

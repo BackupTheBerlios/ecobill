@@ -1,7 +1,7 @@
 package ecobill.module.base.ui.article;
 
-import org.jdesktop.layout.GroupLayout;
 import org.jdesktop.layout.LayoutStyle;
+import org.jdesktop.layout.GroupLayout;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -29,7 +29,7 @@ import java.util.HashSet;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: InputLabelling.java,v 1.1 2005/10/05 23:42:17 raedler Exp $
+ * @version $Id: InputLabelling.java,v 1.2 2005/11/05 12:17:18 raedler Exp $
  * @since EcoBill 1.0
  */
 public class InputLabelling extends JPanel implements Internationalization {
