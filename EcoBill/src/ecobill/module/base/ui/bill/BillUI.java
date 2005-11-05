@@ -38,11 +38,15 @@ import java.awt.event.*;
 import java.awt.*;
 
 /**
- * Created by IntelliJ IDEA.
- * User: basti
- * Date: 22.10.2005
- * Time: 13:02:58
- * To change this template use File | Settings | File Templates.
+ * Die <code>BillUI</code> erstellt das User Interface zur Eingabe von Rechnungsdaten.
+ * <p/>
+ * User: sega
+ * Date: 28.09.2005
+ * Time: 17:49:23
+ *
+ * @author Sebastian Gath
+ * @version $Id: BillUI.java,v 1.11 2005/11/05 19:34:42 gath Exp $
+ * @since EcoBill 1.0
  */
 public class BillUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
 
@@ -58,6 +62,44 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
      * und ermöglicht wahlfreien Zugriff auf diese.
      */
     protected ApplicationContext applicationContext;
+
+    /**
+     * Enthält die Tabs Rechnungsübersicht und Detailansicht
+     */
+    private JTabbedPane tabbedPane;
+
+    /**
+     * Der MainFrame der Anwendung
+     */
+    private MainFrame mainFrame;
+
+    /**
+     * Der Pane auf dem die Rechungen druch Markieren von Lieferscheinen erzeugt wird.
+     */
+    private BillCreation billCreation;
+
+    /**
+     * Gibt das <code>BillCreation</code> Panel zurück.
+     *
+     * @return Das <code>BillCreation</code> Panel.
+     */
+    public BillCreation getBillCreation() {
+        return billCreation;
+    }
+
+    /**
+     * Panel auf dem alle Rechungen angezeigt werden und zur Detailansicht ausgewählt werden können
+     */
+    private BillOverviewPanel billOverviewPanel;
+
+    /**
+     * Gibt das <code>BillOverviewPanel</code>  zurück.
+     *
+     * @return Das <code>BillOverviewPanel</code>.
+     */
+    public BillOverviewPanel getBillOverviewPanel() {
+        return billOverviewPanel;
+    }
 
     /**
      * @see org.springframework.context.ApplicationContextAware#setApplicationContext(org.springframework.context.ApplicationContext)
@@ -161,10 +203,10 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
      * Initialisiert die Komponenten.
      */
     private void initComponents() {
+
         mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
         tabbedPane = new JTabbedPane();
         billCreation = new BillCreation(baseService, mainFrame);
-
         billOverviewPanel = new BillOverviewPanel(baseService, mainFrame);
     }
 
@@ -189,16 +231,4 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
     }
 
-    private JTabbedPane tabbedPane;
-    private BillCreation billCreation;
-    private MainFrame mainFrame;
-    private BillOverviewPanel billOverviewPanel;
-
-    public BillCreation getBillCreation() {
-        return billCreation;
-    }
-
-    public BillOverviewPanel getBillOverviewPanel() {
-        return billOverviewPanel;
-    }
 }

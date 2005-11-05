@@ -30,12 +30,17 @@ import java.io.FileOutputStream;
 import java.awt.*;
 import java.awt.event.*;
 
+
 /**
- * Created by IntelliJ IDEA.
- * User: basti
+ * Die <code>BillCreation</code> enthält alle Lieferschein, um daraus Rechnungen zu generien
+ * <p/>
+ * User: sega
  * Date: 10.10.2005
- * Time: 19:13:20
- * To change this template use File | Settings | File Templates.
+ * Time: 17:49:23
+ *
+ * @author Sebastian Gath
+ * @version $Id: BillCreation.java,v 1.2 2005/11/05 19:34:42 gath Exp $
+ * @since EcoBill 1.0
  */
 public class BillCreation extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
 
@@ -44,6 +49,31 @@ public class BillCreation extends JPanel implements ApplicationContextAware, Ini
      * Diese Ausgaben können in einem separaten File spezifiziert werden.
      */
     private static final Log LOG = LogFactory.getLog(BillCreation.class);
+
+    /**
+     * Panel in dem die Lieferscheine als Übersicht angezeigt werden
+     */
+    private OverviewPanel overview;
+
+    /**
+     * Enthält die Lieferscheine, die markiert werden können und aus denen dann eine Rechnung generiert wird
+     */
+    private OrderTableWithCB orderTable;
+
+    /**
+     * aktulle BusinessPartnerId
+     */
+    private long actualBusinessPartnerId;
+
+    /**
+     *  Zeigt die rechte Seite, also ein Überischt über Ausgewählte Lieferscheine und die Vorschau für eine Rechnung
+     */
+    private BillRightPanel billRightPanel;
+
+    /**
+     * Mainframe der Anwendung
+     */
+    private MainFrame mainFrame;
 
     /**
      * Der <code>ApplicationContext</code> beinhaltet alle Beans die darin angegeben sind
@@ -159,43 +189,12 @@ public class BillCreation extends JPanel implements ApplicationContextAware, Ini
      * Initialisiert die Komponenten.
      */
     private void initComponents() {
-        System.out.println("jetzt wird sie zum ersten mal gefüllt" + actualBusinessPartnerId);
 
-        orderTable = new OrderTableWithCB(actualBusinessPartnerId, baseService) /*{
-            protected KeyListener[] createKeyListeners() {
-                return null;
-            }
-
-            protected MouseListener[] createMouseListeners() {
-                return null;
-            }
-
-            protected TableModelListener[] createTableModelListeners() {
-                return null;
-            }
-        }*/;
+        orderTable = new OrderTableWithCB(actualBusinessPartnerId, baseService) ;
 
         billRightPanel = new BillRightPanel(true);
         billRightPanel.setMainFrame(mainFrame);
         billRightPanel.setBaseService(baseService);
-
-        /*orderTable.getTable().getColumnModel().removeColumnModelListener(orderTable.getTable());
-
-        orderTable.getTable().addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-
-                //if (e.getClickCount() == 2) {
-                int row = orderTable.getTable().getSelectedRow();
-
-                IdValueItem idValueItem = (IdValueItem) orderTable.getTableModel().getValueAt(row, 0);
-
-                System.out.println("ID: " + idValueItem.getId());
-
-  //showAddArticleDialog(idValueItem.getId());
-                //}
-            }
-        });*/
-
     }
 
     /**
@@ -203,19 +202,22 @@ public class BillCreation extends JPanel implements ApplicationContextAware, Ini
      * liegen.
      */
     private void initLayout() {
-        setLayout(new BorderLayout());
 
-        //billRightPanel.add(billPreviewTable);
+        setLayout(new BorderLayout());
 
         overview = new OverviewPanel(orderTable, billRightPanel);
         ActionListener a1 = new ActionListener() {
 
             /**
+             * Erzeugt eine neue Rechnung, mit anschließendem Vorschaufenster
+             *
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
              */
             public void actionPerformed(ActionEvent e) {
                 try {
-               billRightPanel.doJasper(new Long(4));
+                     long billId = createNewBill();
+                     System.out.println("BillId: " + billId);
+                     billRightPanel.doJasper(billId);
                 }
                 catch (Exception exception) {
 
@@ -227,59 +229,16 @@ public class BillCreation extends JPanel implements ApplicationContextAware, Ini
         ActionListener a2 = new ActionListener() {
 
             /**
+             * Erzeugt eine neue Rechnung, ohne anschließendes Vorschaufenster
+             *
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
              */
             public void actionPerformed(ActionEvent e) {
-
-                Bill bill = new Bill();
-
-                for (int i = 0; i < orderTable.getTable().getRowCount(); i++) {
-                    if ((orderTable.getTable().getValueAt(i, 0) instanceof Boolean)
-                        && ((Boolean) (orderTable.getTable().getValueAt(i, 0))).booleanValue()) {
-
-                        Object o = baseService.load(DeliveryOrder.class, ((IdValueItem) orderTable.getTable().getValueAt(i, 1)).getId());
-
-                        if (o instanceof DeliveryOrder) {
-
-                            DeliveryOrder deliveryOrder = (DeliveryOrder) o;
-
-                            Set<ReduplicatedArticle> reduplicatedArticles = deliveryOrder.getArticles();
-
-                            double sum = 0;
-
-                            for (ReduplicatedArticle article : reduplicatedArticles) {
-
-                                sum = sum + article.getPrice() * article.getQuantity();
-                            }
-
-                            BillPreviewCollection bpc = new BillPreviewCollection(deliveryOrder.getDeliveryOrderNumber(), deliveryOrder.getDeliveryOrderDate(), sum);
-
-                            deliveryOrder.setPreparedBill(true);
-                            bill.addDeliveryOrder(deliveryOrder);
-
-                            billRightPanel.addDeliveryOrder(bpc);
-                        }
-                    }
-
-                    billPreviewTable = new BillPreviewTable(new Long(1),baseService);
-                    billRightPanel.add(billPreviewTable);
-                    overview.validate();
-                }
-
-                Long billNumber = baseService.getNextBillNumber();
-
-                System.out.println("NÄCHSTE RECHNUNGSNUMMER: " + billNumber);
-
-                bill.setBusinessPartner((BusinessPartner) baseService.load(BusinessPartner.class, actualBusinessPartnerId));
-                bill.setBillNumber(billNumber);
-                bill.setBillDate(Calendar.getInstance().getTime());
-
-                baseService.saveOrUpdate(bill);
+               long billNumber = createNewBill();
 
             }
         };
         overview.addButtonToVerticalButton(2, new ImageIcon("images/delivery_order_ok.png"), "Rechung speichern", a2);
-
 
         overview.addButtonToVerticalButton(4, new ImageIcon("images/refresh.png"), "Aktualisieren", null);
 
@@ -287,6 +246,76 @@ public class BillCreation extends JPanel implements ApplicationContextAware, Ini
         BillCreation.this.add(overview, BorderLayout.CENTER);
     }
 
+    /**
+     * Erstellt eine neue Rechnung aus der markierten Lieferscheinen
+     *
+     * @return long Id der neuen Rechnung
+     */
+    public long createNewBill() {
+
+        Bill bill = new Bill();
+
+        // über alle Zeilen der Lieferscheintabelle gehen
+        for (int i = 0; i < orderTable.getTable().getRowCount(); i++) {
+
+            // Checkbox markiert ??
+            if ((orderTable.getTable().getValueAt(i, 0) instanceof Boolean)
+                && ((Boolean) (orderTable.getTable().getValueAt(i, 0))).booleanValue()) {
+
+                // das DeliveryOrder Object zu der Zeile aus der orderTable laden
+                Object o = baseService.load(DeliveryOrder.class, ((IdValueItem) orderTable.getTable().getValueAt(i, 1)).getId());
+
+                if (o instanceof DeliveryOrder) {
+
+                    DeliveryOrder deliveryOrder = (DeliveryOrder) o;
+
+                    // alle Artikel zu dem Lieferschein laden
+                    Set<ReduplicatedArticle> reduplicatedArticles = deliveryOrder.getArticles();
+
+                    // Rechnungsumme
+                    double sum = 0;
+
+                    // Rechnungsumme aus allen Preisen und Mengen der Artikel errechnen
+                    for (ReduplicatedArticle article : reduplicatedArticles) {
+
+                        sum = sum + article.getPrice() * article.getQuantity();
+                    }
+
+                    // Collection für die Vorschautabelle erzeugen
+                    BillPreviewCollection bpc = new BillPreviewCollection(deliveryOrder.getDeliveryOrderNumber(), deliveryOrder.getDeliveryOrderDate(), sum);
+
+                    // Die Lieferung als in einen Lieferschein eingengangen markieren
+                    deliveryOrder.setPreparedBill(true);
+
+                    // Lieferschein der Rechnung anhängen
+                    bill.addDeliveryOrder(deliveryOrder);
+
+                    // Collection der Vorschautabelle Übergeben
+                    billRightPanel.addDeliveryOrder(bpc);
+                }
+            }
+
+
+/*            billPreviewTable = new BillPreviewTable(baseService);
+            billRightPanel.add(billPreviewTable);
+            overview.validate();
+*/        }
+
+        // nächste freie Rechnungsnummer ermitteln
+        Long billNumber = baseService.getNextBillNumber();
+
+        // Rechnungsobjekt füllen
+        bill.setBusinessPartner((BusinessPartner) baseService.load(BusinessPartner.class, actualBusinessPartnerId));
+        bill.setBillNumber(billNumber);
+        bill.setBillDate(Calendar.getInstance().getTime());
+
+        // Rechnungsobjekt speichern
+        baseService.saveOrUpdate(bill);
+        JOptionPane.showMessageDialog(null, "mit der Rechnungsnummer: " + billNumber + " angelegt.",
+                "Es wurde eine neue Rechnung",1);
+
+        return bill.getId();
+    }
 
     /**
      * @see ecobill.core.system.Internationalization#reinitI18N()
@@ -295,13 +324,11 @@ public class BillCreation extends JPanel implements ApplicationContextAware, Ini
 
     }
 
-    private OverviewPanel overview;
-    private OrderTableWithCB orderTable;
-    private long actualBusinessPartnerId;
-    private BillRightPanel billRightPanel;
-    private BillPreviewTable billPreviewTable;
-    private MainFrame mainFrame;
-
+    /**
+     * Setzt die aktuelle BusinessPartnerId und lädt die dazugehörigen Lieferscheine
+     *
+     * @param actualBusinessPartnerId
+     */
     public void setActualBusinessPartnerId(long actualBusinessPartnerId) {
         this.actualBusinessPartnerId = actualBusinessPartnerId;
         orderTable.updateDataCollectionFromDB(actualBusinessPartnerId);

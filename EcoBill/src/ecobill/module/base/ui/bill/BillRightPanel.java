@@ -22,20 +22,71 @@ import java.util.HashSet;
 import java.awt.*;
 
 /**
- * Created by IntelliJ IDEA.
- * User: basti
+ * Das <code>BillRightPanel</code> nimmt die Daten auf, die auf der rechten Seite angezeigt werden sollen
+ * <p/>
+ * User: sega
  * Date: 10.10.2005
- * Time: 21:10:13
- * To change this template use File | Settings | File Templates.
+ * Time: 17:49:23
+ *
+ * @author Sebastian Gath
+ * @version $Id: BillRightPanel.java,v 1.6 2005/11/05 19:34:42 gath Exp $
+ * @since EcoBill 1.0
  */
 public class BillRightPanel extends JPanel implements Internationalization {
+
+    /**
+     * Der <code>JasperViewer</code> enthält die Logik zum Füllen und zur Anzeige eines Reports.
+     */
+    private JasperViewer jasperViewer;
+
+    /**
+     * Da Objekte diese Klasse auf verschieden Tabs genutzt werden, kann das Layout angepasst werden
+     */
+    private boolean previewTableNeeded;
+
+    /**
+     * Panel, dass die Lieferscheintabelle aufnimmt.
+     */
+    private JPanel dataInputPanel;
+
+    /**
+     * Rechnungsvorschautabelle
+     */
+    private BillPreviewTableN billPreviewTable;
+
+    /**
+     * Der Hauptframe der Anwendung.
+     */
+    private MainFrame mainFrame;
+
+    /**
+     * Setzt das Hauptfenster der Anwendung
+     *
+     * @param mainFrame
+     */
+    public void setMainFrame(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
+    }
+
     /**
      * Erzeugt eine neues <code>BillRight</code> Panel.
      */
     public BillRightPanel(boolean previewTableNeeded) {
+
         this.previewTableNeeded = previewTableNeeded;
         billPreviewTable = new BillPreviewTableN();
-        dataInputPanel = new Panel();
+        dataInputPanel = new JPanel();
+        dataInputPanel.setLayout(new BorderLayout());
+
+        // muß das Layout angepasst werden
+        if (previewTableNeeded) {
+            System.out.println("mit viewer anzeigen");
+            jasperViewer = new JasperViewer(dataInputPanel);
+        }
+        else {
+            jasperViewer = new JasperViewer(this);
+        }
+
         initComponents();
         initLayout();
 
@@ -93,7 +144,6 @@ public class BillRightPanel extends JPanel implements Internationalization {
 
     }
 
-
     /**
      * Initilisiert das Layout und somit die Positionen an denen die Komponenten
      * liegen.
@@ -107,7 +157,6 @@ public class BillRightPanel extends JPanel implements Internationalization {
                             .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
                             .addContainerGap()
                             .add(panelRightLayout.createParallelGroup(GroupLayout.LEADING)
-                            //.add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)))
                             .add(dataInputPanel, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)))
             );
             panelRightLayout.setVerticalGroup(
@@ -115,10 +164,10 @@ public class BillRightPanel extends JPanel implements Internationalization {
                             .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
                             .add(dataInputPanel, GroupLayout.PREFERRED_SIZE, 342, GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(LayoutStyle.RELATED))
-                    // .add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE))
             );
         }
         else {
+
             panelRightLayout.setHorizontalGroup(
                     panelRightLayout.createParallelGroup(GroupLayout.LEADING)
                             .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
@@ -145,39 +194,19 @@ public class BillRightPanel extends JPanel implements Internationalization {
     }
 
     /**
-     * Der <code>JasperViewer</code> enthält die Logik zum Füllen und zur Anzeige eines Reports.
+     * fügt eine neues Objekt in die Rechnungsvorschautabelle ein
+     *
+     * @param bpc
      */
-    private JasperViewer jasperViewer = new JasperViewer(this);
-    private boolean previewTableNeeded;
-
-    private Panel dataInputPanel;
-    private BillPreviewTableN billPreviewTable;
-
-    /**
-     * Der Hauptframe der Anwendung.
-     */
-    private MainFrame mainFrame;
-
-    public void setMainFrame(MainFrame mainFrame) {
-        this.mainFrame = mainFrame;
-    }
-
     public void addDeliveryOrder(BillPreviewCollection bpc) {
-        /*       double sum =0;
-  java.util.Set<ReduplicatedArticle> redArticles = dO.getArticles();
-  System.out.println("Anzahl an Artikeln =" + redArticles.size());
-  while(redArticles.iterator().hasNext()) {
-      ReduplicatedArticle ra = redArticles.iterator().next();
-      sum = sum + ra.getPrice() * ra.getQuantity();
-  }
-  System.out.println("sum:" + sum);    */
-        //BillPreviewCollection bpc = new BillPreviewCollection(dO.getDeliveryOrderNumber(),dO.getDeliveryOrderDate(),sum);
         billPreviewTable.renewTableModel(bpc);
-
     }
 
     /**
-     * JRViewer
+     * Japserviewer wird geladen, der Report gefüllt und angezeigt
+     *
+     * @param id
+     * @throws Exception
      */
     public void doJasper(Long id) throws Exception {
 
@@ -191,10 +220,14 @@ public class BillRightPanel extends JPanel implements Internationalization {
     }
 
     /**
+     * Report füllen und anzeigen
+     *
      * @param billId
      * @throws Exception
      */
     private void jasper(Long billId) throws Exception {
+
+        // nimmt die Lieferscheinnummern auf
         String deliveryOrderNumbers = "";
         mainFrame.setProgressPercentage(10);
 
@@ -250,7 +283,7 @@ public class BillRightPanel extends JPanel implements Internationalization {
 
         mainFrame.setProgressPercentage(50);
 
-        System.out.println("SIUZEASDFA: " + reduplicatedArticles.size());
+        System.out.println("redArtSize: " + reduplicatedArticles.size());
 
         jasperViewer.view(mainFrame, WorkArea.getMessage(Constants.BILL_JRXML), reduplicatedArticles);
 
@@ -262,6 +295,9 @@ public class BillRightPanel extends JPanel implements Internationalization {
 
     }
 
+    /**
+     * löscht den Jasperviewer wieder von dem Panel
+     */
     public void removeJasperViewer() {
         jasperViewer.remove();
     }

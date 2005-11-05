@@ -25,12 +25,18 @@ import java.awt.*;
 import java.io.*;
 
 /**
- * Created by IntelliJ IDEA.
- * User: basti
- * Date: 11.10.2005
- * Time: 16:39:35
- * To change this template use File | Settings | File Templates.
+ * Die <code>BillPreviewTable</code> enthält alle Daten, zur Vorschau der Lieferscheindaten  zur Rechnungsvor
+ * schau auf dem Rechnungsübersichtstab
+ * <p/>
+ * User: sega
+ * Date: 10.10.2005
+ * Time: 17:49:23
+ *
+ * @author Sebastian Gath
+ * @version $Id: BillPreviewTableN.java,v 1.2 2005/11/05 19:34:42 gath Exp $
+ * @since EcoBill 1.0
  */
+
 public class BillPreviewTableN extends JPanel implements Internationalization, Persistable {
 
     /**

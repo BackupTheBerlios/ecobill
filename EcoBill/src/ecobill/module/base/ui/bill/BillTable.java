@@ -18,12 +18,19 @@ import java.awt.*;
 import java.util.*;
 
 /**
- * Created by IntelliJ IDEA.
- * User: basti
- * Date: 22.10.2005
- * Time: 20:24:51
- * To change this template use File | Settings | File Templates.
+ * Die <code>BillTable</code> nimmt die Rechnungsdaten auf
+ * <p/>
+ * User: sega
+ * Date: 20.10.2005
+ * Time: 17:49:23
+ *
+ * @author Sebastian Gath
+ * @version $Id: BillTable.java,v 1.2 2005/11/05 19:34:42 gath Exp $
+ * @since EcoBill 1.0
  */
+
+
+
 public class BillTable extends AbstractTablePanel {
 
 
@@ -62,6 +69,9 @@ public class BillTable extends AbstractTablePanel {
         return tableColumnOrder;
     }
 
+    /**
+     * die Datacollection
+     */
     private Collection<Bill> dataCollection;
 
     /**
@@ -70,8 +80,6 @@ public class BillTable extends AbstractTablePanel {
     protected Collection<Bill> getDataCollection() {
 
         if (businessPartnerId != null) {
-            //DeliveryOrder deliveryOrder = (DeliveryOrder) getBaseService().load(DeliveryOrder.class, businessPartnerId);
-            System.out.println(getBaseService());
             BusinessPartner businessPartner = (BusinessPartner) getBaseService().load(BusinessPartner.class, businessPartnerId);
 
             businessPartnerId = null;
@@ -87,6 +95,11 @@ public class BillTable extends AbstractTablePanel {
 
     }
 
+    /**
+     * Setzt die Datacollection
+     *
+     * @param dataCollection
+     */
     public void setDataCollection(Collection<Bill> dataCollection) {
 
         this.dataCollection = dataCollection;
@@ -129,6 +142,10 @@ public class BillTable extends AbstractTablePanel {
         return line;
     }
 
+    /**
+     * Lädt die Rechnungsdaten aus der Datenbank neu, zu der Businesspartner Id
+     * @param id
+     */
     public void updateDataCollectionFromDB(long id) {
         businessPartnerId = id;
         System.out.println("bpid:" + id);
