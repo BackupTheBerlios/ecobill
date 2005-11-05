@@ -75,29 +75,13 @@ public class OrderTable extends AbstractTablePanel {
     protected Collection<DeliveryOrder> getDataCollection() {
 
         if (businessPartnerId != null) {
-            //DeliveryOrder deliveryOrder = (DeliveryOrder) getBaseService().load(DeliveryOrder.class, businessPartnerId);
+
             BusinessPartner businessPartner = (BusinessPartner) getBaseService().load(BusinessPartner.class, businessPartnerId);
-        /*
-           muss noch gemacht werden; alle DO aus der Anzeige nehmen, bei denen isPreparedBill gesetzt ist; hier das gibt
-           nen fehler...
-           Set<DeliveryOrder> dOSet = businessPartner.getDeliveryOrders();
-            for(DeliveryOrder dO : dOSet) {
-                if (dO.isPreparedBill()) {
-                    dOSet.remove(dO);
-                }
-            }
-          */
-            businessPartnerId = null;
 
             return businessPartner.getDeliveryOrders();
         }
 
-        if (dataCollection != null) {
-            return dataCollection;
-        }
-
         return Collections.EMPTY_SET;
-
     }
 
     public void setDataCollection(Collection<DeliveryOrder> dataCollection) {
@@ -105,11 +89,8 @@ public class OrderTable extends AbstractTablePanel {
         this.dataCollection = dataCollection;
     }
 
-    public void updateDataCollectionFromDB(long id) {
-        businessPartnerId = id;
-        Collection<DeliveryOrder> c;
-        c = getDataCollection();
-        setDataCollection(c);
+    public void setBusinessPartnerId(Long businessPartnerId) {
+        this.businessPartnerId = businessPartnerId;
     }
 
     /**

@@ -121,8 +121,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         initComponents();
         initLayout();
 
-        tabbedPane.setEnabledAt(1, false);
-
         // Versuche evtl. abgelegte/serialisierte Objekte zu laden.
         try {
             deliveryOrderTable.unpersist(new FileInputStream(serializeIdentifiers.getProperty("delivery_order_table")));
@@ -170,8 +168,12 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         deliveryOrderDataPanel = new JPanel();
         deliveryOrderData = new DeliveryOrderData(baseService);
         deliveryOrderTable = new DeliveryOrderTable(actualDeliveryOrderId, baseService);
+
         this.orderTable = new OrderTable(baseService);
+
         detail = new JPanel();
+
+        deliveryOrderOverview = new OverviewPanel(orderTable, deliveryOrderPrintPanelOverview);
 
         MainFrame mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
 
@@ -211,6 +213,15 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
         verticalButton.getButton1().setVisible(true);
         verticalButton.getButton1().setIcon(new ImageIcon("images/delivery_order_new.png"));
+        verticalButton.getButton1().addActionListener(new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
 
         verticalButton.getButton2().setVisible(true);
         verticalButton.getButton2().setIcon(new ImageIcon("images/delivery_order_ok.png"));
@@ -222,12 +233,29 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
             public void actionPerformed(ActionEvent e) {
                 saveOrUpdateDeliveryOrder();
 
-                tabbedPane.setEnabledAt(1, true);
+
+                orderTable.renewTableModel();
             }
         });
 
         verticalButton.getButton3().setVisible(true);
         verticalButton.getButton3().setIcon(new ImageIcon("images/delivery_order_delete.png"));
+        verticalButton.getButton3().addActionListener(new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+
+                JTable table = deliveryOrderTable.getTable();
+
+                DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+
+                tableModel.getDataVector().removeAllElements();
+
+                table.updateUI();
+            }
+        });
 
         verticalButton.getButton4().setVisible(true);
         verticalButton.getButton4().setIcon(new ImageIcon("images/refresh.png"));
@@ -236,8 +264,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
             public void stateChanged(ChangeEvent e) {
 
-                if (tabbedPane.getSelectedComponent().equals(detail)) {
-                    System.out.println("DETAIL ANSICHT");
+                if (tabbedPane.getSelectedComponent().equals(deliveryOrderOverview)) {
 
                     try {
                         deliveryOrderPrintPanel.doJasper(actualDeliveryOrderId);
@@ -337,8 +364,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
         detail.add(deliveryOrderPrintPanel, BorderLayout.CENTER);
 
-        tabbedPane.addTab(WorkArea.getMessage(Constants.DETAIL), detail);
-
         OverviewPanel deliveryOrderOverview = new OverviewPanel(orderTable, deliveryOrderPrintPanelOverview);
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -365,10 +390,10 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
             }
         };
 
-        deliveryOrderOverview.addButtonToVerticalButton(1,new ImageIcon("images/open.png"), "Lieferschein in Vorschaufernster anzeigen", actionListener );
+        deliveryOrderOverview.addButtonToVerticalButton(1,new ImageIcon("images/jasper_view.png"), "Lieferschein in Vorschaufernster anzeigen", actionListener );
         deliveryOrderOverview.addButtonToVerticalButton(2,new ImageIcon("images/exit.png"), "Vorschaufernster schlieﬂen", actionListenerClose );
         deliveryOrderOverview.init();
-        tabbedPane.addTab(null,deliveryOrderOverview);
+        tabbedPane.addTab(null, deliveryOrderOverview);
 
         add(tabbedPane, BorderLayout.CENTER);
 
@@ -380,8 +405,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
     public void reinitI18N() {
 
         tabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.OVERVIEW));
-        tabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.DETAIL));
-        tabbedPane.setTitleAt(2, WorkArea.getMessage(Constants.MAX_OVERVIEW));
+        tabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.MAX_OVERVIEW));
 
         verticalButton.reinitI18N();
         deliveryOrderData.reinitI18N();
@@ -417,6 +441,8 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
     private JTabbedPane tabbedPane;
     private JTabbedPane tabbedPaneRight;
     private VerticalButton verticalButton;
+
+    private OverviewPanel deliveryOrderOverview;
 
     private DeliveryOrderPrintPanel deliveryOrderPrintPanel;
     private DeliveryOrderPrintPanel deliveryOrderPrintPanelOverview;
@@ -499,7 +525,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
     public void setActualBusinessPartnerId(Long actualBusinessPartnerId) {
         this.actualBusinessPartnerId = actualBusinessPartnerId;
-        orderTable.updateDataCollectionFromDB(actualBusinessPartnerId);
+        orderTable.setBusinessPartnerId(actualBusinessPartnerId);
         orderTable.renewTableModel();
         this.validate();
 
