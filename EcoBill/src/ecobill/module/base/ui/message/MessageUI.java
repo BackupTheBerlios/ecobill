@@ -25,7 +25,7 @@ import java.awt.event.ActionEvent;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: MessageUI.java,v 1.3 2005/11/05 18:26:06 jfuckerweiler Exp $
+ * @version $Id: MessageUI.java,v 1.4 2005/11/05 18:45:08 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MessageUI extends JPanel implements InitializingBean {
@@ -244,10 +244,21 @@ public class MessageUI extends JPanel implements InitializingBean {
         String subjectCheck = newsOverview.getSubjectTextField().getText();
 
 
+        if (addresserCheck.equals("") && subjectCheck.equals("")) {
+            JOptionPane.showMessageDialog(newsOverview, "Bitte Absender und Betreff eingeben", "Information", 1);
+        } else {
+
+            if (addresserCheck.equals("")) {
+                JOptionPane.showMessageDialog(newsOverview, "Bitte Absender eingeben", "Information", 1);
+            }
+
+            if (subjectCheck.equals("")) {
+                JOptionPane.showMessageDialog(newsOverview, "Bitte Betreff eingeben", "Information", 1);
+            }
+        }
+
         if (!addresserCheck.equals("") && !subjectCheck.equals("")) {
-
             return true;
-
         }
 
         return false;
