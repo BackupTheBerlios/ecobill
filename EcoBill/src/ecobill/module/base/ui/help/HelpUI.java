@@ -16,7 +16,7 @@ import java.awt.*;
  * Time: 16:16:40
  *
  * @author Andreas Weiler
- * @version $Id: HelpUI.java,v 1.21 2005/11/03 23:23:26 jfuckerweiler Exp $
+ * @version $Id: HelpUI.java,v 1.22 2005/11/06 16:34:40 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class HelpUI extends JFrame {
@@ -50,9 +50,8 @@ public class HelpUI extends JFrame {
     private void initComponents() {
         helpTabbedPane = new javax.swing.JTabbedPane();
 
-        imagePanel.setLayout(new BorderLayout());
-        imageLabel.setToolTipText("<html><body>-> gath@inf.uni-konstanz.de <br>-> raedler@inf.uni-konstanz.de <br>-> weiler@inf.uni-konstanz.de </body></html>");
-        imagePanel.add(imageLabel, BorderLayout.CENTER);
+        imageLabel.setToolTipText("<html><body><p><b><font face=\"Tahoma\">Sebastian Gath:</font></b></p><ul><li><b><font face=\"Tahoma\">gath@inf.uni-konstanz.de</font></b></li></ul><p><b><font face=\"Tahoma\">Roman Rädle:</font></b></p><ul>  <li><b><font face=\"Tahoma\">raedler@inf.uni-konstanz.de</font></b></li></ul><p><b><font face=\"Tahoma\">Andreas Weiler:</font></b></p><ul>  <li><b><font face=\"Tahoma\">weiler@inf.uni-konstanz.de</font></b></li></ul></body></html>");
+        imagePanel.add(imageLabel);
 
         // fügt die einzelnen Panels den Tabs hinzu
         deliveryOrder.add(dOBrowser1);
