@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<!--
+ User: rro
+ Date: 21.07.2005
+ Time: 13:37:24
+
+ @author Roman R&auml;dle
+ @version $Id: NumberSequence.hbm.xml,v 1.1 2005/11/06 01:54:37 raedler Exp $
+ @since EcoBill 1.0
+-->
+
+<hibernate-mapping default-lazy="false">
+
+    <class name="ecobill.module.base.domain.NumberSequence" table="BASE_NUMBER_SEQUENCE">
+
+        <id name="id" type="long" unsaved-value="-1">
+            <column name="ID" not-null="true"/>
+            <generator class="native"/>
+        </id>
+
+        <property name="key" type="string">
+            <column name="SEQUENCE_KEY" not-null="true"/>
+        </property>
+
+        <property name="number" type="string">
+            <column name="NUMBER" not-null="true"/>
+        </property>
+
+    </class>
+
+</hibernate-mapping>
