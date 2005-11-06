@@ -40,7 +40,7 @@ import java.io.FileOutputStream;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.12 2005/11/06 01:46:15 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.13 2005/11/06 18:54:42 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JPanel implements InitializingBean, Internationalization, DisposableBean {
@@ -500,6 +500,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         tabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.LABELLING));
 
         verticalButtonOverview.reinitI18N();
+        verticalButtonLabelling.reinitI18N();
 
         verticalButtonOverview.getButton1().setToolTipText(WorkArea.getMessage(Constants.BUTTON1_ARTICLE_TOOLTIP));
         verticalButtonOverview.getButton2().setToolTipText(WorkArea.getMessage(Constants.BUTTON2_ARTICLE_TOOLTIP));
