@@ -40,7 +40,7 @@ import java.io.FileOutputStream;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.13 2005/11/06 18:54:42 jfuckerweiler Exp $
+ * @version $Id: ArticleUI.java,v 1.14 2005/11/06 23:32:32 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JPanel implements InitializingBean, Internationalization, DisposableBean {
@@ -119,7 +119,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
 
         // Versuche evtl. abgelegte/serialisierte Objekte zu laden.
         try {
-            articleTableOverview.unpersist(new FileInputStream(serializeIdentifiers.getProperty("article_table")));
+            overviewArticleTable.unpersist(new FileInputStream(serializeIdentifiers.getProperty("article_table")));
             labellingTableOverview.unpersist(new FileInputStream(serializeIdentifiers.getProperty("residual_labelling_table")));
             labellingTableLabelling.unpersist(new FileInputStream(serializeIdentifiers.getProperty("labelling_table")));
         }
@@ -143,12 +143,27 @@ public class ArticleUI extends JPanel implements InitializingBean, International
 
         // Serialisiere diese Objekte um sie bei einem neuen Start des Programmes wieder laden
         // zu können.
-        articleTableOverview.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("article_table"))));
+        overviewArticleTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("article_table"))));
         labellingTableOverview.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("residual_labelling_table"))));
         labellingTableLabelling.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("labelling_table"))));
     }
 
-    private ArticleTable articleTableOverview;
+    /**
+     * Die <code>ArticleTable</code> zeigt alle in der Datenbank verfügbaren Artikel im
+     * Übersichtstab an.
+     */
+    private ArticleTable overviewArticleTable;
+
+    /**
+     * Gibt die <code>ArticleTable</code> zurück, die zur Anzeige der Artikel, in der Datenbank,
+     * verwendet wird.
+     *
+     * @return Die <code>ArticleTable</code> zur Anzeige der Artikel.
+     */
+    public ArticleTable getOverviewArticleTable() {
+        return overviewArticleTable;
+    }
+
     private Labelling labellingLabelling = new Labelling();
     private Labelling labellingOverview = new Labelling();
     private LabellingTable labellingTableLabelling;
@@ -168,7 +183,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
      * Initialisiert die Komponenten.
      */
     private void initComponents() {
-        articleTableOverview = new ArticleTable(this, baseService);
+        overviewArticleTable = new ArticleTable(this, baseService);
         inputOverview = new Input(baseService);
         inputBundleOverview = new InputBundle(baseService);
         inputLabellingLabelling = new InputLabelling(baseService);
@@ -200,7 +215,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
              */
             public void actionPerformed(ActionEvent e) {
                 saveOrUpdateArticle();
-                articleTableOverview.renewTableModel();
+                overviewArticleTable.renewTableModel();
 
                 String actualArticleNumber = inputOverview.getArticleNumber();
 
@@ -217,31 +232,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
 
         verticalButtonOverview.getButton3().setVisible(true);
         verticalButtonOverview.getButton3().setIcon(new ImageIcon("images/article_delete.png"));
-        verticalButtonOverview.getButton3().addActionListener(new ActionListener() {
-
-            /**
-             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
-             */
-            public void actionPerformed(ActionEvent e) {
-                baseService.delete(Article.class, actualArticleId);
-                articleTableOverview.renewTableModel();
-
-                int row = articleTableOverview.getTable().getSelectedRow();
-
-                try {
-                    actualArticleId = ((IdKeyItem) articleTableOverview.getTable().getValueAt(row, 0)).getId();
-
-                    // Zeige selektierten Artikel an.
-                    showArticle(actualArticleId);
-                }
-                catch (ArrayIndexOutOfBoundsException ioobe) {
-
-                    NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.ARTICLE);
-
-                    resetInput(numberSequence.getNextNumber());
-                }
-            }
-        });
+        verticalButtonOverview.getButton3().addActionListener(new ArticleAction(this).DELETE_ACTION);
 
         verticalButtonOverview.getButton4().setVisible(true);
         verticalButtonOverview.getButton4().setIcon(new ImageIcon("images/refresh.png"));
@@ -251,7 +242,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
              */
             public void actionPerformed(ActionEvent e) {
-                articleTableOverview.renewTableModel();
+                overviewArticleTable.renewTableModel();
 
                 if (actualArticleId != null) {
                     Article article = (Article) baseService.load(Article.class, actualArticleId);
@@ -333,7 +324,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
                         .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
                         .addContainerGap()
                         .add(overviewLayout.createParallelGroup(GroupLayout.LEADING)
-                                .add(articleTableOverview, GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
+                                .add(overviewArticleTable, GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
                                 .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
                                 .add(verticalButtonOverview, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.RELATED)
@@ -361,7 +352,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
                                 .addPreferredGap(LayoutStyle.RELATED)
                                 .add(labellingOverview, 0, 166, Short.MAX_VALUE)))
                         .addPreferredGap(LayoutStyle.RELATED)
-                        .add(articleTableOverview, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(overviewArticleTable, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
         );
         tabbedPane.addTab(WorkArea.getMessage(Constants.OVERVIEW), overview);
@@ -485,7 +476,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
     }
 
     public ArticleTable getArticleTable() {
-        return articleTableOverview;
+        return overviewArticleTable;
     }
 
     public LabellingTable getDescriptionTable() {
@@ -500,7 +491,6 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         tabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.LABELLING));
 
         verticalButtonOverview.reinitI18N();
-        verticalButtonLabelling.reinitI18N();
 
         verticalButtonOverview.getButton1().setToolTipText(WorkArea.getMessage(Constants.BUTTON1_ARTICLE_TOOLTIP));
         verticalButtonOverview.getButton2().setToolTipText(WorkArea.getMessage(Constants.BUTTON2_ARTICLE_TOOLTIP));
@@ -513,7 +503,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         verticalButtonLabelling.getButton4().setToolTipText(WorkArea.getMessage(Constants.BUTTON4_LABELLING_TOOLTIP));
 
 
-        articleTableOverview.reinitI18N();
+        overviewArticleTable.reinitI18N();
         labellingLabelling.reinitI18N();
         labellingOverview.reinitI18N();
         labellingTableLabelling.reinitI18N();
@@ -523,7 +513,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         inputOverview.reinitI18N();
     }
 
-    private void resetInput(String nextArticleNumber) {
+    public void resetInput(String nextArticleNumber) {
 
         tabbedPane.setEnabledAt(1, false);
 
@@ -628,7 +618,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
 
         article.addArticleDescription(articleDescription);
 
-        articleTableOverview.renewTableModel();
+        overviewArticleTable.renewTableModel();
 
         baseService.saveOrUpdate(article);
 
@@ -672,7 +662,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         labellingTableLabelling.renewTableModel(article);
 
         labellingOverview.setDescription(article.getLocalizedDescription());
-        articleTableOverview.renewTableModel();
+        overviewArticleTable.renewTableModel();
     }
 
     public Long getActualArticleId() {

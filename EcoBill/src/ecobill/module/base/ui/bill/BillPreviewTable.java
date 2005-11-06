@@ -2,12 +2,9 @@ package ecobill.module.base.ui.bill;
 
 import ecobill.module.base.ui.component.AbstractTablePanel;
 import ecobill.module.base.service.BaseService;
-import ecobill.module.base.domain.ReduplicatedArticle;
-import ecobill.module.base.domain.DeliveryOrder;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import ecobill.core.util.I18NItem;
-import ecobill.core.util.IdKeyItem;
 
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
@@ -16,8 +13,6 @@ import java.awt.*;
 import java.util.Vector;
 import java.util.Collection;
 import java.util.Collections;
-
-import org.hibernate.mapping.Set;
 
 /**
  * Die <code>BillPreviewTable</code> enthält alle Daten, zur Vorschau der Lieferscheindaten  zur Rechnungsvor
@@ -28,7 +23,7 @@ import org.hibernate.mapping.Set;
  * Time: 17:49:23
  *
  * @author Sebastian Gath
- * @version $Id: BillPreviewTable.java,v 1.2 2005/11/05 19:34:42 gath Exp $
+ * @version $Id: BillPreviewTable.java,v 1.3 2005/11/06 23:32:32 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BillPreviewTable extends AbstractTablePanel {
@@ -68,30 +63,11 @@ public class BillPreviewTable extends AbstractTablePanel {
      * @see ecobill.module.base.ui.component.AbstractTablePanel#getDataCollection()
      */
     protected Collection<BillPreviewCollection> getDataCollection() {
-      /*  double sum=0;
-        if (deliveryOrderId != null) {
-            DeliveryOrder deliveryOrder = (DeliveryOrder) getBaseService().load(DeliveryOrder.class, deliveryOrderId);
-
-            deliveryOrderId = null;
-
-            java.util.Set<ReduplicatedArticle> redArticles = deliveryOrder.getArticles();
-            while(redArticles.iterator().hasNext()) {
-                ReduplicatedArticle ra = redArticles.iterator().next();
-                sum = sum + ra.getPrice() * ra.getQuantity();
-            }
-            Collection<BillPreviewCollection> tmp=null;
-            tmp.add(new BillPreviewCollection(deliveryOrder.getDeliveryOrderNumber(), deliveryOrder.getDeliveryOrderDate(), sum));
-            return tmp;
-
-        }
-        */
-
         if (dataCollection != null) {
             return dataCollection;
         }
 
         return Collections.EMPTY_SET;
-
     }
 
     /**
@@ -100,7 +76,6 @@ public class BillPreviewTable extends AbstractTablePanel {
      * @param dataCollection
      */
     public void setDataCollection(Collection<BillPreviewCollection> dataCollection) {
-
         this.dataCollection = dataCollection;
     }
 

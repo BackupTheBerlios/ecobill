@@ -4,7 +4,6 @@ import ecobill.module.base.ui.message.MessageUI;
 import ecobill.module.base.ui.article.ArticleUI;
 import ecobill.module.base.ui.businesspartner.BusinessPartnerUI;
 import ecobill.module.base.ui.deliveryorder.DeliveryOrderUI;
-import ecobill.module.base.ui.bill.BillCreation;
 import ecobill.module.base.ui.bill.BillUI;
 import ecobill.module.base.ui.help.HelpUI;
 import ecobill.core.system.WorkArea;
@@ -36,7 +35,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.99 2005/11/06 19:18:07 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.100 2005/11/06 23:32:32 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -155,7 +154,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     /**
      * Gibt die Instanz des Bill User Interface zurück.
      *
-     * @return Die Instanz des <code>BillUI</code>.
+     * @return Die Instanz des <code>BillUI2</code>.
      */
     public BillUI getBillUI() {
         return billUI;
@@ -205,8 +204,11 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         reinitI18N();
 
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
         // Setzt die Operation, die auf X am Fenster gemacht wird.
         addWindowListener(new WindowAdapter() {
+
             /**
              * @see WindowAdapter#windowClosing(java.awt.event.WindowEvent)
              */

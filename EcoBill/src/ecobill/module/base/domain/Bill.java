@@ -16,7 +16,7 @@ import java.text.Collator;
  * Time: 13:29:28
  *
  * @author Roman R&auml;dle
- * @version $Id: Bill.java,v 1.3 2005/10/14 11:17:50 raedler Exp $
+ * @version $Id: Bill.java,v 1.4 2005/11/06 23:32:32 raedler Exp $
  * @since DAPS INTRA 1.0
  */
 public class Bill extends AbstractDomain {
@@ -29,7 +29,7 @@ public class Bill extends AbstractDomain {
     /**
      * Die eindeutige Rechnungsnummer.
      */
-    private Long billNumber;
+    private String billNumber;
 
     /**
      * Das Datum an dem diese Rechnung ausgestellt wurde.
@@ -66,7 +66,7 @@ public class Bill extends AbstractDomain {
      *
      * @return Die Rechnungsnummer.
      */
-    public Long getBillNumber() {
+    public String getBillNumber() {
         return billNumber;
     }
 
@@ -75,7 +75,7 @@ public class Bill extends AbstractDomain {
      *
      * @param billNumber Die Rechnungsnummer.
      */
-    public void setBillNumber(Long billNumber) {
+    public void setBillNumber(String billNumber) {
         this.billNumber = billNumber;
     }
 

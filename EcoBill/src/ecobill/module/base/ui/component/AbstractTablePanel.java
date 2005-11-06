@@ -23,6 +23,8 @@ import java.util.Collection;
 import java.awt.*;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.*;
 
 /**
@@ -34,7 +36,7 @@ import java.io.*;
  * Time: 12:33:23
  *
  * @author Roman R&auml;dle
- * @version $Id: AbstractTablePanel.java,v 1.9 2005/11/06 01:46:15 raedler Exp $
+ * @version $Id: AbstractTablePanel.java,v 1.10 2005/11/06 23:32:32 raedler Exp $
  * @since EcoBill 1.0
  */
 public abstract class AbstractTablePanel extends JPanel implements Internationalization {
@@ -123,6 +125,21 @@ public abstract class AbstractTablePanel extends JPanel implements International
     private JScrollPane tableSP = new JScrollPane();
 
     /**
+     * Das <code>JPopupMenu</code> das auf reagieren der rechten Maustaste eingerichtet wird.
+     */
+    private JPopupMenu popupMenu = new JPopupMenu();
+
+    /**
+     * Gibt das <code>JPopupMenu</code> zurück, das auf reagieren der rechten Maustaste eingerichtet
+     * ist.
+     *
+     * @return Das <code>JPopupMenu</code> reagiert auf die rechte Maustaste.
+     */
+    public JPopupMenu getPopupMenu() {
+        return popupMenu;
+    }
+
+    /**
      * Gibt die <code>JScrollPane</code> zurück, in der die Tabelle liegt. Diese <code>JScrollPane</code>
      * ist nötig um den Tabellen Header anzuzeigen und auch um die Tabelle scrollbar zu gestallten.
      *
@@ -179,6 +196,12 @@ public abstract class AbstractTablePanel extends JPanel implements International
         addMouseListeners(createMouseListeners());
         addTableModelListeners(createTableModelListeners());
 
+        // Füge das <code>JPopupMenu</code> nur hinzu wenn es gebraucht wird.
+        if ((popupMenu = createPopupMenu(popupMenu)) != null) {
+            initPopupMenu();
+            table.add(popupMenu);
+        }
+
         // Erstes initialisieren der Labels, etc...
         reinitI18N();
 
@@ -232,6 +255,53 @@ public abstract class AbstractTablePanel extends JPanel implements International
                         .add(tableSP, GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
                         .addContainerGap())
         );
+    }
+
+    /**
+     * Initialisieren des <code>JPopupMenu</code>. Hier wird der Klick der rechten Maustaste
+     * hinzugefügt.
+     */
+    private void initPopupMenu() {
+
+        // Vorbereiten der <code>JTable</code> auf das <code>JPopupMenu</code>.
+        table.addMouseListener(new MouseAdapter() {
+
+            /**
+             * @see MouseAdapter#mousePressed(java.awt.event.MouseEvent)
+             */
+            public void mousePressed(MouseEvent e) {
+
+                // Überprüfe of die rechte Maustaste gedrückt wurde um die
+                // Reihe zu markieren.
+                if (SwingUtilities.isRightMouseButton(e)) {
+
+                    // Der Punkt an dem gedrückt wurde.
+                    Point p = e.getPoint();
+
+                    // Die Reihe in der Tabelle, auf die gedrückt wurde.
+                    int row = table.rowAtPoint(p);
+
+                    // Setze die Reihe markiert.
+                    table.addRowSelectionInterval(row, row);
+                }
+
+                // Zeige das <code>JPopupMenu</code> an.
+                if (e.isPopupTrigger()) {
+                    popupMenu.show(table, e.getX(), e.getY());
+                }
+            }
+
+            /**
+             * @see MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
+             */
+            public void mouseReleased(MouseEvent e) {
+
+                // Zeige das <code>JPopupMenu</code> an.
+                if (e.isPopupTrigger()) {
+                    popupMenu.show(table, e.getX(), e.getY());
+                }
+            }
+        });
     }
 
     /**
@@ -398,8 +468,10 @@ public abstract class AbstractTablePanel extends JPanel implements International
      * Gibt die Id des Selektierten Datensatzes zurück.
      *
      * @return Die Id des aktuell selektierten Datensatzes.
+     * @throws IllegalStateException Diese <code>Exception</code> wird geworfen wenn entweder keine
+     *                               Reihe ausgewählt ist oder die Tabelle kein Identifier Objekt hat.
      */
-    public Long getIdOfSelectedRow() {
+    public Long getIdOfSelectedRow() throws IllegalStateException {
 
         // Die selektierte Reihe.
         int row = table.getSelectedRow();
@@ -462,6 +534,19 @@ public abstract class AbstractTablePanel extends JPanel implements International
      *         werden sollen.
      */
     protected TableModelListener[] createTableModelListeners() {
+        return null;
+    }
+
+    /**
+     * Durch überschreiben dieser Methode ist es möglich der <code>JTable</code> ein
+     * <code>JPopupMenu</code> hinzuzufügen.
+     *
+     * @param popupMenu Das <code>JPopupMenu</code> das auf Klick der rechten Maustaste
+     *                  bereits reagieren kann.
+     * @return Das <code>JPopupMenu</code>, das der <code>JTable</code> hinzugefügt
+     *         werden soll.
+     */
+    protected JPopupMenu createPopupMenu(JPopupMenu popupMenu) {
         return null;
     }
 

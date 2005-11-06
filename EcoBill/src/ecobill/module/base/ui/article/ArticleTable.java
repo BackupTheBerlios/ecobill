@@ -32,7 +32,7 @@ import java.util.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleTable.java,v 1.9 2005/10/11 08:24:52 raedler Exp $
+ * @version $Id: ArticleTable.java,v 1.10 2005/11/06 23:32:32 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleTable extends AbstractTablePanel {
@@ -321,6 +321,19 @@ public class ArticleTable extends AbstractTablePanel {
         };
 
         return tableModelListeners;
+    }
+
+    /**
+     * @see AbstractTablePanel#createPopupMenu(javax.swing.JPopupMenu)
+     */
+    protected JPopupMenu createPopupMenu(JPopupMenu popupMenu) {
+
+        JMenuItem delete = new JMenuItem(Constants.DELETE, new ImageIcon("./images/delete.png"));
+        delete.addActionListener(new ArticleAction(articleUI).DELETE_ACTION);
+
+        popupMenu.add(delete);
+
+        return popupMenu;
     }
 
     /**

@@ -33,9 +33,34 @@ import java.awt.event.MouseEvent;
 public class OrderTableWithCB extends AbstractTablePanel {
 
     /**
-     * Die id eines Lieferscheines.
+     * Die id eines Geschäftspartners.
      */
     private Long businessPartnerId;
+
+    /**
+     * Gibt die Geschäftspartner Id zurück.
+     *
+     * @return Die Geschäftspartner Id.
+     */
+    public Long getBusinessPartnerId() {
+        return businessPartnerId;
+    }
+
+    /**
+     * Setzt die Geschäftspartner Id.
+     *
+     * @param businessPartnerId Die Geschäftspartner Id.
+     */
+    public void setBusinessPartnerId(Long businessPartnerId) {
+        this.businessPartnerId = businessPartnerId;
+    }
+
+    /**
+     * Creates new form BusinessPartnerTable
+     */
+    public OrderTableWithCB(BaseService baseService) {
+        super(baseService);
+     }
 
     /**
      * Creates new form BusinessPartnerTable
@@ -78,41 +103,24 @@ public class OrderTableWithCB extends AbstractTablePanel {
     protected Collection<DeliveryOrder> getDataCollection() {
 
         if (businessPartnerId != null) {
-            System.out.println("BPid2:" +businessPartnerId);
-            //DeliveryOrder deliveryOrder = (DeliveryOrder) getBaseService().load(DeliveryOrder.class, businessPartnerId);
-            System.out.println(getBaseService());
-            BusinessPartner businessPartner = (BusinessPartner) getBaseService().load(BusinessPartner.class, businessPartnerId);
 
-            businessPartnerId = null;
+            BusinessPartner businessPartner = (BusinessPartner) getBaseService().load(BusinessPartner.class, businessPartnerId);
 
             return businessPartner.getOpenDeliveryOrders();
         }
 
-        if (dataCollection != null) {
-            return dataCollection;
-        }
-
         return Collections.EMPTY_SET;
-
     }
 
     public void setDataCollection(Collection<DeliveryOrder> dataCollection) {
-
         this.dataCollection = dataCollection;
-    }
-
-    public void updateDataCollectionFromDB(long id) {
-        businessPartnerId = id;
-        Collection<DeliveryOrder> c;
-        c = getDataCollection();
-        setDataCollection(c);
     }
 
     /**
      * @see ecobill.module.base.ui.component.AbstractTablePanel#createLineVector(Object)
      */
     protected Vector createLineVector(Object o) {
-        System.out.println("und jetzt die Zeilen gefüllt");
+
         // Ein neuer <code>Vector</code> stellt eine Zeile der Tabelle dar.
         Vector<Object> line = new Vector<Object>();
 
@@ -149,20 +157,7 @@ public class OrderTableWithCB extends AbstractTablePanel {
         return line;
     }
 
-
-    /**
-     * @see ecobill.module.base.ui.component.AbstractTablePanel#initColumnModelAfterUnpersist(javax.swing.table.TableColumnModel)
-     */
-    protected TableColumnModel createEditoredColumnModelAfterUnpersist(TableColumnModel columnModel) {
-
-        int checkBox = columnModel.getColumnIndex(WorkArea.getMessage(Constants.CHECKBOX_NEEDED));
-
-        //columnModel.getColumn(checkBox).setCellEditor(new DefaultCellEditor(new JCheckBox()));
-        //columnModel.getColumn(checkBox).setCellRenderer(new Renderer());
-
-        return columnModel;
-    }
-
+/*
     public class Renderer extends JCheckBox implements TableCellRenderer {
 
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -180,4 +175,5 @@ public class OrderTableWithCB extends AbstractTablePanel {
             return this;
         }
     }
+*/
 }

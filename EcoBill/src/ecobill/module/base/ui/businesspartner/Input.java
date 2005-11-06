@@ -35,7 +35,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: Input.java,v 1.7 2005/11/06 01:46:15 raedler Exp $
+ * @version $Id: Input.java,v 1.8 2005/11/06 23:32:32 raedler Exp $
  * @since EcoBill 1.0
  */
 public class Input extends JPanel implements Internationalization {
@@ -333,9 +333,13 @@ public class Input extends JPanel implements Internationalization {
         city.setText("");
         country.setSelectedIndex(0);
         country.updateUI();
-        
+
+        // Falls noch kein Land ausgewählt wurde, können auch keine Bundesländer
+        // ausgewählt werden.
         try {
-            county.setSelectedIndex(0);
+            if (county.getItemCount() > 0) {
+                county.setSelectedIndex(0);
+            }
         }
         catch (Exception e) {
             if (LOG.isErrorEnabled()) {

@@ -1,4 +1,4 @@
-package ecobill.module.base.ui.deliveryorder;
+package ecobill.module.base.ui.component;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,6 +20,7 @@ import ecobill.module.base.service.BaseService;
 import ecobill.module.base.ui.component.VerticalButton;
 import ecobill.module.base.ui.component.AbstractTablePanel;
 import ecobill.module.base.ui.article.ArticleTable;
+import ecobill.module.base.ui.deliveryorder.DeliveryOrderUI;
 import ecobill.module.base.domain.BusinessPartner;
 import ecobill.module.base.domain.Article;
 import ecobill.module.base.domain.ReduplicatedArticle;
@@ -39,6 +40,8 @@ import java.awt.event.*;
 import java.awt.*;
 
 /**
+ * TODO: document me!!!
+ *
  * Created by IntelliJ IDEA.
  * User: basti
  * Date: 09.10.2005
@@ -46,7 +49,6 @@ import java.awt.*;
  * To change this template use File | Settings | File Templates.
  */
 public class OverviewPanel extends JPanel implements Internationalization {
-
 
     /**
      * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
@@ -91,34 +93,6 @@ public class OverviewPanel extends JPanel implements Internationalization {
         this.baseService = baseService;
     }
 
-    /**
-     * Enthält die Pfade an denen die bestimmten Objekte serialisiert werden
-     * sollen.
-     */
-    private Properties serializeIdentifiers;
-
-    /**
-     * Gibt die Pfade, an denen die bestimmten Objekte serialisiert werden
-     * sollen, zurück.
-     *
-     * @return Die Pfade an denen die bestimmten Objekte serialisiert werden
-     *         sollen.
-     */
-    public Properties getSerializeIdentifiers() {
-        return serializeIdentifiers;
-    }
-
-    /**
-     * Setzt die Pfade, an denen die bestimmten Objekte serialisiert werden
-     * sollen.
-     *
-     * @param serializeIdentifiers Die Pfade an denen die bestimmten Objekte
-     *                             serialisiert werden sollen.
-     */
-    public void setSerializeIdentifiers(Properties serializeIdentifiers) {
-        this.serializeIdentifiers = serializeIdentifiers;
-    }
-
     public OverviewPanel(BaseService baseService, AbstractTablePanel leftTable, JPanel rightPanel) {
         this.baseService = baseService;
         this.leftTable = leftTable;
@@ -135,11 +109,9 @@ public class OverviewPanel extends JPanel implements Internationalization {
         button.setToolTipText(toolTip);
         if (aListener != null)
         {
-            System.out.println("ActionListener übergeben");
             button.addActionListener(aListener);
         }
         verticalButton.setButtonX(x,button);
-        System.out.println("Button hinzugefügt");
     }
 
     /**
@@ -155,11 +127,6 @@ public class OverviewPanel extends JPanel implements Internationalization {
         panelLeft = new JPanel();
 
         overviewPanel = new JPanel();
-//        detail = new JPanel();
-
-//        MainFrame mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
-
-//        deliveryOrderPrintPanel = new DeliveryOrderPrintPanel(mainFrame, baseService);
 
         splitPane.setDividerLocation(200);
         splitPane.setLeftComponent(leftTable);
@@ -254,41 +221,11 @@ public class OverviewPanel extends JPanel implements Internationalization {
 
     private AbstractTablePanel leftTable;
     private JPanel overviewPanel;
- //   private JPanel detail;
- //   private JPanel overview;
     private JPanel panelLeft;
     private JPanel panelRight;
     private JSplitPane splitPane;
     private JTabbedPane tabbedPane;
     private VerticalButton verticalButton;
-
-
-
-/*    private void showAddArticleDialog(Long id) {
-
-        Article article = (Article) baseService.load(Article.class, id);
-
-        JFrame frame = (JFrame) applicationContext.getBean("mainFrame");
-
-        JDialog d = new DeliveryOrderDialog(frame, this, article, true);
-        d.setModal(true);
-
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-        Dimension size = d.getSize();
-
-        double x = screenSize.getWidth() - size.getWidth();
-        double y = screenSize.getHeight() - size.getHeight();
-
-        d.setLocation((int) x / 2, (int) y / 2);
-
-        d.setVisible(true);
-    }
-  */
-
-
-    private Long id;
-
 }
 
 

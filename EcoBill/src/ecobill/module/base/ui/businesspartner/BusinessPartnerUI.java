@@ -12,7 +12,6 @@ import org.jdesktop.layout.LayoutStyle;
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.ui.component.VerticalButton;
 import ecobill.module.base.ui.deliveryorder.DeliveryOrderUI;
-import ecobill.module.base.ui.bill.BillCreation;
 import ecobill.module.base.ui.bill.BillUI;
 import ecobill.module.base.domain.*;
 import ecobill.core.util.FileUtils;
@@ -39,7 +38,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerUI.java,v 1.15 2005/11/06 01:46:15 raedler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.16 2005/11/06 23:32:32 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -316,8 +315,9 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
                 BillUI billUI = (BillUI) applicationContext.getBean("billUI");
                 int row = overviewBusinessPartnerTable.getTable().getSelectedRow();
                 System.out.println("bpID:" + ((IdValueItem) overviewBusinessPartnerTable.getTable().getValueAt(row,0)).getId());
-                billUI.getBillCreation().setActualBusinessPartnerId(((IdValueItem) overviewBusinessPartnerTable.getTable().getValueAt(row,0)).getId());
-                billUI.getBillOverviewPanel().setActualBusinessPartnerId(((IdValueItem) overviewBusinessPartnerTable.getTable().getValueAt(row,0)).getId());
+
+                billUI.setActualBusinessPartnerId(((IdValueItem) overviewBusinessPartnerTable.getTable().getValueAt(row,0)).getId());
+
                 // Wechselt auf das Lieferschein User Interface.
                 MainFrame mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
                 mainFrame.setSelectedTab(4);

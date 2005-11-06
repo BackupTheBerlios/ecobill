@@ -4,7 +4,7 @@
  * Created on 5. Oktober 2005, 16:44
  */
 
-package ecobill.module.base.ui.deliveryorder;
+package ecobill.module.base.ui.component;
 
 import ecobill.module.base.domain.BusinessPartner;
 import ecobill.module.base.domain.Person;

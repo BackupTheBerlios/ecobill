@@ -97,7 +97,7 @@ public class OrderTable extends AbstractTablePanel {
      * @see AbstractTablePanel#createLineVector(Object)
      */
     protected Vector createLineVector(Object o) {
-        System.out.println("und jetzt die Zeilen gefüllt");
+
         // Ein neuer <code>Vector</code> stellt eine Zeile der Tabelle dar.
         Vector<Object> line = new Vector<Object>();
 
@@ -126,7 +126,6 @@ public class OrderTable extends AbstractTablePanel {
             }
 
             line.add(deliveryOrder);
-            System.out.println("Was gefunden");
         }
 
         return line;

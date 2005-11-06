@@ -9,10 +9,9 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.DisposableBean;
 import ecobill.module.base.service.BaseService;
 
-import ecobill.module.base.ui.deliveryorder.OverviewPanel;
+import ecobill.module.base.ui.component.OverviewPanel;
 
 import ecobill.core.ui.MainFrame;
-import ecobill.core.util.IdValueItem;
 import ecobill.core.system.Internationalization;
 
 import javax.swing.*;
@@ -30,7 +29,7 @@ import java.awt.event.ActionEvent;
  * Time: 17:49:23
  *
  * @author Sebastian Gath
- * @version $Id: BillOverviewPanel.java,v 1.3 2005/11/06 01:46:15 raedler Exp $
+ * @version $Id: BillOverviewPanel.java,v 1.4 2005/11/06 23:32:32 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BillOverviewPanel extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -42,7 +41,7 @@ public class BillOverviewPanel extends JPanel implements ApplicationContextAware
     private static final Log LOG = LogFactory.getLog(BillCreation.class);
 
     /**
-     *  Tabelle aller Rechnungen
+     * Tabelle aller Rechnungen
      */
     private BillTable billTable;
 
@@ -185,6 +184,8 @@ public class BillOverviewPanel extends JPanel implements ApplicationContextAware
      */
     private void initLayout() {
 
+        this.setLayout(new BorderLayout());
+
         // zum Anordnen der Rechnungstabelle und des Vorschaufensters für die Rechnungen
         OverviewPanel billOverview = new OverviewPanel(baseService, billTable, billRightPanel);
 
@@ -199,15 +200,10 @@ public class BillOverviewPanel extends JPanel implements ApplicationContextAware
             public void actionPerformed(ActionEvent e) {
 
                 try {
-
-                    // die aktuelle Zeile holen
-                    int row = billTable.getTable().getSelectedRow();
-
                     // Datensetzen für den Rechnungsreport
                     billRightPanel.setMainFrame(mainFrame);
                     billRightPanel.setBaseService(baseService);
-                    billRightPanel.doJasper(((IdValueItem) billTable.getTable().getValueAt(row,0)).getId());
-
+                    billRightPanel.doJasper(billTable.getIdOfSelectedRow());
                 }
                 catch (Exception e1) {
                     e1.printStackTrace();
@@ -234,8 +230,8 @@ public class BillOverviewPanel extends JPanel implements ApplicationContextAware
             }
         };
 
-        billOverview.addButtonToVerticalButton(1,new ImageIcon("images/open.png"), "Rechnung in Vorschaufernster anzeigen", actionListener );
-        billOverview.addButtonToVerticalButton(2,new ImageIcon("images/exit.png"), "Vorschaufernster schließen", actionListenerClose );
+        billOverview.addButtonToVerticalButton(1, new ImageIcon("images/open.png"), "Rechnung in Vorschaufernster anzeigen", actionListener);
+        billOverview.addButtonToVerticalButton(2, new ImageIcon("images/exit.png"), "Vorschaufernster schließen", actionListenerClose);
 
         add(billOverview, BorderLayout.CENTER);
     }

@@ -25,7 +25,7 @@ import java.util.*;
  * Time: 17:49:23
  *
  * @author Sebastian Gath
- * @version $Id: BillTable.java,v 1.2 2005/11/05 19:34:42 gath Exp $
+ * @version $Id: BillTable.java,v 1.3 2005/11/06 23:32:32 raedler Exp $
  * @since EcoBill 1.0
  */
 
@@ -33,11 +33,35 @@ import java.util.*;
 
 public class BillTable extends AbstractTablePanel {
 
-
     /**
-     * Die id eines Lieferscheines.
+     * Die id eines Geschäftspartners.
      */
     private Long businessPartnerId;
+
+    /**
+     * Gibt die Geschäftspartner Id zurück.
+     *
+     * @return Die Geschäftspartner Id.
+     */
+    public Long getBusinessPartnerId() {
+        return businessPartnerId;
+    }
+
+    /**
+     * Setzt die Geschäftspartner Id.
+     *
+     * @param businessPartnerId Die Geschäftspartner Id.
+     */
+    public void setBusinessPartnerId(Long businessPartnerId) {
+        this.businessPartnerId = businessPartnerId;
+    }
+
+    /**
+     * Creates new form BusinessPartnerTable
+     */
+    public BillTable(BaseService baseService) {
+        super(baseService);
+    }
 
     /**
      * Creates new form BusinessPartnerTable
@@ -82,17 +106,10 @@ public class BillTable extends AbstractTablePanel {
         if (businessPartnerId != null) {
             BusinessPartner businessPartner = (BusinessPartner) getBaseService().load(BusinessPartner.class, businessPartnerId);
 
-            businessPartnerId = null;
-
             return businessPartner.getBills();
         }
 
-        if (dataCollection != null) {
-            return dataCollection;
-        }
-
         return Collections.EMPTY_SET;
-
     }
 
     /**
@@ -101,7 +118,6 @@ public class BillTable extends AbstractTablePanel {
      * @param dataCollection
      */
     public void setDataCollection(Collection<Bill> dataCollection) {
-
         this.dataCollection = dataCollection;
     }
 

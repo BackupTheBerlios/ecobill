@@ -1,45 +1,44 @@
-package ecobill.module.base.ui.deliveryorder;
+package ecobill.module.base.ui.bill;
 
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.Border;
-
-import ecobill.module.base.service.BaseService;
-import ecobill.module.base.domain.BusinessPartner;
-import ecobill.module.base.domain.DeliveryOrder;
-import ecobill.module.base.domain.Person;
-import ecobill.module.base.jasper.JasperViewer;
 import ecobill.module.base.ui.component.AbstractJasperPrintPanel;
-import ecobill.core.ui.MainFrame;
+import ecobill.module.base.service.BaseService;
+import ecobill.module.base.domain.Bill;
+import ecobill.module.base.domain.BusinessPartner;
+import ecobill.module.base.domain.Person;
+import ecobill.module.base.domain.DeliveryOrder;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
-import ecobill.core.system.Internationalization;
+import ecobill.core.ui.MainFrame;
 
-import java.util.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.Border;
+import javax.swing.*;
 import java.awt.*;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.Set;
+import java.util.HashSet;
 
 // @todo document me!
 
 /**
  * DeliveryOrderPrintPanel.
  * <p/>
- * User: Paul Chef
+ * User: sega
  * Date: 18.08.2005
  * Time: 16:45:41
  *
- * @author Andreas Weiler
- * @version $Id: DeliveryOrderPrintPanel.java,v 1.3 2005/11/06 23:32:32 raedler Exp $
+ * @author Sebastian Gath
+ * @version $Id: BillPrintPanel.java,v 1.1 2005/11/06 23:32:32 raedler Exp $
  * @since EcoBill 1.0
  */
-public class DeliveryOrderPrintPanel extends AbstractJasperPrintPanel {
+public class BillPrintPanel extends AbstractJasperPrintPanel {
 
     /**
      * TODO: document me!!!
+     *
+     * @param mainFrame
+     * @param baseService
      */
-    public DeliveryOrderPrintPanel(MainFrame mainFrame, BaseService baseService) {
+    public BillPrintPanel(MainFrame mainFrame, BaseService baseService) {
         super(mainFrame, baseService);
     }
 
@@ -64,13 +63,33 @@ public class DeliveryOrderPrintPanel extends AbstractJasperPrintPanel {
 
         getMainFrame().setProgressPercentage(10);
 
-        DeliveryOrder deliveryOrder = (DeliveryOrder) getBaseService().load(DeliveryOrder.class, id);
+        Bill bill = (Bill) getBaseService().load(Bill.class, id);
 
-        BusinessPartner bp = deliveryOrder.getBusinessPartner();
+        BusinessPartner bp = bill.getBusinessPartner();
         Person person = bp.getPerson();
         ecobill.module.base.domain.Address address = bp.getAddress();
 
-        Set reduplicatedArticles = deliveryOrder.getArticles();
+        Set reduplicatedArticles = new HashSet();
+        Set<DeliveryOrder> deliveryOrders = bill.getDeliveryOrders();
+        System.out.println("Size von deliveryOrders:" + deliveryOrders.size());
+
+        // nimmt die Lieferscheinnummern auf
+        String deliveryOrderNumbers = "";
+
+        int i = 0;
+        for (DeliveryOrder deliveryOrder : deliveryOrders) {
+
+            if (i == 0) {
+                deliveryOrderNumbers = deliveryOrder.getDeliveryOrderNumber();
+            }
+            else if (i <= deliveryOrders.size() && i > 0) {
+                deliveryOrderNumbers = deliveryOrderNumbers + "," + deliveryOrder.getDeliveryOrderNumber();
+            }
+
+            i++;
+
+            reduplicatedArticles.addAll(deliveryOrder.getArticles());
+        }
 
         getMainFrame().setProgressPercentage(30);
 
@@ -89,25 +108,19 @@ public class DeliveryOrderPrintPanel extends AbstractJasperPrintPanel {
         getJasperViewer().addParameter("BRANCH", bp.getCompanyBranch());
         getJasperViewer().addParameter("PERSON_TITLE", person.getTitle().toString());
 
-        getJasperViewer().addParameter("DATE", deliveryOrder.getDeliveryOrderDate());
+        getJasperViewer().addParameter("DATE", bill.getBillDate());
         getJasperViewer().addParameter("CUSTOMER_NUMBER", bp.getCustomerNumber());
-        getJasperViewer().addParameter("DELIVERY_ORDER_NUMBER", deliveryOrder.getDeliveryOrderNumber());
-
-        getJasperViewer().addParameter("PREFIX_FREE_TEXT", deliveryOrder.getPrefixFreetext());
-        getJasperViewer().addParameter("SUFFIX_FREE_TEXT", deliveryOrder.getSuffixFreetext());
+        getJasperViewer().addParameter("BILL_NUMBER", bill.getBillNumber().toString());
+        getJasperViewer().addParameter("DELIVERY_ORDER_NUMBERS", deliveryOrderNumbers);
 
         getMainFrame().setProgressPercentage(50);
 
-        if ("delivery_order".equals(deliveryOrder.getCharacterisationType())) {
-            getJasperViewer().view(getMainFrame(), WorkArea.getMessage(Constants.DELIVERY_ORDER_JRXML), reduplicatedArticles);
-        }
-        else if ("part_delivery_order".equals(deliveryOrder.getCharacterisationType())) {
-            getJasperViewer().view(getMainFrame(), WorkArea.getMessage(Constants.PART_DELIVERY_ORDER_JRXML), reduplicatedArticles);
-        }
+        System.out.println("redArtSize: " + reduplicatedArticles.size());
+
+        getJasperViewer().view(getMainFrame(), WorkArea.getMessage(Constants.BILL_JRXML), reduplicatedArticles);
 
         getMainFrame().setProgressPercentage(100);
 
         getMainFrame().setProgressPercentage(0);
     }
 }
-

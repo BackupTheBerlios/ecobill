@@ -29,7 +29,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Sebastian Gath
- * @version $Id: BillRightPanel.java,v 1.6 2005/11/05 19:34:42 gath Exp $
+ * @version $Id: BillRightPanel.java,v 1.7 2005/11/06 23:32:32 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BillRightPanel extends JPanel implements Internationalization {
@@ -76,16 +76,18 @@ public class BillRightPanel extends JPanel implements Internationalization {
         this.previewTableNeeded = previewTableNeeded;
         billPreviewTable = new BillPreviewTableN();
         dataInputPanel = new JPanel();
-        dataInputPanel.setLayout(new BorderLayout());
+
+        dataInputPanel.setBackground(Color.RED);
 
         // muß das Layout angepasst werden
-        if (previewTableNeeded) {
+        //if (previewTableNeeded) {
             System.out.println("mit viewer anzeigen");
+
             jasperViewer = new JasperViewer(dataInputPanel);
-        }
-        else {
-            jasperViewer = new JasperViewer(this);
-        }
+        //}
+        //else {
+        //    jasperViewer = new JasperViewer(this);
+        //}
 
         initComponents();
         initLayout();
@@ -149,8 +151,18 @@ public class BillRightPanel extends JPanel implements Internationalization {
      * liegen.
      */
     private void initLayout() {
+
+        /*
         GroupLayout panelRightLayout = new GroupLayout(this);
-        this.setLayout(panelRightLayout);
+
+        setLayout(panelRightLayout);
+        */
+
+        this.setLayout(new BorderLayout());
+
+        this.add(dataInputPanel, BorderLayout.CENTER);
+
+        /*
         if (!previewTableNeeded) {
             panelRightLayout.setHorizontalGroup(
                     panelRightLayout.createParallelGroup(GroupLayout.LEADING)
@@ -167,7 +179,6 @@ public class BillRightPanel extends JPanel implements Internationalization {
             );
         }
         else {
-
             panelRightLayout.setHorizontalGroup(
                     panelRightLayout.createParallelGroup(GroupLayout.LEADING)
                             .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
@@ -183,7 +194,7 @@ public class BillRightPanel extends JPanel implements Internationalization {
                             .addPreferredGap(LayoutStyle.RELATED)
                             .add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE))
             );
-        }
+        }*/
     }
 
     /**
@@ -211,12 +222,11 @@ public class BillRightPanel extends JPanel implements Internationalization {
     public void doJasper(Long id) throws Exception {
 
         // Entferne evtl. schon vorhandene Komponenten.
-        removeAll();
+        //removeAll();
 
         // TODO: Hier wäre es auch möglich direkt von Thread abzuleiten. SINNVOLL?!?
         // Starte nebenläufigen <code>JasperThread</code>.
         new Thread(new BillRightPanel.JasperThread(id)).start();
-        validate();
     }
 
     /**
@@ -227,8 +237,6 @@ public class BillRightPanel extends JPanel implements Internationalization {
      */
     private void jasper(Long billId) throws Exception {
 
-        // nimmt die Lieferscheinnummern auf
-        String deliveryOrderNumbers = "";
         mainFrame.setProgressPercentage(10);
 
         System.out.println("billId:" + billId);
@@ -240,23 +248,25 @@ public class BillRightPanel extends JPanel implements Internationalization {
         ecobill.module.base.domain.Address address = bp.getAddress();
 
         Set reduplicatedArticles = new HashSet();
-        Set deliveryOrders = bill.getDeliveryOrders();
+        Set<DeliveryOrder> deliveryOrders = bill.getDeliveryOrders();
         System.out.println("Size von deliveryOrders:" + deliveryOrders.size());
 
+        // nimmt die Lieferscheinnummern auf
+        String deliveryOrderNumbers = "";
+
         int i = 0;
-        for (Object o : deliveryOrders) {
+        for (DeliveryOrder deliveryOrder : deliveryOrders) {
+
             if (i == 0) {
-                deliveryOrderNumbers = ((DeliveryOrder) o).getDeliveryOrderNumber();
+                deliveryOrderNumbers = deliveryOrder.getDeliveryOrderNumber();
             }
             else if (i <= deliveryOrders.size() && i > 0) {
-                deliveryOrderNumbers = deliveryOrderNumbers + "," + ((DeliveryOrder) o).getDeliveryOrderNumber();
+                deliveryOrderNumbers = deliveryOrderNumbers + "," + deliveryOrder.getDeliveryOrderNumber();
             }
 
-            DeliveryOrder order = (DeliveryOrder) o;
+            i++;
 
-            System.out.println("IST: [" + order.getDeliveryOrderNumber() + "]" + order.getArticles().size());
-
-            reduplicatedArticles.addAll(((DeliveryOrder) o).getArticles());
+            reduplicatedArticles.addAll(deliveryOrder.getArticles());
         }
 
         mainFrame.setProgressPercentage(30);
@@ -290,9 +300,6 @@ public class BillRightPanel extends JPanel implements Internationalization {
         mainFrame.setProgressPercentage(100);
 
         mainFrame.setProgressPercentage(0);
-
-        mainFrame.validate();
-
     }
 
     /**

@@ -11,7 +11,7 @@ import org.jdesktop.layout.GroupLayout;
 import org.jdesktop.layout.LayoutStyle;
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.ui.article.ArticleTable;
-import ecobill.module.base.ui.component.VerticalButton;
+import ecobill.module.base.ui.component.*;
 import ecobill.module.base.domain.*;
 import ecobill.core.util.FileUtils;
 import ecobill.core.util.IdKeyItem;
@@ -24,8 +24,6 @@ import ecobill.core.ui.MainFrame;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.event.TableModelListener;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -161,7 +159,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         panelRight = new JPanel();
         tabbedPaneRight = new JTabbedPane();
         addressPanel = new JPanel();
-        address = new Address();
+        address = new ecobill.module.base.ui.component.Address();
         deliveryOrderDataPanel = new JPanel();
         deliveryOrderData = new DeliveryOrderData(baseService);
         deliveryOrderTable = new DeliveryOrderTable(baseService);
@@ -392,7 +390,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         articleTable.renewTableModel();
     }
 
-    private Address address;
+    private ecobill.module.base.ui.component.Address address;
     private JPanel addressPanel;
     private ArticleTable articleTable;
     private DeliveryOrderData deliveryOrderData;
