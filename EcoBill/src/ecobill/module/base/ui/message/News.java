@@ -23,13 +23,14 @@ import org.jdesktop.layout.LayoutStyle;
 
 
 /**
+ * Die <code>News</code> erstellt das User Interface zur Eingabe von Nachrichten.
  * <p/>
- * User: aw
+ * User: Andreas Weiler
  * Date: 15.07.2005
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.4 2005/11/06 01:44:12 raedler Exp $
+ * @version $Id: News.java,v 1.5 2005/11/06 17:04:59 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -250,6 +251,9 @@ public class News extends JPanel implements Internationalization {
 
     private VerticalButton overviewVerticalButton;
 
+     /**
+     * @see ecobill.core.system.Internationalization#reinitI18N()
+     */
     public void reinitI18N() {
 
         overviewVerticalButton.getButton1().setToolTipText(WorkArea.getMessage(Constants.MESSAGE_BUTTON1_TOOLTIP));
@@ -265,7 +269,10 @@ public class News extends JPanel implements Internationalization {
         overviewVerticalButton.reinitI18N();
 
     }
-
+    /**
+     * Getter und Setter werden initialisiert
+     * @return die jeweiligen Komponenten
+     */
     public JTextArea getNewsTextArea() {
         return newsTextArea;
     }
@@ -302,6 +309,9 @@ public class News extends JPanel implements Internationalization {
         this.newsTree = newsTree;
     }
 
+    /**
+     * Baum wird als JTree initialisiert
+     */
     public void initTree() {
 
         newsTree = new JTree(new DefaultMutableTreeNode("Übersicht"));
@@ -339,6 +349,10 @@ public class News extends JPanel implements Internationalization {
         newsTree.updateUI();
     }
 
+    /**
+     * Methode um eine Nachricht zum JTree hinzuzufügen
+     * @param message
+     */
     public void addMessageToTree(Message message) {
 
         IdValueItem idValueItem = new IdValueItem(message.getId(), message.getSubject());
@@ -374,6 +388,10 @@ public class News extends JPanel implements Internationalization {
         newsTextArea.setText(null);
     }
 
+    /**
+     * Methode um eine aus dem Baum ausgewählte Nachricht in den Textfeldern anzuzeigen
+     * @param message
+     */
     public void showMessage(Message message) {
 
         addresserTextField.setText(message.getAddresser());
@@ -381,6 +399,9 @@ public class News extends JPanel implements Internationalization {
         newsTextArea.setText(message.getMessage());
     }
 
+    /**
+     * Methode um eine Nachricht zu löschen
+     */
     public void deleteMessage() {
 
         Object o = newsTree.getLastSelectedPathComponent();
@@ -413,6 +434,9 @@ public class News extends JPanel implements Internationalization {
         }
     }
 
+    /**
+     * Methode um eine neue Nachricht zu erstellen
+     */
     public void newMessage() {
 
         addresserTextField.setText(null);
@@ -420,6 +444,9 @@ public class News extends JPanel implements Internationalization {
         newsTextArea.setText(null);
     }
 
+    /**
+     * Methode um den JTree zu aktualisieren
+     */
     public void refreshTree() {
 
         treeScrollPane.remove(newsTree);

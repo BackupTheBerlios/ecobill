@@ -25,7 +25,7 @@ import java.awt.event.ActionEvent;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: MessageUI.java,v 1.5 2005/11/06 16:59:00 jfuckerweiler Exp $
+ * @version $Id: MessageUI.java,v 1.6 2005/11/06 17:00:27 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MessageUI extends JPanel implements InitializingBean {
@@ -197,7 +197,8 @@ public class MessageUI extends JPanel implements InitializingBean {
     }
 
     /**
-     * Methode um eine Nachricht abzuspeichern oder eine Nachricht zu ändern
+     * Methode um eine Nachricht abzuspeichern oder eine Nachricht zu ändern wird aufgerufen
+     * aus Klasse News
      */
     public void saveOrUpdateMessage() {
         Message message = new Message();
@@ -213,7 +214,7 @@ public class MessageUI extends JPanel implements InitializingBean {
     }
 
     /**
-     * Methode um eine Nachricht zu löschen
+     * Methode um eine Nachricht zu löschen wird aufgerufen aus Klasse News
      */
     public void deleteMessage() {
 
@@ -222,7 +223,7 @@ public class MessageUI extends JPanel implements InitializingBean {
     }
 
     /**
-     * Methode um den Baum zu aktualisieren
+     * Methode um den Baum zu aktualisieren wird aufgerufen aus Klasse News
      */
     public void refreshTree() {
 
@@ -230,7 +231,7 @@ public class MessageUI extends JPanel implements InitializingBean {
     }
 
     /**
-     * Methode um eine neue Nachricht zu generieren
+     * Methode um eine neue Nachricht zu generieren wird aufgerufen aus Klasse News
      */
     public void newMessage() {
 
