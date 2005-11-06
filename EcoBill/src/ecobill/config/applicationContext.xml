@@ -38,7 +38,7 @@
 
     <bean id="splashScreen" class="ecobill.core.ui.SplashScreen">
         <constructor-arg index="0">
-            <value>images/startbild.png</value>
+            <value>images/splashscreen.png</value>
         </constructor-arg>
         <property name="splashable">
             <ref local="mainFrame"/>
