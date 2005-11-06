@@ -29,7 +29,7 @@ import java.awt.event.ActionEvent;
  * Time: 17:49:23
  *
  * @author Sebastian Gath
- * @version $Id: BillOverviewPanel.java,v 1.4 2005/11/06 23:32:32 raedler Exp $
+ * @version $Id: BillOverviewPanel.java,v 1.5 2005/11/06 23:42:03 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BillOverviewPanel extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -38,7 +38,7 @@ public class BillOverviewPanel extends JPanel implements ApplicationContextAware
      * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
      * Diese Ausgaben können in einem separaten File spezifiziert werden.
      */
-    private static final Log LOG = LogFactory.getLog(BillCreation.class);
+    private static final Log LOG = LogFactory.getLog(BillOverviewPanel.class);
 
     /**
      * Tabelle aller Rechnungen

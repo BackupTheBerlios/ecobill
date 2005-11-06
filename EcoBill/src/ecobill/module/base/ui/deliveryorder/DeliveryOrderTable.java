@@ -33,7 +33,7 @@ import java.util.Collections;
  * Time: 16:57:16
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderTable.java,v 1.3 2005/11/06 01:46:15 raedler Exp $
+ * @version $Id: DeliveryOrderTable.java,v 1.4 2005/11/06 23:42:03 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderTable extends AbstractTablePanel {
@@ -48,8 +48,6 @@ public class DeliveryOrderTable extends AbstractTablePanel {
      */
     public DeliveryOrderTable(BaseService baseService) {
         super(baseService);
-
-        getTable().add(createPopupMenu());
     }
 
     /**
@@ -150,44 +148,17 @@ public class DeliveryOrderTable extends AbstractTablePanel {
         return line;
     }
 
-    private JPopupMenu popupMenu = new JPopupMenu("PopupMenu");
+    /**
+     * @see AbstractTablePanel#createPopupMenu(javax.swing.JPopupMenu)
+     */
+    protected JPopupMenu createPopupMenu(JPopupMenu popupMenu) {
 
-    private JPopupMenu createPopupMenu() {
+        popupMenu.setLabel("Lieferschein");
 
-
-
-        JMenuItem delete = new JMenuItem("Löschen", new ImageIcon("./images/delete.png"));
-        delete.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                getTableModel().removeRow(getTable().getSelectedRow());
-            }
-        });
-
+        JMenuItem delete = new JMenuItem(WorkArea.getMessage(Constants.DELETE), new ImageIcon("./images/delete.png"));
+        //delete.addActionListener();
+        
         popupMenu.add(delete);
-
-        getTable().addMouseListener(new MouseAdapter() {
-
-            public void mousePressed(MouseEvent e) {
-				if (SwingUtilities.isRightMouseButton(e)) {
-					Point p = e.getPoint();
-
-					int row = getTable().rowAtPoint(p);
-
-                    getTable().addRowSelectionInterval(row, row);
-                }
-
-                if (e.isPopupTrigger()) {
-                    popupMenu.show(DeliveryOrderTable.this, e.getX(), e.getY());
-                }
-            }
-
-            public void mouseReleased(MouseEvent e) {
-                if (e.isPopupTrigger()) {
-                    popupMenu.show(DeliveryOrderTable.this, e.getX(), e.getY());
-                }
-            }
-        });
 
         return popupMenu;
     }
