@@ -18,6 +18,9 @@ import java.awt.*;
 import java.util.List;
 import java.util.Enumeration;
 
+import org.jdesktop.layout.GroupLayout;
+import org.jdesktop.layout.LayoutStyle;
+
 
 /**
  * <p/>
@@ -26,7 +29,7 @@ import java.util.Enumeration;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.3 2005/11/05 18:54:57 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.4 2005/11/06 01:44:12 raedler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -49,31 +52,33 @@ public class News extends JPanel implements Internationalization {
 
     private void initComponents() {
 
-        newsTreeSplitPanel = new javax.swing.JSplitPane();
+        newsTreeSplitPanel = new JSplitPane();
 
-        treePanel = new javax.swing.JPanel();
+        treePanel = new JPanel();
 
-        treeScrollPane = new javax.swing.JScrollPane();
+        treeScrollPane = new JScrollPane();
 
-        newsTree = new javax.swing.JTree();
+        newsTree = new JTree();
 
-        newsPanel = new javax.swing.JPanel();
+        newsPanel = new JPanel();
 
-        addresserLabel = new javax.swing.JLabel();
+        addresserLabel = new JLabel();
 
-        addresserTextField = new javax.swing.JTextField();
+        addresserTextField = new JTextField();
 
-        subjectLabel = new javax.swing.JLabel();
+        subjectLabel = new JLabel();
 
-        subjectTextField = new javax.swing.JTextField();
+        subjectTextField = new JTextField();
 
-        messageLabel = new javax.swing.JLabel();
+        messageLabel = new JLabel();
 
-        newsScrollPane = new javax.swing.JScrollPane();
+        newsScrollPane = new JScrollPane();
 
-        newsTextArea = new javax.swing.JTextArea();
+        newsTextArea = new JTextArea();
+        newsTextArea.setLineWrap(true);
+        newsTextArea.setWrapStyleWord(true);
 
-        overviewVerticalButton = new ecobill.module.base.ui.component.VerticalButton();
+        overviewVerticalButton = new VerticalButton();
 
         initTree();
         newsTreeSplitPanel.setBorder(newsBorder);
@@ -83,27 +88,27 @@ public class News extends JPanel implements Internationalization {
         treeScrollPane.setViewportView(newsTree);
 
 
-        org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(treePanel);
+        GroupLayout jPanel1Layout = new GroupLayout(treePanel);
 
         treePanel.setLayout(jPanel1Layout);
 
-        jPanel1Layout.setHorizontalGroup(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+        jPanel1Layout.setHorizontalGroup(jPanel1Layout.createParallelGroup(GroupLayout.LEADING)
 
-                .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel1Layout.createSequentialGroup()
+                .add(GroupLayout.LEADING, jPanel1Layout.createSequentialGroup()
 
                 .addContainerGap()
 
-                .add(treeScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                .add(treeScrollPane, GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
 
                 .addContainerGap()));
 
-        jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+        jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(GroupLayout.LEADING)
 
-                .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel1Layout.createSequentialGroup()
+                .add(GroupLayout.LEADING, jPanel1Layout.createSequentialGroup()
 
                 .addContainerGap()
 
-                .add(treeScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
+                .add(treeScrollPane, GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
 
                 .addContainerGap()));
 
@@ -126,23 +131,23 @@ public class News extends JPanel implements Internationalization {
         newsScrollPane.setViewportView(newsTextArea);
 
 
-        org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(newsPanel);
+        GroupLayout jPanel2Layout = new GroupLayout(newsPanel);
 
         newsPanel.setLayout(jPanel2Layout);
 
-        jPanel2Layout.setHorizontalGroup(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+        jPanel2Layout.setHorizontalGroup(jPanel2Layout.createParallelGroup(GroupLayout.LEADING)
 
-                .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel2Layout.createSequentialGroup()
+                .add(GroupLayout.LEADING, jPanel2Layout.createSequentialGroup()
 
                 .addContainerGap()
 
-                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jPanel2Layout.createParallelGroup(GroupLayout.LEADING)
 
-                .add(newsScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                .add(newsScrollPane, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
 
-                .add(subjectTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                .add(subjectTextField, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
 
-                .add(addresserTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                .add(addresserTextField, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
 
                 .add(addresserLabel)
 
@@ -152,102 +157,98 @@ public class News extends JPanel implements Internationalization {
 
                 .addContainerGap()));
 
-        jPanel2Layout.setVerticalGroup(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+        jPanel2Layout.setVerticalGroup(jPanel2Layout.createParallelGroup(GroupLayout.LEADING)
 
-                .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel2Layout.createSequentialGroup()
+                .add(GroupLayout.LEADING, jPanel2Layout.createSequentialGroup()
 
                 .addContainerGap()
 
                 .add(addresserLabel)
 
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .addPreferredGap(LayoutStyle.RELATED)
 
-                .add(addresserTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(addresserTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .addPreferredGap(LayoutStyle.RELATED)
 
                 .add(subjectLabel)
 
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .addPreferredGap(LayoutStyle.RELATED)
 
-                .add(subjectTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(subjectTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .addPreferredGap(LayoutStyle.RELATED)
 
                 .add(messageLabel)
 
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .addPreferredGap(LayoutStyle.RELATED)
 
-                .add(newsScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
+                .add(newsScrollPane, GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
 
                 .addContainerGap()));
 
         newsTreeSplitPanel.setRightComponent(newsPanel);
 
 
-        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
+        GroupLayout layout = new GroupLayout(this);
 
         this.setLayout(layout);
 
-        layout.setHorizontalGroup(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+        layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.LEADING)
 
-                .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
+                .add(GroupLayout.LEADING, layout.createSequentialGroup()
 
                 .addContainerGap()
 
-                .add(overviewVerticalButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(overviewVerticalButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .addPreferredGap(LayoutStyle.RELATED)
 
-                .add(newsTreeSplitPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
+                .add(newsTreeSplitPanel, GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
 
                 .addContainerGap()));
 
-        layout.setVerticalGroup(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+        layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.LEADING)
 
-                .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
+                .add(GroupLayout.LEADING, layout.createSequentialGroup()
 
                 .addContainerGap()
 
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(layout.createParallelGroup(GroupLayout.LEADING)
 
-                .add(org.jdesktop.layout.GroupLayout.TRAILING, newsTreeSplitPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE)
+                .add(GroupLayout.TRAILING, newsTreeSplitPanel, GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE)
 
-                .add(overviewVerticalButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE))
+                .add(overviewVerticalButton, GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE))
 
                 .addContainerGap()));
 
     }
 
-    // Variables declaration - do not modify
+    private JLabel addresserLabel;
 
-    private javax.swing.JLabel addresserLabel;
+    private JLabel subjectLabel;
 
-    private javax.swing.JLabel subjectLabel;
+    private JLabel messageLabel;
 
-    private javax.swing.JLabel messageLabel;
+    private JPanel treePanel;
 
-    private javax.swing.JPanel treePanel;
+    private JPanel newsPanel;
 
-    private javax.swing.JPanel newsPanel;
+    private JScrollPane treeScrollPane;
 
-    private javax.swing.JScrollPane treeScrollPane;
+    private JScrollPane newsScrollPane;
 
-    private javax.swing.JScrollPane newsScrollPane;
+    private JSplitPane newsTreeSplitPanel;
 
-    private javax.swing.JSplitPane newsTreeSplitPanel;
+    private JTextArea newsTextArea;
 
-    private javax.swing.JTextArea newsTextArea;
+    private JTextField addresserTextField;
 
-    private javax.swing.JTextField addresserTextField;
+    private JTextField subjectTextField;
 
-    private javax.swing.JTextField subjectTextField;
+    private JTree newsTree;
 
-    private javax.swing.JTree newsTree;
-
-    private ecobill.module.base.ui.component.VerticalButton overviewVerticalButton;
-
-    // End of variables declaration
+    private VerticalButton overviewVerticalButton;
 
     public void reinitI18N() {
 
