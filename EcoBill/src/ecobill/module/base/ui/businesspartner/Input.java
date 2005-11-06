@@ -35,7 +35,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: Input.java,v 1.6 2005/11/04 14:56:46 raedler Exp $
+ * @version $Id: Input.java,v 1.7 2005/11/06 01:46:15 raedler Exp $
  * @since EcoBill 1.0
  */
 public class Input extends JPanel implements Internationalization {
@@ -338,7 +338,9 @@ public class Input extends JPanel implements Internationalization {
             county.setSelectedIndex(0);
         }
         catch (Exception e) {
-            e.printStackTrace();
+            if (LOG.isErrorEnabled()) {
+                LOG.error(e.getMessage(), e);
+            }
         }
     }
 

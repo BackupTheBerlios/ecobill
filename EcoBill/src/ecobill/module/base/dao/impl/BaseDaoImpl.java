@@ -19,7 +19,7 @@ import java.io.Serializable;
  * Time: 12:29:43
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDaoImpl.java,v 1.14 2005/10/14 11:17:50 raedler Exp $
+ * @version $Id: BaseDaoImpl.java,v 1.15 2005/11/06 01:46:15 raedler Exp $
  * @see BaseDao
  * @since EcoBill 1.0
  */
@@ -97,6 +97,23 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
         }
 
         return 0L;
+    }
+
+    /**
+     * Gibt die Nummern Sequenz zurück, deren Schlüssel auf den im Parameter festgelegten
+     * Schlüssel passt.
+     *
+     * @param sequenceKey Der Schlüssel der Sequenz.
+     * @return Die <code>NumberSequence</code> deren Schlüssel mit dem Schlüssel des Parameters
+     *         übereinstimmt.
+     * @see BaseDao#getNumberSequenceByKey(String)
+     */
+    public NumberSequence getNumberSequenceByKey(String sequenceKey) {
+        List sequenceList = getHibernateTemplate().find("from " + NumberSequence.class.getName() + " as numberSequence where numberSequence.key = ?", new Object[]{sequenceKey});
+
+        if (sequenceList.size() > 1) throw new NonUniqueHibernateResultException("Es wurde keine eindeutige Nummern Sequenz gefunden.");
+
+        return (NumberSequence) sequenceList.get(0);
     }
 
     /**

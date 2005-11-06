@@ -12,10 +12,7 @@ import org.jdesktop.layout.LayoutStyle;
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.ui.article.ArticleTable;
 import ecobill.module.base.ui.component.VerticalButton;
-import ecobill.module.base.domain.Article;
-import ecobill.module.base.domain.ReduplicatedArticle;
-import ecobill.module.base.domain.BusinessPartner;
-import ecobill.module.base.domain.DeliveryOrder;
+import ecobill.module.base.domain.*;
 import ecobill.core.util.FileUtils;
 import ecobill.core.util.IdKeyItem;
 import ecobill.core.util.IdValueItem;
@@ -167,13 +164,13 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         address = new Address();
         deliveryOrderDataPanel = new JPanel();
         deliveryOrderData = new DeliveryOrderData(baseService);
-        deliveryOrderTable = new DeliveryOrderTable(actualDeliveryOrderId, baseService);
+        deliveryOrderTable = new DeliveryOrderTable(baseService);
 
-        this.orderTable = new OrderTable(baseService);
+        orderTable = new OrderTable(baseService);
 
         detail = new JPanel();
 
-        deliveryOrderOverview = new OverviewPanel(orderTable, deliveryOrderPrintPanelOverview);
+        deliveryOrderOverview = new OverviewPanel(baseService, orderTable, deliveryOrderPrintPanelOverview);
 
         MainFrame mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
 
@@ -220,6 +217,11 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
              */
             public void actionPerformed(ActionEvent e) {
 
+                reduplicatedArticles.clear();
+
+                NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.DELIVERY_ORDER);
+
+                resetInput(numberSequence.getNextNumber());
             }
         });
 
@@ -233,49 +235,21 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
             public void actionPerformed(ActionEvent e) {
                 saveOrUpdateDeliveryOrder();
 
-
                 orderTable.renewTableModel();
-            }
-        });
 
-        verticalButton.getButton3().setVisible(true);
-        verticalButton.getButton3().setIcon(new ImageIcon("images/delivery_order_delete.png"));
-        verticalButton.getButton3().addActionListener(new ActionListener() {
+                String deliveryOrderNumber = deliveryOrderData.getDeliveryOrderNumber();
 
-            /**
-             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
-             */
-            public void actionPerformed(ActionEvent e) {
+                NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.DELIVERY_ORDER);
 
-                JTable table = deliveryOrderTable.getTable();
-
-                DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-
-                tableModel.getDataVector().removeAllElements();
-
-                table.updateUI();
+                if (numberSequence.compareWithNumber(deliveryOrderNumber) <= -1) {
+                    numberSequence.setNumber(deliveryOrderNumber);
+                    baseService.saveOrUpdate(numberSequence);
+                }
             }
         });
 
         verticalButton.getButton4().setVisible(true);
         verticalButton.getButton4().setIcon(new ImageIcon("images/refresh.png"));
-
-        tabbedPane.addChangeListener(new ChangeListener() {
-
-            public void stateChanged(ChangeEvent e) {
-
-                if (tabbedPane.getSelectedComponent().equals(deliveryOrderOverview)) {
-
-                    try {
-                        deliveryOrderPrintPanel.doJasper(actualDeliveryOrderId);
-
-                    }
-                    catch (Exception e1) {
-                        e1.printStackTrace();
-                    }
-                }
-            }
-        });
 
         splitPane.setDividerLocation(200);
         splitPane.setLeftComponent(articleTable);
@@ -364,25 +338,18 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
         detail.add(deliveryOrderPrintPanel, BorderLayout.CENTER);
 
-        OverviewPanel deliveryOrderOverview = new OverviewPanel(orderTable, deliveryOrderPrintPanelOverview);
+        OverviewPanel deliveryOrderOverview = new OverviewPanel(baseService, orderTable, deliveryOrderPrintPanelOverview);
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int row = orderTable.getTable().getSelectedRow();
-                    deliveryOrderPrintPanelOverview.doJasper(((IdValueItem) orderTable.getTable().getValueAt(row,0)).getId());
-                }
-                catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-            }
-        };
 
-        ActionListener actionListenerClose = new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-
-                    deliveryOrderPrintPanelOverview.removeAll();
-                    deliveryOrderPrintPanelOverview.repaint();
+                    if (row != -1) {
+                        deliveryOrderPrintPanelOverview.doJasper(((IdValueItem) orderTable.getTable().getValueAt(row,0)).getId());
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(DeliveryOrderUI.this, "Datensatz auswählen", "Nachricht", JOptionPane.INFORMATION_MESSAGE);
+                    }
                 }
                 catch (Exception e1) {
                     e1.printStackTrace();
@@ -391,8 +358,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         };
 
         deliveryOrderOverview.addButtonToVerticalButton(1,new ImageIcon("images/jasper_view.png"), "Lieferschein in Vorschaufernster anzeigen", actionListener );
-        deliveryOrderOverview.addButtonToVerticalButton(2,new ImageIcon("images/exit.png"), "Vorschaufernster schließen", actionListenerClose );
-        deliveryOrderOverview.init();
+
         tabbedPane.addTab(null, deliveryOrderOverview);
 
         add(tabbedPane, BorderLayout.CENTER);
@@ -482,20 +448,10 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         deliveryOrderTable.renewTableModel();
     }
 
-    private Long actualDeliveryOrderId;
-    private Long actualBusinessPartnerId;
-
     private void saveOrUpdateDeliveryOrder() {
 
 
-        DeliveryOrder deliveryOrder = null;
-        if (actualDeliveryOrderId != null) {
-            deliveryOrder = (DeliveryOrder) baseService.load(DeliveryOrder.class, actualDeliveryOrderId);
-        }
-
-        if (deliveryOrder == null) {
-            deliveryOrder = new DeliveryOrder();
-        }
+        DeliveryOrder deliveryOrder = new DeliveryOrder();
 
         deliveryOrder.setBusinessPartner(address.getBusinessPartner());
         deliveryOrder.setCharacterisationType("delivery_order");
@@ -512,23 +468,30 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
             Vector line = (Vector) lines.nextElement();
 
-            ReduplicatedArticle reduplicatedArticle = (ReduplicatedArticle) line.get(5);
+            ReduplicatedArticle reduplicatedArticle = (ReduplicatedArticle) line.get(6);
             reduplicatedArticle.setOrderPosition(i);
 
             deliveryOrder.addArticle(reduplicatedArticle);
         }
 
         baseService.saveOrUpdate(deliveryOrder);
+    }
 
-        actualDeliveryOrderId = deliveryOrder.getId();
+    private void resetInput(String deliveryOrderNumber) {
+
+        deliveryOrderData.setDeliveryOrderNumber(deliveryOrderNumber);
+        deliveryOrderData.setDeliveryOrderDate(new Date());
+        deliveryOrderData.setPrefix("");
+        deliveryOrderData.setSuffix("");
+
+        JTable table = deliveryOrderTable.getTable();
+        ((DefaultTableModel) table.getModel()).getDataVector().removeAllElements();
+        table.updateUI();
     }
 
     public void setActualBusinessPartnerId(Long actualBusinessPartnerId) {
-        this.actualBusinessPartnerId = actualBusinessPartnerId;
         orderTable.setBusinessPartnerId(actualBusinessPartnerId);
         orderTable.renewTableModel();
-        this.validate();
-
     }
 
 

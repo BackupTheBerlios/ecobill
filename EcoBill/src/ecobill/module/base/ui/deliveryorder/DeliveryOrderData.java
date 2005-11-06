@@ -13,6 +13,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.util.Date;
+import java.util.Calendar;
 
 /**
  * Das <code>DeliveryOrderData</code> <code>JPanel</code> stellt die Eingabemöglichkeit für die
@@ -24,7 +25,7 @@ import java.util.Date;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderData.java,v 1.2 2005/10/06 16:42:30 raedler Exp $
+ * @version $Id: DeliveryOrderData.java,v 1.3 2005/11/06 01:46:15 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderData extends JPanel implements Internationalization {
@@ -76,10 +77,10 @@ public class DeliveryOrderData extends JPanel implements Internationalization {
     private TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.DATA), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
 
     private JLabel deliveryOrderNumberL = new JLabel();
-    private JSpinner deliveryOrderNumber = new JSpinner();
+    private JTextField deliveryOrderNumber = new JTextField();
 
     private JLabel deliveryOrderDateL = new JLabel();
-    private JSpinner deliveryOrderDate = new JSpinner(new SpinnerDateModel());
+    private JSpinner deliveryOrderDate = new JSpinner();
 
     private JLabel typeL = new JLabel();
     private JComboBox type = new JComboBox();
@@ -102,6 +103,10 @@ public class DeliveryOrderData extends JPanel implements Internationalization {
         deliveryOrderNumber.setMinimumSize(new Dimension(80, 20));
         deliveryOrderNumber.setPreferredSize(new Dimension(80, 20));
 
+        SpinnerDateModel dateModel = new SpinnerDateModel();
+        dateModel.setCalendarField(Calendar.ERA);
+        deliveryOrderDate.setModel(dateModel);
+        deliveryOrderDate.setFont(new Font("Tahoma", Font.PLAIN, 11));
         deliveryOrderDate.setMinimumSize(new Dimension(80, 20));
         deliveryOrderDate.setPreferredSize(new Dimension(80, 20));
 
@@ -140,11 +145,11 @@ public class DeliveryOrderData extends JPanel implements Internationalization {
                                         .add(prefixScrollPane, GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
                                         .add(GroupLayout.LEADING, layout.createSequentialGroup()
                                                 .add(layout.createParallelGroup(GroupLayout.LEADING)
-                                                        .add(deliveryOrderNumber, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+                                                        .add(deliveryOrderNumber, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
                                                         .add(deliveryOrderNumberL))
                                                 .addPreferredGap(LayoutStyle.RELATED)
                                                 .add(layout.createParallelGroup(GroupLayout.LEADING)
-                                                        .add(deliveryOrderDate, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+                                                        .add(deliveryOrderDate, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
                                                         .add(deliveryOrderDateL))
                                                 .addPreferredGap(LayoutStyle.RELATED)
                                                 .add(layout.createParallelGroup(GroupLayout.LEADING)
@@ -196,11 +201,11 @@ public class DeliveryOrderData extends JPanel implements Internationalization {
     }
 
     public String getDeliveryOrderNumber() {
-        return deliveryOrderNumber.getValue().toString();
+        return deliveryOrderNumber.getText();
     }
 
     public void setDeliveryOrderNumber(String deliveryOrderNumber) {
-        this.deliveryOrderNumber.setValue(deliveryOrderNumber);
+        this.deliveryOrderNumber.setText(deliveryOrderNumber);
     }
 
     public Date getDeliveryOrderDate() {

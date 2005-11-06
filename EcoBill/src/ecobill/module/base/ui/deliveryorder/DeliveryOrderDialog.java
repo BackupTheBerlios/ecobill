@@ -76,6 +76,8 @@ public class DeliveryOrderDialog extends JDialog implements Internationalization
         price.setMinimumSize(new java.awt.Dimension(80, 20));
         price.setPreferredSize(new java.awt.Dimension(80, 20));
 
+        labelling.setWrapStyleWord(true);
+        labelling.setLineWrap(true);
         labelling.setColumns(20);
         labelling.setRows(5);
         labellingScrollPane.setViewportView(labelling);

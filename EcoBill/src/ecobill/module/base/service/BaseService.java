@@ -2,10 +2,7 @@ package ecobill.module.base.service;
 
 import ecobill.module.base.dao.BaseDao;
 import ecobill.module.base.dao.exception.NoSuchArticleException;
-import ecobill.module.base.domain.Article;
-import ecobill.module.base.domain.BusinessPartner;
-import ecobill.module.base.domain.SystemLocale;
-import ecobill.module.base.domain.Person;
+import ecobill.module.base.domain.*;
 import ecobill.core.system.service.Service;
 
 import java.util.List;
@@ -21,7 +18,7 @@ import java.io.Serializable;
  * Time: 12:30:55
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseService.java,v 1.15 2005/10/12 22:32:26 raedler Exp $
+ * @version $Id: BaseService.java,v 1.16 2005/11/06 01:46:15 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface BaseService extends Service {
@@ -80,6 +77,11 @@ public interface BaseService extends Service {
      * @see BaseDao#getMaximumByParam(Class, String)
      */
     public Long getMaximumByParam(Class clazz, String param);
+
+    /**
+     * @see BaseDao#getNumberSequenceByKey(String)
+     */
+    public NumberSequence getNumberSequenceByKey(String sequenceKey);
 
     /**
      * Gibt die nächste Rechnungsnummer zurück.

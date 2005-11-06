@@ -45,7 +45,7 @@ import java.awt.*;
  * Time: 21:00:35
  * To change this template use File | Settings | File Templates.
  */
-public class OverviewPanel extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
+public class OverviewPanel extends JPanel implements Internationalization {
 
 
     /**
@@ -119,63 +119,11 @@ public class OverviewPanel extends JPanel implements ApplicationContextAware, In
         this.serializeIdentifiers = serializeIdentifiers;
     }
 
-    /**
-     * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
-     */
-    public void afterPropertiesSet() {
+    public OverviewPanel(BaseService baseService, AbstractTablePanel leftTable, JPanel rightPanel) {
+        this.baseService = baseService;
+        this.leftTable = leftTable;
+        this.panelRight = rightPanel;
 
-        // Initialisieren der Komponenten und des Layouts.
-        initComponents();
-        initLayout();
-
-        tabbedPane.setEnabledAt(1, false);
-
-        // Versuche evtl. abgelegte/serialisierte Objekte zu laden.
-        try {
-            if (leftTable instanceof DeliveryOrderTable) {
-                leftTable.unpersist(new FileInputStream(serializeIdentifiers.getProperty("delivery_order_table")));
-            }
-            else if (leftTable instanceof ArticleTable)
-            {
-                leftTable.unpersist(new FileInputStream(serializeIdentifiers.getProperty("article_table")));
-            }
-        }
-        catch (FileNotFoundException fnfe) {
-            if (LOG.isErrorEnabled()) {
-                LOG.error(fnfe.getMessage(), fnfe);
-            }
-        }
-
-        reinitI18N();
-    }
-
-    /**
-     * @see org.springframework.beans.factory.DisposableBean#destroy()
-     */
-    public void destroy() throws Exception {
-
-        if (LOG.isInfoEnabled()) {
-            LOG.info("Schließe OverviewPanel und speichere die Daten.");
-        }
-
-        // Serialisiere diese Objekte um sie bei einem neuen Start des Programmes wieder laden
-        // zu können.
-        if (leftTable instanceof DeliveryOrderTable) {
-            leftTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("delivery_order_table"))));
-        }
-        else if (leftTable instanceof ArticleTable) {
-            leftTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("article_table"))));
-        }
-
-    }
-
-    public OverviewPanel (AbstractTablePanel lT, JPanel component) {
-        verticalButton = new VerticalButton();
-        OverviewPanel.this.leftTable = lT;
-        OverviewPanel.this.panelRight = component;
-    }
-
-    public void init(){
         initComponents();
         initLayout();
     }
@@ -199,6 +147,8 @@ public class OverviewPanel extends JPanel implements ApplicationContextAware, In
      */
     private void initComponents() {
 
+        verticalButton = new VerticalButton();
+
         tabbedPane = new JTabbedPane();
        // overview = new JPanel();
         splitPane = new JSplitPane();
@@ -213,6 +163,24 @@ public class OverviewPanel extends JPanel implements ApplicationContextAware, In
 
         splitPane.setDividerLocation(200);
         splitPane.setLeftComponent(leftTable);
+
+        verticalButton.getButton3().setVisible(true);
+        verticalButton.getButton3().setIcon(new ImageIcon("images/delivery_order_delete.png"));
+        verticalButton.getButton3().addActionListener(new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+
+                Long deliveryOrderId = leftTable.getIdOfSelectedRow();
+
+                DeliveryOrder deliveryOrder = (DeliveryOrder) baseService.load(DeliveryOrder.class, deliveryOrderId);
+                baseService.delete(deliveryOrder);
+
+                leftTable.renewTableModel();
+            }
+        });
     }
 
     /**
@@ -290,7 +258,6 @@ public class OverviewPanel extends JPanel implements ApplicationContextAware, In
  //   private JPanel overview;
     private JPanel panelLeft;
     private JPanel panelRight;
-    private JPanel panelDataRight;
     private JSplitPane splitPane;
     private JTabbedPane tabbedPane;
     private VerticalButton verticalButton;

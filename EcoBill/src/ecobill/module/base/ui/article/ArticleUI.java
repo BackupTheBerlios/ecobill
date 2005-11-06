@@ -3,10 +3,7 @@ package ecobill.module.base.ui.article;
 import ecobill.module.base.ui.component.VerticalButton;
 import ecobill.module.base.ui.component.Labelling;
 import ecobill.module.base.service.BaseService;
-import ecobill.module.base.domain.Article;
-import ecobill.module.base.domain.SystemLocale;
-import ecobill.module.base.domain.ArticleDescription;
-import ecobill.module.base.domain.SystemLanguage;
+import ecobill.module.base.domain.*;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import ecobill.core.system.Internationalization;
@@ -43,7 +40,7 @@ import java.io.FileOutputStream;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.11 2005/11/05 12:17:18 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.12 2005/11/06 01:46:15 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JPanel implements InitializingBean, Internationalization, DisposableBean {
@@ -188,7 +185,9 @@ public class ArticleUI extends JPanel implements InitializingBean, International
             public void actionPerformed(ActionEvent e) {
                 actualArticleId = null;
 
-                resetInput();
+                NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.ARTICLE);
+
+                resetInput(numberSequence.getNextNumber());
             }
         });
 
@@ -202,6 +201,17 @@ public class ArticleUI extends JPanel implements InitializingBean, International
             public void actionPerformed(ActionEvent e) {
                 saveOrUpdateArticle();
                 articleTableOverview.renewTableModel();
+
+                String actualArticleNumber = inputOverview.getArticleNumber();
+
+                NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.ARTICLE);
+
+                if (numberSequence.compareWithNumber(actualArticleNumber) <= -1) {
+
+                    numberSequence.setNumber(actualArticleNumber);
+
+                    baseService.saveOrUpdate(numberSequence);
+                }
             }
         });
 
@@ -225,7 +235,10 @@ public class ArticleUI extends JPanel implements InitializingBean, International
                     showArticle(actualArticleId);
                 }
                 catch (ArrayIndexOutOfBoundsException ioobe) {
-                    resetInput();
+
+                    NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.ARTICLE);
+
+                    resetInput(numberSequence.getNextNumber());
                 }
             }
         });
@@ -509,11 +522,11 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         inputOverview.reinitI18N();
     }
 
-    private void resetInput() {
+    private void resetInput(String nextArticleNumber) {
 
         tabbedPane.setEnabledAt(1, false);
 
-        inputOverview.setArticleNumber("");
+        inputOverview.setArticleNumber(nextArticleNumber);
         inputOverview.setPrice(0D);
         inputOverview.setInStock(0D);
         inputBundleOverview.setCapacity(0D);

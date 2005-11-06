@@ -15,6 +15,10 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Vector;
 import java.util.Collection;
 import java.util.Collections;
@@ -29,11 +33,10 @@ import java.util.Collections;
  * Time: 16:57:16
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderTable.java,v 1.2 2005/10/11 19:41:27 gath Exp $
+ * @version $Id: DeliveryOrderTable.java,v 1.3 2005/11/06 01:46:15 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderTable extends AbstractTablePanel {
-
 
     /**
      * Die id eines Lieferscheines.
@@ -43,10 +46,10 @@ public class DeliveryOrderTable extends AbstractTablePanel {
     /**
      * Creates new form BusinessPartnerTable
      */
-    public DeliveryOrderTable(Long deliverOrderId, BaseService baseService) {
+    public DeliveryOrderTable(BaseService baseService) {
         super(baseService);
 
-        this.deliveryOrderId = deliverOrderId;
+        getTable().add(createPopupMenu());
     }
 
     /**
@@ -65,6 +68,7 @@ public class DeliveryOrderTable extends AbstractTablePanel {
         tableColumnOrder.add(new I18NItem(Constants.ARTICLE_NR));
         tableColumnOrder.add(new I18NItem(Constants.LABELLING));
         tableColumnOrder.add(new I18NItem(Constants.QUANTITY));
+        tableColumnOrder.add(new I18NItem(Constants.UNIT));
         tableColumnOrder.add(new I18NItem(Constants.PRICE));
         tableColumnOrder.add(new I18NItem(Constants.ALL_ROUND_PRICE));
 
@@ -85,13 +89,16 @@ public class DeliveryOrderTable extends AbstractTablePanel {
 
             return deliveryOrder.getArticles();
         }
+        else if (dataCollection != null) {
 
-        if (dataCollection != null) {
-            return dataCollection;
+            Collection<ReduplicatedArticle> returnCollection = dataCollection;
+
+            dataCollection = null;
+
+            return returnCollection;
         }
 
         return Collections.EMPTY_SET;
-
     }
 
     public void setDataCollection(Collection<ReduplicatedArticle> dataCollection) {
@@ -123,6 +130,9 @@ public class DeliveryOrderTable extends AbstractTablePanel {
                 else if (Constants.QUANTITY.equals(key)) {
                     line.add(article.getQuantity());
                 }
+                else if (Constants.UNIT.equals(key)) {
+                    line.add(article.getUnit());
+                }
                 else if (Constants.PRICE.equals(key)) {
                     line.add(article.getPrice());
                 }
@@ -138,5 +148,47 @@ public class DeliveryOrderTable extends AbstractTablePanel {
         }
 
         return line;
+    }
+
+    private JPopupMenu popupMenu = new JPopupMenu("PopupMenu");
+
+    private JPopupMenu createPopupMenu() {
+
+
+
+        JMenuItem delete = new JMenuItem("Löschen", new ImageIcon("./images/delete.png"));
+        delete.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                getTableModel().removeRow(getTable().getSelectedRow());
+            }
+        });
+
+        popupMenu.add(delete);
+
+        getTable().addMouseListener(new MouseAdapter() {
+
+            public void mousePressed(MouseEvent e) {
+				if (SwingUtilities.isRightMouseButton(e)) {
+					Point p = e.getPoint();
+
+					int row = getTable().rowAtPoint(p);
+
+                    getTable().addRowSelectionInterval(row, row);
+                }
+
+                if (e.isPopupTrigger()) {
+                    popupMenu.show(DeliveryOrderTable.this, e.getX(), e.getY());
+                }
+            }
+
+            public void mouseReleased(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    popupMenu.show(DeliveryOrderTable.this, e.getX(), e.getY());
+                }
+            }
+        });
+
+        return popupMenu;
     }
 }

@@ -1,9 +1,6 @@
 package ecobill.module.base.dao;
 
-import ecobill.module.base.domain.Article;
-import ecobill.module.base.domain.Person;
-import ecobill.module.base.domain.BusinessPartner;
-import ecobill.module.base.domain.SystemLocale;
+import ecobill.module.base.domain.*;
 import ecobill.module.base.dao.exception.NoSuchSystemLocaleException;
 import ecobill.module.base.dao.exception.NonUniqueHibernateResultException;
 import ecobill.module.base.dao.exception.NoSuchArticleException;
@@ -21,7 +18,7 @@ import java.io.Serializable;
  * Time: 12:29:36
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDao.java,v 1.13 2005/10/12 22:32:26 raedler Exp $
+ * @version $Id: BaseDao.java,v 1.14 2005/11/06 01:46:15 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface BaseDao {
@@ -74,6 +71,16 @@ public interface BaseDao {
      * @return Der maximale Wert.
      */
     public Long getMaximumByParam(Class clazz, String param);
+
+    /**
+     * Gibt die Nummern Sequenz zurück, deren Schlüssel auf den im Parameter festgelegten
+     * Schlüssel passt.
+     *
+     * @param sequenceKey Der Schlüssel der Sequenz.
+     * @return Die <code>NumberSequence</code> deren Schlüssel mit dem Schlüssel des Parameters
+     *         übereinstimmt.
+     */
+    public NumberSequence getNumberSequenceByKey(String sequenceKey);
 
     /**
      * Gibt die <code>SystemLocale</code>, deren localeKey des Parameter localeKey entspricht,

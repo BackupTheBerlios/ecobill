@@ -14,10 +14,7 @@ import ecobill.module.base.ui.component.VerticalButton;
 import ecobill.module.base.ui.deliveryorder.DeliveryOrderUI;
 import ecobill.module.base.ui.bill.BillCreation;
 import ecobill.module.base.ui.bill.BillUI;
-import ecobill.module.base.domain.BusinessPartner;
-import ecobill.module.base.domain.Person;
-import ecobill.module.base.domain.Address;
-import ecobill.module.base.domain.Banking;
+import ecobill.module.base.domain.*;
 import ecobill.core.util.FileUtils;
 import ecobill.core.util.IdValueItem;
 import ecobill.core.system.WorkArea;
@@ -42,7 +39,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerUI.java,v 1.14 2005/10/26 12:10:17 gath Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.15 2005/11/06 01:46:15 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -168,14 +165,17 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
      * Initialisiert die Komponenten.
      */
     private void initComponents() {
-        tabbedPane = new javax.swing.JTabbedPane();
-        overview = new javax.swing.JPanel();
-        overviewVerticalButton = new ecobill.module.base.ui.component.VerticalButton();
-        overviewBusinessPartnerTable = new ecobill.module.base.ui.businesspartner.BusinessPartnerTable(this, baseService);
-        overviewInputContact = new ecobill.module.base.ui.businesspartner.InputContact();
-        overviewInputBanking = new ecobill.module.base.ui.businesspartner.InputBanking();
-        overviewInputFirm = new ecobill.module.base.ui.businesspartner.InputFirm();
-        overviewInput = new ecobill.module.base.ui.businesspartner.Input(baseService);
+        tabbedPane = new JTabbedPane();
+        overview = new JPanel();
+        overviewVerticalButton = new VerticalButton();
+        overviewBusinessPartnerTable = new BusinessPartnerTable(this, baseService);
+        overviewInputContact = new InputContact();
+        overviewInputBanking = new InputBanking();
+        overviewInputFirm = new InputFirm();
+        overviewInput = new Input(baseService);
+
+        NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.CUSTOMER);
+        resetInput(numberSequence.getNextNumber());
     }
 
     /**
@@ -195,8 +195,10 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
                 // Setzt den Lieferschein Button disabled.
                 overviewVerticalButton.getButton6().setEnabled(false);
 
+                NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.CUSTOMER);
+
                 // Löscht den Inhalt der Eingabefelder.
-                resetInput();
+                resetInput(numberSequence.getNextNumber());
             }
         });
 
@@ -218,6 +220,17 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
 
                 // Setzt den Lieferschein Button enabled.
                 overviewVerticalButton.getButton6().setEnabled(true);
+
+                NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.CUSTOMER);
+
+                String actualCustomerNumber = overviewInput.getCustomerNumber();
+
+                if (numberSequence.compareWithNumber(actualCustomerNumber) <= -1) {
+
+                    numberSequence.setNumber(actualCustomerNumber);
+
+                    baseService.saveOrUpdate(numberSequence);
+                }
             }
         });
 
@@ -238,6 +251,11 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
 
                 // Setzt den Lieferschein Button disabled.
                 overviewVerticalButton.getButton6().setEnabled(false);
+
+                // Löscht die Felder nach dem Löschen des Kunden und setzt die
+                // nächste Kundennummer.
+                NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.CUSTOMER);
+                resetInput(numberSequence.getNextNumber());
             }
         });
 
@@ -272,10 +290,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
                 // Geschäftspartner zu setzen und ihm dann einen Lieferschein auszustellen.
                 DeliveryOrderUI deliveryOrderUI = (DeliveryOrderUI) applicationContext.getBean("deliveryOrderUI");
                 deliveryOrderUI.setBusinessPartner(businessPartner);
-                int row = overviewBusinessPartnerTable.getTable().getSelectedRow();
-                System.out.println("row:" + row);
-                System.out.println("id:" + (((IdValueItem) overviewBusinessPartnerTable.getTable().getValueAt(row,0)).getId()));
-                deliveryOrderUI.setActualBusinessPartnerId(((IdValueItem) overviewBusinessPartnerTable.getTable().getValueAt(row,0)).getId());
+                deliveryOrderUI.setActualBusinessPartnerId(businessPartner.getId());
 
                 // Wechselt auf das Lieferschein User Interface.
                 MainFrame mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
@@ -385,13 +400,19 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
     }
 
     /**
-     * Setzt die Eingabefelder zurück.
+     * Setzt die Eingabefelder zurück und als Kundennummer wird die im Parameter
+     * angegebene Nummer gesetzt.
+     *
+     * @param nextCustomerNumber Setzt im Kundennummer Eingabefeld diese Kundennumer.
      */
-    public void resetInput() {
+    public void resetInput(String nextCustomerNumber) {
 
         actualBusinessPartnerId = null;
 
         overviewInput.resetInput();
+
+        overviewInput.setCustomerNumber(nextCustomerNumber);
+
         overviewInputFirm.resetInput();
         overviewInputContact.resetInput();
         overviewInputBanking.resetInput();

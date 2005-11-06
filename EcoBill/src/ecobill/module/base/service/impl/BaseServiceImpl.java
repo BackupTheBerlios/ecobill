@@ -20,7 +20,7 @@ import java.io.Serializable;
  * Time: 12:31:05
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseServiceImpl.java,v 1.17 2005/10/12 22:32:26 raedler Exp $
+ * @version $Id: BaseServiceImpl.java,v 1.18 2005/11/06 01:46:15 raedler Exp $
  * @see BaseService
  * @since EcoBill 1.0
  */
@@ -114,10 +114,17 @@ public class BaseServiceImpl implements BaseService {
     }
 
     /**
+     * @see BaseService#getNumberSequenceByKey(String)
+     */
+    public NumberSequence getNumberSequenceByKey(String sequenceKey) {
+        return baseDao.getNumberSequenceByKey(sequenceKey);
+    }
+
+    /**
      * Gibt die nächste Rechnungsnummer zurück.
      *
      * @return Die nächste Rechnungsnummer.
-     * @see ecobill.module.base.service.BaseService#getNextBillNumber() 
+     * @see ecobill.module.base.service.BaseService#getNextBillNumber()
      */
     public Long getNextBillNumber() {
         Long max = baseDao.getMaximumByParam(Bill.class, "billNumber");

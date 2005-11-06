@@ -36,7 +36,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.96 2005/11/05 17:47:42 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.97 2005/11/06 01:46:15 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -287,18 +287,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     }
 
     public void tabPane() {
-
-        JToolBar toolbar = new JToolBar();
-
-        JButton button1 = new JButton(new ImageIcon("images/news_new.png"));
-        JButton button2 = new JButton(new ImageIcon("images/news_ok.png"));
-        JButton button3 = new JButton(new ImageIcon("images/news_delete.png"));
-
-        toolbar.add(button1);
-        toolbar.add(button2);
-        toolbar.add(button3);
-
-        this.getContentPane().add(toolbar, BorderLayout.NORTH);
 
         jtab.addTab(null, new ImageIcon("images/home.png"), messageUI);
         // hier wird die ArtikleUI als neuer Tab eingefügt
@@ -742,5 +730,27 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     public void setSelectedTab(int index) {
         jtab.setEnabledAt(index, true);
         jtab.setSelectedIndex(index);
+    }
+
+    /**
+     * TODO: Für eine spätere Version um Buttons zu ersetzen.
+     */
+    private void toolbarExtension() {
+
+        JToolBar toolbar = new JToolBar();
+
+        JButton button1 = new JButton(new ImageIcon("images/news_new.png"));
+        JButton button2 = new JButton(new ImageIcon("images/news_ok.png"));
+        JButton button3 = new JButton(new ImageIcon("images/news_delete.png"));
+        JButton button4 = new JButton(new ImageIcon("images/refresh.png"));
+
+        toolbar.add(button1);
+        toolbar.add(button2);
+        toolbar.add(button3);
+        toolbar.addSeparator();
+        toolbar.add(button4);
+
+
+        this.getContentPane().add(toolbar, BorderLayout.NORTH);
     }
 }

@@ -12,6 +12,8 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.DefaultTableColumnModel;
 
 import ecobill.core.util.I18NItem;
+import ecobill.core.util.IdKeyItem;
+import ecobill.core.util.IdValueItem;
 import ecobill.core.system.Internationalization;
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.DeliveryOrder;
@@ -32,7 +34,7 @@ import java.io.*;
  * Time: 12:33:23
  *
  * @author Roman R&auml;dle
- * @version $Id: AbstractTablePanel.java,v 1.8 2005/11/05 12:17:18 raedler Exp $
+ * @version $Id: AbstractTablePanel.java,v 1.9 2005/11/06 01:46:15 raedler Exp $
  * @since EcoBill 1.0
  */
 public abstract class AbstractTablePanel extends JPanel implements Internationalization {
@@ -383,8 +385,40 @@ public abstract class AbstractTablePanel extends JPanel implements International
         }
     }
 
+    /**
+     * Erlaubt es die Reihenfolge der Werte in der Tabelle neu zu setzen.
+     *
+     * @param tableColumnOrderNew Die neue Tabellen Spalten Reihenfolge.
+     */
     public void setTableColumnOrder(Vector<I18NItem> tableColumnOrderNew) {
         tableColumnOrder = tableColumnOrderNew;
+    }
+
+    /**
+     * Gibt die Id des Selektierten Datensatzes zurück.
+     *
+     * @return Die Id des aktuell selektierten Datensatzes.
+     */
+    public Long getIdOfSelectedRow() {
+
+        // Die selektierte Reihe.
+        int row = table.getSelectedRow();
+
+        if (row < 0) {
+            throw new IllegalStateException("Es wurde keine Reihe ausgewählt.");
+        }
+
+        // Das aktuell selektierte Identifier Objekt.
+        Object o = tableModel.getValueAt(row, 0);
+
+        if (o instanceof IdKeyItem) {
+            return ((IdKeyItem) o).getId();
+        }
+        else if (o instanceof IdValueItem) {
+            return ((IdValueItem) o).getId();
+        }
+
+        throw new IllegalStateException("Die Tabelle hat kein Identifier Object.");
     }
 
     /**

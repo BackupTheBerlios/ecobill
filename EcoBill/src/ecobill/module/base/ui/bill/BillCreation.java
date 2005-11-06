@@ -39,7 +39,7 @@ import java.awt.event.*;
  * Time: 17:49:23
  *
  * @author Sebastian Gath
- * @version $Id: BillCreation.java,v 1.2 2005/11/05 19:34:42 gath Exp $
+ * @version $Id: BillCreation.java,v 1.3 2005/11/06 01:46:15 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BillCreation extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -205,7 +205,7 @@ public class BillCreation extends JPanel implements ApplicationContextAware, Ini
 
         setLayout(new BorderLayout());
 
-        overview = new OverviewPanel(orderTable, billRightPanel);
+        overview = new OverviewPanel(baseService, orderTable, billRightPanel);
         ActionListener a1 = new ActionListener() {
 
             /**
@@ -242,7 +242,6 @@ public class BillCreation extends JPanel implements ApplicationContextAware, Ini
 
         overview.addButtonToVerticalButton(4, new ImageIcon("images/refresh.png"), "Aktualisieren", null);
 
-        overview.init();
         BillCreation.this.add(overview, BorderLayout.CENTER);
     }
 
