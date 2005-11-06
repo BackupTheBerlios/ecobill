@@ -18,14 +18,14 @@ import java.awt.event.ActionEvent;
 
 
 /**
- * Die <code>BusinessPartnerUI</code> erstellt das User Interface zur Eingabe von Benutzerdaten.
+ * Die <code>MessageUI</code> erstellt das User Interface zur Eingabe von Nachrichten.
  * <p/>
- * User: aw
+ * User: Andreas Weiler
  * Date: 28.09.2005
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: MessageUI.java,v 1.4 2005/11/05 18:45:08 jfuckerweiler Exp $
+ * @version $Id: MessageUI.java,v 1.5 2005/11/06 16:59:00 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MessageUI extends JPanel implements InitializingBean {
@@ -102,7 +102,7 @@ public class MessageUI extends JPanel implements InitializingBean {
     }
 
     /**
-     * Creates new form BusinessPartnerUI
+     * Erstellt eine neue MessageUI
      */
     public void afterPropertiesSet() {
 
@@ -124,9 +124,8 @@ public class MessageUI extends JPanel implements InitializingBean {
     }
 
     /**
-     * Alle Komponenten die man braucht
+     * newsOverview aus der Klasse news
      */
-
     private News newsOverview;
 
     /**
@@ -188,6 +187,9 @@ public class MessageUI extends JPanel implements InitializingBean {
 
     }
 
+     /**
+     * @see ecobill.core.system.Internationalization#reinitI18N()
+     */
     public void reinitI18N() {
 
         newsOverview.reinitI18N();
@@ -237,6 +239,7 @@ public class MessageUI extends JPanel implements InitializingBean {
 
     /**
      * Methode um zu überprüfen ob die Textfelder ausgefüllt sind
+     * wenn Textfelder gefüllt kommt boolean true zurück, sonst false
      */
     public boolean checkIfFilled() {
 

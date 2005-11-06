@@ -8,14 +8,14 @@ import java.io.File;
 // @todo document me!
 
 /**
- * HelpBrowser.
+ * Der <code>HelpBrowser</code> erstellt den HTML-Browser für die HTML-Hilfeseiten
  * <p/>
- * User: Paul Chef
+ * User: Andreas Weiler
  * Date: 21.10.2005
  * Time: 17:00:54
  *
  * @author Andreas Weiler
- * @version $Id: HelpBrowser.java,v 1.13 2005/10/28 15:44:28 jfuckerweiler Exp $
+ * @version $Id: HelpBrowser.java,v 1.14 2005/11/06 16:55:17 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class HelpBrowser extends JPanel {

@@ -9,14 +9,14 @@ import java.awt.*;
 // @todo document me!
 
 /**
- * HelpUI.
+ * Die <code>HelpUI</code> erstellt das User Interface zur Hilfe.
  * <p/>
- * User: Paul Chef
+ * User: Andreas Weiler
  * Date: 21.10.2005
  * Time: 16:16:40
  *
  * @author Andreas Weiler
- * @version $Id: HelpUI.java,v 1.22 2005/11/06 16:34:40 jfuckerweiler Exp $
+ * @version $Id: HelpUI.java,v 1.23 2005/11/06 16:54:21 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class HelpUI extends JFrame {
@@ -44,12 +44,12 @@ public class HelpUI extends JFrame {
     private JTabbedPane deliveryOrder = new JTabbedPane();
 
     /**
-     * Diese Methode wird im Konstruktor aufgerufen
-     * und gestaltet das Frame
+     * Initialisiert die Komponenten
      */
     private void initComponents() {
         helpTabbedPane = new javax.swing.JTabbedPane();
 
+        // setzt den ToolTipText im HTML-Format
         imageLabel.setToolTipText("<html><body><p><b><font face=\"Tahoma\">Sebastian Gath:</font></b></p><ul><li><b><font face=\"Tahoma\">gath@inf.uni-konstanz.de</font></b></li></ul><p><b><font face=\"Tahoma\">Roman Rädle:</font></b></p><ul>  <li><b><font face=\"Tahoma\">raedler@inf.uni-konstanz.de</font></b></li></ul><p><b><font face=\"Tahoma\">Andreas Weiler:</font></b></p><ul>  <li><b><font face=\"Tahoma\">weiler@inf.uni-konstanz.de</font></b></li></ul></body></html>");
         imagePanel.add(imageLabel);
 
