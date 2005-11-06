@@ -36,7 +36,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.98 2005/11/06 18:45:45 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.99 2005/11/06 19:18:07 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -340,6 +340,32 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
                 if (e.getSource().equals(open))
                     // Methode open() wird aufgerufen
                     open();
+            }
+        });
+
+        save.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                  if (LOG.isDebugEnabled()) {
+                    LOG.debug("Action: " + e.getActionCommand());
+                }
+
+                if (e.getSource().equals(save))
+
+                    JOptionPane.showMessageDialog(jtab, "Hier kann man ein geöffnetes Projekt schnell speichern", "Information", 1);
+
+            }
+        });
+
+         saveAs.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                  if (LOG.isDebugEnabled()) {
+                    LOG.debug("Action: " + e.getActionCommand());
+                }
+
+                if (e.getSource().equals(saveAs))
+
+                    JOptionPane.showMessageDialog(jtab, "Hier kann man ein Projekt abspeichern und benennen", "Information", 1);
+
             }
         });
 
