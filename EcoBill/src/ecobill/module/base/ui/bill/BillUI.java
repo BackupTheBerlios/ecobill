@@ -45,7 +45,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Sebastian Gath
- * @version $Id: BillUI.java,v 1.11 2005/11/05 19:34:42 gath Exp $
+ * @version $Id: BillUI.java,v 1.12 2005/11/06 19:01:56 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class BillUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -218,8 +218,8 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
         setLayout(new BorderLayout());
 
-        tabbedPane.addTab(WorkArea.getMessage(Constants.OVERVIEW), billCreation);
-        tabbedPane.addTab(WorkArea.getMessage(Constants.DETAIL), billOverviewPanel);
+        tabbedPane.add(billCreation);
+        tabbedPane.add(billOverviewPanel);
 
         add(tabbedPane, BorderLayout.CENTER);
     }
@@ -228,6 +228,10 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
      * @see ecobill.core.system.Internationalization#reinitI18N()
      */
     public void reinitI18N() {
+
+        tabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.OVERVIEW));
+        tabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.DETAIL));
+
 
     }
 
