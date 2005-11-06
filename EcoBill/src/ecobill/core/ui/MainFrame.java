@@ -36,7 +36,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.97 2005/11/06 01:46:15 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.98 2005/11/06 18:45:45 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -585,11 +585,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
     // wird aufgerufen bei Help Topics
     public void topic() {
-
-        // AusgabeStrings im PopUp Fenster Topic
-        //String to = "Help Topics";
-        //String ec = "Economy Bill Agenda" + LINE_SEPARATOR + "        Version 1.0";
-
 
         helpUI.setVisible(true);
     }
