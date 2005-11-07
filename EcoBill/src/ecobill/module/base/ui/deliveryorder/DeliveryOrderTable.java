@@ -33,7 +33,7 @@ import java.util.Collections;
  * Time: 16:57:16
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderTable.java,v 1.4 2005/11/06 23:42:03 raedler Exp $
+ * @version $Id: DeliveryOrderTable.java,v 1.5 2005/11/07 21:49:30 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderTable extends AbstractTablePanel {
@@ -153,10 +153,18 @@ public class DeliveryOrderTable extends AbstractTablePanel {
      */
     protected JPopupMenu createPopupMenu(JPopupMenu popupMenu) {
 
-        popupMenu.setLabel("Lieferschein");
-
         JMenuItem delete = new JMenuItem(WorkArea.getMessage(Constants.DELETE), new ImageIcon("./images/delete.png"));
-        //delete.addActionListener();
+        delete.addActionListener(new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+
+                // Löscht die markierte Zeile.
+                getTableModel().removeRow(getTable().getSelectedRow());
+            }
+        });
         
         popupMenu.add(delete);
 

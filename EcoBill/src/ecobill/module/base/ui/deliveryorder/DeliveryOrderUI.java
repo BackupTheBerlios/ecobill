@@ -166,13 +166,8 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
         orderTable = new OrderTable(baseService);
 
-        detail = new JPanel();
-
-        deliveryOrderOverview = new OverviewPanel(baseService, orderTable, deliveryOrderPrintPanelOverview);
-
         MainFrame mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
 
-        deliveryOrderPrintPanel = new DeliveryOrderPrintPanel(mainFrame, baseService);
         deliveryOrderPrintPanelOverview  = new DeliveryOrderPrintPanel(mainFrame, baseService);
 
         articleTable = new ArticleTable(null, baseService) {
@@ -194,15 +189,11 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         articleTable.getTable().addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
 
-                //if (e.getClickCount() == 2) {
                 int row = articleTable.getTable().getSelectedRow();
 
                 IdKeyItem idKeyItem = (IdKeyItem) articleTable.getTableModel().getValueAt(row, 0);
 
-                System.out.println("ID: " + idKeyItem.getId());
-
                 showAddArticleDialog(idKeyItem.getId());
-                //}
             }
         });
 
@@ -243,11 +234,11 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
                     numberSequence.setNumber(deliveryOrderNumber);
                     baseService.saveOrUpdate(numberSequence);
                 }
+
+                deliveryOrderTable.getTableModel().getDataVector().removeAllElements();
+                resetInput(numberSequence.getNextNumber());
             }
         });
-
-        verticalButton.getButton4().setVisible(true);
-        verticalButton.getButton4().setIcon(new ImageIcon("images/refresh.png"));
 
         splitPane.setDividerLocation(200);
         splitPane.setLeftComponent(articleTable);
@@ -332,10 +323,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         );
         tabbedPane.addTab(WorkArea.getMessage(Constants.OVERVIEW), overview);
 
-        detail.setLayout(new BorderLayout());
-
-        detail.add(deliveryOrderPrintPanel, BorderLayout.CENTER);
-
         OverviewPanel deliveryOrderOverview = new OverviewPanel(baseService, orderTable, deliveryOrderPrintPanelOverview);
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -360,7 +347,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         tabbedPane.addTab(null, deliveryOrderOverview);
 
         add(tabbedPane, BorderLayout.CENTER);
-
     }
 
     /**
@@ -374,13 +360,10 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         verticalButton.reinitI18N();
         deliveryOrderData.reinitI18N();
 
-
         verticalButton.getButton1().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON1_TOOLTIP));
         verticalButton.getButton2().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON2_TOOLTIP));
         verticalButton.getButton3().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON3_TOOLTIP));
         verticalButton.getButton4().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON4_TOOLTIP));
-
-
     }
 
     /**
@@ -397,7 +380,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
     private JPanel deliveryOrderDataPanel;
     private DeliveryOrderTable deliveryOrderTable;
     private OrderTable orderTable;
-    private JPanel detail;
     private JPanel overview;
     private JPanel panelLeft;
     private JPanel panelRight;
@@ -406,9 +388,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
     private JTabbedPane tabbedPaneRight;
     private VerticalButton verticalButton;
 
-    private OverviewPanel deliveryOrderOverview;
-
-    private DeliveryOrderPrintPanel deliveryOrderPrintPanel;
     private DeliveryOrderPrintPanel deliveryOrderPrintPanelOverview;
 
     public void setBusinessPartner(BusinessPartner businessPartner) {
@@ -475,7 +454,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         baseService.saveOrUpdate(deliveryOrder);
     }
 
-    private void resetInput(String deliveryOrderNumber) {
+    public void resetInput(String deliveryOrderNumber) {
 
         deliveryOrderData.setDeliveryOrderNumber(deliveryOrderNumber);
         deliveryOrderData.setDeliveryOrderDate(new Date());
@@ -491,6 +470,4 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         orderTable.setBusinessPartnerId(actualBusinessPartnerId);
         orderTable.renewTableModel();
     }
-
-
 }

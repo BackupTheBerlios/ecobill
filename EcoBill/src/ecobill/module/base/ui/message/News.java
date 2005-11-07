@@ -30,7 +30,7 @@ import org.jdesktop.layout.LayoutStyle;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.5 2005/11/06 17:04:59 jfuckerweiler Exp $
+ * @version $Id: News.java,v 1.6 2005/11/07 21:49:30 raedler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -383,9 +383,6 @@ public class News extends JPanel implements Internationalization {
 
             root.add(node);
         }
-        addresserTextField.setText(null);
-        subjectTextField.setText(null);
-        newsTextArea.setText(null);
     }
 
     /**

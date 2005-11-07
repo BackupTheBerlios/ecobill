@@ -38,7 +38,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerUI.java,v 1.16 2005/11/06 23:32:32 raedler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.17 2005/11/07 21:49:30 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -250,6 +250,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
 
                 // Setzt den Lieferschein Button disabled.
                 overviewVerticalButton.getButton6().setEnabled(false);
+                overviewVerticalButton.getButton7().setEnabled(false);
 
                 // Löscht die Felder nach dem Löschen des Kunden und setzt die
                 // nächste Kundennummer.
@@ -291,6 +292,10 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
                 deliveryOrderUI.setBusinessPartner(businessPartner);
                 deliveryOrderUI.setActualBusinessPartnerId(businessPartner.getId());
 
+                // Setzt die nächste Lieferscheinnummer.
+                NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.DELIVERY_ORDER);
+                deliveryOrderUI.resetInput(numberSequence.getNextNumber());
+
                 // Wechselt auf das Lieferschein User Interface.
                 MainFrame mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
                 mainFrame.setSelectedTab(3);
@@ -313,10 +318,12 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
                 // Holt das Bill User Interface aus dem <code>ApplicationContext</code> um den
                 // Geschäftspartner zu setzen und ihm dann eine Rechnung auszustellen.
                 BillUI billUI = (BillUI) applicationContext.getBean("billUI");
-                int row = overviewBusinessPartnerTable.getTable().getSelectedRow();
-                System.out.println("bpID:" + ((IdValueItem) overviewBusinessPartnerTable.getTable().getValueAt(row,0)).getId());
+                billUI.setBusinessPartner(businessPartner);
+                billUI.setActualBusinessPartnerId(businessPartner.getId());
 
-                billUI.setActualBusinessPartnerId(((IdValueItem) overviewBusinessPartnerTable.getTable().getValueAt(row,0)).getId());
+                // Setzt die nächste Rechnungsnummer.
+                NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.BILL);
+                billUI.resetInput(numberSequence.getNextNumber());
 
                 // Wechselt auf das Lieferschein User Interface.
                 MainFrame mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
@@ -543,5 +550,9 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
         baseService.saveOrUpdate(businessPartner);
 
         actualBusinessPartnerId = businessPartner.getId();
+
+        DeliveryOrderUI deliveryOrderUI = (DeliveryOrderUI) applicationContext.getBean("deliveryOrderUI");
+        deliveryOrderUI.setBusinessPartner(businessPartner);
+        deliveryOrderUI.setActualBusinessPartnerId(actualBusinessPartnerId);
     }
 }

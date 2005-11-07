@@ -31,7 +31,7 @@ import org.apache.commons.logging.LogFactory;
  * Time: 16:45:41
  *
  * @author Andreas Weiler
- * @version $Id: DeliveryOrderPrintPanel.java,v 1.3 2005/11/06 23:32:32 raedler Exp $
+ * @version $Id: DeliveryOrderPrintPanel.java,v 1.4 2005/11/07 21:49:30 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderPrintPanel extends AbstractJasperPrintPanel {
@@ -82,8 +82,8 @@ public class DeliveryOrderPrintPanel extends AbstractJasperPrintPanel {
         getJasperViewer().addParameter("STREET", address.getStreet());
         getJasperViewer().addParameter("ZIP_CODE", address.getZipCode());
         getJasperViewer().addParameter("CITY", address.getCity());
-        getJasperViewer().addParameter("COUNTRY", address.getCountry().toString());
-        getJasperViewer().addParameter("COUNTY", address.getCounty().toString());
+        getJasperViewer().addParameter("COUNTRY", address.getCountry() != null ? address.getCountry().toString() : null);
+        getJasperViewer().addParameter("COUNTY", address.getCounty() != null ? address.getCounty().toString() : null);
 
         getJasperViewer().addParameter("COMPANY_NAME", bp.getCompanyName());
         getJasperViewer().addParameter("BRANCH", bp.getCompanyBranch());

@@ -18,6 +18,7 @@
 		 isTitleNewPage="false"
 		 isSummaryNewPage="false">
 	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
 	<import value="java.util.*" />
 	<import value="net.sf.jasperreports.engine.*" />
 	<import value="net.sf.jasperreports.engine.data.*" />
@@ -54,6 +55,7 @@
 	<field name="description" class="java.lang.String"/>
 	<field name="unit" class="java.lang.String"/>
 	<field name="articleNumber" class="java.lang.String"/>
+	<field name="deliveryOrder.deliveryOrderNumber" class="java.lang.String"/>
 	<variable name="total" class="java.lang.Double" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[new Double($F{price}.doubleValue() * $F{quantity}.doubleValue())]]></variableExpression>
 		<initialValueExpression><![CDATA[new Double(0)]]></initialValueExpression>
@@ -202,7 +204,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{ZIP_CODE} + " " + $P{CITY}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Transparent"
 						x="0"
@@ -432,7 +434,7 @@
 					<reportElement
 						mode="Transparent"
 						x="0"
-						y="67"
+						y="65"
 						width="122"
 						height="10"
 						forecolor="#000000"
@@ -475,9 +477,9 @@
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="78"
+						x="122"
 						y="20"
-						width="60"
+						width="50"
 						height="14"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -497,9 +499,9 @@
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="9"
+						x="63"
 						y="20"
-						width="60"
+						width="50"
 						height="14"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -519,9 +521,9 @@
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="216"
+						x="240"
 						y="20"
-						width="60"
+						width="50"
 						height="14"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -541,7 +543,7 @@
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="285"
+						x="299"
 						y="20"
 						width="140"
 						height="14"
@@ -585,9 +587,9 @@
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="147"
+						x="181"
 						y="20"
-						width="60"
+						width="50"
 						height="14"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -604,16 +606,38 @@
 					</textElement>
 				<text><![CDATA[Einheit]]></text>
 				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="4"
+						y="20"
+						width="50"
+						height="14"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-29"
+						stretchType="NoStretch"
+						positionType="FixRelativeToTop"
+						isPrintRepeatedValues="true"
+						isRemoveLineWhenBlank="false"
+						isPrintInFirstWholeBand="false"
+						isPrintWhenDetailOverflows="false"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
+						<font fontName="Tahoma" pdfFontName="Helvetica" size="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
+					</textElement>
+				<text><![CDATA[Lief.Nr.]]></text>
+				</staticText>
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="30"  isSplitAllowed="true" >
+			<band height="18"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Transparent"
-						x="78"
+						x="122"
 						y="2"
-						width="60"
+						width="50"
 						height="14"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -633,9 +657,9 @@
 				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Transparent"
-						x="216"
+						x="240"
 						y="2"
-						width="60"
+						width="50"
 						height="14"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -655,7 +679,7 @@
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Transparent"
-						x="285"
+						x="299"
 						y="2"
 						width="140"
 						height="14"
@@ -699,10 +723,10 @@
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Transparent"
-						x="9"
+						x="63"
 						y="2"
-						width="60"
-						height="13"
+						width="50"
+						height="14"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-6"
@@ -721,9 +745,9 @@
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Transparent"
-						x="147"
+						x="181"
 						y="2"
-						width="60"
+						width="50"
 						height="14"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -743,13 +767,13 @@
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Transparent"
-						x="9"
-						y="16"
-						width="60"
+						x="4"
+						y="2"
+						width="50"
 						height="14"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
-						key="textField-6"
+						key="textField-16"
 						stretchType="NoStretch"
 						positionType="FixRelativeToTop"
 						isPrintRepeatedValues="true"
@@ -760,7 +784,7 @@
 					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
 						<font fontName="" pdfFontName="Helvetica" size="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="CP1252" isStrikeThrough="false" />
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{DELIVERY_ORDER_NUMBERS}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{deliveryOrder.deliveryOrderNumber}]]></textFieldExpression>
 				</textField>
 			</band>
 		</detail>

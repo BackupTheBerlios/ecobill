@@ -1,6 +1,8 @@
 package ecobill.module.base.ui.help;
 
 import javax.swing.*;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.event.HyperlinkEvent;
 import java.awt.*;
 import java.io.IOException;
 import java.io.File;
@@ -15,7 +17,7 @@ import java.io.File;
  * Time: 17:00:54
  *
  * @author Andreas Weiler
- * @version $Id: HelpBrowser.java,v 1.14 2005/11/06 16:55:17 jfuckerweiler Exp $
+ * @version $Id: HelpBrowser.java,v 1.15 2005/11/07 21:49:30 raedler Exp $
  * @since EcoBill 1.0
  */
 public class HelpBrowser extends JPanel {

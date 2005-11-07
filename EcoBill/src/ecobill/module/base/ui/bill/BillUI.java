@@ -165,13 +165,8 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
         deliveryOrderTableCB = new OrderTableWithCB(baseService);
 
-        detail = new JPanel();
-
-        billOverview = new OverviewPanel(baseService, billTable, billPrintPanel);
-
         MainFrame mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
 
-        billPrintPanel = new BillPrintPanel(mainFrame, baseService);
         billPrintPanelOverview  = new BillPrintPanel(mainFrame, baseService);
 
         verticalButton.getButton2().setVisible(true);
@@ -285,10 +280,6 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         );
         tabbedPane.addTab(WorkArea.getMessage(Constants.OVERVIEW), overview);
 
-        detail.setLayout(new BorderLayout());
-
-        detail.add(billPrintPanel, BorderLayout.CENTER);
-
         OverviewPanel deliveryOrderOverview = new OverviewPanel(baseService, billTable, billPrintPanelOverview);
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -351,7 +342,6 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
     private BillData billData;
     private JPanel billDataPanel;
     private BillPreviewTable billPreviewTable;
-    private JPanel detail;
     private JPanel overview;
     private JPanel panelLeft;
     private JPanel panelRight;
@@ -362,67 +352,18 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
     private OrderTableWithCB deliveryOrderTableCB;
 
-    private OverviewPanel billOverview;
-
-    private BillPrintPanel billPrintPanel;
     private BillPrintPanel billPrintPanelOverview;
 
     public void setBusinessPartner(BusinessPartner businessPartner) {
         address.setBusinessPartner(businessPartner);
     }
 
-    /*
-    private Set<ReduplicatedArticle> reduplicatedArticles = new HashSet<ReduplicatedArticle>();
-
-    public void addReduplicatedArticle(ReduplicatedArticle reduplicatedArticle) {
-
-        reduplicatedArticles.add(reduplicatedArticle);
-
-        deliveryOrderTable.setDataCollection(reduplicatedArticles);
-        deliveryOrderTable.renewTableModel();
+    public void resetInput(String deliveryOrderNumber) {
+        billData.setBillNumber(deliveryOrderNumber);
+        billData.setBillDate(new Date());
+        billData.setPrefix("");
+        billData.setSuffix("");
     }
-
-    private void saveOrUpdateDeliveryOrder() {
-
-
-        DeliveryOrder deliveryOrder = new DeliveryOrder();
-
-        deliveryOrder.setBusinessPartner(address.getBusinessPartner());
-        deliveryOrder.setCharacterisationType("delivery_order");
-        deliveryOrder.setDeliveryOrderNumber(deliveryOrderData.getDeliveryOrderNumber());
-        deliveryOrder.setDeliveryOrderDate(deliveryOrderData.getBillDate());
-        deliveryOrder.setPrefixFreetext(deliveryOrderData.getPrefix());
-        deliveryOrder.setSuffixFreetext(deliveryOrderData.getSuffix());
-        deliveryOrder.setPreparedBill(false);
-
-        Vector dataVector = ((DefaultTableModel) deliveryOrderTable.getTable().getModel()).getDataVector();
-
-        Enumeration lines = dataVector.elements();
-        for (int i = 1; lines.hasMoreElements(); i++) {
-
-            Vector line = (Vector) lines.nextElement();
-
-            ReduplicatedArticle reduplicatedArticle = (ReduplicatedArticle) line.get(6);
-            reduplicatedArticle.setOrderPosition(i);
-
-            deliveryOrder.addArticle(reduplicatedArticle);
-        }
-
-        baseService.saveOrUpdate(deliveryOrder);
-    }
-
-    private void resetInput(String deliveryOrderNumber) {
-
-        deliveryOrderData.setDeliveryOrderNumber(deliveryOrderNumber);
-        deliveryOrderData.setDeliveryOrderDate(new Date());
-        deliveryOrderData.setPrefix("");
-        deliveryOrderData.setSuffix("");
-
-        JTable table = deliveryOrderTable.getTable();
-        ((DefaultTableModel) table.getModel()).getDataVector().removeAllElements();
-        table.updateUI();
-    }
-    */
 
     /**
      * Erstellt eine neue Rechnung aus der markierten Lieferscheinen.
@@ -472,12 +413,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
                     billPreviewCollections.add(bpc);
                 }
             }
-
-
-/*            billPreviewTable = new BillPreviewTable(baseService);
-            billRightPanel.add(billPreviewTable);
-            overview.validate();
-*/        }
+        }
 
         billPreviewTable.setDataCollection(billPreviewCollections);
         billPreviewTable.renewTableModel();
@@ -486,6 +422,8 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         bill.setBusinessPartner((BusinessPartner) baseService.load(BusinessPartner.class, actualBusinessPartnerId));
         bill.setBillNumber(billData.getBillNumber());
         bill.setBillDate(billData.getBillDate());
+        bill.setPrefixFreetext(billData.getPrefix());
+        bill.setSuffixFreetext(billData.getSuffix());
 
         // Rechnungsobjekt speichern
         baseService.saveOrUpdate(bill);

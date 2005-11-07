@@ -153,7 +153,10 @@ public class Address extends javax.swing.JPanel {
 
         streetL.setText(address.getStreet());
         zipCodeCityL.setText(address.getZipCode() + " " + address.getCity());
-        countryL.setText(address.getCountry().toString());
+        
+        if (address.getCountry() != null) {
+            countryL.setText(address.getCountry().toString());
+        }
 
         initLayout();
     }

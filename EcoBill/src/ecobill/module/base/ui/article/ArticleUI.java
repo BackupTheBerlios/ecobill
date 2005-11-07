@@ -40,7 +40,7 @@ import java.io.FileOutputStream;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.14 2005/11/06 23:32:32 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.15 2005/11/07 21:49:30 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JPanel implements InitializingBean, Internationalization, DisposableBean {
@@ -130,6 +130,9 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         }
 
         reinitI18N();
+
+        NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.ARTICLE);
+        inputOverview.setArticleNumber(numberSequence.getNextNumber());
     }
 
     /**

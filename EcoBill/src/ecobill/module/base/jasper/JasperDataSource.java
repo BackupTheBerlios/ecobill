@@ -21,7 +21,7 @@ import org.apache.commons.logging.LogFactory;
  * Time: 15:54:10
  *
  * @author Sebastian Gath
- * @version $Id: JasperDataSource.java,v 1.2 2005/09/27 20:13:38 raedler Exp $
+ * @version $Id: JasperDataSource.java,v 1.3 2005/11/07 21:49:30 raedler Exp $
  * @since EcoBill 1.0
  */
 public class JasperDataSource implements JRDataSource {
@@ -55,7 +55,7 @@ public class JasperDataSource implements JRDataSource {
      * Erzeugt eine neue <code>JasperDataSource</code>, die alle Datensätze in einer
      * <code>Collection</code> bereitstellt.
      *
-     * @param datas Die Datensätze die im Report ausgegeben werden sollen.
+     * @param datasets Die Datensätze die im Report ausgegeben werden sollen.
      */
     public JasperDataSource(Collection<Object> datasets) {
         this.datasets = datasets;

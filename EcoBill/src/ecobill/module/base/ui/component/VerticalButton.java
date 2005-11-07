@@ -21,7 +21,7 @@ import ecobill.core.system.Internationalization;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: VerticalButton.java,v 1.7 2005/10/11 19:41:27 gath Exp $
+ * @version $Id: VerticalButton.java,v 1.8 2005/11/07 21:49:30 raedler Exp $
  * @since EcoBill 1.0
  */
 public class VerticalButton extends JPanel implements Internationalization {
@@ -102,7 +102,7 @@ public class VerticalButton extends JPanel implements Internationalization {
     }
 
     /**
-     * @see ecobill.core.system.Internationalization#reinitI18N() 
+     * @see ecobill.core.system.Internationalization#reinitI18N()
      */
     public void reinitI18N() {
         border.setTitle(WorkArea.getMessage(Constants.ACTIONS));
@@ -186,10 +186,6 @@ public class VerticalButton extends JPanel implements Internationalization {
         else if (x == 7) {
             setButton7(buttonX);
         }
-        else {
-            System.out.println("Kein Button x=" + x + "gefunden");
-        }
-
     }
 
     public JButton getButtonX(int x) {
@@ -214,11 +210,7 @@ public class VerticalButton extends JPanel implements Internationalization {
         else if (x == 7) {
             return button7;
         }
-        else {
-            System.out.println("Kein Button x=" + x + "gefunden");
-            return null;
-        }
 
+        return button1;
     }
-
 }

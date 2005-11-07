@@ -25,7 +25,7 @@ import java.util.Calendar;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderData.java,v 1.3 2005/11/06 01:46:15 raedler Exp $
+ * @version $Id: DeliveryOrderData.java,v 1.4 2005/11/07 21:49:30 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderData extends JPanel implements Internationalization {

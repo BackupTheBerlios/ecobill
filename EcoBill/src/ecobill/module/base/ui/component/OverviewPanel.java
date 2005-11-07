@@ -41,7 +41,7 @@ import java.awt.*;
 
 /**
  * TODO: document me!!!
- *
+ * <p/>
  * Created by IntelliJ IDEA.
  * User: basti
  * Date: 09.10.2005
@@ -107,11 +107,10 @@ public class OverviewPanel extends JPanel implements Internationalization {
         button.setVisible(true);
         button.setIcon(icon);
         button.setToolTipText(toolTip);
-        if (aListener != null)
-        {
+        if (aListener != null) {
             button.addActionListener(aListener);
         }
-        verticalButton.setButtonX(x,button);
+        verticalButton.setButtonX(x, button);
     }
 
     /**
@@ -121,13 +120,8 @@ public class OverviewPanel extends JPanel implements Internationalization {
 
         verticalButton = new VerticalButton();
 
-        tabbedPane = new JTabbedPane();
-       // overview = new JPanel();
         splitPane = new JSplitPane();
         panelLeft = new JPanel();
-
-        overviewPanel = new JPanel();
-
         splitPane.setDividerLocation(200);
         splitPane.setLeftComponent(leftTable);
 
@@ -146,6 +140,10 @@ public class OverviewPanel extends JPanel implements Internationalization {
                 baseService.delete(deliveryOrder);
 
                 leftTable.renewTableModel();
+
+                if (panelRight instanceof AbstractJasperPrintPanel) {
+                    ((AbstractJasperPrintPanel) panelRight).clearViewerPanel();
+                }
             }
         });
     }
@@ -165,14 +163,14 @@ public class OverviewPanel extends JPanel implements Internationalization {
         GroupLayout panelLeftLayout = new GroupLayout(panelLeft);
         panelLeft.setLayout(panelLeftLayout);
         panelLeftLayout.setHorizontalGroup(
-            panelLeftLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, panelLeftLayout.createSequentialGroup()
-                .add(leftTable, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-                .addContainerGap())
+                panelLeftLayout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, panelLeftLayout.createSequentialGroup()
+                        .add(leftTable, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+                        .addContainerGap())
         );
         panelLeftLayout.setVerticalGroup(
-            panelLeftLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(leftTable, GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
+                panelLeftLayout.createParallelGroup(GroupLayout.LEADING)
+                        .add(leftTable, GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
         );
         splitPane.setLeftComponent(panelLeft);
         splitPane.setRightComponent(panelRight);
@@ -180,26 +178,23 @@ public class OverviewPanel extends JPanel implements Internationalization {
         GroupLayout overviewLayout = new GroupLayout(this);
         this.setLayout(overviewLayout);
         overviewLayout.setHorizontalGroup(
-            overviewLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(verticalButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(splitPane, GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
-                .addContainerGap())
+                overviewLayout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(verticalButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(splitPane, GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
+                        .addContainerGap())
         );
         overviewLayout.setVerticalGroup(
-            overviewLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.TRAILING, overviewLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(overviewLayout.createParallelGroup(GroupLayout.TRAILING)
-                    .add(GroupLayout.LEADING, splitPane)
-                    .add(GroupLayout.LEADING, verticalButton, GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE))
-                .addContainerGap())
+                overviewLayout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.TRAILING, overviewLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(overviewLayout.createParallelGroup(GroupLayout.TRAILING)
+                                .add(GroupLayout.LEADING, splitPane)
+                                .add(GroupLayout.LEADING, verticalButton, GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE))
+                        .addContainerGap())
         );
-
-
-
 
         //OverviewPanel.this.add(verticalButton);
         //OverviewPanel.this.add(splitPane);
@@ -220,12 +215,14 @@ public class OverviewPanel extends JPanel implements Internationalization {
     }
 
     private AbstractTablePanel leftTable;
-    private JPanel overviewPanel;
     private JPanel panelLeft;
     private JPanel panelRight;
     private JSplitPane splitPane;
-    private JTabbedPane tabbedPane;
     private VerticalButton verticalButton;
+
+    public VerticalButton getVerticalButton() {
+        return verticalButton;
+    }
 }
 
 

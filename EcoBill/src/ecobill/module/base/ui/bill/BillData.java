@@ -26,7 +26,7 @@ import java.util.Calendar;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: BillData.java,v 1.1 2005/11/06 23:32:32 raedler Exp $
+ * @version $Id: BillData.java,v 1.2 2005/11/07 21:49:30 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BillData extends JPanel implements Internationalization {
@@ -205,7 +205,7 @@ public class BillData extends JPanel implements Internationalization {
         return deliveryOrderNumber.getText();
     }
 
-    public void setDeliveryOrderNumber(String deliveryOrderNumber) {
+    public void setBillNumber(String deliveryOrderNumber) {
         this.deliveryOrderNumber.setText(deliveryOrderNumber);
     }
 
@@ -213,7 +213,7 @@ public class BillData extends JPanel implements Internationalization {
         return (Date) deliveryOrderDate.getValue();
     }
 
-    public void setDeliveryOrderDate(Date deliveryOrderDate) {
+    public void setBillDate(Date deliveryOrderDate) {
         this.deliveryOrderDate.setValue(deliveryOrderDate);
     }
 

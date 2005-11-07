@@ -25,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
  * Time: 16:45:41
  *
  * @author Andreas Weiler
- * @version $Id: AbstractJasperPrintPanel.java,v 1.1 2005/11/06 23:32:32 raedler Exp $
+ * @version $Id: AbstractJasperPrintPanel.java,v 1.2 2005/11/07 21:49:30 raedler Exp $
  * @since EcoBill 1.0
  */
 public abstract class AbstractJasperPrintPanel extends JPanel implements Internationalization {
@@ -124,6 +124,13 @@ public abstract class AbstractJasperPrintPanel extends JPanel implements Interna
         // TODO: Hier wäre es auch möglich direkt von Thread abzuleiten. SINNVOLL?!?
         // Starte nebenläufigen <code>JasperThread</code>.
         new Thread(new JasperThread(id)).start();
+    }
+
+    /**
+     * Löscht den Inhalt des Viewer <code>JPanel</code>.
+     */
+    public void clearViewerPanel() {
+        jasperViewer.remove();
     }
 
     /**

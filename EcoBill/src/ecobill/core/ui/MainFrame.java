@@ -35,7 +35,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.101 2005/11/07 08:28:57 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.102 2005/11/07 21:49:30 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -245,7 +245,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     // alle Sachen erstellen die man braucht
     private JButton ebutton = new JButton();
     // erstellt TabFeld mit Komponenten
-    private JTabbedPane jtab = new JTabbedPane();
+    private JTabbedPane tabbedPane = new JTabbedPane();
 
     // erstellt MenuBar
     private JMenuBar menuBar = new JMenuBar();
@@ -280,8 +280,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     // Checkbox German wird erstellt
     private JCheckBoxMenuItem german = new JCheckBoxMenuItem(new ImageIcon("images/flag_germany.png"));
 
-    private UndoManager um = new UndoManager();
-
     private StatePanel statePanel = new StatePanel();
 
     public void setProgressPercentage(int percentage) {
@@ -290,32 +288,38 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
     public void tabPane() {
 
-        jtab.addTab(null, new ImageIcon("images/home.png"), messageUI);
+        tabbedPane.addTab(null, new ImageIcon("images/home.png"), messageUI);
         // hier wird die ArtikleUI als neuer Tab eingefügt
-        jtab.addTab(null, new ImageIcon("images/article.png"), articleUI);
+        tabbedPane.addTab(null, new ImageIcon("images/article.png"), articleUI);
         // hier wird die BusinessPartnerUI als neuer Tab eingefügt
-        jtab.addTab(null, new ImageIcon("images/business_partner.png"), businessPartnerUI);
+        tabbedPane.addTab(null, new ImageIcon("images/business_partner.png"), businessPartnerUI);
         // hier wird die LieferscheinUI als neuer Tab eingefügt
-        jtab.addTab(null, new ImageIcon("images/delivery_order.png"), deliveryOrderUI);
-        jtab.setEnabledAt(3, false);
+        tabbedPane.addTab(null, new ImageIcon("images/delivery_order.png"), deliveryOrderUI);
+        tabbedPane.setEnabledAt(3, false);
         // hier wird die RechnungsUI als neuer Tab eingefügt
-        jtab.addTab(null, new ImageIcon("images/delivery_order.png"), billUI);
-        jtab.setEnabledAt(4, false);
+        tabbedPane.addTab(null, new ImageIcon("images/delivery_order.png"), billUI);
+        tabbedPane.setEnabledAt(4, false);
 
-        jtab.addChangeListener(new ChangeListener() {
+        tabbedPane.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
 
-                if (jtab.getSelectedIndex() != 3) {
-                    jtab.setEnabledAt(3, false);
+                // Lieferschein Tab.
+                if (tabbedPane.getSelectedIndex() != 3) {
+                    tabbedPane.setEnabledAt(3, false);
                 }
                 else {
                     deliveryOrderUI.renewArticleTableModel();
+                }
+
+                // Rechnungen Tab.
+                if (tabbedPane.getSelectedIndex() != 4) {
+                    tabbedPane.setEnabledAt(4, false);
                 }
             }
         });
 
         // fügt Tabfeld hinzu
-        this.getContentPane().add(jtab, BorderLayout.CENTER);
+        this.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
         statePanel.setPreferredSize(new Dimension(200, 19));
         this.getContentPane().add(statePanel, BorderLayout.SOUTH);
@@ -353,7 +357,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
                 if (e.getSource().equals(save))
 
-                    JOptionPane.showMessageDialog(jtab, "Hier kann man ein geöffnetes Projekt schnell speichern", "Information", 1);
+                    JOptionPane.showMessageDialog(tabbedPane, "Hier kann man ein geöffnetes Projekt schnell speichern", "Information", 1);
 
             }
         });
@@ -366,7 +370,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
                 if (e.getSource().equals(saveAs))
 
-                    JOptionPane.showMessageDialog(jtab, "Hier kann man ein Projekt abspeichern und benennen", "Information", 1);
+                    JOptionPane.showMessageDialog(tabbedPane, "Hier kann man ein Projekt abspeichern und benennen", "Information", 1);
 
             }
         });
@@ -418,35 +422,13 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         undo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Action: " + e.getActionCommand());
-                }
-
-                if (e.getSource().equals(undo))
-
-                    um.setLimit(1000);
-
-                if (um.canUndo()) {
-                    um.undo();
-                }
             }
         });
 
         // redo ActionListener
         redo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Action: " + e.getActionCommand());
-                }
-
-                if (e.getSource().equals(redo))
-
-                    um.setLimit(1000);
-
-                if (um.canRedo()) {
-                    um.redo();
-                }
+                
             }
         });
 
@@ -732,11 +714,11 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         ht.setText(WorkArea.getMessage(Constants.HT));
         about.setText(WorkArea.getMessage(Constants.ABOUT));
 
-        jtab.setTitleAt(0, WorkArea.getMessage(Constants.MESSAGE));
-        jtab.setTitleAt(1, WorkArea.getMessage(Constants.ARTICLE));
-        jtab.setTitleAt(2, WorkArea.getMessage(Constants.CUSTOMER));
-        jtab.setTitleAt(3, WorkArea.getMessage(Constants.DELIVERY_ORDER));
-        jtab.setTitleAt(4, WorkArea.getMessage(Constants.BILL));
+        tabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.MESSAGE));
+        tabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.ARTICLE));
+        tabbedPane.setTitleAt(2, WorkArea.getMessage(Constants.CUSTOMER));
+        tabbedPane.setTitleAt(3, WorkArea.getMessage(Constants.DELIVERY_ORDER));
+        tabbedPane.setTitleAt(4, WorkArea.getMessage(Constants.BILL));
 
         english.setText(WorkArea.getMessage(Constants.ENGLISH));
         german.setText(WorkArea.getMessage(Constants.GERMAN));
@@ -753,8 +735,8 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     }
 
     public void setSelectedTab(int index) {
-        jtab.setEnabledAt(index, true);
-        jtab.setSelectedIndex(index);
+        tabbedPane.setEnabledAt(index, true);
+        tabbedPane.setSelectedIndex(index);
     }
 
     /**

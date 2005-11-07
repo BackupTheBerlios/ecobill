@@ -29,7 +29,7 @@ import java.awt.event.ActionEvent;
  * Time: 17:49:23
  *
  * @author Sebastian Gath
- * @version $Id: BillOverviewPanel.java,v 1.5 2005/11/06 23:42:03 raedler Exp $
+ * @version $Id: BillOverviewPanel.java,v 1.6 2005/11/07 21:49:30 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BillOverviewPanel extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -170,6 +170,8 @@ public class BillOverviewPanel extends JPanel implements ApplicationContextAware
                 articleTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("article_table"))));
         */    }
 
+    private OverviewPanel billOverview;
+
     /**
      * Initialisiert die Komponenten.
      */
@@ -184,10 +186,10 @@ public class BillOverviewPanel extends JPanel implements ApplicationContextAware
      */
     private void initLayout() {
 
-        this.setLayout(new BorderLayout());
+        setLayout(new BorderLayout());
 
         // zum Anordnen der Rechnungstabelle und des Vorschaufensters für die Rechnungen
-        OverviewPanel billOverview = new OverviewPanel(baseService, billTable, billRightPanel);
+        billOverview = new OverviewPanel(baseService, billTable, billRightPanel);
 
         ActionListener actionListener = new ActionListener() {
 
@@ -241,7 +243,7 @@ public class BillOverviewPanel extends JPanel implements ApplicationContextAware
      * @see ecobill.core.system.Internationalization#reinitI18N()
      */
     public void reinitI18N() {
-
+        billOverview.getVerticalButton().getButton1().setToolTipText("Andi Tooltip eingeben");
     }
 
 

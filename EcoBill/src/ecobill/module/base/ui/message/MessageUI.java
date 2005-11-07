@@ -8,9 +8,11 @@ import org.springframework.context.ApplicationContext;
 
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.Message;
+import ecobill.core.util.IdValueItem;
 
 
 import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.Properties;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -25,7 +27,7 @@ import java.awt.event.ActionEvent;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: MessageUI.java,v 1.6 2005/11/06 17:00:27 jfuckerweiler Exp $
+ * @version $Id: MessageUI.java,v 1.7 2005/11/07 21:49:30 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MessageUI extends JPanel implements InitializingBean {
@@ -187,13 +189,11 @@ public class MessageUI extends JPanel implements InitializingBean {
 
     }
 
-     /**
+    /**
      * @see ecobill.core.system.Internationalization#reinitI18N()
      */
     public void reinitI18N() {
-
         newsOverview.reinitI18N();
-
     }
 
     /**
@@ -211,22 +211,34 @@ public class MessageUI extends JPanel implements InitializingBean {
         baseService.saveOrUpdate(message);
 
         newsOverview.addMessageToTree(message);
+
+        Object o = newsOverview.getNewsTree().getLastSelectedPathComponent();
+
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) o;
+
+        if (node != null && node.isLeaf()) {
+
+            IdValueItem idValueItem = (IdValueItem) node.getUserObject();
+
+            Long diaId = idValueItem.getId();
+
+            Message m = (Message) baseService.load(Message.class, diaId);
+
+            newsOverview.showMessage(m);
+        }
     }
 
     /**
      * Methode um eine Nachricht zu löschen wird aufgerufen aus Klasse News
      */
     public void deleteMessage() {
-
         newsOverview.deleteMessage();
-
     }
 
     /**
      * Methode um den Baum zu aktualisieren wird aufgerufen aus Klasse News
      */
     public void refreshTree() {
-
         newsOverview.refreshTree();
     }
 
@@ -234,7 +246,6 @@ public class MessageUI extends JPanel implements InitializingBean {
      * Methode um eine neue Nachricht zu generieren wird aufgerufen aus Klasse News
      */
     public void newMessage() {
-
         newsOverview.newMessage();
     }
 
@@ -250,7 +261,8 @@ public class MessageUI extends JPanel implements InitializingBean {
 
         if (addresserCheck.equals("") && subjectCheck.equals("")) {
             JOptionPane.showMessageDialog(newsOverview, "Bitte Absender und Betreff eingeben", "Information", 1);
-        } else {
+        }
+        else {
 
             if (addresserCheck.equals("")) {
                 JOptionPane.showMessageDialog(newsOverview, "Bitte Absender eingeben", "Information", 1);

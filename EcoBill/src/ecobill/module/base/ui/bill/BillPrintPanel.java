@@ -16,6 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.LinkedList;
 
 // @todo document me!
 
@@ -27,7 +28,7 @@ import java.util.HashSet;
  * Time: 16:45:41
  *
  * @author Sebastian Gath
- * @version $Id: BillPrintPanel.java,v 1.1 2005/11/06 23:32:32 raedler Exp $
+ * @version $Id: BillPrintPanel.java,v 1.2 2005/11/07 21:49:30 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BillPrintPanel extends AbstractJasperPrintPanel {
@@ -69,7 +70,8 @@ public class BillPrintPanel extends AbstractJasperPrintPanel {
         Person person = bp.getPerson();
         ecobill.module.base.domain.Address address = bp.getAddress();
 
-        Set reduplicatedArticles = new HashSet();
+        java.util.List reduplicatedArticles = new LinkedList();
+
         Set<DeliveryOrder> deliveryOrders = bill.getDeliveryOrders();
         System.out.println("Size von deliveryOrders:" + deliveryOrders.size());
 
@@ -101,8 +103,8 @@ public class BillPrintPanel extends AbstractJasperPrintPanel {
         getJasperViewer().addParameter("STREET", address.getStreet());
         getJasperViewer().addParameter("ZIP_CODE", address.getZipCode());
         getJasperViewer().addParameter("CITY", address.getCity());
-        getJasperViewer().addParameter("COUNTRY", address.getCountry().toString());
-        getJasperViewer().addParameter("COUNTY", address.getCounty().toString());
+        getJasperViewer().addParameter("COUNTRY", address.getCountry() != null ? address.getCountry().toString() : null);
+        getJasperViewer().addParameter("COUNTY", address.getCounty() != null ? address.getCounty().toString() : null);
 
         getJasperViewer().addParameter("COMPANY_NAME", bp.getCompanyName());
         getJasperViewer().addParameter("BRANCH", bp.getCompanyBranch());
