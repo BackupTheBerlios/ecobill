@@ -32,7 +32,7 @@ import java.util.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleTable.java,v 1.10 2005/11/06 23:32:32 raedler Exp $
+ * @version $Id: ArticleTable.java,v 1.11 2005/11/07 00:01:27 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleTable extends AbstractTablePanel {
@@ -64,7 +64,7 @@ public class ArticleTable extends AbstractTablePanel {
     }
 
     /**
-     * @see ecobill.module.base.ui.component.AbstractTablePanel#createBorder()
+     * @see ecobill.module.base.ui.component.AbstractTablePanel#createPanelBorder() 
      */
     protected Border createPanelBorder() {
         return BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.ARTICLE), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
@@ -328,7 +328,7 @@ public class ArticleTable extends AbstractTablePanel {
      */
     protected JPopupMenu createPopupMenu(JPopupMenu popupMenu) {
 
-        JMenuItem delete = new JMenuItem(Constants.DELETE, new ImageIcon("./images/delete.png"));
+        JMenuItem delete = new JMenuItem(WorkArea.getMessage(Constants.DELETE), new ImageIcon("./images/delete.png"));
         delete.addActionListener(new ArticleAction(articleUI).DELETE_ACTION);
 
         popupMenu.add(delete);
@@ -337,7 +337,7 @@ public class ArticleTable extends AbstractTablePanel {
     }
 
     /**
-     * @see AbstractTablePanel#initColumnModelAfterUnpersist(javax.swing.table.TableColumnModel)
+     * @see AbstractTablePanel#createEditoredColumnModelAfterUnpersist(javax.swing.table.TableColumnModel)
      */
     protected TableColumnModel createEditoredColumnModelAfterUnpersist(TableColumnModel columnModel) {
 

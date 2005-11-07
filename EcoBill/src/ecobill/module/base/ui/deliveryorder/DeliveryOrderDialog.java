@@ -99,7 +99,6 @@ public class DeliveryOrderDialog extends JDialog implements Internationalization
                 reduplicatedArticle.setPrice((Double) price.getValue());
                 reduplicatedArticle.setUnit(unit.getText());
                 reduplicatedArticle.setQuantity((Double) quantity.getValue());
-                reduplicatedArticle.setArticle(article);
 
                 deliveryOrderUI.addReduplicatedArticle(reduplicatedArticle);
 

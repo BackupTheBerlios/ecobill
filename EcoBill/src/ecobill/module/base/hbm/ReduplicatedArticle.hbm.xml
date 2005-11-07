@@ -9,7 +9,7 @@
  Time: 22:24:58
  
  @author Roman R&auml;dle
- @version $Id: ReduplicatedArticle.hbm.xml,v 1.7 2005/11/04 14:56:46 raedler Exp $
+ @version $Id: ReduplicatedArticle.hbm.xml,v 1.8 2005/11/07 00:01:27 raedler Exp $
  @since EcoBill 1.0
 -->
 
@@ -50,12 +50,6 @@
         <property name="description" type="string">
             <column name="DESCRIPTION" length="4000" not-null="true"/>
         </property>
-
-        <many-to-one name="article"
-                     column="ARTICLE_ID"
-                     class="ecobill.module.base.domain.Article"
-                     cascade="none"
-                     lazy="false"/>
 
     </class>
 

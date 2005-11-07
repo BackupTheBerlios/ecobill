@@ -12,7 +12,7 @@ import ecobill.module.base.hbm.sort.OrderPositionComparable;
  * Time: 22:23:14
  *
  * @author Roman R&auml;dle
- * @version $Id: ReduplicatedArticle.java,v 1.6 2005/11/04 14:56:46 raedler Exp $
+ * @version $Id: ReduplicatedArticle.java,v 1.7 2005/11/07 00:01:26 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ReduplicatedArticle extends AbstractDomain implements OrderPositionComparable, Comparable<ReduplicatedArticle> {
@@ -52,11 +52,6 @@ public class ReduplicatedArticle extends AbstractDomain implements OrderPosition
      * Die Delivery_Order_Id des Artikels.
      */
     private DeliveryOrder deliveryOrder;
-
-    /**
-     * Der ursprüngliche Artikel aus dem dieser duplizierte Artikel hervorging.
-     */
-    private Article article;
 
     /**
      * Gibt die Position an der dieser Artikel in einem Lieferschein oder einer Rechnung
@@ -187,26 +182,6 @@ public class ReduplicatedArticle extends AbstractDomain implements OrderPosition
      */
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    /**
-     * Gibt den ursprünglichen Artikel, aus dem dieser duplizierte Artikel hervorging,
-     * zurück.
-     *
-     * @return Der ursprünglich Artikel aus dem dieser duplizierte Artikel hervorging.
-     */
-    public Article getArticle() {
-        return article;
-    }
-
-    /**
-     * Setzt den ursprünglichen Artikel, aus dem dieser duplizierte Artikel hervorging.
-     *
-     * @param article Der ursprüngliche Artikel aus dem dieser duplizierte Artikel
-     *                hervorging.
-     */
-    public void setArticle(Article article) {
-        this.article = article;
     }
 
     /**

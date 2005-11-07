@@ -16,7 +16,7 @@ import java.text.Collator;
  * Time: 13:29:28
  *
  * @author Roman R&auml;dle
- * @version $Id: Bill.java,v 1.4 2005/11/06 23:32:32 raedler Exp $
+ * @version $Id: Bill.java,v 1.5 2005/11/07 00:01:26 raedler Exp $
  * @since DAPS INTRA 1.0
  */
 public class Bill extends AbstractDomain {
@@ -35,6 +35,25 @@ public class Bill extends AbstractDomain {
      * Das Datum an dem diese Rechnung ausgestellt wurde.
      */
     private Date billDate;
+
+    /**
+     * Gibt den Rechnungstyp an.
+     */
+    // @todo durch ENUM ersetzen
+    //private CharacterisationType characterisationType;
+    private String characterisationType;
+
+    /**
+     * Ein Freitext der optional angegeben werden kann. Dieser Freitext kann bspw. an den
+     * Anfang eines Reports gesetzt werden.
+     */
+    private String prefixFreetext;
+
+    /**
+     * Ein Freitext der optional angegeben werden kann. Dieser Freitext kann bspw. ans Ende
+     * eines Reports gesetzt werden.
+     */
+    private String suffixFreetext;
 
     /**
      * Ein <code>Set</code> mit allen Lieferscheinen von der diese Rechnung
@@ -99,6 +118,66 @@ public class Bill extends AbstractDomain {
     }
 
     /**
+     * Gibt den <code>CharacterisationType</code> dieser Rechnung zurück.
+     *
+     * @return Der Rechnungs <code>CharacterisationType</code>.
+     */
+    // @todo siehe oben
+    public String getCharacterisationType() {
+        return characterisationType;
+    }
+
+    /**
+     * Setzt den <code>CharacterisationType</code> dieser Rechnung.
+     *
+     * @param charaterisationType Der Rechnungs <code>CharacterisationType</code>.
+     */
+    // @todo siehe oben
+    public void setCharacterisationType(String charaterisationType) {
+        this.characterisationType = charaterisationType;
+    }
+
+    /**
+     * Gibt den Freitext, der optional angegeben werden kann, zurück. Dieser Freitext
+     * kann bspw. an den Anfang eines Reports gesetzt werden.
+     *
+     * @return Der Freitext der optional angegeben werden kann.
+     */
+    public String getPrefixFreetext() {
+        return prefixFreetext;
+    }
+
+    /**
+     * Setzt den Freitext, der optional angegeben werden kann. Dieser Freitext
+     * kann bspw. an den Anfang eines Reports gesetzt werden.
+     *
+     * @param prefixFreetext Der Freitext der optional angegeben werden kann.
+     */
+    public void setPrefixFreetext(String prefixFreetext) {
+        this.prefixFreetext = prefixFreetext;
+    }
+
+    /**
+     * Gibt den Freitext, der optional angegeben werden kann, zurück. Dieser Freitext
+     * kann bspw. ans Ende eines Reports gesetzt werden.
+     *
+     * @return Der Freitext der optional angegeben werden kann.
+     */
+    public String getSuffixFreetext() {
+        return suffixFreetext;
+    }
+
+    /**
+     * Setzt den Freitext, der optional angegeben werden kann. Dieser Freitext
+     * kann bspw. ans Ende eines Reports gesetzt werden.
+     *
+     * @param suffixFreetext Der Freitext der optional angegeben werden kann.
+     */
+    public void setSuffixFreetext(String suffixFreetext) {
+        this.suffixFreetext = suffixFreetext;
+    }
+
+    /**
      * Gibt ein <code>Set</code> mit <code>DeliveryOrder</code> zurück.
      * Von diesen Lieferscheinen wurde diese Rechnung erstellt.
      *
@@ -131,16 +210,6 @@ public class Bill extends AbstractDomain {
         }
 
         deliveryOrders.add(deliveryOrder);
-    }
-
-    /**
-     * Gibt den <code>CharacterisationType</code> dieser Rechnung zurück.
-     *
-     * @return Der Rechnungs <code>CharacterisationType</code>.
-     */
-    public CharacterisationType getCharacterisationType() {
-        if (getDeliveryOrders().size() > 1) return CharacterisationType.UNIT_BILLING;
-        return CharacterisationType.BILL;
     }
 
     /**

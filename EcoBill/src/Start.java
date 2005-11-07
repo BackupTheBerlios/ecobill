@@ -1,6 +1,7 @@
 import javax.swing.*;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.BeansException;
 import ecobill.core.ui.MainFrame;
 import ecobill.core.ui.SplashScreen;
 
@@ -13,7 +14,7 @@ import ecobill.core.ui.SplashScreen;
  * Time: 17:47:38
  *
  * @author Roman R&auml;dle
- * @version $Id: Start.java,v 1.5 2005/10/05 13:55:40 raedler Exp $
+ * @version $Id: Start.java,v 1.6 2005/11/07 00:01:27 raedler Exp $
  * @since Ecobill 1.0
  */
 public class Start {
@@ -31,6 +32,13 @@ public class Start {
             e.printStackTrace();
         }
 
-        new ClassPathXmlApplicationContext("ecobill/config/applicationContext.xml");
+        try {
+            new ClassPathXmlApplicationContext("ecobill/config/applicationContext.xml");
+        }
+        catch (BeansException be) {
+            be.printStackTrace();
+
+            System.exit(100);
+        }
     }
 }
