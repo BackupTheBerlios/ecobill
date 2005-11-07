@@ -35,7 +35,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.100 2005/11/06 23:32:32 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.101 2005/11/07 08:28:57 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -682,11 +682,13 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
                     }
 
                     // TODO: Status 100 bitte in der Dokumentation eintragen.
+                    dispose();
                     System.exit(100);
                 }
             }
 
             // Beendet die Anwendung ohne Fehler.
+            dispose();
             System.exit(0);
         }
     }

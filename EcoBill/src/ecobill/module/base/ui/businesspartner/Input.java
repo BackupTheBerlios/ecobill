@@ -35,7 +35,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: Input.java,v 1.8 2005/11/06 23:32:32 raedler Exp $
+ * @version $Id: Input.java,v 1.9 2005/11/07 08:28:57 raedler Exp $
  * @since EcoBill 1.0
  */
 public class Input extends JPanel implements Internationalization {
@@ -194,11 +194,11 @@ public class Input extends JPanel implements Internationalization {
         city.setMinimumSize(new Dimension(120, 20));
         city.setPreferredSize(new Dimension(120, 20));
 
-        country.setMinimumSize(new Dimension(120, 20));
-        country.setPreferredSize(new Dimension(120, 20));
+        country.setMinimumSize(new Dimension(140, 20));
+        country.setPreferredSize(new Dimension(140, 20));
 
-        county.setMinimumSize(new Dimension(120, 20));
-        county.setPreferredSize(new Dimension(120, 20));
+        county.setMinimumSize(new Dimension(140, 20));
+        county.setPreferredSize(new Dimension(140, 20));
     }
 
     /**
@@ -246,12 +246,12 @@ public class Input extends JPanel implements Internationalization {
                                         .add(city, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)))
                                 .add(GroupLayout.LEADING, layout.createSequentialGroup()
                                 .add(layout.createParallelGroup(GroupLayout.LEADING)
-                                        .add(country, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                                        .add(country, GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                                         .add(countryL))
                                 .addPreferredGap(LayoutStyle.RELATED)
                                 .add(layout.createParallelGroup(GroupLayout.LEADING)
                                 .add(countyL)
-                                .add(county, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))))
+                                .add(county, GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))))
                         .addContainerGap())
         );
         layout.setVerticalGroup(
