@@ -16,7 +16,7 @@ import java.awt.*;
  * Time: 16:16:40
  *
  * @author Andreas Weiler
- * @version $Id: HelpUI.java,v 1.25 2005/11/08 15:53:29 jfuckerweiler Exp $
+ * @version $Id: HelpUI.java,v 1.24 2005/11/08 15:52:46 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class HelpUI extends JFrame {
@@ -131,9 +131,6 @@ public class HelpUI extends JFrame {
 
         deliveryOrder.setTitleAt(0, WorkArea.getMessage(Constants.DO_TABBED1));
         deliveryOrder.setTitleAt(1, WorkArea.getMessage(Constants.DO_TABBED2));
-
-        billTabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.DO_TABBED1));
-        billTabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.DO_TABBED2));
 
         helpTabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.HELP_TABBED_PANE0));
         helpTabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.HELP_TABBED_PANE1));
