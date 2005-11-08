@@ -20,10 +20,12 @@ import org.apache.commons.logging.LogFactory;
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
-import javax.swing.undo.UndoManager;
+import javax.sound.midi.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Locale;
+import java.io.IOException;
+import java.io.File;
 
 // @todo document me!
 
@@ -35,7 +37,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.103 2005/11/08 18:09:35 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.104 2005/11/08 21:07:38 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -571,7 +573,15 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
                 if (e.getSource().equals(about))
                     // Methode about() wird aufgerufen
-                    about();
+                    try {
+                        about();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (MidiUnavailableException e1) {
+                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (InvalidMidiDataException e1) {
+                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
             }
         });
 
@@ -587,14 +597,22 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     // wird aufgerufen bei About
-    public void about() {
+    public void about() throws IOException, MidiUnavailableException, InvalidMidiDataException {
+
+        midiPlayer();
 
         // AusgabeStrings im PopUp Fenster About
         String ab = "About";
         String ec = "Economy Bill Agenda" + LINE_SEPARATOR + "        Version 1.0";
 
         // erstellt PopUp About
-        JOptionPane.showMessageDialog(this, ec, ab, JOptionPane.DEFAULT_OPTION, new ImageIcon("images/About.gif"));
+      //JOptionPane.showMessageDialog(this, ec, ab, JOptionPane.OK_OPTION, new ImageIcon("images/About.gif"));
+
+        if (JOptionPane.showConfirmDialog(this, ec, ab, JOptionPane.CLOSED_OPTION, 0, new ImageIcon("images/about.gif")) ==
+                JOptionPane.OK_OPTION) {
+            stopMidi();
+        }
+
     }
 
     // wird aufgerufen bei Help Topics
@@ -764,5 +782,31 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
 
         this.getContentPane().add(toolbar, BorderLayout.NORTH);
+    }
+
+    /**
+     * MidiPlayer für das About Midi
+     */
+
+    private Sequence sequence;
+    private Sequencer sequencer;
+    private void midiPlayer(){
+        try {
+          sequence = MidiSystem.getSequence(new File("midi/SuperMario.mid"));
+            // Create a sequencer for the sequence
+          sequencer = MidiSystem.getSequencer();
+            sequencer.open();
+            sequencer.setSequence(sequence);
+                // Start playing
+        sequencer.start();
+    } catch (IOException e) {
+    } catch (MidiUnavailableException e) {
+    } catch (InvalidMidiDataException e) {
+    }
+    }
+
+    private void stopMidi() {
+        sequencer.stop();
+
     }
 }
