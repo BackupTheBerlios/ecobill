@@ -16,7 +16,7 @@ import java.awt.*;
  * Time: 16:16:40
  *
  * @author Andreas Weiler
- * @version $Id: HelpUI.java,v 1.23 2005/11/06 16:54:21 jfuckerweiler Exp $
+ * @version $Id: HelpUI.java,v 1.25 2005/11/08 15:53:29 jfuckerweiler Exp $
  * @since EcoBill 1.0
  */
 public class HelpUI extends JFrame {
@@ -40,8 +40,10 @@ public class HelpUI extends JFrame {
     public HelpBrowser helpBrowser5 = new HelpBrowser("./html/help/help5.html");
     public HelpBrowser dOBrowser1 = new HelpBrowser("./html/help/do1.html");
     public HelpBrowser dOBrowser2 = new HelpBrowser("./html/help/do2.html");
-    public HelpBrowser dOBrowser3 = new HelpBrowser("./html/help/do3.html");
+    public HelpBrowser rBrowser1 = new HelpBrowser("./html/help/r1.html");
+    public HelpBrowser rBrowser2 = new HelpBrowser("./html/help/r2.html");
     private JTabbedPane deliveryOrder = new JTabbedPane();
+    private JTabbedPane billTabbedPane = new JTabbedPane();
 
     /**
      * Initialisiert die Komponenten
@@ -56,12 +58,18 @@ public class HelpUI extends JFrame {
         // fügt die einzelnen Panels den Tabs hinzu
         deliveryOrder.add(dOBrowser1);
         deliveryOrder.add(dOBrowser2);
-        deliveryOrder.add(dOBrowser3);
 
         // setzt die Icons der einzelnen Tabs
         deliveryOrder.setIconAt(0, new ImageIcon("images/help.png"));
         deliveryOrder.setIconAt(1, new ImageIcon("images/help.png"));
-        deliveryOrder.setIconAt(2, new ImageIcon("images/help.png"));
+
+       // fügt die einzelnen Panels den Tabs hinzu
+        billTabbedPane.add(rBrowser1);
+        billTabbedPane.add(rBrowser2);
+
+        // setzt die Icons der einzelnen Tabs
+        billTabbedPane.setIconAt(0, new ImageIcon("images/help.png"));
+        billTabbedPane.setIconAt(1, new ImageIcon("images/help.png"));
 
         // fügt die einzelnen Panels den Tabs hinzu
         helpTabbedPane.add(imagePanel);
@@ -69,7 +77,7 @@ public class HelpUI extends JFrame {
         helpTabbedPane.add(helpBrowser2);
         helpTabbedPane.add(helpBrowser3);
         helpTabbedPane.add(deliveryOrder);
-        helpTabbedPane.add(helpBrowser5);
+        helpTabbedPane.add(billTabbedPane);
 
         // setzt die Icons der einzelnen Tabs
         helpTabbedPane.setIconAt(0, new ImageIcon("images/help.png"));
@@ -123,7 +131,9 @@ public class HelpUI extends JFrame {
 
         deliveryOrder.setTitleAt(0, WorkArea.getMessage(Constants.DO_TABBED1));
         deliveryOrder.setTitleAt(1, WorkArea.getMessage(Constants.DO_TABBED2));
-        deliveryOrder.setTitleAt(2, WorkArea.getMessage(Constants.DO_TABBED3));
+
+        billTabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.DO_TABBED1));
+        billTabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.DO_TABBED2));
 
         helpTabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.HELP_TABBED_PANE0));
         helpTabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.HELP_TABBED_PANE1));
