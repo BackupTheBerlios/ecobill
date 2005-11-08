@@ -40,7 +40,7 @@ import java.io.FileOutputStream;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.15 2005/11/07 21:49:30 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.16 2005/11/08 18:09:35 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JPanel implements InitializingBean, Internationalization, DisposableBean {
@@ -494,12 +494,12 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         tabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.LABELLING));
 
         verticalButtonOverview.reinitI18N();
-
         verticalButtonOverview.getButton1().setToolTipText(WorkArea.getMessage(Constants.BUTTON1_ARTICLE_TOOLTIP));
         verticalButtonOverview.getButton2().setToolTipText(WorkArea.getMessage(Constants.BUTTON2_ARTICLE_TOOLTIP));
         verticalButtonOverview.getButton3().setToolTipText(WorkArea.getMessage(Constants.BUTTON3_ARTICLE_TOOLTIP));
         verticalButtonOverview.getButton4().setToolTipText(WorkArea.getMessage(Constants.BUTTON4_ARTICLE_TOOLTIP));
 
+        verticalButtonLabelling.reinitI18N();
         verticalButtonLabelling.getButton1().setToolTipText(WorkArea.getMessage(Constants.BUTTON1_LABELLING_TOOLTIP));
         verticalButtonLabelling.getButton2().setToolTipText(WorkArea.getMessage(Constants.BUTTON2_LABELLING_TOOLTIP));
         verticalButtonLabelling.getButton3().setToolTipText(WorkArea.getMessage(Constants.BUTTON3_LABELLING_TOOLTIP));

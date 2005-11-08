@@ -35,7 +35,7 @@ import java.util.Locale;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.102 2005/11/07 21:49:30 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.103 2005/11/08 18:09:35 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -184,9 +184,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // Setzt das IconImage des <code>JFrame</code>.
         setIconImage(Toolkit.getDefaultToolkit().getImage("images/ico/currency_dollar.png"));
-
-        // Setzt Title des <code>MainFrame</code>.
-        setTitle(WorkArea.getMessage(Constants.APPLICATION_TITLE));
 
         // Setzt Größe des <code>MainFrame</code>.
         setSize(new Dimension(950, 700));
@@ -527,10 +524,16 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         lang.add(german);
         lang.add(english);
 
+        if (WorkArea.getLocale().equals(Locale.GERMAN)) {
+            lang.setSelected(german.getModel(), true);
+        }
+        else {
+            lang.setSelected(english.getModel(), true);
+        }
+
         // fügt LanguageMenüItems German und English dem LanguageMenü zu
         language.add(german);
         language.add(english);
-
 
         // setzt Mnemonic beim MenuItem Hilfe
         help.setMnemonic(KeyEvent.VK_H);
@@ -574,6 +577,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // setzt About ShortCut
         about.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_MASK));
+
         // fügt About zu Help hinzu
         help.add(about);
 
@@ -595,7 +599,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
     // wird aufgerufen bei Help Topics
     public void topic() {
-
         helpUI.setVisible(true);
     }
 
@@ -694,6 +697,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
      */
     public void reinitI18N() {
 
+        // Setzt Title des <code>MainFrame</code>.
+        setTitle(WorkArea.getMessage(Constants.APPLICATION_TITLE));
+
         file.setText(WorkArea.getMessage(Constants.FILE));
         edit.setText(WorkArea.getMessage(Constants.EDIT));
         help.setText(WorkArea.getMessage(Constants.HELP));
@@ -716,9 +722,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         tabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.MESSAGE));
         tabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.ARTICLE));
-        tabbedPane.setTitleAt(2, WorkArea.getMessage(Constants.CUSTOMER));
-        tabbedPane.setTitleAt(3, WorkArea.getMessage(Constants.DELIVERY_ORDER));
-        tabbedPane.setTitleAt(4, WorkArea.getMessage(Constants.BILL));
+        tabbedPane.setTitleAt(2, WorkArea.getMessage(Constants.CUSTOMERS));
+        tabbedPane.setTitleAt(3, WorkArea.getMessage(Constants.DELIVERY_ORDERS));
+        tabbedPane.setTitleAt(4, WorkArea.getMessage(Constants.BILLS));
 
         english.setText(WorkArea.getMessage(Constants.ENGLISH));
         german.setText(WorkArea.getMessage(Constants.GERMAN));
@@ -731,7 +737,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         billUI.reinitI18N();
         deliveryOrderUI.reinitI18N();
         helpUI.reinitI18N();
-
     }
 
     public void setSelectedTab(int index) {

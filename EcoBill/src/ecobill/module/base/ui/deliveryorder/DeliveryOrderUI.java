@@ -22,6 +22,7 @@ import ecobill.core.system.Constants;
 import ecobill.core.ui.MainFrame;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.event.TableModelListener;
 import java.io.FileOutputStream;
@@ -32,7 +33,15 @@ import java.awt.*;
 import java.awt.event.*;
 
 /**
- * @author Roman Georg Rädle
+ * DeliveryOrderUI.
+ * <p/>
+ * User: rro
+ * Date: 05.10.2005
+ * Time: 16:57:16
+ *
+ * @author Roman R&auml;dle
+ * @version $Id: DeliveryOrderUI.java,v 1.15 2005/11/08 18:09:35 raedler Exp $
+ * @since EcoBill 1.0
  */
 public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
 
@@ -357,8 +366,18 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         tabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.OVERVIEW));
         tabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.MAX_OVERVIEW));
 
+        tabbedPaneRight.setTitleAt(0, WorkArea.getMessage(Constants.ADDRESS));
+        tabbedPaneRight.setTitleAt(1, WorkArea.getMessage(Constants.DATA));
+
         verticalButton.reinitI18N();
         deliveryOrderData.reinitI18N();
+        articleTable.reinitI18N();
+        address.reinitI18N();
+        deliveryOrderData.reinitI18N();
+        deliveryOrderTable.reinitI18N();
+        deliveryOrderPrintPanelOverview.reinitI18N();
+
+        ((TitledBorder) deliveryOrderTable.getPanelBorder()).setTitle(WorkArea.getMessage(Constants.DELIVERY_ORDER));
 
         verticalButton.getButton1().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON1_TOOLTIP));
         verticalButton.getButton2().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON2_TOOLTIP));

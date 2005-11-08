@@ -32,7 +32,7 @@ import java.util.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleTable.java,v 1.11 2005/11/07 00:01:27 raedler Exp $
+ * @version $Id: ArticleTable.java,v 1.12 2005/11/08 18:09:35 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleTable extends AbstractTablePanel {
@@ -139,8 +139,7 @@ public class ArticleTable extends AbstractTablePanel {
     }
 
     /**
-     * Diese Methode stammt aus dem Interface <code>Internationalization</code> um die Komponente
-     * mit der landesspezifischen Sprache zu reinitialisieren.
+     * @see ecobill.module.base.ui.component.AbstractTablePanel#reinitI18N() 
      */
     public void reinitI18N() {
         super.reinitI18N();

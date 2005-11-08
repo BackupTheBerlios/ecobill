@@ -4,8 +4,11 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 
 import java.util.Locale;
+import java.util.prefs.Preferences;
 
 import ecobill.core.system.exception.WorkAreaNotFoundException;
 
@@ -19,10 +22,10 @@ import ecobill.core.system.exception.WorkAreaNotFoundException;
  * Time: 16:41:40
  *
  * @author Roman R&auml;dle
- * @version $Id: WorkArea.java,v 1.8 2005/10/04 09:32:45 raedler Exp $
+ * @version $Id: WorkArea.java,v 1.9 2005/11/08 18:09:35 raedler Exp $
  * @since EcoBill 1.0
  */
-public final class WorkArea implements ApplicationContextAware {
+public final class WorkArea implements ApplicationContextAware, InitializingBean, DisposableBean {
 
     /**
      * Der <code>ApplicationContext</code> ermöglicht den Zugang zu allen erzeugten
@@ -44,6 +47,30 @@ public final class WorkArea implements ApplicationContextAware {
      */
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         ac = applicationContext;
+    }
+
+    /**
+     * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
+     */
+    public void afterPropertiesSet() throws Exception {
+
+        // Die Benutzer Einstellungen.
+        Preferences prefs = Preferences.userRoot();
+        prefs = prefs.node(".EcoBill");
+
+        setLocale(new Locale(prefs.get("WorkArea.Locale", "de")));
+    }
+
+    /**
+     * @see org.springframework.beans.factory.DisposableBean#destroy()
+     */
+    public void destroy() throws Exception {
+
+        // Die Benutzer Einstellungen.
+        Preferences prefs = Preferences.userRoot();
+        prefs = prefs.node(".EcoBill");
+
+        prefs.put("WorkArea.Locale", getLocale().toString());
     }
 
     /**

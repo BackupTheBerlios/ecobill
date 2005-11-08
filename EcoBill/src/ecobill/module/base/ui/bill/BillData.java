@@ -5,7 +5,6 @@ import org.apache.commons.logging.LogFactory;
 import org.jdesktop.layout.GroupLayout;
 import org.jdesktop.layout.LayoutStyle;
 import ecobill.module.base.service.BaseService;
-import ecobill.module.base.ui.deliveryorder.DeliveryOrderData;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import ecobill.core.system.Internationalization;
@@ -26,7 +25,7 @@ import java.util.Calendar;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: BillData.java,v 1.2 2005/11/07 21:49:30 raedler Exp $
+ * @version $Id: BillData.java,v 1.3 2005/11/08 18:09:35 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BillData extends JPanel implements Internationalization {
@@ -77,11 +76,11 @@ public class BillData extends JPanel implements Internationalization {
 
     private TitledBorder border = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.DATA), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
 
-    private JLabel deliveryOrderNumberL = new JLabel();
-    private JTextField deliveryOrderNumber = new JTextField();
+    private JLabel billNumberL = new JLabel();
+    private JTextField billNumber = new JTextField();
 
-    private JLabel deliveryOrderDateL = new JLabel();
-    private JSpinner deliveryOrderDate = new JSpinner();
+    private JLabel billDateL = new JLabel();
+    private JSpinner billDate = new JSpinner();
 
     private JLabel typeL = new JLabel();
     private JComboBox type = new JComboBox();
@@ -101,15 +100,15 @@ public class BillData extends JPanel implements Internationalization {
 
         setBorder(border);
 
-        deliveryOrderNumber.setMinimumSize(new Dimension(80, 20));
-        deliveryOrderNumber.setPreferredSize(new Dimension(80, 20));
+        billNumber.setMinimumSize(new Dimension(80, 20));
+        billNumber.setPreferredSize(new Dimension(80, 20));
 
         SpinnerDateModel dateModel = new SpinnerDateModel();
         dateModel.setCalendarField(Calendar.ERA);
-        deliveryOrderDate.setModel(dateModel);
-        deliveryOrderDate.setFont(new Font("Tahoma", Font.PLAIN, 11));
-        deliveryOrderDate.setMinimumSize(new Dimension(80, 20));
-        deliveryOrderDate.setPreferredSize(new Dimension(80, 20));
+        billDate.setModel(dateModel);
+        billDate.setFont(new Font("Tahoma", Font.PLAIN, 11));
+        billDate.setMinimumSize(new Dimension(80, 20));
+        billDate.setPreferredSize(new Dimension(80, 20));
 
         type.setMinimumSize(new Dimension(120, 20));
         type.setPreferredSize(new Dimension(120, 20));
@@ -146,12 +145,12 @@ public class BillData extends JPanel implements Internationalization {
                                         .add(prefixScrollPane, GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
                                         .add(GroupLayout.LEADING, layout.createSequentialGroup()
                                                 .add(layout.createParallelGroup(GroupLayout.LEADING)
-                                                        .add(deliveryOrderNumber, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-                                                        .add(deliveryOrderNumberL))
+                                                        .add(billNumber, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                                                        .add(billNumberL))
                                                 .addPreferredGap(LayoutStyle.RELATED)
                                                 .add(layout.createParallelGroup(GroupLayout.LEADING)
-                                                        .add(deliveryOrderDate, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-                                                        .add(deliveryOrderDateL))
+                                                        .add(billDate, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                                                        .add(billDateL))
                                                 .addPreferredGap(LayoutStyle.RELATED)
                                                 .add(layout.createParallelGroup(GroupLayout.LEADING)
                                                 .add(typeL)
@@ -167,13 +166,13 @@ public class BillData extends JPanel implements Internationalization {
                         .add(GroupLayout.LEADING, layout.createSequentialGroup()
                         .add(layout.createParallelGroup(GroupLayout.TRAILING)
                                 .add(GroupLayout.TRAILING, layout.createParallelGroup(GroupLayout.BASELINE)
-                                        .add(deliveryOrderNumberL)
-                                        .add(deliveryOrderDateL))
+                                        .add(billNumberL)
+                                        .add(billDateL))
                                 .add(typeL))
                         .addPreferredGap(LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(GroupLayout.BASELINE)
-                                .add(deliveryOrderNumber, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-                                .add(deliveryOrderDate, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+                                .add(billNumber, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+                                .add(billDate, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
                                 .add(type, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(LayoutStyle.RELATED)
                         .add(prefixL)
@@ -194,27 +193,27 @@ public class BillData extends JPanel implements Internationalization {
 
         border.setTitle(WorkArea.getMessage(Constants.DATA));
 
-        deliveryOrderNumberL.setText(WorkArea.getMessage(Constants.DELIVERY_ORDER_NUMBER));
-        deliveryOrderDateL.setText(WorkArea.getMessage(Constants.DATE));
+        billNumberL.setText(WorkArea.getMessage(Constants.BILL_NUMBER));
+        billDateL.setText(WorkArea.getMessage(Constants.DATE));
         typeL.setText(WorkArea.getMessage(Constants.TYPE));
         prefixL.setText(WorkArea.getMessage(Constants.TEXT_PREFIX));
         suffixL.setText(WorkArea.getMessage(Constants.TEXT_SUFFIX));
     }
 
     public String getBillNumber() {
-        return deliveryOrderNumber.getText();
+        return billNumber.getText();
     }
 
     public void setBillNumber(String deliveryOrderNumber) {
-        this.deliveryOrderNumber.setText(deliveryOrderNumber);
+        this.billNumber.setText(deliveryOrderNumber);
     }
 
     public Date getBillDate() {
-        return (Date) deliveryOrderDate.getValue();
+        return (Date) billDate.getValue();
     }
 
     public void setBillDate(Date deliveryOrderDate) {
-        this.deliveryOrderDate.setValue(deliveryOrderDate);
+        this.billDate.setValue(deliveryOrderDate);
     }
 
     public String getPrefix() {

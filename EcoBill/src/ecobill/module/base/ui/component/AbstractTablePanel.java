@@ -7,6 +7,7 @@ import org.jdesktop.layout.GroupLayout;
 import javax.swing.*;
 import javax.swing.event.TableModelListener;
 import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.DefaultTableColumnModel;
@@ -36,7 +37,7 @@ import java.io.*;
  * Time: 12:33:23
  *
  * @author Roman R&auml;dle
- * @version $Id: AbstractTablePanel.java,v 1.10 2005/11/06 23:32:32 raedler Exp $
+ * @version $Id: AbstractTablePanel.java,v 1.11 2005/11/08 18:09:35 raedler Exp $
  * @since EcoBill 1.0
  */
 public abstract class AbstractTablePanel extends JPanel implements Internationalization {
@@ -380,7 +381,7 @@ public abstract class AbstractTablePanel extends JPanel implements International
     /**
      * @see ecobill.core.system.Internationalization#reinitI18N()
      */
-    public void reinitI18N() {
+    public void reinitI18N() {        
         tableSP.setViewportView(table);
     }
 

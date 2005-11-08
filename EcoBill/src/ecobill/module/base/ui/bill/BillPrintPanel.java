@@ -28,7 +28,7 @@ import java.util.LinkedList;
  * Time: 16:45:41
  *
  * @author Sebastian Gath
- * @version $Id: BillPrintPanel.java,v 1.2 2005/11/07 21:49:30 raedler Exp $
+ * @version $Id: BillPrintPanel.java,v 1.3 2005/11/08 18:09:35 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BillPrintPanel extends AbstractJasperPrintPanel {
@@ -54,7 +54,7 @@ public class BillPrintPanel extends AbstractJasperPrintPanel {
      * @see ecobill.module.base.ui.component.AbstractJasperPrintPanel#createPanelBorder()
      */
     protected Border createPanelBorder() {
-        return BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.DELIVERY_ORDER), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
+        return BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.BILL), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
     }
 
     /**
