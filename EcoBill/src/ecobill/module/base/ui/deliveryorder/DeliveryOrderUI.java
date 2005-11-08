@@ -40,7 +40,7 @@ import java.awt.event.*;
  * Time: 16:57:16
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderUI.java,v 1.15 2005/11/08 18:09:35 raedler Exp $
+ * @version $Id: DeliveryOrderUI.java,v 1.16 2005/11/08 21:33:05 gath Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -352,6 +352,29 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         };
 
         deliveryOrderOverview.addButtonToVerticalButton(1,new ImageIcon("images/jasper_view.png"), "Lieferschein in Vorschaufernster anzeigen", actionListener );
+
+        ActionListener actionListener1 = new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+                Long deliveryOrderId = orderTable.getIdOfSelectedRow();
+
+                DeliveryOrder deliveryOrder = (DeliveryOrder) baseService.load(DeliveryOrder.class, deliveryOrderId);
+                baseService.delete(deliveryOrder);
+
+                orderTable.renewTableModel();
+                orderTable.repaint();
+
+                if (deliveryOrderPrintPanelOverview instanceof AbstractJasperPrintPanel) {
+                    ((AbstractJasperPrintPanel) deliveryOrderPrintPanelOverview).clearViewerPanel();
+                }
+            }
+        };
+
+        deliveryOrderOverview.addButtonToVerticalButton(3,new ImageIcon("images/delivery_order_delete.png"), "Lieferschein in löschen", actionListener1 );
+
 
         tabbedPane.addTab(null, deliveryOrderOverview);
 

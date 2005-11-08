@@ -33,7 +33,7 @@ import java.io.*;
  * Time: 17:49:23
  *
  * @author Sebastian Gath
- * @version $Id: BillPreviewTableN.java,v 1.2 2005/11/05 19:34:42 gath Exp $
+ * @version $Id: BillPreviewTableN.java,v 1.3 2005/11/08 21:33:05 gath Exp $
  * @since EcoBill 1.0
  */
 
@@ -171,7 +171,7 @@ public class BillPreviewTableN extends JPanel implements Internationalization, P
     /**
      * Erzeugt einen <code>Vector</code> der Artikel Beschreibung.
      *
-     * @param description Eine <code>ArticleDescription</code> die in einen <code>Vector</code> umgewandelt
+     * @param bpc Eine <code>ArticleDescription</code> die in einen <code>Vector</code> umgewandelt
      *                werden soll.
      * @return Gibt den <code>Vector</code> zurück der aus der <code>ArticleDescription</code> erzeugt wurde.
      */

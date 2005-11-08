@@ -10,7 +10,7 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.45 2005/11/08 15:52:39 jfuckerweiler Exp $
+ * @version $Id: Constants.java,v 1.46 2005/11/08 21:33:05 gath Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {
@@ -74,7 +74,7 @@ public interface Constants {
     public final static String DELIVERY_ORDER_NUMBER_TOOLTIP = "delivery_order_number.tooltip";
     public final static String DELIVERY_ORDERS = "delivery_orders";
     public final static String DELIVERY_ORDERS_TOOLTIP = "delivery_orders.tooltip";
-    public final static String DELIVERY_ORDER_AMOUNT ="delivery_order_amaunt";
+    public final static String DELIVERY_ORDER_AMOUNT ="delivery_order_amount";
     public final static String DESCRIPTION = "description";
     public final static String DESCRIPTION_TOOLTIP = "description.tooltip";
     public final static String DESCRIPTIONS = "descriptions";

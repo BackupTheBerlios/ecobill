@@ -93,7 +93,24 @@ public class OverviewPanel extends JPanel implements Internationalization {
         this.baseService = baseService;
     }
 
+    // Tabelle die auf der rechten Seiten neben dem JSplitPane angezeigt werden soll
+    private AbstractTablePanel leftTable;
+
+    // Panel für der Inhalt der rechten Seiten neben dem JSplitPane
+    private JPanel panelLeft;
+
+    // Panel für der Inhalt der linken Seiten neben dem JSplitPane
+    private JPanel panelRight;
+
+    // Pane der das Fenster teil
+    private JSplitPane splitPane;
+
+    // Buttons zur Steuerung der Oberfläche
+    private VerticalButton verticalButton;
+
+
     public OverviewPanel(BaseService baseService, AbstractTablePanel leftTable, JPanel rightPanel) {
+
         this.baseService = baseService;
         this.leftTable = leftTable;
         this.panelRight = rightPanel;
@@ -102,7 +119,16 @@ public class OverviewPanel extends JPanel implements Internationalization {
         initLayout();
     }
 
+    /**
+     * fügt einen Button der verticalButtonGroup hinzu
+     *
+     * @param x Nummer des Buttons, also an welcher Stelle er zusehen sein soll
+     * @param icon das Icon für den Button
+     * @param toolTip der Text für den Tooltip
+     * @param aListener ein Actionlistner
+     */
     public void addButtonToVerticalButton(int x, ImageIcon icon, String toolTip, ActionListener aListener) {
+
         JButton button = verticalButton.getButtonX(x);
         button.setVisible(true);
         button.setIcon(icon);
@@ -125,27 +151,6 @@ public class OverviewPanel extends JPanel implements Internationalization {
         splitPane.setDividerLocation(200);
         splitPane.setLeftComponent(leftTable);
 
-        verticalButton.getButton3().setVisible(true);
-        verticalButton.getButton3().setIcon(new ImageIcon("images/delivery_order_delete.png"));
-        verticalButton.getButton3().addActionListener(new ActionListener() {
-
-            /**
-             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
-             */
-            public void actionPerformed(ActionEvent e) {
-
-                Long deliveryOrderId = leftTable.getIdOfSelectedRow();
-
-                DeliveryOrder deliveryOrder = (DeliveryOrder) baseService.load(DeliveryOrder.class, deliveryOrderId);
-                baseService.delete(deliveryOrder);
-
-                leftTable.renewTableModel();
-
-                if (panelRight instanceof AbstractJasperPrintPanel) {
-                    ((AbstractJasperPrintPanel) panelRight).clearViewerPanel();
-                }
-            }
-        });
     }
 
     /**
@@ -213,12 +218,6 @@ public class OverviewPanel extends JPanel implements Internationalization {
     public void renewLeftTableModel() {
         leftTable.renewTableModel();
     }
-
-    private AbstractTablePanel leftTable;
-    private JPanel panelLeft;
-    private JPanel panelRight;
-    private JSplitPane splitPane;
-    private VerticalButton verticalButton;
 
     public VerticalButton getVerticalButton() {
         return verticalButton;

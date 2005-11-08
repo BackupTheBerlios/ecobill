@@ -23,11 +23,16 @@ import java.util.Collections;
 import java.util.Set;
 
 /**
- * Created by IntelliJ IDEA.
- * User: basti
+ * Die <code>BillPreviewTable</code> enthält alle Daten, zur Vorschau der Lieferscheindaten  zur Rechnungsvor
+ * schau auf dem Rechnungsübersichtstab
+ * <p/>
+ * User: sega
  * Date: 09.10.2005
- * Time: 23:23:26
- * To change this template use File | Settings | File Templates.
+ * Time: 17:49:23
+ *
+ * @author Sebastian Gath
+ * @version $Id: OrderTable.java,v 1.5 2005/11/08 21:33:05 gath Exp $
+ * @since EcoBill 1.0
  */
 public class OrderTable extends AbstractTablePanel {
 
@@ -67,7 +72,6 @@ public class OrderTable extends AbstractTablePanel {
     }
 
     private Collection<DeliveryOrder> dataCollection;
-    //private Collection<Object> dataCollection;
 
     /**
      * @see ecobill.module.base.ui.component.AbstractTablePanel#getDataCollection()

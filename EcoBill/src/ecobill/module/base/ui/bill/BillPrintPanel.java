@@ -18,8 +18,6 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-// @todo document me!
-
 /**
  * DeliveryOrderPrintPanel.
  * <p/>
@@ -28,13 +26,13 @@ import java.util.LinkedList;
  * Time: 16:45:41
  *
  * @author Sebastian Gath
- * @version $Id: BillPrintPanel.java,v 1.3 2005/11/08 18:09:35 raedler Exp $
+ * @version $Id: BillPrintPanel.java,v 1.4 2005/11/08 21:33:05 gath Exp $
  * @since EcoBill 1.0
  */
 public class BillPrintPanel extends AbstractJasperPrintPanel {
 
     /**
-     * TODO: document me!!!
+     * Konstruktor, legt ein neues
      *
      * @param mainFrame
      * @param baseService
@@ -73,7 +71,6 @@ public class BillPrintPanel extends AbstractJasperPrintPanel {
         java.util.List reduplicatedArticles = new LinkedList();
 
         Set<DeliveryOrder> deliveryOrders = bill.getDeliveryOrders();
-        System.out.println("Size von deliveryOrders:" + deliveryOrders.size());
 
         // nimmt die Lieferscheinnummern auf
         String deliveryOrderNumbers = "";

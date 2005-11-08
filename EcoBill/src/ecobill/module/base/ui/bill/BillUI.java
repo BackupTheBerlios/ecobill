@@ -13,6 +13,7 @@ import ecobill.module.base.service.BaseService;
 import ecobill.module.base.ui.component.VerticalButton;
 import ecobill.module.base.ui.component.OverviewPanel;
 import ecobill.module.base.ui.component.Address;
+import ecobill.module.base.ui.component.AbstractJasperPrintPanel;
 import ecobill.module.base.ui.deliveryorder.OrderTableWithCB;
 import ecobill.module.base.domain.*;
 import ecobill.core.util.IdValueItem;
@@ -27,8 +28,18 @@ import java.awt.*;
 import java.awt.event.*;
 
 /**
- * @author Roman Georg Rädle
+ * DeliveryOrderUI.
+ * <p/>
+ * User: gs
+ * Date: 05.10.2005
+ * Time: 16:57:16
+ *
+ * @author Sebastian Gath
+ * @version $Id: BillUI.java,v 1.15 2005/11/08 21:33:05 gath Exp $
+ * @since EcoBill 1.0
  */
+
+
 public class BillUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
 
     /**
@@ -114,16 +125,16 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         // Versuche evtl. abgelegte/serialisierte Objekte zu laden.
         /*
         try {
-            deliveryOrderTable.unpersist(new FileInputStream(serializeIdentifiers.getProperty("delivery_order_table")));
-            articleTable.unpersist(new FileInputStream(serializeIdentifiers.getProperty("article_table")));
+            deliveryOrderTable.unpersist(new FileInputStream(serializeIdentifiers.getProperty("bill_table")));
+            articleTable.unpersist(new FileInputStream(serializeIdentifiers.getProperty("bill_table")));
         }
         catch (FileNotFoundException fnfe) {
             if (LOG.isErrorEnabled()) {
                 LOG.error(fnfe.getMessage());
             }
         }
-        */
 
+         */
         reinitI18N();
     }
 
@@ -134,15 +145,61 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
         /*
         if (LOG.isInfoEnabled()) {
-            LOG.info("Schließe DeliveryOrderUI und speichere die Daten.");
+            LOG.info("Schließe BillUI und speichere die Daten.");
         }
 
         // Serialisiere diese Objekte um sie bei einem neuen Start des Programmes wieder laden
         // zu können.
-        deliveryOrderTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("delivery_order_table"))));
+        billTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("delivery_order_table"))));
         articleTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("article_table"))));
         */
     }
+
+    // Adresse des Businesspartners
+    private Address address;
+
+    // Panel für die Adresse des Businesspartners
+    private JPanel addressPanel;
+
+    // Rechnungstablle
+    private BillTable billTable;
+
+    // Rechnungsdatum
+    private BillData billData;
+
+    // Rechnungsdatenpanel
+    private JPanel billDataPanel;
+
+    // Vorschautabelle für Rechnungen
+    private BillPreviewTable billPreviewTable;
+
+    // Übersichtspanel
+    private JPanel overview;
+
+    // Panel rechte Seite
+    private JPanel panelLeft;
+
+    // Panel linke Seite
+    private JPanel panelRight;
+
+    // splitPane für erstes Pane
+    private JSplitPane splitPane;
+
+    // TabbedPane Adresse
+    private JTabbedPane tabbedPane;
+
+    // TabbedPane Daten
+    private JTabbedPane tabbedPaneRight;
+
+    // Vertikale Buttongroup
+    private VerticalButton verticalButton;
+
+    // Lieferscheintabelle mit Checkboxen
+    private OrderTableWithCB deliveryOrderTableCB;
+
+    // Panel für den Jasperreport
+    private BillPrintPanel billPrintPanelOverview;
+
 
     /**
      * Initialisiert die Komponenten.
@@ -169,6 +226,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
         billPrintPanelOverview  = new BillPrintPanel(mainFrame, baseService);
 
+        // Button zum Speichern des aktuellen Lieferscheins hinzufügen
         verticalButton.getButton2().setVisible(true);
         verticalButton.getButton2().setIcon(new ImageIcon("images/delivery_order_ok.png"));
         verticalButton.getButton2().addActionListener(new ActionListener() {
@@ -194,6 +252,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
             }
         });
 
+        // Button refresh hinzufügen
         verticalButton.getButton4().setVisible(true);
         verticalButton.getButton4().setIcon(new ImageIcon("images/refresh.png"));
 
@@ -282,18 +341,14 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
         OverviewPanel deliveryOrderOverview = new OverviewPanel(baseService, billTable, billPrintPanelOverview);
         ActionListener actionListener = new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+
             public void actionPerformed(ActionEvent e) {
                 try {
-
-                    // TODO: Benutze billTable.getIdOfSelectedRow();
-                    int row = billTable.getTable().getSelectedRow();
-
-                    if (row != -1) {
-                        billPrintPanelOverview.doJasper(((IdValueItem) billTable.getTable().getValueAt(row,0)).getId());
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(BillUI.this, "Datensatz auswählen", "Nachricht", JOptionPane.INFORMATION_MESSAGE);
-                    }
+                      billPrintPanelOverview.doJasper(billTable.getIdOfSelectedRow());
                 }
                 catch (Exception e1) {
                     e1.printStackTrace();
@@ -301,7 +356,28 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
             }
         };
 
-        deliveryOrderOverview.addButtonToVerticalButton(1,new ImageIcon("images/jasper_view.png"), "Lieferschein in Vorschaufernster anzeigen", actionListener );
+        deliveryOrderOverview.addButtonToVerticalButton(1,new ImageIcon("images/jasper_view.png"), "Rechnung in Vorschaufernster anzeigen", actionListener );
+
+        ActionListener actionListener1 = new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+
+                Long billId = billTable.getIdOfSelectedRow();
+
+                Bill bill = (Bill) baseService.load(Bill.class, billId);
+                baseService.delete(bill);
+
+                billTable.renewTableModel();
+                 if (billPrintPanelOverview instanceof AbstractJasperPrintPanel) {
+                    ((AbstractJasperPrintPanel) billPrintPanelOverview).clearViewerPanel();
+                }
+            }
+        };
+
+        deliveryOrderOverview.addButtonToVerticalButton(3,new ImageIcon("images/delivery_order_delete.png"), "Rechnung löschen", actionListener1 );
 
         tabbedPane.addTab(null, deliveryOrderOverview);
 
@@ -336,28 +412,21 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         billTable.renewTableModel();
     }
 
-    private Address address;
-    private JPanel addressPanel;
-    private BillTable billTable;
-    private BillData billData;
-    private JPanel billDataPanel;
-    private BillPreviewTable billPreviewTable;
-    private JPanel overview;
-    private JPanel panelLeft;
-    private JPanel panelRight;
-    private JSplitPane splitPane;
-    private JTabbedPane tabbedPane;
-    private JTabbedPane tabbedPaneRight;
-    private VerticalButton verticalButton;
 
-    private OrderTableWithCB deliveryOrderTableCB;
-
-    private BillPrintPanel billPrintPanelOverview;
-
+    /**
+     * Setzt den BusinessPartner
+     *
+     * @param businessPartner
+     */
     public void setBusinessPartner(BusinessPartner businessPartner) {
         address.setBusinessPartner(businessPartner);
     }
 
+    /**
+     * Setzt alle Eingabefelder neu
+     *
+     * @param deliveryOrderNumber
+     */
     public void resetInput(String deliveryOrderNumber) {
         billData.setBillNumber(deliveryOrderNumber);
         billData.setBillDate(new Date());
@@ -431,6 +500,11 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
     private Long actualBusinessPartnerId;
 
+    /**
+     * setzt den akutellen Businesspartner anhand seiner Id
+     *
+     * @param actualBusinessPartnerId
+     */
     public void setActualBusinessPartnerId(Long actualBusinessPartnerId) {
 
         this.actualBusinessPartnerId = actualBusinessPartnerId;

@@ -29,7 +29,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Sebastian Gath
- * @version $Id: BillRightPanel.java,v 1.7 2005/11/06 23:32:32 raedler Exp $
+ * @version $Id: BillRightPanel.java,v 1.8 2005/11/08 21:33:05 gath Exp $
  * @since EcoBill 1.0
  */
 public class BillRightPanel extends JPanel implements Internationalization {
@@ -79,15 +79,7 @@ public class BillRightPanel extends JPanel implements Internationalization {
 
         dataInputPanel.setBackground(Color.RED);
 
-        // muß das Layout angepasst werden
-        //if (previewTableNeeded) {
-            System.out.println("mit viewer anzeigen");
-
-            jasperViewer = new JasperViewer(dataInputPanel);
-        //}
-        //else {
-        //    jasperViewer = new JasperViewer(this);
-        //}
+        jasperViewer = new JasperViewer(dataInputPanel);
 
         initComponents();
         initLayout();
@@ -152,49 +144,9 @@ public class BillRightPanel extends JPanel implements Internationalization {
      */
     private void initLayout() {
 
-        /*
-        GroupLayout panelRightLayout = new GroupLayout(this);
-
-        setLayout(panelRightLayout);
-        */
-
         this.setLayout(new BorderLayout());
 
         this.add(dataInputPanel, BorderLayout.CENTER);
-
-        /*
-        if (!previewTableNeeded) {
-            panelRightLayout.setHorizontalGroup(
-                    panelRightLayout.createParallelGroup(GroupLayout.LEADING)
-                            .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .add(panelRightLayout.createParallelGroup(GroupLayout.LEADING)
-                            .add(dataInputPanel, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)))
-            );
-            panelRightLayout.setVerticalGroup(
-                    panelRightLayout.createParallelGroup(GroupLayout.LEADING)
-                            .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
-                            .add(dataInputPanel, GroupLayout.PREFERRED_SIZE, 342, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.RELATED))
-            );
-        }
-        else {
-            panelRightLayout.setHorizontalGroup(
-                    panelRightLayout.createParallelGroup(GroupLayout.LEADING)
-                            .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .add(panelRightLayout.createParallelGroup(GroupLayout.LEADING)
-                            .add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
-                            .add(dataInputPanel, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)))
-            );
-            panelRightLayout.setVerticalGroup(
-                    panelRightLayout.createParallelGroup(GroupLayout.LEADING)
-                            .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
-                            .add(dataInputPanel, GroupLayout.PREFERRED_SIZE, 342, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.RELATED)
-                            .add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE))
-            );
-        }*/
     }
 
     /**
@@ -221,11 +173,7 @@ public class BillRightPanel extends JPanel implements Internationalization {
      */
     public void doJasper(Long id) throws Exception {
 
-        // Entferne evtl. schon vorhandene Komponenten.
-        //removeAll();
-
-        // TODO: Hier wäre es auch möglich direkt von Thread abzuleiten. SINNVOLL?!?
-        // Starte nebenläufigen <code>JasperThread</code>.
+         // Starte nebenläufigen <code>JasperThread</code>.
         new Thread(new BillRightPanel.JasperThread(id)).start();
     }
 
@@ -239,9 +187,7 @@ public class BillRightPanel extends JPanel implements Internationalization {
 
         mainFrame.setProgressPercentage(10);
 
-        System.out.println("billId:" + billId);
         Bill bill = (Bill) baseService.load(Bill.class, billId);
-        System.out.println("BillDate" + bill.getBillDate());
 
         BusinessPartner bp = bill.getBusinessPartner();
         Person person = bp.getPerson();
@@ -249,26 +195,7 @@ public class BillRightPanel extends JPanel implements Internationalization {
 
         Set reduplicatedArticles = new HashSet();
         Set<DeliveryOrder> deliveryOrders = bill.getDeliveryOrders();
-        System.out.println("Size von deliveryOrders:" + deliveryOrders.size());
-
-        // nimmt die Lieferscheinnummern auf
-        String deliveryOrderNumbers = "";
-
-        int i = 0;
-        for (DeliveryOrder deliveryOrder : deliveryOrders) {
-
-            if (i == 0) {
-                deliveryOrderNumbers = deliveryOrder.getDeliveryOrderNumber();
-            }
-            else if (i <= deliveryOrders.size() && i > 0) {
-                deliveryOrderNumbers = deliveryOrderNumbers + "," + deliveryOrder.getDeliveryOrderNumber();
-            }
-
-            i++;
-
-            reduplicatedArticles.addAll(deliveryOrder.getArticles());
-        }
-
+ 
         mainFrame.setProgressPercentage(30);
 
         // Die Parameter, die an den <code>JasperViewer</code> übergeben werden und zum erstellen des
@@ -289,7 +216,6 @@ public class BillRightPanel extends JPanel implements Internationalization {
         jasperViewer.addParameter("DATE", bill.getBillDate());
         jasperViewer.addParameter("CUSTOMER_NUMBER", bp.getCustomerNumber());
         jasperViewer.addParameter("BILL_NUMBER", bill.getBillNumber().toString());
-        jasperViewer.addParameter("DELIVERY_ORDER_NUMBERS", deliveryOrderNumbers);
 
         mainFrame.setProgressPercentage(50);
 

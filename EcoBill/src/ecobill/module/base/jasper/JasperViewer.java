@@ -22,7 +22,7 @@ import ecobill.core.ui.MainFrame;
  * Time: 12:43:59
  *
  * @author Andreas Weiler
- * @version $Id: JasperViewer.java,v 1.4 2005/10/26 12:10:16 gath Exp $
+ * @version $Id: JasperViewer.java,v 1.5 2005/11/08 21:33:05 gath Exp $
  * @since EcoBill 1.0
  */
 public class JasperViewer {
@@ -129,6 +129,7 @@ public class JasperViewer {
 
             viewer = new JRViewer(print);
 
+            System.out.println("ViewerPanel in JapserViewer: " + viewerPanel);
             viewerPanel.add(viewer, BorderLayout.CENTER);
 
             mainFrame.setProgressPercentage(90);
