@@ -9,7 +9,7 @@
  Time: 13:37:24
 
  @author Roman R&auml;dle
- @version $Id: Bill.hbm.xml,v 1.6 2005/11/07 00:01:26 raedler Exp $
+ @version $Id: Bill.hbm.xml,v 1.7 2005/11/08 21:44:42 raedler Exp $
  @since EcoBill 1.0
 -->
 
@@ -33,7 +33,7 @@
         </property>
 
         <property name="characterisationType" type="string">
-            <column name="CHARACTERISATION_TYPE" not-null="true"/>
+            <column name="CHARACTERISATION_TYPE"/>
         </property>
 
         <property name="prefixFreetext" type="string">

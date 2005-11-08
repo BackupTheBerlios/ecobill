@@ -40,7 +40,7 @@ import java.awt.event.*;
  * Time: 16:57:16
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderUI.java,v 1.16 2005/11/08 21:33:05 gath Exp $
+ * @version $Id: DeliveryOrderUI.java,v 1.17 2005/11/08 21:44:42 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -469,7 +469,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
     private void saveOrUpdateDeliveryOrder() {
 
-
         DeliveryOrder deliveryOrder = new DeliveryOrder();
 
         deliveryOrder.setBusinessPartner(address.getBusinessPartner());
@@ -494,6 +493,8 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         }
 
         baseService.saveOrUpdate(deliveryOrder);
+
+        reduplicatedArticles.clear();
     }
 
     public void resetInput(String deliveryOrderNumber) {

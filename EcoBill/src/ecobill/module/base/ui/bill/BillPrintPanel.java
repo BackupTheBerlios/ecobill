@@ -26,7 +26,7 @@ import java.util.LinkedList;
  * Time: 16:45:41
  *
  * @author Sebastian Gath
- * @version $Id: BillPrintPanel.java,v 1.4 2005/11/08 21:33:05 gath Exp $
+ * @version $Id: BillPrintPanel.java,v 1.5 2005/11/08 21:44:42 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BillPrintPanel extends AbstractJasperPrintPanel {
@@ -112,9 +112,10 @@ public class BillPrintPanel extends AbstractJasperPrintPanel {
         getJasperViewer().addParameter("BILL_NUMBER", bill.getBillNumber().toString());
         getJasperViewer().addParameter("DELIVERY_ORDER_NUMBERS", deliveryOrderNumbers);
 
-        getMainFrame().setProgressPercentage(50);
+        getJasperViewer().addParameter("PREFIX_FREE_TEXT", bill.getPrefixFreetext());
+        getJasperViewer().addParameter("SUFFIX_FREE_TEXT", bill.getSuffixFreetext());
 
-        System.out.println("redArtSize: " + reduplicatedArticles.size());
+        getMainFrame().setProgressPercentage(50);
 
         getJasperViewer().view(getMainFrame(), WorkArea.getMessage(Constants.BILL_JRXML), reduplicatedArticles);
 

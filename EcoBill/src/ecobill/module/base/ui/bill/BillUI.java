@@ -35,7 +35,7 @@ import java.awt.event.*;
  * Time: 16:57:16
  *
  * @author Sebastian Gath
- * @version $Id: BillUI.java,v 1.15 2005/11/08 21:33:05 gath Exp $
+ * @version $Id: BillUI.java,v 1.16 2005/11/08 21:44:42 raedler Exp $
  * @since EcoBill 1.0
  */
 
@@ -432,6 +432,9 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         billData.setBillDate(new Date());
         billData.setPrefix("");
         billData.setSuffix("");
+
+        billPreviewTable.getTableModel().getDataVector().removeAllElements();
+        billPreviewTable.renewTableModel();
     }
 
     /**
@@ -496,6 +499,8 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
         // Rechnungsobjekt speichern
         baseService.saveOrUpdate(bill);
+
+        billPreviewCollections.clear();
     }
 
     private Long actualBusinessPartnerId;

@@ -37,7 +37,7 @@ import java.io.File;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.104 2005/11/08 21:07:38 jfuckerweiler Exp $
+ * @version $Id: MainFrame.java,v 1.105 2005/11/08 21:44:42 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -576,11 +576,11 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
                     try {
                         about();
                     } catch (IOException e1) {
-                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        e1.printStackTrace();
                     } catch (MidiUnavailableException e1) {
-                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        e1.printStackTrace();
                     } catch (InvalidMidiDataException e1) {
-                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        e1.printStackTrace();
                     }
             }
         });
@@ -606,10 +606,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         String ec = "Economy Bill Agenda" + LINE_SEPARATOR + "        Version 1.0";
 
         // erstellt PopUp About
-      //JOptionPane.showMessageDialog(this, ec, ab, JOptionPane.OK_OPTION, new ImageIcon("images/About.gif"));
+        int aboutOption = JOptionPane.showConfirmDialog(this, ec, ab, JOptionPane.CLOSED_OPTION, 0, new ImageIcon("images/about.gif"));
 
-        if (JOptionPane.showConfirmDialog(this, ec, ab, JOptionPane.CLOSED_OPTION, 0, new ImageIcon("images/about.gif")) ==
-                JOptionPane.OK_OPTION) {
+        if (aboutOption == JOptionPane.OK_OPTION || aboutOption == JOptionPane.CLOSED_OPTION) {
             stopMidi();
         }
 
