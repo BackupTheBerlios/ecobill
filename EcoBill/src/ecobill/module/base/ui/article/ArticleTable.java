@@ -32,7 +32,7 @@ import java.util.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleTable.java,v 1.12 2005/11/08 18:09:35 raedler Exp $
+ * @version $Id: ArticleTable.java,v 1.13 2005/12/07 18:21:49 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleTable extends AbstractTablePanel {
