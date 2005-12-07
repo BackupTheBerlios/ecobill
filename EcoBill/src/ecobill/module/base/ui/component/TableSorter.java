@@ -399,15 +399,18 @@ public class TableSorter extends DefaultTableModel {
 
         public void mouseClicked(MouseEvent e) {
 
-            System.out.println(">>>>>>>>> ECHO <<<<<<<<");
-
             JTableHeader h = (JTableHeader) e.getSource();
             TableColumnModel columnModel = h.getColumnModel();
             int viewColumn = columnModel.getColumnIndexAtX(e.getX());
             int column = columnModel.getColumn(viewColumn).getModelIndex();
             if (column != -1) {
+
                 int status = getSortingStatus(column);
+
+                System.out.println(">>>>>>>>> ECHO <<<<<<<<: " + status);
+
                 if (!e.isControlDown()) {
+                    System.out.println("CONTROL DOWN");
                     cancelSorting();
                 }
                 // Cycle the sorting states through {NOT_SORTED, ASCENDING, DESCENDING} or

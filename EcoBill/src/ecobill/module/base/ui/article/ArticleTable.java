@@ -32,7 +32,7 @@ import java.util.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleTable.java,v 1.13 2005/12/07 18:21:49 raedler Exp $
+ * @version $Id: ArticleTable.java,v 1.14 2005/12/07 22:07:44 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleTable extends AbstractTablePanel {
@@ -253,66 +253,69 @@ public class ArticleTable extends AbstractTablePanel {
                 // Überprüfe das <code>TableModelEvent</code> auf UPDATE.
                 if (e.getType() == TableModelEvent.UPDATE) {
 
-                    // Die Reihe und Spalte des zu verändernden Wertes.
-                    int row = e.getFirstRow();
-                    int col = e.getColumn();
+                    if (articleId != null) {
+                        
+                        // Die Reihe und Spalte des zu verändernden Wertes.
+                        int row = e.getFirstRow();
+                        int col = e.getColumn();
 
-                    // Sicherheitscheck.
-                    if (row > -1 && row < getTableModel().getRowCount()) {
+                        // Sicherheitscheck.
+                        if (row > -1 && row < getTableModel().getRowCount()) {
 
-                        // Lade betreffenden Artikel von der Datenbank.
-                        Article article = (Article) getBaseService().load(Article.class, articleId);
+                            // Lade betreffenden Artikel von der Datenbank.
+                            Article article = (Article) getBaseService().load(Article.class, articleId);
 
-                        // Veränderter Wert.
-                        Object value = getTableModel().getValueAt(row, col);
+                            // Veränderter Wert.
+                            Object value = getTableModel().getValueAt(row, col);
 
-                        // Der übersetzte Name der Spalte um herauszufinden welcher Wert überhaupt
-                        // geändert werden muss.
-                        String columnName = getTableModel().getColumnName(col);
+                            // Der übersetzte Name der Spalte um herauszufinden welcher Wert überhaupt
+                            // geändert werden muss.
+                            String columnName = getTableModel().getColumnName(col);
 
-                        if (columnName.equals(WorkArea.getMessage(Constants.ARTICLE_NR))) {
-                            article.setArticleNumber((String) value);
-                        }
-                        else if (columnName.equals(WorkArea.getMessage(Constants.UNIT))) {
-                            article.setUnit((SystemUnit) value);
-                        }
-                        else if (columnName.equals(WorkArea.getMessage(Constants.SINGLE_PRICE))) {
-                            article.setPrice(Double.valueOf((String) value));
-                        }
-                        else if (columnName.equals(WorkArea.getMessage(Constants.DESCRIPTION))) {
-                            try {
-                                article.getLocalizedArticleDescription().setDescription((String) value);
+                            if (columnName.equals(WorkArea.getMessage(Constants.ARTICLE_NR))) {
+                                article.setArticleNumber((String) value);
                             }
-                            catch (LocalizerException le) {
-                                ArticleDescription articleDescription = new ArticleDescription();
-
-                                SystemLocale systemLocale = getBaseService().getSystemLocaleByLocale(WorkArea.getLocale());
-
-                                articleDescription.setDescription((String) value);
-                                articleDescription.setSystemLocale(systemLocale);
-
-                                article.addArticleDescription(articleDescription);
+                            else if (columnName.equals(WorkArea.getMessage(Constants.UNIT))) {
+                                article.setUnit((SystemUnit) value);
                             }
-                        }
-                        else if (columnName.equals(WorkArea.getMessage(Constants.IN_STOCK))) {
-                            article.setInStock(Double.valueOf((String) value));
-                        }
-                        else if (columnName.equals(WorkArea.getMessage(Constants.BUNDLE_UNIT))) {
-                            article.setBundleUnit((SystemUnit) value);
-                        }
-                        else if (columnName.equals(WorkArea.getMessage(Constants.BUNDLE_CAPACITY))) {
-                            article.setBundleCapacity(Double.valueOf((String) value));
-                        }
+                            else if (columnName.equals(WorkArea.getMessage(Constants.SINGLE_PRICE))) {
+                                article.setPrice(Double.valueOf((String) value));
+                            }
+                            else if (columnName.equals(WorkArea.getMessage(Constants.DESCRIPTION))) {
+                                try {
+                                    article.getLocalizedArticleDescription().setDescription((String) value);
+                                }
+                                catch (LocalizerException le) {
+                                    ArticleDescription articleDescription = new ArticleDescription();
 
-                        getBaseService().saveOrUpdate(article);
+                                    SystemLocale systemLocale = getBaseService().getSystemLocaleByLocale(WorkArea.getLocale());
 
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("In der Spalte [" + col + "] und Zeile [" + row + "] wurde für den Artikel [id=\"" + articleId + "\"] der Wert auf \"" + getTableModel().getValueAt(row, col) + "\" geändert.");
-                        }
+                                    articleDescription.setDescription((String) value);
+                                    articleDescription.setSystemLocale(systemLocale);
 
-                        if (articleUI != null) {
-                            renewTableModel();
-                            articleUI.showArticle(articleId);
+                                    article.addArticleDescription(articleDescription);
+                                }
+                            }
+                            else if (columnName.equals(WorkArea.getMessage(Constants.IN_STOCK))) {
+                                article.setInStock(Double.valueOf((String) value));
+                            }
+                            else if (columnName.equals(WorkArea.getMessage(Constants.BUNDLE_UNIT))) {
+                                article.setBundleUnit((SystemUnit) value);
+                            }
+                            else if (columnName.equals(WorkArea.getMessage(Constants.BUNDLE_CAPACITY))) {
+                                article.setBundleCapacity(Double.valueOf((String) value));
+                            }
+
+                            getBaseService().saveOrUpdate(article);
+
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("In der Spalte [" + col + "] und Zeile [" + row + "] wurde für den Artikel [id=\"" + articleId + "\"] der Wert auf \"" + getTableModel().getValueAt(row, col) + "\" geändert.");
+                            }
+
+                            if (articleUI != null) {
+                                renewTableModel();
+                                articleUI.showArticle(articleId);
+                            }
                         }
                     }
                 }
