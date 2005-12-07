@@ -6,7 +6,6 @@ import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import ecobill.core.util.IdValueItem;
 import ecobill.module.base.domain.Message;
-import ecobill.module.base.ui.component.VerticalButton;
 import ecobill.module.base.service.BaseService;
 
 import javax.swing.*;
@@ -30,7 +29,7 @@ import org.jdesktop.layout.LayoutStyle;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.6 2005/11/07 21:49:30 raedler Exp $
+ * @version $Id: News.java,v 1.7 2005/12/07 18:13:41 raedler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -79,8 +78,6 @@ public class News extends JPanel implements Internationalization {
         newsTextArea.setLineWrap(true);
         newsTextArea.setWrapStyleWord(true);
 
-        overviewVerticalButton = new VerticalButton();
-
         initTree();
         newsTreeSplitPanel.setBorder(newsBorder);
 
@@ -114,16 +111,6 @@ public class News extends JPanel implements Internationalization {
                 .addContainerGap()));
 
         newsTreeSplitPanel.setLeftComponent(treePanel);
-
-        overviewVerticalButton.getButton1().setVisible(true);
-        overviewVerticalButton.getButton1().setIcon(new ImageIcon("images/news_new.png"));
-        overviewVerticalButton.getButton2().setVisible(true);
-        overviewVerticalButton.getButton2().setIcon(new ImageIcon("images/news_ok.png"));
-        overviewVerticalButton.getButton3().setVisible(true);
-        overviewVerticalButton.getButton3().setIcon(new ImageIcon("images/news_delete.png"));
-        overviewVerticalButton.getButton4().setVisible(true);
-        overviewVerticalButton.getButton4().setIcon(new ImageIcon("images/refresh.png"));
-
 
         newsTextArea.setColumns(20);
 
@@ -201,10 +188,6 @@ public class News extends JPanel implements Internationalization {
 
                 .addContainerGap()
 
-                .add(overviewVerticalButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-
-                .addPreferredGap(LayoutStyle.RELATED)
-
                 .add(newsTreeSplitPanel, GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
 
                 .addContainerGap()));
@@ -217,9 +200,7 @@ public class News extends JPanel implements Internationalization {
 
                 .add(layout.createParallelGroup(GroupLayout.LEADING)
 
-                .add(GroupLayout.TRAILING, newsTreeSplitPanel, GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE)
-
-                .add(overviewVerticalButton, GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE))
+                .add(GroupLayout.TRAILING, newsTreeSplitPanel, GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE))
 
                 .addContainerGap()));
 
@@ -249,25 +230,24 @@ public class News extends JPanel implements Internationalization {
 
     private JTree newsTree;
 
-    private VerticalButton overviewVerticalButton;
-
      /**
      * @see ecobill.core.system.Internationalization#reinitI18N()
      */
     public void reinitI18N() {
 
+        /* TODO: fix me!!!
+        overviewVerticalButton.reinitI18N();
+
         overviewVerticalButton.getButton1().setToolTipText(WorkArea.getMessage(Constants.MESSAGE_BUTTON1_TOOLTIP));
         overviewVerticalButton.getButton2().setToolTipText(WorkArea.getMessage(Constants.MESSAGE_BUTTON2_TOOLTIP));
         overviewVerticalButton.getButton3().setToolTipText(WorkArea.getMessage(Constants.MESSAGE_BUTTON3_TOOLTIP));
         overviewVerticalButton.getButton4().setToolTipText(WorkArea.getMessage(Constants.MESSAGE_BUTTON4_TOOLTIP));
+        */
 
         messageLabel.setText(WorkArea.getMessage(Constants.MESSAGE));
         subjectLabel.setText(WorkArea.getMessage(Constants.SUBJECT));
         addresserLabel.setText(WorkArea.getMessage(Constants.ADDRESSER));
         newsBorder.setTitle(WorkArea.getMessage(Constants.NEWS));
-
-        overviewVerticalButton.reinitI18N();
-
     }
     /**
      * Getter und Setter werden initialisiert
@@ -295,10 +275,6 @@ public class News extends JPanel implements Internationalization {
 
     public void setSubjectTextField(JTextField subjectTextField) {
         this.subjectTextField = subjectTextField;
-    }
-
-    public VerticalButton getOverviewVerticalButton() {
-        return overviewVerticalButton;
     }
 
     public JTree getNewsTree() {

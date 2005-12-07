@@ -29,7 +29,7 @@ import java.awt.event.ActionEvent;
  * Time: 17:49:23
  *
  * @author Sebastian Gath
- * @version $Id: BillOverviewPanel.java,v 1.6 2005/11/07 21:49:30 raedler Exp $
+ * @version $Id: BillOverviewPanel.java,v 1.7 2005/12/07 18:13:41 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BillOverviewPanel extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -232,8 +232,8 @@ public class BillOverviewPanel extends JPanel implements ApplicationContextAware
             }
         };
 
-        billOverview.addButtonToVerticalButton(1, new ImageIcon("images/open.png"), "Rechnung in Vorschaufernster anzeigen", actionListener);
-        billOverview.addButtonToVerticalButton(2, new ImageIcon("images/exit.png"), "Vorschaufernster schlieﬂen", actionListenerClose);
+        //billOverview.addButtonToVerticalButton(1, new ImageIcon("images/open.png"), "Rechnung in Vorschaufernster anzeigen", actionListener);
+        //billOverview.addButtonToVerticalButton(2, new ImageIcon("images/exit.png"), "Vorschaufernster schlieﬂen", actionListenerClose);
 
         add(billOverview, BorderLayout.CENTER);
     }
@@ -243,7 +243,7 @@ public class BillOverviewPanel extends JPanel implements ApplicationContextAware
      * @see ecobill.core.system.Internationalization#reinitI18N()
      */
     public void reinitI18N() {
-        billOverview.getVerticalButton().getButton1().setToolTipText("Andi Tooltip eingeben");
+        // TODO: fix me!!!
     }
 
 

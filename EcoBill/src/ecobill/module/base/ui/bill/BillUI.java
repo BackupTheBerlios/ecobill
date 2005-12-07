@@ -10,10 +10,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.jdesktop.layout.GroupLayout;
 import org.jdesktop.layout.LayoutStyle;
 import ecobill.module.base.service.BaseService;
-import ecobill.module.base.ui.component.VerticalButton;
 import ecobill.module.base.ui.component.OverviewPanel;
 import ecobill.module.base.ui.component.Address;
-import ecobill.module.base.ui.component.AbstractJasperPrintPanel;
 import ecobill.module.base.ui.deliveryorder.OrderTableWithCB;
 import ecobill.module.base.domain.*;
 import ecobill.core.util.IdValueItem;
@@ -35,7 +33,7 @@ import java.awt.event.*;
  * Time: 16:57:16
  *
  * @author Sebastian Gath
- * @version $Id: BillUI.java,v 1.16 2005/11/08 21:44:42 raedler Exp $
+ * @version $Id: BillUI.java,v 1.17 2005/12/07 18:13:41 raedler Exp $
  * @since EcoBill 1.0
  */
 
@@ -191,9 +189,6 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
     // TabbedPane Daten
     private JTabbedPane tabbedPaneRight;
 
-    // Vertikale Buttongroup
-    private VerticalButton verticalButton;
-
     // Lieferscheintabelle mit Checkboxen
     private OrderTableWithCB deliveryOrderTableCB;
 
@@ -208,7 +203,6 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
         tabbedPane = new JTabbedPane();
         overview = new JPanel();
-        verticalButton = new VerticalButton();
         splitPane = new JSplitPane();
         panelLeft = new JPanel();
         billTable = new BillTable(baseService);
@@ -226,10 +220,16 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
         billPrintPanelOverview  = new BillPrintPanel(mainFrame, baseService);
 
+        splitPane.setLeftComponent(deliveryOrderTableCB);
+    }
+
+    private JToolBar createBillToolBar() {
+
+        JToolBar toolBar = new JToolBar();
+
         // Button zum Speichern des aktuellen Lieferscheins hinzufügen
-        verticalButton.getButton2().setVisible(true);
-        verticalButton.getButton2().setIcon(new ImageIcon("images/delivery_order_ok.png"));
-        verticalButton.getButton2().addActionListener(new ActionListener() {
+        JButton okBill = new JButton(new ImageIcon("images/delivery_order_ok.png"));
+        okBill.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -252,12 +252,9 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
             }
         });
 
-        // Button refresh hinzufügen
-        verticalButton.getButton4().setVisible(true);
-        verticalButton.getButton4().setIcon(new ImageIcon("images/refresh.png"));
+        toolBar.add(okBill);
 
-        splitPane.setDividerLocation(200);
-        splitPane.setLeftComponent(deliveryOrderTableCB);
+        return toolBar;
     }
 
     /**
@@ -269,7 +266,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         setLayout(new BorderLayout());
 
         splitPane.setBorder(null);
-        splitPane.setDividerLocation(200);
+        splitPane.setDividerLocation(350);
         splitPane.setOneTouchExpandable(true);
 
         GroupLayout panelLeftLayout = new GroupLayout(panelLeft);
@@ -317,13 +314,15 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         );
         splitPane.setRightComponent(panelRight);
 
-        GroupLayout overviewLayout = new GroupLayout(overview);
-        overview.setLayout(overviewLayout);
+        overview.setLayout(new BorderLayout());
+        JPanel createBill = new JPanel();
+
+        GroupLayout overviewLayout = new GroupLayout(createBill);
+        createBill.setLayout(overviewLayout);
         overviewLayout.setHorizontalGroup(
             overviewLayout.createParallelGroup(GroupLayout.LEADING)
             .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(verticalButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.RELATED)
                 .add(splitPane, GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
                 .addContainerGap())
@@ -333,14 +332,19 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
             .add(GroupLayout.TRAILING, overviewLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(overviewLayout.createParallelGroup(GroupLayout.TRAILING)
-                    .add(GroupLayout.LEADING, splitPane)
-                    .add(GroupLayout.LEADING, verticalButton, GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE))
+                    .add(GroupLayout.LEADING, splitPane))
                 .addContainerGap())
         );
+
+        overview.add(createBillToolBar(), BorderLayout.NORTH);
+        overview.add(createBill, BorderLayout.CENTER);
+
         tabbedPane.addTab(WorkArea.getMessage(Constants.OVERVIEW), overview);
 
-        OverviewPanel deliveryOrderOverview = new OverviewPanel(baseService, billTable, billPrintPanelOverview);
-        ActionListener actionListener = new ActionListener() {
+        OverviewPanel billOverview = new OverviewPanel(baseService, billTable, billPrintPanelOverview);
+
+        JButton viewBill = new JButton(new ImageIcon("images/jasper_view.png"));
+        viewBill.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -354,11 +358,10 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
                     e1.printStackTrace();
                 }
             }
-        };
+        });
 
-        deliveryOrderOverview.addButtonToVerticalButton(1,new ImageIcon("images/jasper_view.png"), "Rechnung in Vorschaufernster anzeigen", actionListener );
-
-        ActionListener actionListener1 = new ActionListener() {
+        JButton deleteBill = new JButton(new ImageIcon("images/delivery_order_delete.png"));
+        deleteBill.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -371,18 +374,23 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
                 baseService.delete(bill);
 
                 billTable.renewTableModel();
-                 if (billPrintPanelOverview instanceof AbstractJasperPrintPanel) {
-                    ((AbstractJasperPrintPanel) billPrintPanelOverview).clearViewerPanel();
+                 if (billPrintPanelOverview != null) {
+                    billPrintPanelOverview.clearViewerPanel();
                 }
             }
-        };
+        });
 
-        deliveryOrderOverview.addButtonToVerticalButton(3,new ImageIcon("images/delivery_order_delete.png"), "Rechnung löschen", actionListener1 );
+        JToolBar toolBar = new JToolBar();
+        toolBar.add(viewBill);
+        toolBar.add(deleteBill);
 
-        tabbedPane.addTab(null, deliveryOrderOverview);
+        JPanel showBills = new JPanel(new BorderLayout());
+        showBills.add(toolBar, BorderLayout.NORTH);
+        showBills.add(billOverview, BorderLayout.CENTER);
+
+        tabbedPane.addTab(null, showBills);
 
         add(tabbedPane, BorderLayout.CENTER);
-
     }
 
     /**
@@ -393,16 +401,16 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         tabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.OVERVIEW));
         tabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.MAX_OVERVIEW));
 
-        verticalButton.reinitI18N();
         billData.reinitI18N();
 
+        /* TODO: fix me!!!
+        verticalButton.reinitI18N();
 
         verticalButton.getButton1().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON1_TOOLTIP));
         verticalButton.getButton2().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON2_TOOLTIP));
         verticalButton.getButton3().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON3_TOOLTIP));
         verticalButton.getButton4().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON4_TOOLTIP));
-
-
+        */
     }
 
     /**

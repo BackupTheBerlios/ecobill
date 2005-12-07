@@ -10,12 +10,10 @@ import org.springframework.context.ApplicationContextAware;
 import org.jdesktop.layout.GroupLayout;
 import org.jdesktop.layout.LayoutStyle;
 import ecobill.module.base.service.BaseService;
-import ecobill.module.base.ui.component.VerticalButton;
 import ecobill.module.base.ui.deliveryorder.DeliveryOrderUI;
 import ecobill.module.base.ui.bill.BillUI;
 import ecobill.module.base.domain.*;
 import ecobill.core.util.FileUtils;
-import ecobill.core.util.IdValueItem;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import ecobill.core.system.Internationalization;
@@ -38,7 +36,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerUI.java,v 1.17 2005/11/07 21:49:30 raedler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.18 2005/12/07 18:13:41 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -121,8 +119,9 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
 
         // Initialisieren der Komponenten und des Layouts.
         initComponents();
-        initButtons();
         initLayout();
+
+        add(createToolBar(), BorderLayout.NORTH);
 
         // Versuche evtl. abgelegte/serialisierte Objekte zu laden.
         try {
@@ -157,7 +156,6 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
     private InputBanking overviewInputBanking;
     private InputContact overviewInputContact;
     private InputFirm overviewInputFirm;
-    private VerticalButton overviewVerticalButton;
     private JTabbedPane tabbedPane;
 
     /**
@@ -166,7 +164,6 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
     private void initComponents() {
         tabbedPane = new JTabbedPane();
         overview = new JPanel();
-        overviewVerticalButton = new VerticalButton();
         overviewBusinessPartnerTable = new BusinessPartnerTable(this, baseService);
         overviewInputContact = new InputContact();
         overviewInputBanking = new InputBanking();
@@ -177,14 +174,18 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
         resetInput(numberSequence.getNextNumber());
     }
 
-    /**
-     * Initialisiert die Buttons und ihre <code>ActionListener</code>.
-     */
-    private void initButtons() {
+    JButton newDeliveryOrder = new JButton(new ImageIcon("images/delivery_order_new_l.png"));
+    JButton newBill = new JButton(new ImageIcon("images/delivery_order_new_r.png"));
 
-        overviewVerticalButton.getButton1().setVisible(true);
-        overviewVerticalButton.getButton1().setIcon(new ImageIcon("images/business_partner_new.png"));
-        overviewVerticalButton.getButton1().addActionListener(new ActionListener() {
+    /**
+     * TODO: document me!!!
+     */
+    private JToolBar createToolBar() {
+
+        JToolBar toolBar = new JToolBar();
+
+        JButton newBusinessPartner = new JButton(new ImageIcon("images/business_partner_new.png"));
+        newBusinessPartner.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -192,7 +193,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
             public void actionPerformed(ActionEvent e) {
 
                 // Setzt den Lieferschein Button disabled.
-                overviewVerticalButton.getButton6().setEnabled(false);
+                newDeliveryOrder.setEnabled(false);
 
                 NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.CUSTOMER);
 
@@ -201,9 +202,8 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
             }
         });
 
-        overviewVerticalButton.getButton2().setVisible(true);
-        overviewVerticalButton.getButton2().setIcon(new ImageIcon("images/business_partner_ok.png"));
-        overviewVerticalButton.getButton2().addActionListener(new ActionListener() {
+        JButton okBusinessPartner = new JButton(new ImageIcon("images/business_partner_ok.png"));
+        okBusinessPartner.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -218,7 +218,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
                 overviewBusinessPartnerTable.renewTableModel();
 
                 // Setzt den Lieferschein Button enabled.
-                overviewVerticalButton.getButton6().setEnabled(true);
+                newDeliveryOrder.setEnabled(true);
 
                 NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.CUSTOMER);
 
@@ -233,9 +233,8 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
             }
         });
 
-        overviewVerticalButton.getButton3().setVisible(true);
-        overviewVerticalButton.getButton3().setIcon(new ImageIcon("images/business_partner_delete.png"));
-        overviewVerticalButton.getButton3().addActionListener(new ActionListener() {
+        JButton deleteBusinessPartner = new JButton(new ImageIcon("images/business_partner_delete.png"));
+        deleteBusinessPartner.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -249,8 +248,8 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
                 overviewBusinessPartnerTable.renewTableModel();
 
                 // Setzt den Lieferschein Button disabled.
-                overviewVerticalButton.getButton6().setEnabled(false);
-                overviewVerticalButton.getButton7().setEnabled(false);
+                newDeliveryOrder.setEnabled(false);
+                newBill.setEnabled(false);
 
                 // Löscht die Felder nach dem Löschen des Kunden und setzt die
                 // nächste Kundennummer.
@@ -259,9 +258,8 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
             }
         });
 
-        overviewVerticalButton.getButton4().setVisible(true);
-        overviewVerticalButton.getButton4().setIcon(new ImageIcon("images/refresh.png"));
-        overviewVerticalButton.getButton4().addActionListener(new ActionListener() {
+        JButton refreshBusinessPartner = new JButton(new ImageIcon("images/refresh.png"));
+        refreshBusinessPartner.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -273,10 +271,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
             }
         });
 
-        overviewVerticalButton.getButton6().setVisible(true);
-        overviewVerticalButton.getButton6().setEnabled(false);
-        overviewVerticalButton.getButton6().setIcon(new ImageIcon("images/delivery_order_new_l.png"));
-        overviewVerticalButton.getButton6().addActionListener(new ActionListener() {
+        newDeliveryOrder.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -301,11 +296,9 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
                 mainFrame.setSelectedTab(3);
             }
         });
+        newDeliveryOrder.setEnabled(false);
 
-        overviewVerticalButton.getButton7().setVisible(true);
-        overviewVerticalButton.getButton7().setEnabled(false);
-        overviewVerticalButton.getButton7().setIcon(new ImageIcon("images/delivery_order_new_r.png"));
-        overviewVerticalButton.getButton7().addActionListener(new ActionListener() {
+        newBill.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -330,8 +323,18 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
                 mainFrame.setSelectedTab(4);
             }
         });
+        newBill.setEnabled(false);
 
+        toolBar.add(newBusinessPartner);
+        toolBar.add(okBusinessPartner);
+        toolBar.add(deleteBusinessPartner);
+        toolBar.add(new JToolBar.Separator());
+        toolBar.add(refreshBusinessPartner);
+        toolBar.add(new JToolBar.Separator());
+        toolBar.add(newDeliveryOrder);
+        toolBar.add(newBill);
 
+        return toolBar;
     }
 
     /**
@@ -355,8 +358,6 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
                                 .add(overviewBusinessPartnerTable, GroupLayout.DEFAULT_SIZE, 839, Short.MAX_VALUE)
                                 .addContainerGap())
                         .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
-                        .add(overviewVerticalButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.RELATED)
                         .add(overviewInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(LayoutStyle.RELATED)
                         .add(overviewInputFirm, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -372,7 +373,6 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
                         .addContainerGap()
                         .add(overviewLayout.createParallelGroup(GroupLayout.LEADING, false)
                                 .add(GroupLayout.TRAILING, overviewInputFirm, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(GroupLayout.TRAILING, overviewVerticalButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .add(overviewInputBanking, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .add(overviewInputContact, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .add(GroupLayout.TRAILING, overviewInput, GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE))
@@ -396,6 +396,8 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
         overviewInputBanking.reinitI18N();
         overviewInputContact.reinitI18N();
         overviewInputFirm.reinitI18N();
+
+        /* TODO: repair me!!!
         overviewVerticalButton.reinitI18N();
 
         overviewVerticalButton.getButton1().setToolTipText(WorkArea.getMessage(Constants.BUTTON1_CUSTOMER_TOOLTIP));
@@ -404,6 +406,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
         overviewVerticalButton.getButton4().setToolTipText(WorkArea.getMessage(Constants.BUTTON4_CUSTOMER_TOOLTIP));
         overviewVerticalButton.getButton6().setToolTipText(WorkArea.getMessage(Constants.BUTTON6_CUSTOMER_TOOLTIP));
         overviewVerticalButton.getButton7().setToolTipText(WorkArea.getMessage(Constants.BUTTON7_CUSTOMER_TOOLTIP));
+        */
     }
 
     /**
@@ -486,8 +489,8 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
             overviewInputBanking.setBankIdentificationNumber("");
         }
 
-        overviewVerticalButton.getButton6().setEnabled(true);
-        overviewVerticalButton.getButton7().setEnabled(true);
+        newDeliveryOrder.setEnabled(true);
+        newBill.setEnabled(true);
     }
 
     private void saveOrUpdateBusinessPartner() {

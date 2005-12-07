@@ -37,7 +37,7 @@ import java.io.File;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.105 2005/11/08 21:44:42 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.106 2005/12/07 18:13:41 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -348,9 +348,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             }
         });
 
-        save.addActionListener(new ActionListener(){
+        save.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                  if (LOG.isDebugEnabled()) {
+                if (LOG.isDebugEnabled()) {
                     LOG.debug("Action: " + e.getActionCommand());
                 }
 
@@ -361,9 +361,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             }
         });
 
-         saveAs.addActionListener(new ActionListener(){
+        saveAs.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                  if (LOG.isDebugEnabled()) {
+                if (LOG.isDebugEnabled()) {
                     LOG.debug("Action: " + e.getActionCommand());
                 }
 
@@ -427,7 +427,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // redo ActionListener
         redo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
+
             }
         });
 
@@ -469,7 +469,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         edit.add(copy);
         edit.add(paste);
         edit.add(delete);
-
 
         // Language wir zur MenuBar hinzugefügt
         menuBar.add(language);
@@ -575,11 +574,14 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
                     // Methode about() wird aufgerufen
                     try {
                         about();
-                    } catch (IOException e1) {
+                    }
+                    catch (IOException e1) {
                         e1.printStackTrace();
-                    } catch (MidiUnavailableException e1) {
+                    }
+                    catch (MidiUnavailableException e1) {
                         e1.printStackTrace();
-                    } catch (InvalidMidiDataException e1) {
+                    }
+                    catch (InvalidMidiDataException e1) {
                         e1.printStackTrace();
                     }
             }
@@ -783,29 +785,40 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         this.getContentPane().add(toolbar, BorderLayout.NORTH);
     }
 
-    /**
-     * MidiPlayer für das About Midi
-     */
-
-    private Sequence sequence;
+    // Der Midi <code>Sequencer</code>.
     private Sequencer sequencer;
-    private void midiPlayer(){
+
+    /**
+     * Spielt den midi Song ab.
+     */
+    private void midiPlayer() {
         try {
-          sequence = MidiSystem.getSequence(new File("midi/SuperMario.mid"));
-            // Create a sequencer for the sequence
-          sequencer = MidiSystem.getSequencer();
+            Sequence sequence = MidiSystem.getSequence(new File("midi/SuperMario.mid"));
+
+            sequencer = MidiSystem.getSequencer();
             sequencer.open();
             sequencer.setSequence(sequence);
-                // Start playing
-        sequencer.start();
-    } catch (IOException e) {
-    } catch (MidiUnavailableException e) {
-    } catch (InvalidMidiDataException e) {
-    }
+
+            sequencer.start();
+        }
+        catch (IOException ioe) {
+            if (LOG.isErrorEnabled()) {
+                LOG.error(ioe.getMessage(), ioe);
+            }
+        }
+        catch (MidiUnavailableException mue) {
+            if (LOG.isErrorEnabled()) {
+                LOG.error(mue.getMessage(), mue);
+            }
+        }
+        catch (InvalidMidiDataException imde) {
+            if (LOG.isErrorEnabled()) {
+                LOG.error(imde.getMessage(), imde);
+            }
+        }
     }
 
     private void stopMidi() {
         sequencer.stop();
-
     }
 }

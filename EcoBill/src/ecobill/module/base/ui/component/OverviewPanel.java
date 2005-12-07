@@ -3,50 +3,28 @@ package ecobill.module.base.ui.component;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.DisposableBean;
 import org.jdesktop.layout.GroupLayout;
 import org.jdesktop.layout.LayoutStyle;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.event.TableModelListener;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 
 import ecobill.module.base.service.BaseService;
-import ecobill.module.base.ui.component.VerticalButton;
-import ecobill.module.base.ui.component.AbstractTablePanel;
-import ecobill.module.base.ui.article.ArticleTable;
-import ecobill.module.base.ui.deliveryorder.DeliveryOrderUI;
-import ecobill.module.base.domain.BusinessPartner;
-import ecobill.module.base.domain.Article;
-import ecobill.module.base.domain.ReduplicatedArticle;
-import ecobill.module.base.domain.DeliveryOrder;
-import ecobill.core.util.FileUtils;
-import ecobill.core.util.IdKeyItem;
-import ecobill.core.ui.MainFrame;
-import ecobill.core.system.WorkArea;
-import ecobill.core.system.Constants;
 import ecobill.core.system.Internationalization;
 
-import java.util.*;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.awt.event.*;
 import java.awt.*;
 
 /**
  * TODO: document me!!!
  * <p/>
  * Created by IntelliJ IDEA.
- * User: basti
+ * User: gath
  * Date: 09.10.2005
  * Time: 21:00:35
- * To change this template use File | Settings | File Templates.
+ *
+ * @author Sebastian Gath
+ * @version $Id: OverviewPanel.java,v 1.4 2005/12/07 18:13:41 raedler Exp $
+ * @since EcoBill 1.0
  */
 public class OverviewPanel extends JPanel implements Internationalization {
 
@@ -54,7 +32,7 @@ public class OverviewPanel extends JPanel implements Internationalization {
      * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
      * Diese Ausgaben können in einem separaten File spezifiziert werden.
      */
-    private static final Log LOG = LogFactory.getLog(DeliveryOrderUI.class);
+    private static final Log LOG = LogFactory.getLog(OverviewPanel.class);
 
     /**
      * Der <code>ApplicationContext</code> beinhaltet alle Beans die darin angegeben sind
@@ -105,10 +83,6 @@ public class OverviewPanel extends JPanel implements Internationalization {
     // Pane der das Fenster teil
     private JSplitPane splitPane;
 
-    // Buttons zur Steuerung der Oberfläche
-    private VerticalButton verticalButton;
-
-
     public OverviewPanel(BaseService baseService, AbstractTablePanel leftTable, JPanel rightPanel) {
 
         this.baseService = baseService;
@@ -120,31 +94,9 @@ public class OverviewPanel extends JPanel implements Internationalization {
     }
 
     /**
-     * fügt einen Button der verticalButtonGroup hinzu
-     *
-     * @param x Nummer des Buttons, also an welcher Stelle er zusehen sein soll
-     * @param icon das Icon für den Button
-     * @param toolTip der Text für den Tooltip
-     * @param aListener ein Actionlistner
-     */
-    public void addButtonToVerticalButton(int x, ImageIcon icon, String toolTip, ActionListener aListener) {
-
-        JButton button = verticalButton.getButtonX(x);
-        button.setVisible(true);
-        button.setIcon(icon);
-        button.setToolTipText(toolTip);
-        if (aListener != null) {
-            button.addActionListener(aListener);
-        }
-        verticalButton.setButtonX(x, button);
-    }
-
-    /**
      * Initialisiert die Komponenten.
      */
     private void initComponents() {
-
-        verticalButton = new VerticalButton();
 
         splitPane = new JSplitPane();
         panelLeft = new JPanel();
@@ -186,7 +138,6 @@ public class OverviewPanel extends JPanel implements Internationalization {
                 overviewLayout.createParallelGroup(GroupLayout.LEADING)
                         .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
                         .addContainerGap()
-                        .add(verticalButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(LayoutStyle.RELATED)
                         .add(splitPane, GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
                         .addContainerGap())
@@ -196,13 +147,9 @@ public class OverviewPanel extends JPanel implements Internationalization {
                         .add(GroupLayout.TRAILING, overviewLayout.createSequentialGroup()
                         .addContainerGap()
                         .add(overviewLayout.createParallelGroup(GroupLayout.TRAILING)
-                                .add(GroupLayout.LEADING, splitPane)
-                                .add(GroupLayout.LEADING, verticalButton, GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE))
+                                .add(GroupLayout.LEADING, splitPane))
                         .addContainerGap())
         );
-
-        //OverviewPanel.this.add(verticalButton);
-        //OverviewPanel.this.add(splitPane);
     }
 
     /**
@@ -217,10 +164,6 @@ public class OverviewPanel extends JPanel implements Internationalization {
      */
     public void renewLeftTableModel() {
         leftTable.renewTableModel();
-    }
-
-    public VerticalButton getVerticalButton() {
-        return verticalButton;
     }
 }
 

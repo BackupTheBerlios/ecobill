@@ -27,7 +27,7 @@ import java.awt.event.ActionEvent;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: MessageUI.java,v 1.7 2005/11/07 21:49:30 raedler Exp $
+ * @version $Id: MessageUI.java,v 1.8 2005/12/07 18:13:41 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MessageUI extends JPanel implements InitializingBean {
@@ -108,9 +108,8 @@ public class MessageUI extends JPanel implements InitializingBean {
      */
     public void afterPropertiesSet() {
 
-        // Initialisieren der Komponenten und des Layouts.
-        this.setLayout(new BorderLayout());
         initComponents();
+        initLayout();
 
         // Versuche evtl. abgelegte/serialisierte Objekte zu laden.
         /**try {
@@ -135,20 +134,35 @@ public class MessageUI extends JPanel implements InitializingBean {
      */
 
     public void initComponents() {
+        newsOverview = new News(baseService);
+    }
 
-        newsOverview = new ecobill.module.base.ui.message.News(baseService);
+    private void initLayout() {
+        // Initialisieren der Komponenten und des Layouts.
+        setLayout(new BorderLayout());
 
-        newsOverview.getOverviewVerticalButton().getButton1().addActionListener(new ActionListener() {
+        add(createMessageToolBar(), BorderLayout.NORTH);
+        add(newsOverview, BorderLayout.CENTER);
+    }
+
+    private JToolBar createMessageToolBar() {
+
+        JToolBar toolBar = new JToolBar();
+
+        JButton newMessage = new JButton(new ImageIcon("images/news_new.png"));
+        newMessage.addActionListener(new ActionListener() {
+
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
              */
             public void actionPerformed(ActionEvent e) {
-
                 newMessage();
             }
         });
 
-        newsOverview.getOverviewVerticalButton().getButton2().addActionListener(new ActionListener() {
+        JButton okMessage = new JButton(new ImageIcon("images/news_ok.png"));
+        okMessage.addActionListener(new ActionListener() {
+
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
              */
@@ -163,30 +177,36 @@ public class MessageUI extends JPanel implements InitializingBean {
             }
         });
 
-        newsOverview.getOverviewVerticalButton().getButton3().addActionListener(new ActionListener() {
+        JButton deleteMessage = new JButton(new ImageIcon("images/news_delete.png"));
+        deleteMessage.addActionListener(new ActionListener() {
+
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
              */
             public void actionPerformed(ActionEvent e) {
-
                 deleteMessage();
                 newsOverview.getNewsTree().updateUI();
             }
         });
 
-        newsOverview.getOverviewVerticalButton().getButton4().addActionListener(new ActionListener() {
+        JButton refreshMessage = new JButton(new ImageIcon("images/refresh.png"));
+        refreshMessage.addActionListener(new ActionListener() {
+
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
              */
             public void actionPerformed(ActionEvent e) {
-
                 refreshTree();
             }
         });
 
+        toolBar.add(newMessage);
+        toolBar.add(okMessage);
+        toolBar.add(deleteMessage);
+        toolBar.add(new JToolBar.Separator());
+        toolBar.add(refreshMessage);
 
-        this.add(newsOverview, BorderLayout.CENTER);
-
+        return toolBar;
     }
 
     /**

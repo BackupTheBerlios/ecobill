@@ -37,7 +37,7 @@ import java.io.*;
  * Time: 12:33:23
  *
  * @author Roman R&auml;dle
- * @version $Id: AbstractTablePanel.java,v 1.11 2005/11/08 18:09:35 raedler Exp $
+ * @version $Id: AbstractTablePanel.java,v 1.12 2005/12/07 18:13:41 raedler Exp $
  * @since EcoBill 1.0
  */
 public abstract class AbstractTablePanel extends JPanel implements Internationalization {
@@ -78,10 +78,25 @@ public abstract class AbstractTablePanel extends JPanel implements International
     }
 
     /**
+     * Die eigentliche <code>JTable</code> mit ihrem <code>TableModel</code>.
+     */
+    private JTable table = new JTable(getTableModel());
+
+    /**
+     * Gibt die eigentliche <code>JTable</code> mit ihrem <code>TableModel</code>, zurück.
+     *
+     * @return Die eigentliche <code>JTable</code> mit ihrem <code>TableModel</code>.
+     */
+    public JTable getTable() {
+        return table;
+    }
+
+    /**
      * Das <code>TableModel</code> beinhaltet die eigentlichen Daten, die zur Anzeige verwendet werden
      * sollen.
      */
-    private DefaultTableModel tableModel = new DefaultTableModel() {
+    //private DefaultTableModel tableModel = new DefaultTableModel() {
+    private TableSorter tableModel = new TableSorter(table) {
 
         /**
          * @see DefaultTableModel#getColumnClass(int)
@@ -103,20 +118,6 @@ public abstract class AbstractTablePanel extends JPanel implements International
      */
     public DefaultTableModel getTableModel() {
         return tableModel;
-    }
-
-    /**
-     * Die eigentliche <code>JTable</code> mit ihrem <code>TableModel</code>.
-     */
-    private JTable table = new JTable(getTableModel());
-
-    /**
-     * Gibt die eigentliche <code>JTable</code> mit ihrem <code>TableModel</code>, zurück.
-     *
-     * @return Die eigentliche <code>JTable</code> mit ihrem <code>TableModel</code>.
-     */
-    public JTable getTable() {
-        return table;
     }
 
     /**
@@ -215,7 +216,12 @@ public abstract class AbstractTablePanel extends JPanel implements International
 
         // Ruft die Methode auch beim ersten Start um das <code>TableColumnModel</code> zu
         // initialisieren.
-        createEditoredColumnModelAfterUnpersist(table.getColumnModel());
+        try {
+            createEditoredColumnModelAfterUnpersist(table.getColumnModel());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -1,6 +1,4 @@
 package ecobill.module.base.ui.article;
-
-import ecobill.module.base.ui.component.VerticalButton;
 import ecobill.module.base.ui.component.Labelling;
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.*;
@@ -40,7 +38,7 @@ import java.io.FileOutputStream;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.16 2005/11/08 18:09:35 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.17 2005/12/07 18:13:41 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JPanel implements InitializingBean, Internationalization, DisposableBean {
@@ -177,8 +175,6 @@ public class ArticleUI extends JPanel implements InitializingBean, International
     private JPanel labelling = new JPanel();
     private JPanel overview = new JPanel();
     private JTabbedPane tabbedPane = new JTabbedPane();
-    private VerticalButton verticalButtonLabelling = new VerticalButton();
-    private VerticalButton verticalButtonOverview = new VerticalButton();
 
     private Long actualArticleId;
 
@@ -192,10 +188,14 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         inputLabellingLabelling = new InputLabelling(baseService);
         labellingTableOverview = new LabellingTable(this, baseService);
         labellingTableLabelling = new LabellingTable(this, baseService);
+    }
 
-        verticalButtonOverview.getButton1().setVisible(true);
-        verticalButtonOverview.getButton1().setIcon(new ImageIcon("images/article_new.png"));
-        verticalButtonOverview.getButton1().addActionListener(new ActionListener() {
+    private JToolBar createArticleToolBar() {
+
+        JToolBar toolBar = new JToolBar();
+
+        JButton newArticle = new JButton(new ImageIcon("images/article_new.png"));
+        newArticle.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -209,9 +209,8 @@ public class ArticleUI extends JPanel implements InitializingBean, International
             }
         });
 
-        verticalButtonOverview.getButton2().setVisible(true);
-        verticalButtonOverview.getButton2().setIcon(new ImageIcon("images/article_ok.png"));
-        verticalButtonOverview.getButton2().addActionListener(new ActionListener() {
+        JButton okArticle = new JButton(new ImageIcon("images/article_ok.png"));
+        okArticle.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -233,13 +232,11 @@ public class ArticleUI extends JPanel implements InitializingBean, International
             }
         });
 
-        verticalButtonOverview.getButton3().setVisible(true);
-        verticalButtonOverview.getButton3().setIcon(new ImageIcon("images/article_delete.png"));
-        verticalButtonOverview.getButton3().addActionListener(new ArticleAction(this).DELETE_ACTION);
+        JButton deleteArticle = new JButton(new ImageIcon("images/article_delete.png"));
+        deleteArticle.addActionListener(new ArticleAction(this).DELETE_ACTION);
 
-        verticalButtonOverview.getButton4().setVisible(true);
-        verticalButtonOverview.getButton4().setIcon(new ImageIcon("images/refresh.png"));
-        verticalButtonOverview.getButton4().addActionListener(new ActionListener() {
+        JButton refreshArticle = new JButton(new ImageIcon("images/refresh.png"));
+        refreshArticle.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -256,26 +253,36 @@ public class ArticleUI extends JPanel implements InitializingBean, International
             }
         });
 
-        verticalButtonLabelling.getButton1().setVisible(true);
-        verticalButtonLabelling.getButton1().setIcon(new ImageIcon("images/article_labelling_new.png"));
-        verticalButtonLabelling.getButton1().addActionListener(new ActionListener() {
+        toolBar.add(newArticle);
+        toolBar.add(okArticle);
+        toolBar.add(deleteArticle);
+        toolBar.add(new JToolBar.Separator());
+        toolBar.add(refreshArticle);
+
+        return toolBar;
+    }
+
+    private JToolBar createLabellingToolBar() {
+
+        JToolBar toolBar = new JToolBar();
+
+        JButton newLabelling = new JButton(new ImageIcon("images/article_labelling_new.png"));
+        newLabelling.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
                 labellingLabelling.setDescription("");
             }
         });
 
-        verticalButtonLabelling.getButton2().setVisible(true);
-        verticalButtonLabelling.getButton2().setIcon(new ImageIcon("images/article_labelling_ok.png"));
-        verticalButtonLabelling.getButton2().addActionListener(new ActionListener() {
+        JButton okLabelling = new JButton(new ImageIcon("images/article_labelling_ok.png"));
+        okLabelling.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 saveOrUpdateArticleDescription();
             }
         });
 
-        verticalButtonLabelling.getButton3().setVisible(true);
-        verticalButtonLabelling.getButton3().setIcon(new ImageIcon("images/article_labelling_delete.png"));
-        verticalButtonLabelling.getButton3().addActionListener(new ActionListener() {
+        JButton deleteLabelling = new JButton(new ImageIcon("images/article_labelling_delete.png"));
+        deleteLabelling.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
                 Article article = (Article) baseService.load(Article.class, actualArticleId);
@@ -298,9 +305,8 @@ public class ArticleUI extends JPanel implements InitializingBean, International
             }
         });
 
-        verticalButtonLabelling.getButton4().setVisible(true);
-        verticalButtonLabelling.getButton4().setIcon(new ImageIcon("images/refresh.png"));
-        verticalButtonLabelling.getButton4().addActionListener(new ActionListener() {
+        JButton refreshLabelling = new JButton(new ImageIcon("images/refresh.png"));
+        refreshLabelling.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
                 Article article = (Article) baseService.load(Article.class, actualArticleId);
@@ -308,6 +314,14 @@ public class ArticleUI extends JPanel implements InitializingBean, International
                 labellingTableLabelling.renewTableModel(article);
             }
         });
+
+        toolBar.add(newLabelling);
+        toolBar.add(okLabelling);
+        toolBar.add(deleteLabelling);
+        toolBar.add(new JToolBar.Separator());
+        toolBar.add(refreshLabelling);
+
+        return toolBar;
     }
 
     /**
@@ -318,9 +332,14 @@ public class ArticleUI extends JPanel implements InitializingBean, International
 
         setLayout(new BorderLayout());
 
-        GroupLayout overviewLayout = new GroupLayout(overview);
+        overview.setLayout(new BorderLayout());
+        overview.add(createArticleToolBar(), BorderLayout.NORTH);
 
-        overview.setLayout(overviewLayout);
+        JPanel overviewComponents = new JPanel();
+
+        GroupLayout overviewLayout = new GroupLayout(overviewComponents);
+
+        overviewComponents.setLayout(overviewLayout);
 
         overviewLayout.setHorizontalGroup(
                 overviewLayout.createParallelGroup(GroupLayout.LEADING)
@@ -329,7 +348,6 @@ public class ArticleUI extends JPanel implements InitializingBean, International
                         .add(overviewLayout.createParallelGroup(GroupLayout.LEADING)
                                 .add(overviewArticleTable, GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
                                 .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
-                                .add(verticalButtonOverview, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.RELATED)
                                 .add(overviewLayout.createParallelGroup(GroupLayout.LEADING, false)
                                         .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
@@ -347,7 +365,6 @@ public class ArticleUI extends JPanel implements InitializingBean, International
                         .addContainerGap()
                         .add(overviewLayout.createParallelGroup(GroupLayout.TRAILING, false)
                                 .add(GroupLayout.LEADING, labellingTableOverview, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(verticalButtonOverview, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
                                 .add(overviewLayout.createParallelGroup(GroupLayout.TRAILING, false)
                                         .add(GroupLayout.LEADING, inputBundleOverview, 0, 0, Short.MAX_VALUE)
@@ -360,8 +377,16 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         );
         tabbedPane.addTab(WorkArea.getMessage(Constants.OVERVIEW), overview);
 
-        GroupLayout labellingLayout = new GroupLayout(labelling);
-        labelling.setLayout(labellingLayout);
+        overview.add(overviewComponents, BorderLayout.CENTER);
+
+
+        labelling.setLayout(new BorderLayout());
+        labelling.add(createLabellingToolBar(), BorderLayout.NORTH);
+
+        JPanel labellingComponents = new JPanel();
+
+        GroupLayout labellingLayout = new GroupLayout(labellingComponents);
+        labellingComponents.setLayout(labellingLayout);
         labellingLayout.setHorizontalGroup(
                 labellingLayout.createParallelGroup(GroupLayout.LEADING)
                         .add(GroupLayout.LEADING, labellingLayout.createSequentialGroup()
@@ -369,7 +394,6 @@ public class ArticleUI extends JPanel implements InitializingBean, International
                         .add(labellingLayout.createParallelGroup(GroupLayout.LEADING)
                                 .add(labellingTableLabelling, GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
                                 .add(GroupLayout.LEADING, labellingLayout.createSequentialGroup()
-                                .add(verticalButtonLabelling, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.RELATED)
                                 .add(inputLabellingLabelling, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.RELATED)
@@ -382,13 +406,14 @@ public class ArticleUI extends JPanel implements InitializingBean, International
                         .addContainerGap()
                         .add(labellingLayout.createParallelGroup(GroupLayout.TRAILING, false)
                                 .add(GroupLayout.LEADING, labellingLabelling, 0, 0, Short.MAX_VALUE)
-                                .add(GroupLayout.LEADING, inputLabellingLabelling, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(verticalButtonLabelling, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .add(GroupLayout.LEADING, inputLabellingLabelling, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(LayoutStyle.RELATED)
                         .add(labellingTableLabelling, GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
                         .addContainerGap())
         );
         tabbedPane.addTab(WorkArea.getMessage(Constants.LABELLING), labelling);
+
+        labelling.add(labellingComponents, BorderLayout.CENTER);
 
         add(tabbedPane, BorderLayout.CENTER);
     }
@@ -493,6 +518,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         tabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.OVERVIEW));
         tabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.LABELLING));
 
+        /* TODO: repair me!!!
         verticalButtonOverview.reinitI18N();
         verticalButtonOverview.getButton1().setToolTipText(WorkArea.getMessage(Constants.BUTTON1_ARTICLE_TOOLTIP));
         verticalButtonOverview.getButton2().setToolTipText(WorkArea.getMessage(Constants.BUTTON2_ARTICLE_TOOLTIP));
@@ -504,7 +530,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         verticalButtonLabelling.getButton2().setToolTipText(WorkArea.getMessage(Constants.BUTTON2_LABELLING_TOOLTIP));
         verticalButtonLabelling.getButton3().setToolTipText(WorkArea.getMessage(Constants.BUTTON3_LABELLING_TOOLTIP));
         verticalButtonLabelling.getButton4().setToolTipText(WorkArea.getMessage(Constants.BUTTON4_LABELLING_TOOLTIP));
-
+        */
 
         overviewArticleTable.reinitI18N();
         labellingLabelling.reinitI18N();

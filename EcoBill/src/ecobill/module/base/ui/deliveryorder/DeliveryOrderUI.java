@@ -40,7 +40,7 @@ import java.awt.event.*;
  * Time: 16:57:16
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderUI.java,v 1.17 2005/11/08 21:44:42 raedler Exp $
+ * @version $Id: DeliveryOrderUI.java,v 1.18 2005/12/07 18:13:41 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -161,7 +161,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
         tabbedPane = new JTabbedPane();
         overview = new JPanel();
-        verticalButton = new VerticalButton();
         splitPane = new JSplitPane();
         panelLeft = new JPanel();
         articleTable = new ArticleTable(baseService);
@@ -205,10 +204,14 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
                 showAddArticleDialog(idKeyItem.getId());
             }
         });
+    }
 
-        verticalButton.getButton1().setVisible(true);
-        verticalButton.getButton1().setIcon(new ImageIcon("images/delivery_order_new.png"));
-        verticalButton.getButton1().addActionListener(new ActionListener() {
+    private JToolBar createDeliveryOrderToolBar() {
+
+        JToolBar toolBar = new JToolBar();
+
+        JButton newDeliveryOrder = new JButton(new ImageIcon("images/delivery_order_new.png"));
+        newDeliveryOrder.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -223,9 +226,8 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
             }
         });
 
-        verticalButton.getButton2().setVisible(true);
-        verticalButton.getButton2().setIcon(new ImageIcon("images/delivery_order_ok.png"));
-        verticalButton.getButton2().addActionListener(new ActionListener() {
+        JButton okDeliveryOrder = new JButton(new ImageIcon("images/delivery_order_ok.png"));
+        okDeliveryOrder.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -251,6 +253,11 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
         splitPane.setDividerLocation(200);
         splitPane.setLeftComponent(articleTable);
+
+        toolBar.add(newDeliveryOrder);
+        toolBar.add(okDeliveryOrder);
+
+        return toolBar;
     }
 
     /**
@@ -262,7 +269,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         setLayout(new BorderLayout());
 
         splitPane.setBorder(null);
-        splitPane.setDividerLocation(200);
+        splitPane.setDividerLocation(350);
         splitPane.setOneTouchExpandable(true);
 
         GroupLayout panelLeftLayout = new GroupLayout(panelLeft);
@@ -310,14 +317,15 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         );
         splitPane.setRightComponent(panelRight);
 
-        GroupLayout overviewLayout = new GroupLayout(overview);
-        overview.setLayout(overviewLayout);
+        overview.setLayout(new BorderLayout());
+        JPanel createDeliveryOrder = new JPanel();
+
+        GroupLayout overviewLayout = new GroupLayout(createDeliveryOrder);
+        createDeliveryOrder.setLayout(overviewLayout);
         overviewLayout.setHorizontalGroup(
             overviewLayout.createParallelGroup(GroupLayout.LEADING)
             .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(verticalButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.RELATED)
                 .add(splitPane, GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -326,14 +334,19 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
             .add(GroupLayout.TRAILING, overviewLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(overviewLayout.createParallelGroup(GroupLayout.TRAILING)
-                    .add(GroupLayout.LEADING, splitPane)
-                    .add(GroupLayout.LEADING, verticalButton, GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE))
+                    .add(GroupLayout.LEADING, splitPane))
                 .addContainerGap())
         );
+
+        overview.add(createDeliveryOrderToolBar(), BorderLayout.NORTH);
+        overview.add(createDeliveryOrder, BorderLayout.CENTER);
+
         tabbedPane.addTab(WorkArea.getMessage(Constants.OVERVIEW), overview);
 
         OverviewPanel deliveryOrderOverview = new OverviewPanel(baseService, orderTable, deliveryOrderPrintPanelOverview);
-        ActionListener actionListener = new ActionListener() {
+
+        JButton viewDeliveryOrder = new JButton(new ImageIcon("images/jasper_view.png"));
+        viewDeliveryOrder.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int row = orderTable.getTable().getSelectedRow();
@@ -349,11 +362,10 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
                     e1.printStackTrace();
                 }
             }
-        };
+        });
 
-        deliveryOrderOverview.addButtonToVerticalButton(1,new ImageIcon("images/jasper_view.png"), "Lieferschein in Vorschaufernster anzeigen", actionListener );
-
-        ActionListener actionListener1 = new ActionListener() {
+        JButton deleteDeliveryOrder = new JButton(new ImageIcon("images/delivery_order_delete.png"));
+        deleteDeliveryOrder.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -367,16 +379,21 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
                 orderTable.renewTableModel();
                 orderTable.repaint();
 
-                if (deliveryOrderPrintPanelOverview instanceof AbstractJasperPrintPanel) {
-                    ((AbstractJasperPrintPanel) deliveryOrderPrintPanelOverview).clearViewerPanel();
+                if (deliveryOrderPrintPanelOverview != null) {
+                    deliveryOrderPrintPanelOverview.clearViewerPanel();
                 }
             }
-        };
+        });
 
-        deliveryOrderOverview.addButtonToVerticalButton(3,new ImageIcon("images/delivery_order_delete.png"), "Lieferschein in löschen", actionListener1 );
+        JToolBar toolBar = new JToolBar();
+        toolBar.add(viewDeliveryOrder);
+        toolBar.add(deleteDeliveryOrder);
 
+        JPanel showDeliveryOrders = new JPanel(new BorderLayout());
+        showDeliveryOrders.add(toolBar, BorderLayout.NORTH);
+        showDeliveryOrders.add(deliveryOrderOverview, BorderLayout.CENTER);
 
-        tabbedPane.addTab(null, deliveryOrderOverview);
+        tabbedPane.addTab(null, showDeliveryOrders);
 
         add(tabbedPane, BorderLayout.CENTER);
     }
@@ -392,7 +409,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         tabbedPaneRight.setTitleAt(0, WorkArea.getMessage(Constants.ADDRESS));
         tabbedPaneRight.setTitleAt(1, WorkArea.getMessage(Constants.DATA));
 
-        verticalButton.reinitI18N();
         deliveryOrderData.reinitI18N();
         articleTable.reinitI18N();
         address.reinitI18N();
@@ -402,10 +418,13 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
         ((TitledBorder) deliveryOrderTable.getPanelBorder()).setTitle(WorkArea.getMessage(Constants.DELIVERY_ORDER));
 
+        /* TODO: repair me!!!
+        verticalButton.reinitI18N();
         verticalButton.getButton1().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON1_TOOLTIP));
         verticalButton.getButton2().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON2_TOOLTIP));
         verticalButton.getButton3().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON3_TOOLTIP));
         verticalButton.getButton4().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON4_TOOLTIP));
+        */
     }
 
     /**
@@ -428,7 +447,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
     private JSplitPane splitPane;
     private JTabbedPane tabbedPane;
     private JTabbedPane tabbedPaneRight;
-    private VerticalButton verticalButton;
 
     private DeliveryOrderPrintPanel deliveryOrderPrintPanelOverview;
 
