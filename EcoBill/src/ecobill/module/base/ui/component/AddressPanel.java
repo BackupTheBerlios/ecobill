@@ -2,6 +2,7 @@ package ecobill.module.base.ui.component;
 
 import ecobill.module.base.domain.BusinessPartner;
 import ecobill.module.base.domain.Person;
+import ecobill.module.base.domain.Address;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import ecobill.core.system.Internationalization;
@@ -22,7 +23,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: AddressPanel.java,v 1.1 2005/12/11 17:17:12 raedler Exp $
+ * @version $Id: AddressPanel.java,v 1.2 2005/12/11 20:25:19 raedler Exp $
  * @since EcoBill 1.0
  */
 public class AddressPanel extends JPanel implements Internationalization {
@@ -147,7 +148,7 @@ public class AddressPanel extends JPanel implements Internationalization {
         this.businessPartner = businessPartner;
 
         Person person = businessPartner.getPerson();
-        ecobill.module.base.domain.Address address = businessPartner.getAddress();
+        Address address = businessPartner.getAddress();
 
         String title = businessPartner.getCompanyTitle();
         if (title == null || "".equals(title)) {
@@ -163,6 +164,9 @@ public class AddressPanel extends JPanel implements Internationalization {
 
         if (businessPartner.isForAttentionOf()) {
             fao.setText(WorkArea.getMessage(Constants.FOR_ATTENTION_OF) + " " + person.getLetterTitle() + " " + person.getLastname());
+        }
+        else {
+            fao.setText(null);
         }
 
         branch.setText(businessPartner.getCompanyBranch());
