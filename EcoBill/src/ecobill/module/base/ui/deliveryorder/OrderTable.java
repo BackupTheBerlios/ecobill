@@ -5,6 +5,7 @@ import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.ReduplicatedArticle;
 import ecobill.module.base.domain.DeliveryOrder;
 import ecobill.module.base.domain.BusinessPartner;
+import ecobill.module.base.domain.Article;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import ecobill.core.util.I18NItem;
@@ -31,7 +32,7 @@ import java.util.Set;
  * Time: 17:49:23
  *
  * @author Sebastian Gath
- * @version $Id: OrderTable.java,v 1.5 2005/11/08 21:33:05 gath Exp $
+ * @version $Id: OrderTable.java,v 1.6 2005/12/11 17:16:01 raedler Exp $
  * @since EcoBill 1.0
  */
 public class OrderTable extends AbstractTablePanel {
@@ -42,13 +43,23 @@ public class OrderTable extends AbstractTablePanel {
     private Long businessPartnerId;
 
     /**
+     * Gibt an ob nur die Lieferscheine angezeigt werden sollen, zu denen noch keine
+     * Rechnung besteht.
+     */
+    private boolean notPreparedBill;
+
+    /**
      * Creates new form BusinessPartnerTable
      */
     public OrderTable(BaseService baseService) {
+        this(baseService, false);
+    }
 
+    public OrderTable(BaseService baseService, boolean notPreparedBill) {
         super(baseService);
 
-     }
+        this.notPreparedBill = notPreparedBill;
+    }
 
     /**
      * AbstractTablePanel#createPanelBorder
@@ -82,6 +93,10 @@ public class OrderTable extends AbstractTablePanel {
 
             BusinessPartner businessPartner = (BusinessPartner) getBaseService().load(BusinessPartner.class, businessPartnerId);
 
+            if (notPreparedBill) {
+                return businessPartner.getOpenDeliveryOrders();
+            }
+
             return businessPartner.getDeliveryOrders();
         }
 
@@ -89,12 +104,12 @@ public class OrderTable extends AbstractTablePanel {
     }
 
     public void setDataCollection(Collection<DeliveryOrder> dataCollection) {
-
         this.dataCollection = dataCollection;
     }
 
     public void setBusinessPartnerId(Long businessPartnerId) {
         this.businessPartnerId = businessPartnerId;
+        renewTableModel();
     }
 
     /**
@@ -113,13 +128,13 @@ public class OrderTable extends AbstractTablePanel {
 
                 String key = order.getKey();
                 if (Constants.DELIVERY_ORDER_NUMBER.equals(key)) {
-                    line.add(new IdValueItem(deliveryOrder.getId(), deliveryOrder.getDeliveryOrderNumber()));
+                    line.add(new IdValueItem(deliveryOrder.getId(), deliveryOrder.getDeliveryOrderNumber(), deliveryOrder));
                 }
                 else if (Constants.DELIVERY_ORDER_DATE.equals(key)) {
                     line.add(deliveryOrder.getDeliveryOrderDate());
                 }
                 else if (Constants.CHARACTERISATION_TYP.equals(key)) {
-                    line.add(deliveryOrder.getCharacterisationType());
+                    line.add(WorkArea.getMessage(deliveryOrder.getCharacterisationType()));
                 }
                 else if (Constants.PREFIX_FREE_TEXT.equals(key)) {
                     line.add(deliveryOrder.getPrefixFreetext());
@@ -148,4 +163,18 @@ public class OrderTable extends AbstractTablePanel {
         return columnModel;
     }
   */
+
+    /**
+     * Gibt den aktuell selektierten/markierte <code>DeliveryOrder</code> zurück.
+     *
+     * @return Der aktuell selektierten/markierte <code>DeliveryOrder</code>.
+     */
+    public DeliveryOrder getSelectedDeliveryOrder() {
+
+        int selectedRow = getTable().getSelectedRow();
+
+        IdValueItem idValueItem = (IdValueItem) getTable().getValueAt(selectedRow, 0);
+
+        return (DeliveryOrder) idValueItem.getOriginalValue();
+    }
 }

@@ -1,15 +1,13 @@
 package ecobill.module.base.ui.deliveryorder;
 
 import ecobill.module.base.ui.component.AbstractTablePanel;
-import ecobill.module.base.ui.businesspartner.BusinessPartnerUI;
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.DeliveryOrder;
 import ecobill.module.base.domain.ReduplicatedArticle;
-import ecobill.core.system.Internationalization;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import ecobill.core.util.I18NItem;
-import ecobill.core.util.IdKeyItem;
+import ecobill.core.util.IdValueItem;
 
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
@@ -17,11 +15,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.Vector;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 
 // @todo document me!
 
@@ -33,7 +30,7 @@ import java.util.Collections;
  * Time: 16:57:16
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderTable.java,v 1.5 2005/11/07 21:49:30 raedler Exp $
+ * @version $Id: DeliveryOrderTable.java,v 1.6 2005/12/11 17:16:01 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderTable extends AbstractTablePanel {
@@ -73,7 +70,7 @@ public class DeliveryOrderTable extends AbstractTablePanel {
         return tableColumnOrder;
     }
 
-    private Collection<ReduplicatedArticle> dataCollection;
+    private Collection<ReduplicatedArticle> dataCollection = new LinkedHashSet<ReduplicatedArticle>();
 
     /**
      * @see ecobill.module.base.ui.component.AbstractTablePanel#getDataCollection()
@@ -88,20 +85,25 @@ public class DeliveryOrderTable extends AbstractTablePanel {
             return deliveryOrder.getArticles();
         }
         else if (dataCollection != null) {
-
-            Collection<ReduplicatedArticle> returnCollection = dataCollection;
-
-            dataCollection = null;
-
-            return returnCollection;
+            return dataCollection;
         }
 
         return Collections.EMPTY_SET;
     }
 
-    public void setDataCollection(Collection<ReduplicatedArticle> dataCollection) {
+    public void addReduplicatedArticle(ReduplicatedArticle article) {
+        this.dataCollection.add(article);
+        renewTableModel();
+    }
 
+    public void clearDataCollection() {
+        this.dataCollection.clear();
+        renewTableModel();
+    }
+
+    public void setDataCollection(Collection<ReduplicatedArticle> dataCollection) {
         this.dataCollection = dataCollection;
+        renewTableModel();
     }
 
     /**
@@ -120,7 +122,7 @@ public class DeliveryOrderTable extends AbstractTablePanel {
 
                 String key = order.getKey();
                 if (Constants.ARTICLE_NR.equals(key)) {
-                    line.add(new IdKeyItem(article.getId(), article.getArticleNumber()));
+                    line.add(new IdValueItem(article.getId(), article.getArticleNumber(), article));
                 }
                 else if (Constants.LABELLING.equals(key)) {
                     line.add(article.getDescription());
@@ -141,8 +143,6 @@ public class DeliveryOrderTable extends AbstractTablePanel {
                     line.add(allRoundPrice);
                 }
             }
-
-            line.add(article);
         }
 
         return line;
@@ -161,8 +161,14 @@ public class DeliveryOrderTable extends AbstractTablePanel {
              */
             public void actionPerformed(ActionEvent e) {
 
+                int selectedRow = getTable().getSelectedRow();
+
+                IdValueItem idValueItem = (IdValueItem) getTableModel().getValueAt(selectedRow, 0);
+
                 // Löscht die markierte Zeile.
-                getTableModel().removeRow(getTable().getSelectedRow());
+                getTableModel().removeRow(selectedRow);
+
+                getDataCollection().remove(idValueItem.getOriginalValue());
             }
         });
         

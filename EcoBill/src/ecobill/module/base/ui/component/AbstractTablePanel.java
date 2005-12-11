@@ -3,30 +3,29 @@ package ecobill.module.base.ui.component;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdesktop.layout.GroupLayout;
+import org.jdesktop.layout.LayoutStyle;
 
 import javax.swing.*;
 import javax.swing.event.TableModelListener;
 import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
-import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.*;
 
 import ecobill.core.util.I18NItem;
 import ecobill.core.util.IdKeyItem;
 import ecobill.core.util.IdValueItem;
 import ecobill.core.system.Internationalization;
 import ecobill.module.base.service.BaseService;
-import ecobill.module.base.domain.DeliveryOrder;
+import ecobill.util.VectorUtils;
 
-import java.util.Vector;
-import java.util.Collection;
+import java.util.*;
 import java.awt.*;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
+
+import com.sun.java.swing.plaf.motif.MotifGraphicsUtils;
 
 /**
  * Das <code>AbstractTablePanel</code> ist eine abstrakte Klasse um auf einfache Art und Weise
@@ -37,7 +36,7 @@ import java.io.*;
  * Time: 12:33:23
  *
  * @author Roman R&auml;dle
- * @version $Id: AbstractTablePanel.java,v 1.12 2005/12/07 18:13:41 raedler Exp $
+ * @version $Id: AbstractTablePanel.java,v 1.13 2005/12/11 17:16:01 raedler Exp $
  * @since EcoBill 1.0
  */
 public abstract class AbstractTablePanel extends JPanel implements Internationalization {
@@ -47,6 +46,18 @@ public abstract class AbstractTablePanel extends JPanel implements International
      * Diese Ausgaben können in einem separaten File spezifiziert werden.
      */
     protected final Log LOG = LogFactory.getLog(getClass());
+
+    /**
+     * Das Icon für die aufsteigend sortierte Tabelle.
+     */
+    private final ImageIcon UP_ICON = new ImageIcon(MotifGraphicsUtils.class
+            .getResource("icons/ScrollUpArrow.gif"));
+
+    /**
+     * Das Icon für die absteigend sortierte Tabelle.
+     */
+    private final ImageIcon DOWN_ICON = new ImageIcon(MotifGraphicsUtils.class
+            .getResource("icons/ScrollDownArrow.gif"));
 
     /**
      * Der <code>Border</code> der um das gesamte <code>JPanel</code> gelegt wird.
@@ -78,6 +89,105 @@ public abstract class AbstractTablePanel extends JPanel implements International
     }
 
     /**
+     * Das <code>TableModel</code> beinhaltet die eigentlichen Daten, die zur Anzeige verwendet werden
+     * sollen.
+     */
+    private SortableTableModel tableModel = new SortableTableModel();
+
+    public class SortableTableModel extends DefaultTableModel {
+
+        private boolean sortColumnDesc;
+
+        private int currentSortColumn = 0;
+
+        public int getCurrentSortColumn() {
+            return currentSortColumn;
+        }
+
+        public SortableTableModel() {
+            super();
+            sortColumnDesc = true;
+        }
+
+        private Comparator comparator = new Comparator() {
+            public int compare(Object o1, Object o2) {
+                Vector v1 = (Vector) o1;
+                Vector v2 = (Vector) o2;
+
+                int size1 = v1.size();
+                if (currentSortColumn >= size1)
+                    throw new IllegalArgumentException("max column idx: "
+                                                       + size1);
+
+                System.out.println("CURR_COL: " + currentSortColumn);
+
+                Comparable c1 = (Comparable) v1.get(currentSortColumn);
+                Comparable c2 = (Comparable) v2.get(currentSortColumn);
+
+                System.out.println("C1: " + c1);
+                System.out.println("C2: " + c2);
+
+                int cmp = -1;
+                if (c1 != null) {
+                    cmp = c1.compareTo(c2);
+                }
+
+                if (sortColumnDesc) {
+                    cmp *= -1;
+                }
+
+                return cmp;
+            }
+        };
+
+        public void sortByColumn(final int clm) {
+
+            Vector v = AbstractTablePanel.this.getTableModel().getDataVector();
+
+            System.out.println("V: " + v);
+
+            this.currentSortColumn = clm;
+
+            Collections.sort(v, comparator);
+
+
+            if (clm != currentSortColumn) {
+                this.sortColumnDesc = true;
+            }
+            else {
+                this.sortColumnDesc ^= true;
+            }
+        }
+
+        /**
+         * @see DefaultTableModel#getColumnClass(int)
+         */
+        public Class<?> getColumnClass(int columnIndex) {
+            try {
+                return getValueAt(0, columnIndex).getClass();
+            }
+            catch (Exception e) {
+                return super.getColumnClass(columnIndex);
+            }
+        }
+    }
+
+    private boolean filteredModelInUse;
+
+    public boolean isFilteredModelVisible() {
+        return filteredModelInUse;
+    }
+
+    /**
+     * Gibt das <code>TableModel</code> der Tabelle zurück.
+     *
+     * @return Das <code>TableModel</code> der Tabelle.
+     */
+    public SortableTableModel getTableModel() {
+        return tableModel;
+    }
+
+    /**
      * Die eigentliche <code>JTable</code> mit ihrem <code>TableModel</code>.
      */
     private JTable table = new JTable(getTableModel());
@@ -92,39 +202,20 @@ public abstract class AbstractTablePanel extends JPanel implements International
     }
 
     /**
-     * Das <code>TableModel</code> beinhaltet die eigentlichen Daten, die zur Anzeige verwendet werden
-     * sollen.
-     */
-    //private DefaultTableModel tableModel = new DefaultTableModel() {
-    private TableSorter tableModel = new TableSorter(table) {
-
-        /**
-         * @see DefaultTableModel#getColumnClass(int)
-         */
-        public Class<?> getColumnClass(int columnIndex) {
-            try {
-                return getValueAt(0, columnIndex).getClass();
-            }
-            catch (Exception e) {
-                return super.getColumnClass(columnIndex);
-            }
-        }
-    };
-
-    /**
-     * Gibt das <code>TableModel</code> der Tabelle zurück.
-     *
-     * @return Das <code>TableModel</code> der Tabelle.
-     */
-    public DefaultTableModel getTableModel() {
-        return tableModel;
-    }
-
-    /**
      * Eine <code>JScrollPane</code> um zu ermöglichen, dass die Tabelle gescrollt werden kann und der
      * Tabellen Header angezeigt wird.
      */
     private JScrollPane tableSP = new JScrollPane();
+
+    /**
+     * Die <code>JComboBox</code> enthält die möglichen Filterfelder.
+     */
+    private JComboBox filterBox = new JComboBox();
+
+    /**
+     * Das <code>JTextField</code> enthält den zu suchenden Text.
+     */
+    private JTextField filterField = new JTextField();
 
     /**
      * Das <code>JPopupMenu</code> das auf reagieren der rechten Maustaste eingerichtet wird.
@@ -198,6 +289,11 @@ public abstract class AbstractTablePanel extends JPanel implements International
         addMouseListeners(createMouseListeners());
         addTableModelListeners(createTableModelListeners());
 
+        // Fügt der Filter <code>JComboBox</code> die Elemente des Tabelle Headers hinzu.
+        for (I18NItem item : tableColumnOrder) {
+            filterBox.addItem(item);
+        }
+
         // Füge das <code>JPopupMenu</code> nur hinzu wenn es gebraucht wird.
         if ((popupMenu = createPopupMenu(popupMenu)) != null) {
             initPopupMenu();
@@ -216,12 +312,45 @@ public abstract class AbstractTablePanel extends JPanel implements International
 
         // Ruft die Methode auch beim ersten Start um das <code>TableColumnModel</code> zu
         // initialisieren.
-        try {
-            createEditoredColumnModelAfterUnpersist(table.getColumnModel());
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        createEditoredColumnModelAfterUnpersist(table.getColumnModel());
+
+        table.getTableHeader().setDefaultRenderer(
+                new DefaultTableCellRenderer() {
+
+                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+
+                        JTableHeader header = table.getTableHeader();
+                        setForeground(header.getForeground());
+                        setBackground(header.getBackground());
+                        setFont(header.getFont());
+
+                        setText(value == null ? "" : value.toString());
+                        setBorder(UIManager.getBorder("TableHeader.cellBorder"));
+                        //setHorizontalAlignment(SwingConstants.CENTER);
+                        setHorizontalTextPosition(SwingConstants.LEFT);
+
+                        //if (tableModel.sortColumnDesc[column]) {
+                        if (AbstractTablePanel.this.getTableModel().getCurrentSortColumn() == column) {
+                            if (tableModel.sortColumnDesc) {
+                                setIcon(UP_ICON);
+                            }
+                            else {
+                                setIcon(DOWN_ICON);
+                            }
+                        }
+                        else {
+                            setIcon(null);
+                        }
+
+                        return this;
+                    }
+                });
+
+        table.getTableHeader().addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent evt) {
+                tableModel.sortByColumn(table.columnAtPoint(evt.getPoint()));
+            }
+        });
     }
 
     /**
@@ -250,17 +379,26 @@ public abstract class AbstractTablePanel extends JPanel implements International
         setLayout(layout);
 
         layout.setHorizontalGroup(
-                layout.createParallelGroup(GroupLayout.LEADING)
-                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(tableSP, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
-                        .addContainerGap())
+            layout.createParallelGroup(GroupLayout.LEADING)
+            .add(GroupLayout.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .add(layout.createParallelGroup(GroupLayout.TRAILING)
+                    .add(GroupLayout.LEADING, tableSP, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
+                    .add(GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .add(filterBox, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(filterField, GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(GroupLayout.LEADING)
-                        .add(GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .add(tableSP, GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
-                        .addContainerGap())
+            layout.createParallelGroup(GroupLayout.LEADING)
+            .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                .add(layout.createParallelGroup(GroupLayout.TRAILING, false)
+                    .add(filterBox)
+                    .add(GroupLayout.LEADING, filterField))
+                .addPreferredGap(LayoutStyle.RELATED)
+                .add(tableSP, GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }
 
@@ -387,7 +525,7 @@ public abstract class AbstractTablePanel extends JPanel implements International
     /**
      * @see ecobill.core.system.Internationalization#reinitI18N()
      */
-    public void reinitI18N() {        
+    public void reinitI18N() {
         tableSP.setViewportView(table);
     }
 

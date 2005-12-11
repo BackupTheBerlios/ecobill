@@ -11,8 +11,12 @@ import org.jdesktop.layout.GroupLayout;
 import org.jdesktop.layout.LayoutStyle;
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.ui.component.OverviewPanel;
-import ecobill.module.base.ui.component.Address;
+import ecobill.module.base.ui.component.AddressPanel;
+import ecobill.module.base.ui.component.FormularDataPanel;
+import ecobill.module.base.ui.component.TitleBorderedTextAreaPanel;
 import ecobill.module.base.ui.deliveryorder.OrderTableWithCB;
+import ecobill.module.base.ui.deliveryorder.OrderTable;
+import ecobill.module.base.ui.textblock.TextBlockDialog;
 import ecobill.module.base.domain.*;
 import ecobill.core.util.IdValueItem;
 import ecobill.core.system.Internationalization;
@@ -33,11 +37,9 @@ import java.awt.event.*;
  * Time: 16:57:16
  *
  * @author Sebastian Gath
- * @version $Id: BillUI.java,v 1.17 2005/12/07 18:13:41 raedler Exp $
+ * @version $Id: BillUI.java,v 1.18 2005/12/11 17:16:01 raedler Exp $
  * @since EcoBill 1.0
  */
-
-
 public class BillUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
 
     /**
@@ -153,48 +155,20 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         */
     }
 
-    // Adresse des Businesspartners
-    private Address address;
-
-    // Panel für die Adresse des Businesspartners
-    private JPanel addressPanel;
-
     // Rechnungstablle
     private BillTable billTable;
-
-    // Rechnungsdatum
-    private BillData billData;
-
-    // Rechnungsdatenpanel
-    private JPanel billDataPanel;
-
-    // Vorschautabelle für Rechnungen
-    private BillPreviewTable billPreviewTable;
-
-    // Übersichtspanel
-    private JPanel overview;
-
-    // Panel rechte Seite
-    private JPanel panelLeft;
-
-    // Panel linke Seite
-    private JPanel panelRight;
-
-    // splitPane für erstes Pane
-    private JSplitPane splitPane;
-
-    // TabbedPane Adresse
-    private JTabbedPane tabbedPane;
-
-    // TabbedPane Daten
-    private JTabbedPane tabbedPaneRight;
 
     // Lieferscheintabelle mit Checkboxen
     private OrderTableWithCB deliveryOrderTableCB;
 
-    // Panel für den Jasperreport
-    private BillPrintPanel billPrintPanelOverview;
+    private JTabbedPane tabbedPane;
+    private JPanel overview;
 
+    private AddressPanel addressPanel;
+    private BillPreviewTable billPreviewTable;
+    private FormularDataPanel formularDataPanel;
+    private TitleBorderedTextAreaPanel prefixPanel;
+    private TitleBorderedTextAreaPanel suffixPanel;
 
     /**
      * Initialisiert die Komponenten.
@@ -203,24 +177,16 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
         tabbedPane = new JTabbedPane();
         overview = new JPanel();
-        splitPane = new JSplitPane();
-        panelLeft = new JPanel();
+
         billTable = new BillTable(baseService);
-        panelRight = new JPanel();
-        tabbedPaneRight = new JTabbedPane();
-        addressPanel = new JPanel();
-        address = new Address();
-        billDataPanel = new JPanel();
-        billData = new BillData(baseService);
+        addressPanel = new AddressPanel();
+        formularDataPanel = new FormularDataPanel(Constants.DATA, Constants.BILL_NUMBER, Constants.DATE);
+        prefixPanel = new TitleBorderedTextAreaPanel(Constants.PREFIX_FREE_TEXT);
+        suffixPanel = new TitleBorderedTextAreaPanel(Constants.SUFFIX_FREE_TEXT);
+
         billPreviewTable = new BillPreviewTable(baseService);
 
         deliveryOrderTableCB = new OrderTableWithCB(baseService);
-
-        MainFrame mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
-
-        billPrintPanelOverview  = new BillPrintPanel(mainFrame, baseService);
-
-        splitPane.setLeftComponent(deliveryOrderTableCB);
     }
 
     private JToolBar createBillToolBar() {
@@ -236,12 +202,12 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
              */
             public void actionPerformed(ActionEvent e) {
 
-                saveOrUpdateBill();
+                //saveOrUpdateBill();
 
                 billTable.renewTableModel();
                 deliveryOrderTableCB.renewTableModel();
 
-                String billNumber = billData.getBillNumber();
+                String billNumber = formularDataPanel.getNumber();
 
                 NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.BILL);
 
@@ -252,7 +218,45 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
             }
         });
 
+        JButton prefixTextBlock = new JButton(new ImageIcon("images/textblock_prefix.png"));
+        prefixTextBlock.addActionListener(new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+                new TextBlockDialog((MainFrame) applicationContext.getBean("mainFrame"), true, prefixPanel.getTextArea(), baseService);
+            }
+        });
+
+        JButton suffixTextBlock = new JButton(new ImageIcon("images/textblock_suffix.png"));
+        suffixTextBlock.addActionListener(new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+                new TextBlockDialog((MainFrame) applicationContext.getBean("mainFrame"), true, suffixPanel.getTextArea(), baseService);
+            }
+        });
+
+        JButton deliveryOrderAdd = new JButton(new ImageIcon("images/delivery_order_add.png"));
+        deliveryOrderAdd.addActionListener(new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+                new BillDeliveryOrdersDialog((MainFrame) applicationContext.getBean("mainFrame"), true, BillUI.this, baseService, actualBusinessPartnerId);
+            }
+        });
+
         toolBar.add(okBill);
+        toolBar.add(new JToolBar.Separator());
+        toolBar.add(prefixTextBlock);
+        toolBar.add(suffixTextBlock);
+        toolBar.add(new JToolBar.Separator());
+        toolBar.add(deliveryOrderAdd);
 
         return toolBar;
     }
@@ -265,94 +269,58 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
         setLayout(new BorderLayout());
 
-        splitPane.setBorder(null);
-        splitPane.setDividerLocation(350);
-        splitPane.setOneTouchExpandable(true);
-
-        GroupLayout panelLeftLayout = new GroupLayout(panelLeft);
-        panelLeft.setLayout(panelLeftLayout);
-        panelLeftLayout.setHorizontalGroup(
-            panelLeftLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, panelLeftLayout.createSequentialGroup()
-                .add(deliveryOrderTableCB, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        panelLeftLayout.setVerticalGroup(
-            panelLeftLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(deliveryOrderTableCB, GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
-        );
-        splitPane.setLeftComponent(panelLeft);
-
-        addressPanel.setLayout(new BorderLayout());
-
-        addressPanel.add(address, BorderLayout.CENTER);
-
-        tabbedPaneRight.addTab(WorkArea.getMessage(Constants.ADDRESS), addressPanel);
-
-        billDataPanel.setLayout(new BorderLayout());
-
-        billDataPanel.add(billData, BorderLayout.CENTER);
-
-        tabbedPaneRight.addTab(WorkArea.getMessage(Constants.DATA), billDataPanel);
-
-        GroupLayout panelRightLayout = new GroupLayout(panelRight);
-        panelRight.setLayout(panelRightLayout);
-        panelRightLayout.setHorizontalGroup(
-            panelRightLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(panelRightLayout.createParallelGroup(GroupLayout.LEADING)
-                    .add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
-                    .add(tabbedPaneRight, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)))
-        );
-        panelRightLayout.setVerticalGroup(
-            panelRightLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
-                .add(tabbedPaneRight, GroupLayout.PREFERRED_SIZE, 342, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE))
-        );
-        splitPane.setRightComponent(panelRight);
-
         overview.setLayout(new BorderLayout());
-        JPanel createBill = new JPanel();
+        JPanel createBillPanel = new JPanel();
 
-        GroupLayout overviewLayout = new GroupLayout(createBill);
-        createBill.setLayout(overviewLayout);
-        overviewLayout.setHorizontalGroup(
-            overviewLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
+        GroupLayout createBillPanelLayout = new GroupLayout(createBillPanel);
+        createBillPanel.setLayout(createBillPanelLayout);
+        createBillPanelLayout.setHorizontalGroup(
+            createBillPanelLayout.createParallelGroup(GroupLayout.LEADING)
+            .add(GroupLayout.LEADING, createBillPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(splitPane, GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
-                .addContainerGap())
+                .add(createBillPanelLayout.createParallelGroup(GroupLayout.TRAILING)
+                    .add(GroupLayout.LEADING, billPreviewTable, GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
+                    .add(GroupLayout.LEADING, createBillPanelLayout.createSequentialGroup()
+                        .add(createBillPanelLayout.createParallelGroup(GroupLayout.TRAILING)
+                            .add(GroupLayout.LEADING, prefixPanel, 0, 300, Short.MAX_VALUE)
+                            .add(addressPanel, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(createBillPanelLayout.createParallelGroup(GroupLayout.LEADING)
+                            .add(suffixPanel, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                            .add(formularDataPanel, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))))
+                .add(10, 10, 10))
         );
-        overviewLayout.setVerticalGroup(
-            overviewLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.TRAILING, overviewLayout.createSequentialGroup()
+        createBillPanelLayout.setVerticalGroup(
+            createBillPanelLayout.createParallelGroup(GroupLayout.LEADING)
+            .add(GroupLayout.LEADING, createBillPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(overviewLayout.createParallelGroup(GroupLayout.TRAILING)
-                    .add(GroupLayout.LEADING, splitPane))
+                .add(createBillPanelLayout.createParallelGroup(GroupLayout.TRAILING, false)
+                    .add(addressPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(formularDataPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(LayoutStyle.RELATED)
+                .add(createBillPanelLayout.createParallelGroup(GroupLayout.LEADING)
+                    .add(prefixPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .add(suffixPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(LayoutStyle.RELATED)
+                .add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         overview.add(createBillToolBar(), BorderLayout.NORTH);
-        overview.add(createBill, BorderLayout.CENTER);
+        overview.add(createBillPanel, BorderLayout.CENTER);
 
         tabbedPane.addTab(WorkArea.getMessage(Constants.OVERVIEW), overview);
 
-        OverviewPanel billOverview = new OverviewPanel(baseService, billTable, billPrintPanelOverview);
-
+        /*
         JButton viewBill = new JButton(new ImageIcon("images/jasper_view.png"));
         viewBill.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
-             */
-
+             *
             public void actionPerformed(ActionEvent e) {
                 try {
-                      billPrintPanelOverview.doJasper(billTable.getIdOfSelectedRow());
+                      billViewerDialogOverview.doJasper(billTable.getIdOfSelectedRow());
                 }
                 catch (Exception e1) {
                     e1.printStackTrace();
@@ -365,7 +333,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
-             */
+             *
             public void actionPerformed(ActionEvent e) {
 
                 Long billId = billTable.getIdOfSelectedRow();
@@ -374,21 +342,12 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
                 baseService.delete(bill);
 
                 billTable.renewTableModel();
-                 if (billPrintPanelOverview != null) {
-                    billPrintPanelOverview.clearViewerPanel();
+                 if (billViewerDialogOverview != null) {
+                    billViewerDialogOverview.clearViewerPanel();
                 }
             }
         });
-
-        JToolBar toolBar = new JToolBar();
-        toolBar.add(viewBill);
-        toolBar.add(deleteBill);
-
-        JPanel showBills = new JPanel(new BorderLayout());
-        showBills.add(toolBar, BorderLayout.NORTH);
-        showBills.add(billOverview, BorderLayout.CENTER);
-
-        tabbedPane.addTab(null, showBills);
+        */
 
         add(tabbedPane, BorderLayout.CENTER);
     }
@@ -399,9 +358,6 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
     public void reinitI18N() {
 
         tabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.OVERVIEW));
-        tabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.MAX_OVERVIEW));
-
-        billData.reinitI18N();
 
         /* TODO: fix me!!!
         verticalButton.reinitI18N();
@@ -427,7 +383,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
      * @param businessPartner
      */
     public void setBusinessPartner(BusinessPartner businessPartner) {
-        address.setBusinessPartner(businessPartner);
+        addressPanel.setBusinessPartner(businessPartner);
     }
 
     /**
@@ -436,10 +392,10 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
      * @param deliveryOrderNumber
      */
     public void resetInput(String deliveryOrderNumber) {
-        billData.setBillNumber(deliveryOrderNumber);
-        billData.setBillDate(new Date());
-        billData.setPrefix("");
-        billData.setSuffix("");
+        formularDataPanel.setNumber(deliveryOrderNumber);
+        formularDataPanel.setDate(new Date());
+        prefixPanel.getTextArea().setText("");
+        suffixPanel.getTextArea().setText("");
 
         billPreviewTable.getTableModel().getDataVector().removeAllElements();
         billPreviewTable.renewTableModel();
@@ -448,7 +404,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
     /**
      * Erstellt eine neue Rechnung aus der markierten Lieferscheinen.
      */
-    public void saveOrUpdateBill() {
+    public void saveOrUpdateBill(OrderTableWithCB deliveryOrderTableCB) {
 
         Set<BillPreviewCollection> billPreviewCollections = new HashSet<BillPreviewCollection>();
 
@@ -500,10 +456,10 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
         // Rechnungsobjekt füllen
         bill.setBusinessPartner((BusinessPartner) baseService.load(BusinessPartner.class, actualBusinessPartnerId));
-        bill.setBillNumber(billData.getBillNumber());
-        bill.setBillDate(billData.getBillDate());
-        bill.setPrefixFreetext(billData.getPrefix());
-        bill.setSuffixFreetext(billData.getSuffix());
+        bill.setBillNumber(formularDataPanel.getNumber());
+        bill.setBillDate(formularDataPanel.getDate());
+        bill.setPrefixFreetext(prefixPanel.getTextArea().getText());
+        bill.setSuffixFreetext(suffixPanel.getTextArea().getText());
 
         // Rechnungsobjekt speichern
         baseService.saveOrUpdate(bill);

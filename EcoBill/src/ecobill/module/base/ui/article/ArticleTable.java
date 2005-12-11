@@ -3,7 +3,7 @@ package ecobill.module.base.ui.article;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import ecobill.core.util.I18NItem;
-import ecobill.core.util.IdKeyItem;
+import ecobill.core.util.IdValueItem;
 import ecobill.module.base.domain.Article;
 import ecobill.module.base.domain.SystemUnit;
 import ecobill.module.base.domain.SystemLocale;
@@ -32,7 +32,7 @@ import java.util.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleTable.java,v 1.14 2005/12/07 22:07:44 raedler Exp $
+ * @version $Id: ArticleTable.java,v 1.15 2005/12/11 17:16:01 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleTable extends AbstractTablePanel {
@@ -99,6 +99,7 @@ public class ArticleTable extends AbstractTablePanel {
      * @see AbstractTablePanel#createLineVector(Object)
      */
     protected Vector<Object> createLineVector(Object o) {
+
         // Ein neuer <code>Vector</code> stellt eine Zeile der Tabelle dar.
         Vector<Object> line = new Vector<Object>();
 
@@ -112,7 +113,7 @@ public class ArticleTable extends AbstractTablePanel {
                 String key = order.getKey();
 
                 if (Constants.ARTICLE_NR.equals(key)) {
-                    line.add(new IdKeyItem(article.getId(), article.getArticleNumber()));
+                    line.add(new IdValueItem(article.getId(), article.getArticleNumber()));
                 }
                 else if (Constants.UNIT.equals(key)) {
                     line.add(article.getUnit());
@@ -183,7 +184,7 @@ public class ArticleTable extends AbstractTablePanel {
                     // durch die Korrektur eine Zeile zurückgegeben wird, die aber nicht in der Tabelle
                     // besteht.
                     try {
-                        articleId = ((IdKeyItem) getTableModel().getValueAt(row, 0)).getId();
+                        articleId = ((IdValueItem) getTableModel().getValueAt(row, 0)).getId();
                     }
                     catch (ArrayIndexOutOfBoundsException aioobe) {
                         if (LOG.isDebugEnabled()) {
@@ -221,7 +222,7 @@ public class ArticleTable extends AbstractTablePanel {
                 if (e.getButton() == MouseEvent.BUTTON1) {
                     int row = getTable().getSelectedRow();
 
-                    articleId = ((IdKeyItem) getTableModel().getValueAt(row, 0)).getId();
+                    articleId = ((IdValueItem) getTableModel().getValueAt(row, 0)).getId();
 
                     // Zeige selektierten Artikel an.
                     if (articleUI != null) {
@@ -350,5 +351,14 @@ public class ArticleTable extends AbstractTablePanel {
         columnModel.getColumn(bundleUnit).setCellEditor(new DefaultCellEditor(new JComboBox(new DefaultComboBoxModel(VectorUtils.listToVector(getBaseService().getSystemUnitsByCategory(Constants.SYSTEM_UNIT_BUNDLE_UNIT))))));
 
         return columnModel;
+    }
+
+    /**
+     * Gibt den aktuell selektierten/markierte <code>Article</code> zurück.
+     *
+     * @return Der aktuell selektierten/markierte <code>Article</code>.
+     */
+    public Article getSelectedArticle() {
+        return (Article) getBaseService().load(Article.class, articleId);
     }
 }

@@ -11,7 +11,7 @@ import ecobill.core.system.WorkArea;
  * Time: 17:19:20
  *
  * @author Roman R&auml;dle
- * @version $Id: SystemUnit.java,v 1.5 2005/10/04 09:21:29 raedler Exp $
+ * @version $Id: SystemUnit.java,v 1.6 2005/12/11 17:16:01 raedler Exp $
  * @since EcoBill 1.0
  */
 public class SystemUnit extends AbstractI18NDomain {
@@ -38,4 +38,6 @@ public class SystemUnit extends AbstractI18NDomain {
     public void setCategory(String category) {
         this.category = category;
     }
+
+
 }

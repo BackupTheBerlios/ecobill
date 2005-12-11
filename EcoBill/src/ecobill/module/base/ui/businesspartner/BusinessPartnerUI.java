@@ -36,7 +36,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerUI.java,v 1.18 2005/12/07 18:13:41 raedler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.19 2005/12/11 17:16:01 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -174,11 +174,11 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
         resetInput(numberSequence.getNextNumber());
     }
 
-    JButton newDeliveryOrder = new JButton(new ImageIcon("images/delivery_order_new_l.png"));
-    JButton newBill = new JButton(new ImageIcon("images/delivery_order_new_r.png"));
+    JButton newDeliveryOrder = new JButton(new ImageIcon("images/delivery_order_new.png"));
+    JButton newBill = new JButton(new ImageIcon("images/bill_new.png"));
 
     /**
-     * TODO: document me!!!
+     * Erzeugt die <code>JToolBar</code> für dieses User Interface.
      */
     private JToolBar createToolBar() {
 

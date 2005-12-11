@@ -10,11 +10,10 @@ import org.springframework.context.ApplicationContextAware;
 import org.jdesktop.layout.GroupLayout;
 import org.jdesktop.layout.LayoutStyle;
 import ecobill.module.base.service.BaseService;
-import ecobill.module.base.ui.article.ArticleTable;
 import ecobill.module.base.ui.component.*;
+import ecobill.module.base.ui.textblock.TextBlockDialog;
 import ecobill.module.base.domain.*;
 import ecobill.core.util.FileUtils;
-import ecobill.core.util.IdKeyItem;
 import ecobill.core.util.IdValueItem;
 import ecobill.core.system.Internationalization;
 import ecobill.core.system.WorkArea;
@@ -24,7 +23,6 @@ import ecobill.core.ui.MainFrame;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.event.TableModelListener;
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -40,7 +38,7 @@ import java.awt.event.*;
  * Time: 16:57:16
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderUI.java,v 1.18 2005/12/07 18:13:41 raedler Exp $
+ * @version $Id: DeliveryOrderUI.java,v 1.19 2005/12/11 17:16:01 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -128,7 +126,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         // Versuche evtl. abgelegte/serialisierte Objekte zu laden.
         try {
             deliveryOrderTable.unpersist(new FileInputStream(serializeIdentifiers.getProperty("delivery_order_table")));
-            articleTable.unpersist(new FileInputStream(serializeIdentifiers.getProperty("article_table")));
         }
         catch (FileNotFoundException fnfe) {
             if (LOG.isErrorEnabled()) {
@@ -151,7 +148,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         // Serialisiere diese Objekte um sie bei einem neuen Start des Programmes wieder laden
         // zu können.
         deliveryOrderTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("delivery_order_table"))));
-        articleTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("article_table"))));
     }
 
     /**
@@ -161,64 +157,33 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
         tabbedPane = new JTabbedPane();
         overview = new JPanel();
-        splitPane = new JSplitPane();
-        panelLeft = new JPanel();
-        articleTable = new ArticleTable(baseService);
-        panelRight = new JPanel();
-        tabbedPaneRight = new JTabbedPane();
-        addressPanel = new JPanel();
-        address = new ecobill.module.base.ui.component.Address();
-        deliveryOrderDataPanel = new JPanel();
-        deliveryOrderData = new DeliveryOrderData(baseService);
+
         deliveryOrderTable = new DeliveryOrderTable(baseService);
-
-        orderTable = new OrderTable(baseService);
-
-        MainFrame mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
-
-        deliveryOrderPrintPanelOverview  = new DeliveryOrderPrintPanel(mainFrame, baseService);
-
-        articleTable = new ArticleTable(null, baseService) {
-            protected KeyListener[] createKeyListeners() {
-                return null;
-            }
-
-            protected MouseListener[] createMouseListeners() {
-                return null;
-            }
-
-            protected TableModelListener[] createTableModelListeners() {
-                return null;
-            }
-        };
-
-        articleTable.getTable().getColumnModel().removeColumnModelListener(articleTable.getTable());
-
-        articleTable.getTable().addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-
-                int row = articleTable.getTable().getSelectedRow();
-
-                IdKeyItem idKeyItem = (IdKeyItem) articleTable.getTableModel().getValueAt(row, 0);
-
-                showAddArticleDialog(idKeyItem.getId());
-            }
-        });
+        addressPanel = new AddressPanel();
+        formularDataPanel = new FormularDataPanel(Constants.DATA, Constants.DELIVERY_ORDER_NUMBER, Constants.DATE);
+        prefixPanel = new TitleBorderedTextAreaPanel(Constants.PREFIX_FREE_TEXT);
+        suffixPanel = new TitleBorderedTextAreaPanel(Constants.SUFFIX_FREE_TEXT);
     }
+
+    private JButton viewDeliveryOrderB;
 
     private JToolBar createDeliveryOrderToolBar() {
 
         JToolBar toolBar = new JToolBar();
 
-        JButton newDeliveryOrder = new JButton(new ImageIcon("images/delivery_order_new.png"));
-        newDeliveryOrder.addActionListener(new ActionListener() {
+        JButton newDeliveryOrderB = new JButton(new ImageIcon("images/delivery_order_new.png"));
+        newDeliveryOrderB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
              */
             public void actionPerformed(ActionEvent e) {
 
-                reduplicatedArticles.clear();
+                // Setzt den Lieferschein Anzeigeknopf auf disabled da bei einem neuen Lieferschein
+                // noch kein View bereit steht.
+                viewDeliveryOrderB.setEnabled(false);
+
+                deliveryOrderTable.clearDataCollection();
 
                 NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.DELIVERY_ORDER);
 
@@ -226,8 +191,8 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
             }
         });
 
-        JButton okDeliveryOrder = new JButton(new ImageIcon("images/delivery_order_ok.png"));
-        okDeliveryOrder.addActionListener(new ActionListener() {
+        JButton okDeliveryOrderB = new JButton(new ImageIcon("images/delivery_order_ok.png"));
+        okDeliveryOrderB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -235,9 +200,11 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
             public void actionPerformed(ActionEvent e) {
                 saveOrUpdateDeliveryOrder();
 
-                orderTable.renewTableModel();
+                // Setzt den Lieferschein Anzeigeknopf auf enabled da nach dem Speichern oder Ändern
+                // der Lieferschein View bereitsteht.
+                viewDeliveryOrderB.setEnabled(true);
 
-                String deliveryOrderNumber = deliveryOrderData.getDeliveryOrderNumber();
+                String deliveryOrderNumber = formularDataPanel.getNumber();
 
                 NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.DELIVERY_ORDER);
 
@@ -251,11 +218,83 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
             }
         });
 
-        splitPane.setDividerLocation(200);
-        splitPane.setLeftComponent(articleTable);
+        JButton editDeliveryOrderB = new JButton(new ImageIcon("images/delivery_order_edit.png"));
+        editDeliveryOrderB.addActionListener(new ActionListener() {
 
-        toolBar.add(newDeliveryOrder);
-        toolBar.add(okDeliveryOrder);
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+                new DeliveryOrderChooseDialog((MainFrame) applicationContext.getBean("mainFrame"), true, DeliveryOrderUI.this, baseService, businessPartnerId);
+            }
+        });
+
+        viewDeliveryOrderB = new JButton(new ImageIcon("images/jasper_view.png"));
+        viewDeliveryOrderB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    new DeliveryOrderViewerDialog((MainFrame) applicationContext.getBean("mainFrame"), true, baseService, deliveryOrderId);
+                }
+                catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
+        JButton prefixTextBlockB = new JButton(new ImageIcon("images/textblock_prefix.png"));
+        prefixTextBlockB.addActionListener(new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+                new TextBlockDialog((MainFrame) applicationContext.getBean("mainFrame"), true, prefixPanel.getTextArea(), baseService);
+            }
+        });
+
+        JButton suffixTextBlockB = new JButton(new ImageIcon("images/textblock_suffix.png"));
+        suffixTextBlockB.addActionListener(new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+                new TextBlockDialog((MainFrame) applicationContext.getBean("mainFrame"), true, suffixPanel.getTextArea(), baseService);
+            }
+        });
+
+        JButton addExistingArticleB = new JButton(new ImageIcon("images/article_add.png"));
+        addExistingArticleB.addActionListener(new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+                new DeliveryOrderArticlesDialog((MainFrame) applicationContext.getBean("mainFrame"), DeliveryOrderUI.this, true, baseService);
+            }
+        });
+
+        JButton addNotExistingArtilceB = new JButton(new ImageIcon("images/article_add_new.png"));
+        addNotExistingArtilceB.addActionListener(new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+                showAddArticleDialog(null);
+            }
+        });
+
+        toolBar.add(newDeliveryOrderB);
+        toolBar.add(okDeliveryOrderB);
+        toolBar.add(editDeliveryOrderB);
+        toolBar.add(viewDeliveryOrderB);
+        toolBar.add(new JToolBar.Separator());
+        toolBar.add(prefixTextBlockB);
+        toolBar.add(suffixTextBlockB);
+        toolBar.add(new JToolBar.Separator());
+        toolBar.add(addExistingArticleB);
+        toolBar.add(addNotExistingArtilceB);
 
         return toolBar;
     }
@@ -268,91 +307,61 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
         setLayout(new BorderLayout());
 
-        splitPane.setBorder(null);
-        splitPane.setDividerLocation(350);
-        splitPane.setOneTouchExpandable(true);
-
-        GroupLayout panelLeftLayout = new GroupLayout(panelLeft);
-        panelLeft.setLayout(panelLeftLayout);
-        panelLeftLayout.setHorizontalGroup(
-            panelLeftLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, panelLeftLayout.createSequentialGroup()
-                .add(articleTable, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        panelLeftLayout.setVerticalGroup(
-            panelLeftLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(articleTable, GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
-        );
-        splitPane.setLeftComponent(panelLeft);
-
-        addressPanel.setLayout(new BorderLayout());
-
-        addressPanel.add(address, BorderLayout.CENTER);
-
-        tabbedPaneRight.addTab(WorkArea.getMessage(Constants.ADDRESS), addressPanel);
-
-        deliveryOrderDataPanel.setLayout(new BorderLayout());
-
-        deliveryOrderDataPanel.add(deliveryOrderData, BorderLayout.CENTER);
-
-        tabbedPaneRight.addTab(WorkArea.getMessage(Constants.DATA), deliveryOrderDataPanel);
-
-        GroupLayout panelRightLayout = new GroupLayout(panelRight);
-        panelRight.setLayout(panelRightLayout);
-        panelRightLayout.setHorizontalGroup(
-            panelRightLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(panelRightLayout.createParallelGroup(GroupLayout.LEADING)
-                    .add(deliveryOrderTable, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
-                    .add(tabbedPaneRight, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)))
-        );
-        panelRightLayout.setVerticalGroup(
-            panelRightLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, panelRightLayout.createSequentialGroup()
-                .add(tabbedPaneRight, GroupLayout.PREFERRED_SIZE, 342, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(deliveryOrderTable, GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE))
-        );
-        splitPane.setRightComponent(panelRight);
-
         overview.setLayout(new BorderLayout());
-        JPanel createDeliveryOrder = new JPanel();
+        JPanel createDeliveryOrderPanel = new JPanel();
 
-        GroupLayout overviewLayout = new GroupLayout(createDeliveryOrder);
-        createDeliveryOrder.setLayout(overviewLayout);
-        overviewLayout.setHorizontalGroup(
-            overviewLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, overviewLayout.createSequentialGroup()
+        GroupLayout createDeliveryOrderPanelLayout = new GroupLayout(createDeliveryOrderPanel);
+        createDeliveryOrderPanel.setLayout(createDeliveryOrderPanelLayout);
+        createDeliveryOrderPanelLayout.setHorizontalGroup(
+            createDeliveryOrderPanelLayout.createParallelGroup(GroupLayout.LEADING)
+            .add(GroupLayout.LEADING, createDeliveryOrderPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(splitPane, GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
-                .addContainerGap())
+                .add(createDeliveryOrderPanelLayout.createParallelGroup(GroupLayout.TRAILING)
+                    .add(GroupLayout.LEADING, deliveryOrderTable, GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
+                    .add(GroupLayout.LEADING, createDeliveryOrderPanelLayout.createSequentialGroup()
+                        .add(createDeliveryOrderPanelLayout.createParallelGroup(GroupLayout.TRAILING)
+                            .add(GroupLayout.LEADING, prefixPanel, 0, 300, Short.MAX_VALUE)
+                            .add(addressPanel, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(createDeliveryOrderPanelLayout.createParallelGroup(GroupLayout.LEADING)
+                            .add(suffixPanel, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                            .add(formularDataPanel, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))))
+                .add(10, 10, 10))
         );
-        overviewLayout.setVerticalGroup(
-            overviewLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.TRAILING, overviewLayout.createSequentialGroup()
+        createDeliveryOrderPanelLayout.setVerticalGroup(
+            createDeliveryOrderPanelLayout.createParallelGroup(GroupLayout.LEADING)
+            .add(GroupLayout.LEADING, createDeliveryOrderPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(overviewLayout.createParallelGroup(GroupLayout.TRAILING)
-                    .add(GroupLayout.LEADING, splitPane))
+                .add(createDeliveryOrderPanelLayout.createParallelGroup(GroupLayout.TRAILING, false)
+                    .add(addressPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(formularDataPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(LayoutStyle.RELATED)
+                .add(createDeliveryOrderPanelLayout.createParallelGroup(GroupLayout.LEADING)
+                    .add(prefixPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .add(suffixPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(LayoutStyle.RELATED)
+                .add(deliveryOrderTable, GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         overview.add(createDeliveryOrderToolBar(), BorderLayout.NORTH);
-        overview.add(createDeliveryOrder, BorderLayout.CENTER);
+        overview.add(createDeliveryOrderPanel, BorderLayout.CENTER);
 
         tabbedPane.addTab(WorkArea.getMessage(Constants.OVERVIEW), overview);
 
-        OverviewPanel deliveryOrderOverview = new OverviewPanel(baseService, orderTable, deliveryOrderPrintPanelOverview);
+        /*
+        JButton viewDeliveryOrderB = new JButton(new ImageIcon("images/jasper_view.png"));
+        viewDeliveryOrderB.addActionListener(new ActionListener() {
 
-        JButton viewDeliveryOrder = new JButton(new ImageIcon("images/jasper_view.png"));
-        viewDeliveryOrder.addActionListener(new ActionListener() {
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             *
             public void actionPerformed(ActionEvent e) {
                 try {
                     int row = orderTable.getTable().getSelectedRow();
 
                     if (row != -1) {
-                        deliveryOrderPrintPanelOverview.doJasper(((IdValueItem) orderTable.getTable().getValueAt(row,0)).getId());
+                        deliveryOrderViewerDialogOverview.doJasper(((IdValueItem) orderTable.getTable().getValueAt(row,0)).getId());
                     }
                     else {
                         JOptionPane.showMessageDialog(DeliveryOrderUI.this, "Datensatz auswählen", "Nachricht", JOptionPane.INFORMATION_MESSAGE);
@@ -369,7 +378,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
-             */
+             *
             public void actionPerformed(ActionEvent e) {
                 Long deliveryOrderId = orderTable.getIdOfSelectedRow();
 
@@ -379,21 +388,12 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
                 orderTable.renewTableModel();
                 orderTable.repaint();
 
-                if (deliveryOrderPrintPanelOverview != null) {
-                    deliveryOrderPrintPanelOverview.clearViewerPanel();
+                if (deliveryOrderViewerDialogOverview != null) {
+                    deliveryOrderViewerDialogOverview.clearViewerPanel();
                 }
             }
         });
-
-        JToolBar toolBar = new JToolBar();
-        toolBar.add(viewDeliveryOrder);
-        toolBar.add(deleteDeliveryOrder);
-
-        JPanel showDeliveryOrders = new JPanel(new BorderLayout());
-        showDeliveryOrders.add(toolBar, BorderLayout.NORTH);
-        showDeliveryOrders.add(deliveryOrderOverview, BorderLayout.CENTER);
-
-        tabbedPane.addTab(null, showDeliveryOrders);
+        */
 
         add(tabbedPane, BorderLayout.CENTER);
     }
@@ -404,17 +404,9 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
     public void reinitI18N() {
 
         tabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.OVERVIEW));
-        tabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.MAX_OVERVIEW));
 
-        tabbedPaneRight.setTitleAt(0, WorkArea.getMessage(Constants.ADDRESS));
-        tabbedPaneRight.setTitleAt(1, WorkArea.getMessage(Constants.DATA));
-
-        deliveryOrderData.reinitI18N();
-        articleTable.reinitI18N();
-        address.reinitI18N();
-        deliveryOrderData.reinitI18N();
+        addressPanel.reinitI18N();
         deliveryOrderTable.reinitI18N();
-        deliveryOrderPrintPanelOverview.reinitI18N();
 
         ((TitledBorder) deliveryOrderTable.getPanelBorder()).setTitle(WorkArea.getMessage(Constants.DELIVERY_ORDER));
 
@@ -427,108 +419,113 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         */
     }
 
-    /**
-     * Erneuert das <code>TableModel</code> der Artikel Tabelle.
-     */
-    public void renewArticleTableModel() {
-        articleTable.renewTableModel();
-    }
-
-    private ecobill.module.base.ui.component.Address address;
-    private JPanel addressPanel;
-    private ArticleTable articleTable;
-    private DeliveryOrderData deliveryOrderData;
-    private JPanel deliveryOrderDataPanel;
-    private DeliveryOrderTable deliveryOrderTable;
-    private OrderTable orderTable;
-    private JPanel overview;
-    private JPanel panelLeft;
-    private JPanel panelRight;
-    private JSplitPane splitPane;
     private JTabbedPane tabbedPane;
-    private JTabbedPane tabbedPaneRight;
+    private JPanel overview;
 
-    private DeliveryOrderPrintPanel deliveryOrderPrintPanelOverview;
+    private AddressPanel addressPanel;
+    private DeliveryOrderTable deliveryOrderTable;
+    private FormularDataPanel formularDataPanel;
+    private TitleBorderedTextAreaPanel prefixPanel;
+    private TitleBorderedTextAreaPanel suffixPanel;
 
     public void setBusinessPartner(BusinessPartner businessPartner) {
-        address.setBusinessPartner(businessPartner);
+        addressPanel.setBusinessPartner(businessPartner);
     }
 
     private void showAddArticleDialog(Long id) {
 
-        Article article = (Article) baseService.load(Article.class, id);
-
         JFrame frame = (JFrame) applicationContext.getBean("mainFrame");
 
-        JDialog d = new DeliveryOrderDialog(frame, this, article, true);
-        d.setModal(true);
+        Article article = null;
+        if (id != null) {
+            article = (Article) baseService.load(Article.class, id);
+        }
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-        Dimension size = d.getSize();
-
-        double x = screenSize.getWidth() - size.getWidth();
-        double y = screenSize.getHeight() - size.getHeight();
-
-        d.setLocation((int) x / 2, (int) y / 2);
-
-        d.setVisible(true);
+        new DeliveryOrderArticleDialog(frame, this, article, true);
     }
 
-    private Set<ReduplicatedArticle> reduplicatedArticles = new HashSet<ReduplicatedArticle>();
-
     public void addReduplicatedArticle(ReduplicatedArticle reduplicatedArticle) {
+        // TODO: hier liegt der fehler für erneutes erscheinen des artikels.
 
-        reduplicatedArticles.add(reduplicatedArticle);
-
-        deliveryOrderTable.setDataCollection(reduplicatedArticles);
-        deliveryOrderTable.renewTableModel();
+        deliveryOrderTable.addReduplicatedArticle(reduplicatedArticle);
     }
 
     private void saveOrUpdateDeliveryOrder() {
 
         DeliveryOrder deliveryOrder = new DeliveryOrder();
 
-        deliveryOrder.setBusinessPartner(address.getBusinessPartner());
+        deliveryOrder.setBusinessPartner(addressPanel.getBusinessPartner());
         deliveryOrder.setCharacterisationType("delivery_order");
-        deliveryOrder.setDeliveryOrderNumber(deliveryOrderData.getDeliveryOrderNumber());
-        deliveryOrder.setDeliveryOrderDate(deliveryOrderData.getDeliveryOrderDate());
-        deliveryOrder.setPrefixFreetext(deliveryOrderData.getPrefix());
-        deliveryOrder.setSuffixFreetext(deliveryOrderData.getSuffix());
+        deliveryOrder.setDeliveryOrderNumber(formularDataPanel.getNumber());
+        deliveryOrder.setDeliveryOrderDate(formularDataPanel.getDate());
+        deliveryOrder.setPrefixFreetext(prefixPanel.getTextArea().getText());
+        deliveryOrder.setSuffixFreetext(suffixPanel.getTextArea().getText());
         deliveryOrder.setPreparedBill(false);
 
         Vector dataVector = ((DefaultTableModel) deliveryOrderTable.getTable().getModel()).getDataVector();
+
+        ReduplicatedArticle article;
 
         Enumeration lines = dataVector.elements();
         for (int i = 1; lines.hasMoreElements(); i++) {
 
             Vector line = (Vector) lines.nextElement();
 
-            ReduplicatedArticle reduplicatedArticle = (ReduplicatedArticle) line.get(6);
-            reduplicatedArticle.setOrderPosition(i);
+            article = new ReduplicatedArticle();
 
-            deliveryOrder.addArticle(reduplicatedArticle);
+            article.setArticleNumber((String) ((IdValueItem) line.get(0)).getValue());
+            article.setDescription((String) line.get(1));
+            article.setQuantity((Double) line.get(2));
+            article.setUnit((String) line.get(3));
+            article.setPrice((Double) line.get(4));
+
+            //ReduplicatedArticle reduplicatedArticle = (ReduplicatedArticle) line.get(6);
+            article.setOrderPosition(i);
+
+            deliveryOrder.addArticle(article);
         }
 
         baseService.saveOrUpdate(deliveryOrder);
 
-        reduplicatedArticles.clear();
+        this.deliveryOrderId = deliveryOrder.getId();
+
+        deliveryOrderTable.clearDataCollection();
     }
 
     public void resetInput(String deliveryOrderNumber) {
 
-        deliveryOrderData.setDeliveryOrderNumber(deliveryOrderNumber);
-        deliveryOrderData.setDeliveryOrderDate(new Date());
-        deliveryOrderData.setPrefix("");
-        deliveryOrderData.setSuffix("");
+        formularDataPanel.setNumber(deliveryOrderNumber);
+        formularDataPanel.setDate(new Date());
+        prefixPanel.getTextArea().setText("");
+        suffixPanel.getTextArea().setText("");
 
         JTable table = deliveryOrderTable.getTable();
         ((DefaultTableModel) table.getModel()).getDataVector().removeAllElements();
         table.updateUI();
     }
 
+    private Long businessPartnerId;
+
+    // TODO: Brauchen wir das noch?!? Reicht doch eigentlich setBusinessPartner oder umgekehrt.
     public void setActualBusinessPartnerId(Long actualBusinessPartnerId) {
-        orderTable.setBusinessPartnerId(actualBusinessPartnerId);
-        orderTable.renewTableModel();
+        businessPartnerId = actualBusinessPartnerId;
+    }
+
+    private Long deliveryOrderId;
+
+    public void setDeliveryOrder(DeliveryOrder deliveryOrder) {
+
+        // Setzt den Lieferschein Anzeigeknopf auf enabled da nach dem Aufruf eines gespeicherten
+        // Lieferscheines der View dafür bereitsteht.
+        viewDeliveryOrderB.setEnabled(true);
+
+        this.deliveryOrderId = deliveryOrder.getId();
+
+        formularDataPanel.setNumber(deliveryOrder.getDeliveryOrderNumber());
+        formularDataPanel.setDate(deliveryOrder.getDeliveryOrderDate());
+        prefixPanel.getTextArea().setText(deliveryOrder.getPrefixFreetext());
+        suffixPanel.getTextArea().setText(deliveryOrder.getSuffixFreetext());
+
+        deliveryOrderTable.setDataCollection(deliveryOrder.getArticles());
     }
 }

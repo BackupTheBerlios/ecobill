@@ -5,13 +5,17 @@ import org.apache.commons.logging.LogFactory;
 import org.jdesktop.layout.GroupLayout;
 import org.jdesktop.layout.LayoutStyle;
 import ecobill.module.base.service.BaseService;
+import ecobill.module.base.ui.textblock.TextBlockDialog;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import ecobill.core.system.Internationalization;
+import ecobill.core.ui.MainFrame;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.util.Date;
 import java.util.Calendar;
 
@@ -25,7 +29,7 @@ import java.util.Calendar;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderData.java,v 1.4 2005/11/07 21:49:30 raedler Exp $
+ * @version $Id: DeliveryOrderData.java,v 1.5 2005/12/11 17:16:01 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderData extends JPanel implements Internationalization {
@@ -35,6 +39,11 @@ public class DeliveryOrderData extends JPanel implements Internationalization {
      * Diese Ausgaben können in einem separaten File spezifiziert werden.
      */
     protected final static Log LOG = LogFactory.getLog(DeliveryOrderData.class);
+
+    /**
+     * Der <code>MainFrame</code> ist der Vaterframe aller <code>Components</code>.
+     */
+    private MainFrame mainFrame;
 
     /**
      * Der <code>BaseService</code> ist die Business Logik. Unter anderem können hierdurch Daten
@@ -64,8 +73,9 @@ public class DeliveryOrderData extends JPanel implements Internationalization {
     /**
      * Erzeugt eine neues <code>DeliveryOrderData</code> Panel.
      */
-    public DeliveryOrderData(BaseService baseService) {
+    public DeliveryOrderData(MainFrame mainFrame, BaseService baseService) {
 
+        this.mainFrame = mainFrame;
         this.baseService = baseService;
 
         initComponents();
@@ -216,19 +226,27 @@ public class DeliveryOrderData extends JPanel implements Internationalization {
         this.deliveryOrderDate.setValue(deliveryOrderDate);
     }
 
-    public String getPrefix() {
+    public String getPrefixText() {
         return prefix.getText();
     }
 
-    public void setPrefix(String prefix) {
+    public void setPrefixText(String prefix) {
         this.prefix.setText(prefix);
     }
 
-    public String getSuffix() {
+    public String getSuffixText() {
         return suffix.getText();
     }
 
-    public void setSuffix(String suffix) {
+    public void setSuffixText(String suffix) {
         this.suffix.setText(suffix);
+    }
+
+    public JTextArea getPrefix() {
+        return prefix;
+    }
+
+    public JTextArea getSuffix() {
+        return suffix;
     }
 }

@@ -8,39 +8,35 @@ import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.BusinessPartner;
 import ecobill.module.base.domain.DeliveryOrder;
 import ecobill.module.base.domain.Person;
-import ecobill.module.base.jasper.JasperViewer;
 import ecobill.module.base.ui.component.AbstractJasperPrintPanel;
+import ecobill.module.base.ui.component.AbstractJasperViewerDialog;
 import ecobill.core.ui.MainFrame;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
-import ecobill.core.system.Internationalization;
 
 import java.util.*;
 import java.awt.*;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 // @todo document me!
 
 /**
- * DeliveryOrderPrintPanel.
+ * DeliveryOrderViewerDialog.
  * <p/>
  * User: Paul Chef
  * Date: 18.08.2005
  * Time: 16:45:41
  *
  * @author Andreas Weiler
- * @version $Id: DeliveryOrderPrintPanel.java,v 1.4 2005/11/07 21:49:30 raedler Exp $
+ * @version $Id: DeliveryOrderViewerDialog.java,v 1.1 2005/12/11 17:16:01 raedler Exp $
  * @since EcoBill 1.0
  */
-public class DeliveryOrderPrintPanel extends AbstractJasperPrintPanel {
+public class DeliveryOrderViewerDialog extends AbstractJasperViewerDialog {
 
     /**
      * TODO: document me!!!
      */
-    public DeliveryOrderPrintPanel(MainFrame mainFrame, BaseService baseService) {
-        super(mainFrame, baseService);
+    public DeliveryOrderViewerDialog(MainFrame mainFrame, boolean modal, BaseService baseService, Long id) {
+        super(mainFrame, modal, baseService, id);
     }
 
     /**
@@ -87,7 +83,8 @@ public class DeliveryOrderPrintPanel extends AbstractJasperPrintPanel {
 
         getJasperViewer().addParameter("COMPANY_NAME", bp.getCompanyName());
         getJasperViewer().addParameter("BRANCH", bp.getCompanyBranch());
-        getJasperViewer().addParameter("PERSON_TITLE", person.getTitle().toString());
+        getJasperViewer().addParameter("FOR_ATTENTION_OF", bp.isForAttentionOf());
+        getJasperViewer().addParameter("PERSON_TITLE", person.getTitle() != null ? person.getTitle().toString() : "");
 
         getJasperViewer().addParameter("DATE", deliveryOrder.getDeliveryOrderDate());
         getJasperViewer().addParameter("CUSTOMER_NUMBER", bp.getCustomerNumber());

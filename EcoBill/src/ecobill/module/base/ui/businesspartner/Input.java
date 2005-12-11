@@ -35,7 +35,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: Input.java,v 1.9 2005/11/07 08:28:57 raedler Exp $
+ * @version $Id: Input.java,v 1.10 2005/12/11 17:16:01 raedler Exp $
  * @since EcoBill 1.0
  */
 public class Input extends JPanel implements Internationalization {
@@ -168,6 +168,9 @@ public class Input extends JPanel implements Internationalization {
 
                     countyModel = new DefaultComboBoxModel(countiesList.toArray());
                     county.setModel(countyModel);
+                }
+                else {
+                    county.removeAllItems();
                 }
             }
         });

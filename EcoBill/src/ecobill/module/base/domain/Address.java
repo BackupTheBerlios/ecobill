@@ -1,9 +1,7 @@
 package ecobill.module.base.domain;
 
-import java.text.Collator;
-
 /**
- * Die <code>Address</code> beinhaltet alle Informationen die für eine Adresse von Nöten
+ * Die <code>AddressPanel</code> beinhaltet alle Informationen die für eine Adresse von Nöten
  * sind. Desweiteren ist diese Klasse von <code>AbstractDomain</code> abgeleitet und kann
  * somit in einer Datenbank abgelegt werden.
  * <p/>
@@ -12,7 +10,7 @@ import java.text.Collator;
  * Time: 13:33:34
  *
  * @author Roman R&auml;dle
- * @version $Id: Address.java,v 1.3 2005/10/04 09:21:29 raedler Exp $
+ * @version $Id: Address.java,v 1.4 2005/12/11 17:16:01 raedler Exp $
  * @since EcoBill 1.0
  */
 public class Address extends AbstractDomain {
@@ -133,7 +131,7 @@ public class Address extends AbstractDomain {
     }
 
     /**
-     * Es wird diese <code>Address</code> mit dem eingehenden Objekt auf
+     * Es wird diese <code>AddressPanel</code> mit dem eingehenden Objekt auf
      * Gleichheit überprüft.
      *
      * @see Object#equals(Object)

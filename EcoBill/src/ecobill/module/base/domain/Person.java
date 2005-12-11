@@ -10,7 +10,7 @@ import ecobill.core.system.WorkArea;
  * Time: 13:31:22
  *
  * @author Roman R&auml;dle
- * @version $Id: Person.java,v 1.4 2005/10/05 23:41:27 raedler Exp $
+ * @version $Id: Person.java,v 1.5 2005/12/11 17:16:01 raedler Exp $
  * @since EcoBill 1.0
  */
 public class Person extends AbstractDomain {
@@ -196,20 +196,20 @@ public class Person extends AbstractDomain {
     }
 
     /**
-     * Gibt eine <code>Address</code> zurück. Diese beinhaltet bspw. Straße,
+     * Gibt eine <code>AddressPanel</code> zurück. Diese beinhaltet bspw. Straße,
      * Postleitzahl, Stadt, Bundesland oder Bundesstaat und Land.
      *
-     * @return Die Adresse in einem <code>Address</code> Objekt.
+     * @return Die Adresse in einem <code>AddressPanel</code> Objekt.
      */
     public Address getAddress() {
         return address;
     }
 
     /**
-     * Setzt die Adresse der Person. Dazu wird ein <code>Address</code>
+     * Setzt die Adresse der Person. Dazu wird ein <code>AddressPanel</code>
      * Objekt benötigt.
      *
-     * @param address Die Adresse in einem <code>Address</code> Objekt.
+     * @param address Die Adresse in einem <code>AddressPanel</code> Objekt.
      */
     public void setAddress(Address address) {
         this.address = address;

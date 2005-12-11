@@ -70,6 +70,8 @@ public class OrderTableWithCB extends AbstractTablePanel {
         super(baseService);
 
         this.businessPartnerId = businessPartnerId;
+
+        renewTableModel();
      }
 
     /**
@@ -106,8 +108,12 @@ public class OrderTableWithCB extends AbstractTablePanel {
 
             BusinessPartner businessPartner = (BusinessPartner) getBaseService().load(BusinessPartner.class, businessPartnerId);
 
+            System.out.println("OPEN: " + businessPartner.getOpenDeliveryOrders().size());
+
             return businessPartner.getOpenDeliveryOrders();
         }
+
+        System.out.println("NOT_OPEN");
 
         return Collections.EMPTY_SET;
     }

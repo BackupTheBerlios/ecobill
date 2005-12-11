@@ -11,10 +11,10 @@ import ecobill.core.system.WorkArea;
  * Time: 17:19:20
  *
  * @author Roman R&auml;dle
- * @version $Id: AbstractI18NDomain.java,v 1.2 2005/09/30 09:02:23 raedler Exp $
+ * @version $Id: AbstractI18NDomain.java,v 1.3 2005/12/11 17:16:01 raedler Exp $
  * @since EcoBill 1.0
  */
-public abstract class AbstractI18NDomain extends AbstractDomain {
+public abstract class AbstractI18NDomain extends AbstractDomain implements Comparable {
 
     /**
      * Der i18n Schlüssel unter dem in einem <code>ResourceBundle</code> der
@@ -42,6 +42,19 @@ public abstract class AbstractI18NDomain extends AbstractDomain {
      */
     public void setKey(String key) {
         this.key = key;
+    }
+
+    /**
+     * @see Comparable#compareTo(Object)
+     */
+    public int compareTo(Object o) {
+        if (this == o) return 0;
+
+        if (o == null) {
+            return 1;
+        }
+
+        return toString().compareTo(o.toString());
     }
 
     /**

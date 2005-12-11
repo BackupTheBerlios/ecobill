@@ -1,5 +1,7 @@
 package ecobill.core.util;
 
+import ecobill.core.system.WorkArea;
+
 import java.io.Serializable;
 
 // @todo document me!
@@ -12,10 +14,10 @@ import java.io.Serializable;
  * Time: 20:33:49
  *
  * @author Roman R&auml;dle
- * @version $Id: IdKeyItem.java,v 1.1 2005/09/30 09:00:46 raedler Exp $
+ * @version $Id: IdKeyItem.java,v 1.2 2005/12/11 17:16:01 raedler Exp $
  * @since EcoBill 1.0
  */
-public class IdKeyItem implements Serializable {
+public class IdKeyItem implements Comparable, Serializable {
 
     private Long id;
 
@@ -46,7 +48,16 @@ public class IdKeyItem implements Serializable {
         this.key = key;
     }
 
+    /**
+     * @see Comparable#compareTo(Object)
+     */
+    public int compareTo(Object o) {
+        if (this == o) return 0;
+
+        return toString().compareTo(o.toString());
+    }
+
     public String toString() {
-        return key;
+        return WorkArea.getMessage(getKey());
     }
 }

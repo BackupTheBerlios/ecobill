@@ -1,6 +1,7 @@
 package ecobill.module.base.ui.bill;
 
 import ecobill.module.base.ui.component.AbstractJasperPrintPanel;
+import ecobill.module.base.ui.component.AbstractJasperViewerDialog;
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.Bill;
 import ecobill.module.base.domain.BusinessPartner;
@@ -15,37 +16,38 @@ import javax.swing.border.Border;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Set;
-import java.util.HashSet;
 import java.util.LinkedList;
 
+// TODO: document me!!!
+
 /**
- * DeliveryOrderPrintPanel.
+ * DeliveryOrderViewerDialog.
  * <p/>
  * User: sega
  * Date: 18.08.2005
  * Time: 16:45:41
  *
  * @author Sebastian Gath
- * @version $Id: BillPrintPanel.java,v 1.5 2005/11/08 21:44:42 raedler Exp $
+ * @version $Id: BillViewerDialog.java,v 1.1 2005/12/11 17:16:01 raedler Exp $
  * @since EcoBill 1.0
  */
-public class BillPrintPanel extends AbstractJasperPrintPanel {
+public class BillViewerDialog extends AbstractJasperViewerDialog {
 
     /**
-     * Konstruktor, legt ein neues
+     * TODO: document me!!!
      *
      * @param mainFrame
      * @param baseService
      */
-    public BillPrintPanel(MainFrame mainFrame, BaseService baseService) {
-        super(mainFrame, baseService);
+    public BillViewerDialog(MainFrame mainFrame, boolean modal, BaseService baseService, Long id) {
+        super(mainFrame, modal, baseService, id);
     }
 
     /**
      * @see ecobill.core.system.Internationalization#reinitI18N()
      */
     public void reinitI18N() {
-        ((TitledBorder) getBorder()).setTitle(WorkArea.getMessage(Constants.DELIVERY_ORDER));
+        ((TitledBorder) getBorder()).setTitle(WorkArea.getMessage(Constants.BILL));
     }
 
     /**
@@ -105,11 +107,12 @@ public class BillPrintPanel extends AbstractJasperPrintPanel {
 
         getJasperViewer().addParameter("COMPANY_NAME", bp.getCompanyName());
         getJasperViewer().addParameter("BRANCH", bp.getCompanyBranch());
-        getJasperViewer().addParameter("PERSON_TITLE", person.getTitle().toString());
+        getJasperViewer().addParameter("FOR_ATTENTION_OF", bp.isForAttentionOf());
+        getJasperViewer().addParameter("PERSON_TITLE", person.getTitle() != null ? person.getTitle().toString() : "");
 
         getJasperViewer().addParameter("DATE", bill.getBillDate());
         getJasperViewer().addParameter("CUSTOMER_NUMBER", bp.getCustomerNumber());
-        getJasperViewer().addParameter("BILL_NUMBER", bill.getBillNumber().toString());
+        getJasperViewer().addParameter("BILL_NUMBER", bill.getBillNumber());
         getJasperViewer().addParameter("DELIVERY_ORDER_NUMBERS", deliveryOrderNumbers);
 
         getJasperViewer().addParameter("PREFIX_FREE_TEXT", bill.getPrefixFreetext());

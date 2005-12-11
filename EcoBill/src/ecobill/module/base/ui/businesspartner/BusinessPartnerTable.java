@@ -29,7 +29,7 @@ import java.io.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerTable.java,v 1.4 2005/10/11 19:41:27 gath Exp $
+ * @version $Id: BusinessPartnerTable.java,v 1.5 2005/12/11 17:16:01 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerTable extends AbstractTablePanel {
@@ -76,6 +76,11 @@ public class BusinessPartnerTable extends AbstractTablePanel {
         tableColumnOrder.add(new I18NItem(Constants.CITY));
         tableColumnOrder.add(new I18NItem(Constants.COUNTRY));
         tableColumnOrder.add(new I18NItem(Constants.COUNTY));
+        tableColumnOrder.add(new I18NItem(Constants.FIRM));
+        tableColumnOrder.add(new I18NItem(Constants.BRANCH));
+        tableColumnOrder.add(new I18NItem(Constants.PHONE));
+        tableColumnOrder.add(new I18NItem(Constants.FAX));
+        tableColumnOrder.add(new I18NItem(Constants.EMAIL));
 
         return tableColumnOrder;
     }
@@ -99,7 +104,7 @@ public class BusinessPartnerTable extends AbstractTablePanel {
 
             BusinessPartner businessPartner = (BusinessPartner) o;
 
-            // Setzen der Werte eines <code>Article</code> im Zeilen Datenvektor.
+            // Setzen der Werte eines <code>BusinessPartner</code> im Zeilen Datenvektor.
             for (I18NItem order : getTableColumnOrder()) {
 
                 String key = order.getKey();
@@ -133,6 +138,21 @@ public class BusinessPartnerTable extends AbstractTablePanel {
                 }
                 else if (Constants.COUNTY.equals(key)) {
                     line.add(businessPartner.getAddress().getCounty());
+                }
+                else if (Constants.FIRM.equals(key)) {
+                    line.add(businessPartner.getCompanyName());
+                }
+                else if (Constants.BRANCH.equals(key)) {
+                    line.add(businessPartner.getCompanyBranch());
+                }
+                else if (Constants.PHONE.equals(key)) {
+                    line.add(businessPartner.getPerson().getPhone());
+                }
+                else if (Constants.FAX.equals(key)) {
+                    line.add(businessPartner.getPerson().getFax());
+                }
+                else if (Constants.EMAIL.equals(key)) {
+                    line.add(businessPartner.getPerson().getEmail());
                 }
             }
         }

@@ -23,7 +23,7 @@ import ecobill.core.system.Constants;
 import ecobill.core.system.Internationalization;
 import ecobill.core.system.Persistable;
 import ecobill.core.util.I18NItem;
-import ecobill.core.util.IdKeyItem;
+import ecobill.core.util.IdValueItem;
 import ecobill.module.base.domain.Article;
 import ecobill.module.base.domain.ArticleDescription;
 import ecobill.module.base.service.BaseService;
@@ -218,7 +218,7 @@ public class LabellingTable extends JPanel implements Internationalization, Pers
             String key = order.getKey();
 
             if (Constants.KEY.equals(key)) {
-                lineV.add(new IdKeyItem(description.getId(), description.getSystemLocale().getKey()));
+                lineV.add(new IdValueItem(description.getId(), description.getSystemLocale().getKey()));
             }
             else if (Constants.LANGUAGE.equals(key)) {
                 lineV.add(description.getSystemLocale().getLanguage());

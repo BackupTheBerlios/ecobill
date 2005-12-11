@@ -10,7 +10,7 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.47 2005/11/08 21:44:42 raedler Exp $
+ * @version $Id: Constants.java,v 1.48 2005/12/11 17:16:01 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {
@@ -42,6 +42,8 @@ public interface Constants {
     public final static String ADDRESS_TOOLTIP = "address.tooltip";
     public final static String ALL_ROUND_PRICE = "all_round_price";
     public final static String ALL_ROUND_PRICE_TOOLTIP = "all_round_price.tooltip";
+    public final static String APPLY = "apply";
+    public final static String APPLY_TOOLTIP = "apply.tooltip";
     public final static String ARTICLE_NR = "article_nr";
     public final static String ARTICLE_NR_TOOLTIP = "article_nr.tooltip";
     public final static String BILL_PREVIEW = "bill_preview";
@@ -56,6 +58,8 @@ public interface Constants {
     public final static String CAPACITY_TOOLTIP = "capacity.tooltip";
     public final static String CHARACTERISATION_TYP = "characterisation_type";
     public final static String CHECKBOX_NEEDED ="checkbox_needed";
+    public final static String CLOSE = "close";
+    public final static String CLOSE_TOOLTIP = "close.tooltip";
     public final static String COUNTRY = "country";
     public final static String COUNTRY_TOOLTIP = "country.tooltip";
     public final static String CUSTOMER = "customer";
@@ -88,6 +92,8 @@ public interface Constants {
     public final static String ID = "id";
     public final static String IN_STOCK = "in_stock";
     public final static String IN_STOCK_TOOLTIP = "in_stock.tooltip";
+    public final static String INPUT = "input";
+    public final static String INPUT_TOOLTIP = "input.tooltip";
     public final static String KEY = "key";
     public final static String KEY_TOOLTIP = "key.tooltip";
     public final static String LABELLING = "labelling";
@@ -112,6 +118,10 @@ public interface Constants {
     public final static String SAVE = "save";
     public final static String SAVE_TOOLTIP = "save.tooltip";
     public final static String SUFFIX_FREE_TEXT = "text_suffix";
+    public final static String TEXT = "text";
+    public final static String TEXT_TOOLTIP = "text.tooltip";
+    public final static String TEXT_BLOCK = "text_block";
+    public final static String TEXT_BLOCK_TOOLTIP = "text_block.tooltip";
     public final static String TEXT_PREFIX = "text_prefix";
     public final static String TEXT_PREFIX_TOOLTIP = "text_prefix.tooltip";
     public final static String TEXT_SUFFIX = "text_suffix";

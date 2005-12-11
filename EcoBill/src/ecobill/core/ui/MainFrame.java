@@ -9,6 +9,7 @@ import ecobill.module.base.ui.help.HelpUI;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import ecobill.core.system.Internationalization;
+import ecobill.core.util.ComponentUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.DisposableBean;
@@ -37,7 +38,7 @@ import java.io.File;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.106 2005/12/07 18:13:41 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.107 2005/12/11 17:16:01 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -199,7 +200,8 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // ruft Methode tabPane() auf die das TabPane erstellt
         tabPane();
 
-        center();
+        // Zentriert den <code>MainFrame</code> auf dem Bildschirm.
+        ComponentUtils.centerComponentOnScreen(this);
 
         reinitI18N();
 
@@ -219,27 +221,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // Setzt den <code>JFrame</code>, der bis dahin "unsichtbar" war, sichtbar.
         setVisible(true);
     }
-
-    /**
-     * Zentriert das <code>MainFrame</code> im sichtbaren Bereich des Bildschirms.
-     */
-    private void center() {
-
-        // Größe der eingestellten Bildschirmauflösung.
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-        double width = screenSize.getWidth();
-        double height = screenSize.getHeight();
-
-        // Größe des <code>JFrame</code>.
-        Dimension frameSize = this.getSize();
-
-        width -= frameSize.getWidth();
-        height -= frameSize.getHeight();
-
-        this.setLocation((int) width / 2, (int) height / 2);
-    }
-
 
     // alle Sachen erstellen die man braucht
     private JButton ebutton = new JButton();
@@ -307,7 +288,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
                     tabbedPane.setEnabledAt(3, false);
                 }
                 else {
-                    deliveryOrderUI.renewArticleTableModel();
+                    //deliveryOrderUI.renewArticleTableModel();
                 }
 
                 // Rechnungen Tab.
@@ -761,28 +742,6 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     public void setSelectedTab(int index) {
         tabbedPane.setEnabledAt(index, true);
         tabbedPane.setSelectedIndex(index);
-    }
-
-    /**
-     * TODO: Für eine spätere Version um Buttons zu ersetzen.
-     */
-    private void toolbarExtension() {
-
-        JToolBar toolbar = new JToolBar();
-
-        JButton button1 = new JButton(new ImageIcon("images/news_new.png"));
-        JButton button2 = new JButton(new ImageIcon("images/news_ok.png"));
-        JButton button3 = new JButton(new ImageIcon("images/news_delete.png"));
-        JButton button4 = new JButton(new ImageIcon("images/refresh.png"));
-
-        toolbar.add(button1);
-        toolbar.add(button2);
-        toolbar.add(button3);
-        toolbar.addSeparator();
-        toolbar.add(button4);
-
-
-        this.getContentPane().add(toolbar, BorderLayout.NORTH);
     }
 
     // Der Midi <code>Sequencer</code>.

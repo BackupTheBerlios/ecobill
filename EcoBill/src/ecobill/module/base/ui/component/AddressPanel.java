@@ -15,24 +15,24 @@ import java.awt.*;
 /**
  * TODO: document me!!!
  * <p/>
- * Address.
+ * AddressPanel.
  * <p/>
  * User: rro
  * Date: 15.07.2005
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: Address.java,v 1.3 2005/11/08 18:09:35 raedler Exp $
+ * @version $Id: AddressPanel.java,v 1.1 2005/12/11 17:17:12 raedler Exp $
  * @since EcoBill 1.0
  */
-public class Address extends JPanel implements Internationalization {
+public class AddressPanel extends JPanel implements Internationalization {
 
     private GroupLayout layout;
 
     /**
      * Erzeugt ein neues Adresse <code>JPanel</code>.
      */
-    public Address() {
+    public AddressPanel() {
         initComponents();
         initLayout();
     }
@@ -101,11 +101,13 @@ public class Address extends JPanel implements Internationalization {
             sequentialGroup = sequentialGroup.add(street).add(20, 20, 20);
         }
 
+        sequentialGroup = sequentialGroup.add(zipCodeCity).addPreferredGap(LayoutStyle.RELATED);
+
         if (country.getText() != null && !"".equals(country.getText())) {
-            sequentialGroup = sequentialGroup.add(country).addPreferredGap(LayoutStyle.RELATED);
+            sequentialGroup = sequentialGroup.add(country);
         }
 
-        sequentialGroup = sequentialGroup.add(zipCodeCity).addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE);
+        sequentialGroup.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE);
 
         layout.setHorizontalGroup(
             layout.createParallelGroup(GroupLayout.LEADING)

@@ -74,11 +74,13 @@ public class TableSorter extends DefaultTableModel {
 
     public static final Comparator COMPARABLE_COMAPRATOR = new Comparator() {
         public int compare(Object o1, Object o2) {
+            System.out.println("TableSorter.compare");
             return ((Comparable) o1).compareTo(o2);
         }
     };
     public static final Comparator LEXICAL_COMPARATOR = new Comparator() {
         public int compare(Object o1, Object o2) {
+            System.out.println("TableSorter.compare");
             return o1.toString().compareTo(o2.toString());
         }
     };
@@ -88,16 +90,19 @@ public class TableSorter extends DefaultTableModel {
 
     private JTableHeader tableHeader;
     private MouseListener mouseListener;
-    private TableModelListener tableModelListener;
+    public TableModelListener tableModelListener;
     private Map columnComparators = new HashMap();
     private List sortingColumns = new ArrayList();
 
     public TableSorter(JTable table) {
         table.getTableHeader().addMouseListener(new MouseHandler());
         table.setModel(this);
-        tableHeader = table.getTableHeader();
+
         this.mouseListener = new MouseHandler();
         this.tableModelListener = new TableModelHandler();
+
+        setTableHeader(table.getTableHeader());
+        this.addTableModelListener(tableModelListener);
     }
 
     public TableSorter(JTable table, TableModel tableModel) {
@@ -152,6 +157,7 @@ public class TableSorter extends DefaultTableModel {
         }
         this.tableHeader = tableHeader;
         if (this.tableHeader != null) {
+            System.out.println("TableSorter.setTableHeader");
             this.tableHeader.addMouseListener(mouseListener);
             this.tableHeader.setDefaultRenderer(
                     new SortableHeaderRenderer(this.tableHeader.getDefaultRenderer()));
@@ -164,7 +170,8 @@ public class TableSorter extends DefaultTableModel {
 
     private Directive getDirective(int column) {
         for (int i = 0; i < sortingColumns.size(); i++) {
-            Directive directive = (Directive)sortingColumns.get(i);
+
+            Directive directive = (Directive) sortingColumns.get(i);
             if (directive.column == column) {
                 return directive;
             }
@@ -173,10 +180,12 @@ public class TableSorter extends DefaultTableModel {
     }
 
     public int getSortingStatus(int column) {
+        System.out.println("TableSorter.getSortingStatus");
         return getDirective(column).direction;
     }
 
     private void sortingStatusChanged() {
+        System.out.println("TableSorter.sortingStatusChanged");
         clearSortingState();
         fireTableDataChanged();
         if (tableHeader != null) {
@@ -185,11 +194,14 @@ public class TableSorter extends DefaultTableModel {
     }
 
     public void setSortingStatus(int column, int status) {
+        System.out.println("TableSorter.setSortingStatus");
         Directive directive = getDirective(column);
         if (directive != EMPTY_DIRECTIVE) {
+            System.out.println("1");
             sortingColumns.remove(directive);
         }
         if (status != NOT_SORTED) {
+            System.out.println("2");
             sortingColumns.add(new Directive(column, status));
         }
         sortingStatusChanged();
@@ -204,19 +216,23 @@ public class TableSorter extends DefaultTableModel {
     }
 
     private void cancelSorting() {
+        System.out.println("TableSorter.cancelSorting");
         sortingColumns.clear();
         sortingStatusChanged();
     }
 
     public void setColumnComparator(Class type, Comparator comparator) {
+        System.out.println("TableSorter.setColumnComparator");
         if (comparator == null) {
             columnComparators.remove(type);
-        } else {
+        }
+        else {
             columnComparators.put(type, comparator);
         }
     }
 
     protected Comparator getComparator(int column) {
+        System.out.println("TableSorter.getComparator");
         Class columnType = this.getColumnClass(column);
         Comparator comparator = (Comparator) columnComparators.get(columnType);
         if (comparator != null) {
@@ -229,6 +245,7 @@ public class TableSorter extends DefaultTableModel {
     }
 
     private Row[] getViewToModel() {
+        System.out.println("TableSorter.getViewToModel");
         if (viewToModel == null) {
             int tableModelRowCount = this.getRowCount();
             viewToModel = new Row[tableModelRowCount];
@@ -248,6 +265,7 @@ public class TableSorter extends DefaultTableModel {
     }
 
     private int[] getModelToView() {
+        System.out.println("TableSorter.getModelToView");
         if (modelToView == null) {
             int n = getViewToModel().length;
             modelToView = new int[n];
@@ -312,6 +330,9 @@ public class TableSorter extends DefaultTableModel {
         }
 
         public int compareTo(Object o) {
+
+            System.out.println("TableSorter$Row.compareTo");
+
             int row1 = modelIndex;
             int row2 = ((Row) o).modelIndex;
 
@@ -325,11 +346,14 @@ public class TableSorter extends DefaultTableModel {
                 // Define null less than everything, except null.
                 if (o1 == null && o2 == null) {
                     comparison = 0;
-                } else if (o1 == null) {
+                }
+                else if (o1 == null) {
                     comparison = -1;
-                } else if (o2 == null) {
+                }
+                else if (o2 == null) {
                     comparison = 1;
-                } else {
+                }
+                else {
                     comparison = getComparator(column).compare(o1, o2);
                 }
                 if (comparison != 0) {
@@ -341,11 +365,19 @@ public class TableSorter extends DefaultTableModel {
     }
 
     private class TableModelHandler implements TableModelListener {
+
         public void tableChanged(TableModelEvent e) {
+
             // If we're not sorting by anything, just pass the event along.
             if (!isSorting()) {
                 clearSortingState();
+
+                TableSorter.this.removeTableModelListener(TableSorter.this.tableModelListener);
+
                 fireTableChanged(e);
+
+                TableSorter.this.addTableModelListener(TableSorter.this.tableModelListener);
+
                 return;
             }
 
@@ -354,7 +386,13 @@ public class TableSorter extends DefaultTableModel {
             // the model.
             if (e.getFirstRow() == TableModelEvent.HEADER_ROW) {
                 cancelSorting();
+
+                TableSorter.this.removeTableModelListener(TableSorter.this.tableModelListener);
+
                 fireTableChanged(e);
+
+                TableSorter.this.addTableModelListener(TableSorter.this.tableModelListener);
+
                 return;
             }
 
@@ -377,10 +415,17 @@ public class TableSorter extends DefaultTableModel {
             // which can be a performance problem for large tables. The last
             // clause avoids this problem.
             int column = e.getColumn();
-            if (e.getFirstRow() == e.getLastRow()
-                    && column != TableModelEvent.ALL_COLUMNS
-                    && getSortingStatus(column) == NOT_SORTED
-                    && modelToView != null) {
+
+            System.out.println("AD: " + (getSortingStatus(column) == NOT_SORTED
+                && modelToView != null));
+
+            if (/*e.getFirstRow() == e.getLastRow()
+                && column != TableModelEvent.ALL_COLUMNS
+                && getSortingStatus(column) == NOT_SORTED
+                && modelToView != null*/true) {
+
+                System.out.println("################");
+
                 int viewIndex = getModelToView()[e.getFirstRow()];
                 fireTableChanged(new TableModelEvent(TableSorter.this,
                                                      viewIndex, viewIndex,
@@ -390,8 +435,12 @@ public class TableSorter extends DefaultTableModel {
 
             // Something has happened to the data that may have invalidated the row order.
             clearSortingState();
+
+            TableSorter.this.removeTableModelListener(TableSorter.this.tableModelListener);
+
             fireTableDataChanged();
-            return;
+
+            TableSorter.this.addTableModelListener(TableSorter.this.tableModelListener);
         }
     }
 
@@ -407,10 +456,7 @@ public class TableSorter extends DefaultTableModel {
 
                 int status = getSortingStatus(column);
 
-                System.out.println(">>>>>>>>> ECHO <<<<<<<<: " + status);
-
                 if (!e.isControlDown()) {
-                    System.out.println("CONTROL DOWN");
                     cancelSorting();
                 }
                 // Cycle the sorting states through {NOT_SORTED, ASCENDING, DESCENDING} or
@@ -437,10 +483,10 @@ public class TableSorter extends DefaultTableModel {
             Color color = c == null ? Color.GRAY : c.getBackground();
             // In a compound sort, make each succesive triangle 20%
             // smaller than the previous one.
-            int dx = (int)(size/2*Math.pow(0.8, priority));
+            int dx = (int) (size / 2 * Math.pow(0.8, priority));
             int dy = descending ? dx : -dx;
             // Align icon (roughly) with font baseline.
-            y = y + 5*size/6 + (descending ? -dy : 0);
+            y = y + 5 * size / 6 + (descending ? -dy : 0);
             int shift = descending ? 1 : -1;
             g.translate(x, y);
 
@@ -457,7 +503,8 @@ public class TableSorter extends DefaultTableModel {
             // Horizontal line.
             if (descending) {
                 g.setColor(color.darker().darker());
-            } else {
+            }
+            else {
                 g.setColor(color.brighter().brighter());
             }
             g.drawLine(dx, 0, 0, 0);
@@ -488,8 +535,9 @@ public class TableSorter extends DefaultTableModel {
                                                        boolean hasFocus,
                                                        int row,
                                                        int column) {
+
             Component c = tableCellRenderer.getTableCellRendererComponent(table,
-                    value, isSelected, hasFocus, row, column);
+                                                                          value, isSelected, hasFocus, row, column);
             if (c instanceof JLabel) {
                 JLabel l = (JLabel) c;
                 l.setHorizontalTextPosition(JLabel.LEFT);
