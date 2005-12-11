@@ -38,7 +38,7 @@ import java.awt.event.*;
  * Time: 16:57:16
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderUI.java,v 1.19 2005/12/11 17:16:01 raedler Exp $
+ * @version $Id: DeliveryOrderUI.java,v 1.20 2005/12/11 17:33:31 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -218,6 +218,17 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
             }
         });
 
+        JButton deleteDeliveryOrderB = new JButton(new ImageIcon("images/delivery_order_delete.png"));
+        deleteDeliveryOrderB.addActionListener(new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
         JButton editDeliveryOrderB = new JButton(new ImageIcon("images/delivery_order_edit.png"));
         editDeliveryOrderB.addActionListener(new ActionListener() {
 
@@ -287,6 +298,8 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
         toolBar.add(newDeliveryOrderB);
         toolBar.add(okDeliveryOrderB);
+        toolBar.add(deleteDeliveryOrderB);
+        toolBar.add(new JToolBar.Separator());
         toolBar.add(editDeliveryOrderB);
         toolBar.add(viewDeliveryOrderB);
         toolBar.add(new JToolBar.Separator());
