@@ -38,7 +38,7 @@ import java.awt.event.*;
  * Time: 16:57:16
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderUI.java,v 1.20 2005/12/11 17:33:31 raedler Exp $
+ * @version $Id: DeliveryOrderUI.java,v 1.21 2005/12/15 12:35:57 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -236,7 +236,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
              */
             public void actionPerformed(ActionEvent e) {
-                new DeliveryOrderChooseDialog((MainFrame) applicationContext.getBean("mainFrame"), true, DeliveryOrderUI.this, baseService, businessPartnerId);
+                new DeliveryOrderChooseDialog((MainFrame) applicationContext.getBean("mainFrame"), true, DeliveryOrderUI.this, baseService, businessPartnerId, false);
             }
         });
 

@@ -25,7 +25,7 @@ import org.jdesktop.layout.LayoutStyle;
  * Time: 14:34:47
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderChooseDialog.java,v 1.1 2005/12/11 17:17:12 raedler Exp $
+ * @version $Id: DeliveryOrderChooseDialog.java,v 1.2 2005/12/15 12:35:57 raedler Exp $
  * @since EcoBill 1.1
  */
 public class DeliveryOrderChooseDialog extends JDialog {
@@ -63,6 +63,7 @@ public class DeliveryOrderChooseDialog extends JDialog {
      * TODO: document me!!!
      */
     private Long businessPartnerId;
+    private boolean notPreparedBill;
 
     private OrderTable deliveryOrderTable;
     private JButton closeB = new JButton();
@@ -74,12 +75,13 @@ public class DeliveryOrderChooseDialog extends JDialog {
      * @param baseService
      * @param businessPartnerId
      */
-    public DeliveryOrderChooseDialog(Frame owner, boolean modal, DeliveryOrderUI deliveryOrderUI, BaseService baseService, Long businessPartnerId) {
+    public DeliveryOrderChooseDialog(Frame owner, boolean modal, DeliveryOrderUI deliveryOrderUI, BaseService baseService, Long businessPartnerId, boolean notPreparedBill) {
         super(owner, modal);
 
         this.deliveryOrderUI = deliveryOrderUI;
         this.baseService = baseService;
         this.businessPartnerId = businessPartnerId;
+        this.notPreparedBill = notPreparedBill;
 
         // Initialisiert die Komponenten.
         initComponents();
@@ -100,7 +102,7 @@ public class DeliveryOrderChooseDialog extends JDialog {
      * TODO: document me!!!
      */
     private void initComponents() {
-        deliveryOrderTable = new OrderTable(baseService, true);
+        deliveryOrderTable = new OrderTable(baseService, notPreparedBill);
         deliveryOrderTable.setBusinessPartnerId(businessPartnerId);
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
