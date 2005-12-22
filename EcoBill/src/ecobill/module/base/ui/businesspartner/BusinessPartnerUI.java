@@ -12,6 +12,7 @@ import org.jdesktop.layout.LayoutStyle;
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.ui.deliveryorder.DeliveryOrderUI;
 import ecobill.module.base.ui.bill.BillUI;
+import ecobill.module.base.ui.component.JToolBarButton;
 import ecobill.module.base.domain.*;
 import ecobill.core.util.FileUtils;
 import ecobill.core.system.WorkArea;
@@ -36,7 +37,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerUI.java,v 1.19 2005/12/11 17:16:01 raedler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.20 2005/12/22 12:53:07 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -174,8 +175,8 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
         resetInput(numberSequence.getNextNumber());
     }
 
-    JButton newDeliveryOrder = new JButton(new ImageIcon("images/delivery_order_new.png"));
-    JButton newBill = new JButton(new ImageIcon("images/bill_new.png"));
+    JToolBarButton newDeliveryOrder = new JToolBarButton(new ImageIcon("images/delivery_order_new.png"));
+    JToolBarButton newBill = new JToolBarButton(new ImageIcon("images/bill_new.png"));
 
     /**
      * Erzeugt die <code>JToolBar</code> für dieses User Interface.
@@ -184,7 +185,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
 
         JToolBar toolBar = new JToolBar();
 
-        JButton newBusinessPartner = new JButton(new ImageIcon("images/business_partner_new.png"));
+        JToolBarButton newBusinessPartner = new JToolBarButton(new ImageIcon("images/business_partner_new.png"));
         newBusinessPartner.addActionListener(new ActionListener() {
 
             /**
@@ -202,7 +203,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
             }
         });
 
-        JButton okBusinessPartner = new JButton(new ImageIcon("images/business_partner_ok.png"));
+        JToolBarButton okBusinessPartner = new JToolBarButton(new ImageIcon("images/business_partner_ok.png"));
         okBusinessPartner.addActionListener(new ActionListener() {
 
             /**
@@ -233,7 +234,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
             }
         });
 
-        JButton deleteBusinessPartner = new JButton(new ImageIcon("images/business_partner_delete.png"));
+        JToolBarButton deleteBusinessPartner = new JToolBarButton(new ImageIcon("images/business_partner_delete.png"));
         deleteBusinessPartner.addActionListener(new ActionListener() {
 
             /**
@@ -258,7 +259,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
             }
         });
 
-        JButton refreshBusinessPartner = new JButton(new ImageIcon("images/refresh.png"));
+        JToolBarButton refreshBusinessPartner = new JToolBarButton(new ImageIcon("images/refresh.png"));
         refreshBusinessPartner.addActionListener(new ActionListener() {
 
             /**

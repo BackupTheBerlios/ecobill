@@ -10,10 +10,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.jdesktop.layout.GroupLayout;
 import org.jdesktop.layout.LayoutStyle;
 import ecobill.module.base.service.BaseService;
-import ecobill.module.base.ui.component.OverviewPanel;
-import ecobill.module.base.ui.component.AddressPanel;
-import ecobill.module.base.ui.component.FormularDataPanel;
-import ecobill.module.base.ui.component.TitleBorderedTextAreaPanel;
+import ecobill.module.base.ui.component.*;
 import ecobill.module.base.ui.deliveryorder.OrderTableWithCB;
 import ecobill.module.base.ui.deliveryorder.OrderTable;
 import ecobill.module.base.ui.textblock.TextBlockDialog;
@@ -37,7 +34,7 @@ import java.awt.event.*;
  * Time: 16:57:16
  *
  * @author Sebastian Gath
- * @version $Id: BillUI.java,v 1.18 2005/12/11 17:16:01 raedler Exp $
+ * @version $Id: BillUI.java,v 1.19 2005/12/22 12:53:06 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BillUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -194,7 +191,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         JToolBar toolBar = new JToolBar();
 
         // Button zum Speichern des aktuellen Lieferscheins hinzufügen
-        JButton okBill = new JButton(new ImageIcon("images/delivery_order_ok.png"));
+        JToolBarButton okBill = new JToolBarButton(new ImageIcon("images/delivery_order_ok.png"));
         okBill.addActionListener(new ActionListener() {
 
             /**
@@ -218,7 +215,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
             }
         });
 
-        JButton prefixTextBlock = new JButton(new ImageIcon("images/textblock_prefix.png"));
+        JToolBarButton prefixTextBlock = new JToolBarButton(new ImageIcon("images/textblock_prefix.png"));
         prefixTextBlock.addActionListener(new ActionListener() {
 
             /**
@@ -229,7 +226,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
             }
         });
 
-        JButton suffixTextBlock = new JButton(new ImageIcon("images/textblock_suffix.png"));
+        JToolBarButton suffixTextBlock = new JToolBarButton(new ImageIcon("images/textblock_suffix.png"));
         suffixTextBlock.addActionListener(new ActionListener() {
 
             /**
@@ -240,7 +237,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
             }
         });
 
-        JButton deliveryOrderAdd = new JButton(new ImageIcon("images/delivery_order_add.png"));
+        JToolBarButton deliveryOrderAdd = new JToolBarButton(new ImageIcon("images/delivery_order_add.png"));
         deliveryOrderAdd.addActionListener(new ActionListener() {
 
             /**
@@ -312,7 +309,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         tabbedPane.addTab(WorkArea.getMessage(Constants.OVERVIEW), overview);
 
         /*
-        JButton viewBill = new JButton(new ImageIcon("images/jasper_view.png"));
+        JToolBarButton viewBill = new JToolBarButton(new ImageIcon("images/jasper_view.png"));
         viewBill.addActionListener(new ActionListener() {
 
             /**
@@ -328,7 +325,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
             }
         });
 
-        JButton deleteBill = new JButton(new ImageIcon("images/delivery_order_delete.png"));
+        JToolBarButton deleteBill = new JToolBarButton(new ImageIcon("images/delivery_order_delete.png"));
         deleteBill.addActionListener(new ActionListener() {
 
             /**

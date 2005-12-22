@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationContext;
 
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.Message;
+import ecobill.module.base.ui.component.JToolBarButton;
 import ecobill.core.util.IdValueItem;
 
 
@@ -27,7 +28,7 @@ import java.awt.event.ActionEvent;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: MessageUI.java,v 1.8 2005/12/07 18:13:41 raedler Exp $
+ * @version $Id: MessageUI.java,v 1.9 2005/12/22 12:53:07 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MessageUI extends JPanel implements InitializingBean {
@@ -149,7 +150,7 @@ public class MessageUI extends JPanel implements InitializingBean {
 
         JToolBar toolBar = new JToolBar();
 
-        JButton newMessage = new JButton(new ImageIcon("images/news_new.png"));
+        JToolBarButton newMessage = new JToolBarButton(new ImageIcon("images/news_new.png"));
         newMessage.addActionListener(new ActionListener() {
 
             /**
@@ -160,7 +161,7 @@ public class MessageUI extends JPanel implements InitializingBean {
             }
         });
 
-        JButton okMessage = new JButton(new ImageIcon("images/news_ok.png"));
+        JToolBarButton okMessage = new JToolBarButton(new ImageIcon("images/news_ok.png"));
         okMessage.addActionListener(new ActionListener() {
 
             /**
@@ -177,7 +178,7 @@ public class MessageUI extends JPanel implements InitializingBean {
             }
         });
 
-        JButton deleteMessage = new JButton(new ImageIcon("images/news_delete.png"));
+        JToolBarButton deleteMessage = new JToolBarButton(new ImageIcon("images/news_delete.png"));
         deleteMessage.addActionListener(new ActionListener() {
 
             /**
@@ -189,7 +190,7 @@ public class MessageUI extends JPanel implements InitializingBean {
             }
         });
 
-        JButton refreshMessage = new JButton(new ImageIcon("images/refresh.png"));
+        JToolBarButton refreshMessage = new JToolBarButton(new ImageIcon("images/refresh.png"));
         refreshMessage.addActionListener(new ActionListener() {
 
             /**

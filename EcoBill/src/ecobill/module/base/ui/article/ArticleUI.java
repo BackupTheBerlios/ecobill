@@ -1,5 +1,6 @@
 package ecobill.module.base.ui.article;
 import ecobill.module.base.ui.component.Labelling;
+import ecobill.module.base.ui.component.JToolBarButton;
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.*;
 import ecobill.core.system.WorkArea;
@@ -38,7 +39,7 @@ import java.io.FileOutputStream;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.17 2005/12/07 18:13:41 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.18 2005/12/22 12:53:06 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JPanel implements InitializingBean, Internationalization, DisposableBean {
@@ -194,7 +195,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
 
         JToolBar toolBar = new JToolBar();
 
-        JButton newArticle = new JButton(new ImageIcon("images/article_new.png"));
+        JToolBarButton newArticle = new JToolBarButton(new ImageIcon("images/article_new.png"));
         newArticle.addActionListener(new ActionListener() {
 
             /**
@@ -209,7 +210,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
             }
         });
 
-        JButton okArticle = new JButton(new ImageIcon("images/article_ok.png"));
+        JToolBarButton okArticle = new JToolBarButton(new ImageIcon("images/article_ok.png"));
         okArticle.addActionListener(new ActionListener() {
 
             /**
@@ -232,10 +233,10 @@ public class ArticleUI extends JPanel implements InitializingBean, International
             }
         });
 
-        JButton deleteArticle = new JButton(new ImageIcon("images/article_delete.png"));
+        JToolBarButton deleteArticle = new JToolBarButton(new ImageIcon("images/article_delete.png"));
         deleteArticle.addActionListener(new ArticleAction(this).DELETE_ACTION);
 
-        JButton refreshArticle = new JButton(new ImageIcon("images/refresh.png"));
+        JToolBarButton refreshArticle = new JToolBarButton(new ImageIcon("images/refresh.png"));
         refreshArticle.addActionListener(new ActionListener() {
 
             /**
@@ -266,7 +267,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
 
         JToolBar toolBar = new JToolBar();
 
-        JButton newLabelling = new JButton(new ImageIcon("images/article_labelling_new.png"));
+        JToolBarButton newLabelling = new JToolBarButton(new ImageIcon("images/article_labelling_new.png"));
         newLabelling.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
@@ -274,14 +275,14 @@ public class ArticleUI extends JPanel implements InitializingBean, International
             }
         });
 
-        JButton okLabelling = new JButton(new ImageIcon("images/article_labelling_ok.png"));
+        JToolBarButton okLabelling = new JToolBarButton(new ImageIcon("images/article_labelling_ok.png"));
         okLabelling.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 saveOrUpdateArticleDescription();
             }
         });
 
-        JButton deleteLabelling = new JButton(new ImageIcon("images/article_labelling_delete.png"));
+        JToolBarButton deleteLabelling = new JToolBarButton(new ImageIcon("images/article_labelling_delete.png"));
         deleteLabelling.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
@@ -305,7 +306,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
             }
         });
 
-        JButton refreshLabelling = new JButton(new ImageIcon("images/refresh.png"));
+        JToolBarButton refreshLabelling = new JToolBarButton(new ImageIcon("images/refresh.png"));
         refreshLabelling.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 

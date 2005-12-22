@@ -2,6 +2,7 @@ package ecobill.module.base.ui.textblock;
 
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.TextBlock;
+import ecobill.module.base.ui.component.JToolBarButton;
 import ecobill.core.system.Internationalization;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
@@ -27,7 +28,7 @@ import java.awt.event.ActionEvent;
  * Time: 15:24:42
  *
  * @author Roman R&auml;dle
- * @version $Id: TextBlockDialog.java,v 1.1 2005/12/11 19:57:33 raedler Exp $
+ * @version $Id: TextBlockDialog.java,v 1.2 2005/12/22 12:53:07 raedler Exp $
  * @since EcoBill 1.1
  */
 public class TextBlockDialog extends JDialog implements Internationalization {
@@ -179,7 +180,7 @@ public class TextBlockDialog extends JDialog implements Internationalization {
 
         JToolBar toolBar = new JToolBar();
 
-        JButton newTextBlock = new JButton(new ImageIcon("images/textblock_new.png"));
+        JToolBarButton newTextBlock = new JToolBarButton(new ImageIcon("images/textblock_new.png"));
         newTextBlock.addActionListener(new ActionListener() {
 
             /**
@@ -190,7 +191,7 @@ public class TextBlockDialog extends JDialog implements Internationalization {
             }
         });
 
-        JButton okTextBlock = new JButton(new ImageIcon("images/textblock_ok.png"));
+        JToolBarButton okTextBlock = new JToolBarButton(new ImageIcon("images/textblock_ok.png"));
         okTextBlock.addActionListener(new ActionListener() {
 
             /**
@@ -201,7 +202,7 @@ public class TextBlockDialog extends JDialog implements Internationalization {
             }
         });
 
-        JButton deleteTextBlock = new JButton(new ImageIcon("images/textblock_delete.png"));
+        JToolBarButton deleteTextBlock = new JToolBarButton(new ImageIcon("images/textblock_delete.png"));
         deleteTextBlock.addActionListener(new ActionListener() {
 
             /**
@@ -218,7 +219,7 @@ public class TextBlockDialog extends JDialog implements Internationalization {
             }
         });
 
-        JButton refreshTextBlock = new JButton(new ImageIcon("images/refresh.png"));
+        JToolBarButton refreshTextBlock = new JToolBarButton(new ImageIcon("images/refresh.png"));
         refreshTextBlock.addActionListener(new ActionListener() {
 
             /**
