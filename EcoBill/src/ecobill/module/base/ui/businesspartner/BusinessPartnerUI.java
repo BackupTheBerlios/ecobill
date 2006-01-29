@@ -37,7 +37,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerUI.java,v 1.20 2005/12/22 12:53:07 raedler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.21 2006/01/29 23:16:45 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -175,7 +175,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
         resetInput(numberSequence.getNextNumber());
     }
 
-    JToolBarButton newDeliveryOrder = new JToolBarButton(new ImageIcon("images/delivery_order_new.png"));
+    JToolBarButton deliveryOrderB = new JToolBarButton(new ImageIcon("images/delivery_order_new.png"));
     JToolBarButton newBill = new JToolBarButton(new ImageIcon("images/bill_new.png"));
 
     /**
@@ -194,7 +194,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
             public void actionPerformed(ActionEvent e) {
 
                 // Setzt den Lieferschein Button disabled.
-                newDeliveryOrder.setEnabled(false);
+                deliveryOrderB.setEnabled(false);
 
                 NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.CUSTOMER);
 
@@ -219,7 +219,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
                 overviewBusinessPartnerTable.renewTableModel();
 
                 // Setzt den Lieferschein Button enabled.
-                newDeliveryOrder.setEnabled(true);
+                deliveryOrderB.setEnabled(true);
 
                 NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.CUSTOMER);
 
@@ -249,7 +249,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
                 overviewBusinessPartnerTable.renewTableModel();
 
                 // Setzt den Lieferschein Button disabled.
-                newDeliveryOrder.setEnabled(false);
+                deliveryOrderB.setEnabled(false);
                 newBill.setEnabled(false);
 
                 // Löscht die Felder nach dem Löschen des Kunden und setzt die
@@ -272,7 +272,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
             }
         });
 
-        newDeliveryOrder.addActionListener(new ActionListener() {
+        deliveryOrderB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -286,18 +286,14 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
                 // Geschäftspartner zu setzen und ihm dann einen Lieferschein auszustellen.
                 DeliveryOrderUI deliveryOrderUI = (DeliveryOrderUI) applicationContext.getBean("deliveryOrderUI");
                 deliveryOrderUI.setBusinessPartner(businessPartner);
-                deliveryOrderUI.setActualBusinessPartnerId(businessPartner.getId());
-
-                // Setzt die nächste Lieferscheinnummer.
-                NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.DELIVERY_ORDER);
-                deliveryOrderUI.resetInput(numberSequence.getNextNumber());
+                deliveryOrderUI.setDeliveryOrder(new DeliveryOrder());
 
                 // Wechselt auf das Lieferschein User Interface.
                 MainFrame mainFrame = (MainFrame) applicationContext.getBean("mainFrame");
                 mainFrame.setSelectedTab(3);
             }
         });
-        newDeliveryOrder.setEnabled(false);
+        deliveryOrderB.setEnabled(false);
 
         newBill.addActionListener(new ActionListener() {
 
@@ -332,7 +328,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
         toolBar.add(new JToolBar.Separator());
         toolBar.add(refreshBusinessPartner);
         toolBar.add(new JToolBar.Separator());
-        toolBar.add(newDeliveryOrder);
+        toolBar.add(deliveryOrderB);
         toolBar.add(newBill);
 
         return toolBar;
@@ -343,7 +339,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
      * liegen.
      */
     private void initLayout() {
-        
+
         setLayout(new BorderLayout());
 
         GroupLayout overviewLayout = new GroupLayout(overview);
@@ -490,7 +486,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
             overviewInputBanking.setBankIdentificationNumber("");
         }
 
-        newDeliveryOrder.setEnabled(true);
+        deliveryOrderB.setEnabled(true);
         newBill.setEnabled(true);
     }
 
@@ -557,6 +553,5 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
 
         DeliveryOrderUI deliveryOrderUI = (DeliveryOrderUI) applicationContext.getBean("deliveryOrderUI");
         deliveryOrderUI.setBusinessPartner(businessPartner);
-        deliveryOrderUI.setActualBusinessPartnerId(actualBusinessPartnerId);
     }
 }

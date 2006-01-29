@@ -9,7 +9,7 @@
  Time: 22:24:58
  
  @author Roman R&auml;dle
- @version $Id: ReduplicatedArticle.hbm.xml,v 1.9 2005/12/11 17:16:01 raedler Exp $
+ @version $Id: ReduplicatedArticle.hbm.xml,v 1.10 2006/01/29 23:16:45 raedler Exp $
  @since EcoBill 1.0
 -->
 
@@ -25,6 +25,7 @@
         <many-to-one name="deliveryOrder"
                      column="DELIVERY_ORDER_ID"
                      class="ecobill.module.base.domain.DeliveryOrder"
+                     cascade="save-update"
                      lazy="false"/>
 
         <property name="orderPosition" type="integer">

@@ -22,25 +22,25 @@ import java.awt.event.*;
 import java.io.*;
 
 /**
- * Die <code>BusinessPartnerTable</code> ist zur Anzeige und Änderung von Kundendaten bereit.
+ * Die <code>BusinessPartnerTable</code> ist zur Anzeige und ï¿½nderung von Kundendaten bereit.
  * <p/>
  * User: rro
  * Date: 28.09.2005
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerTable.java,v 1.5 2005/12/11 17:16:01 raedler Exp $
+ * @version $Id: BusinessPartnerTable.java,v 1.6 2006/01/29 23:16:45 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerTable extends AbstractTablePanel {
 
     /**
-     * Die <code>BusinessPartnerUI</code> um den Geschäftspartner anzeigen zu können.
+     * Die <code>BusinessPartnerUI</code> um den Geschï¿½ftspartner anzeigen zu kï¿½nnen.
      */
     private BusinessPartnerUI businessPartnerUI;
 
     /**
-     * Die id des <code>Article</code> der in der aktuell ausgewählt ist.
+     * Die id des <code>Article</code> der in der aktuell ausgewï¿½hlt ist.
      */
     private Long businessPartnerId;
 
@@ -48,7 +48,7 @@ public class BusinessPartnerTable extends AbstractTablePanel {
      * Creates new form BusinessPartnerTable
      */
     public BusinessPartnerTable(BusinessPartnerUI businessPartnerUI, BaseService baseService) {
-        super(baseService);
+        super(baseService, false);
 
         this.businessPartnerUI = businessPartnerUI;
     }
@@ -185,11 +185,11 @@ public class BusinessPartnerTable extends AbstractTablePanel {
              */
             public void keyPressed(KeyEvent e) {
 
-                // Hole den KeyCode der gedrückten Taste.
+                // Hole den KeyCode der gedrï¿½ckten Taste.
                 int keyCode = e.getKeyCode();
 
-                // Es soll nur diese Aktion ausgeführt werden wenn entweder Key UP oder Key DOWN
-                // gedrückt wurde.
+                // Es soll nur diese Aktion ausgefï¿½hrt werden wenn entweder Key UP oder Key DOWN
+                // gedrï¿½ckt wurde.
                 if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_DOWN) {
 
                     // Hole die selektierte Reihe.
@@ -204,7 +204,7 @@ public class BusinessPartnerTable extends AbstractTablePanel {
                     }
 
                     // Fange die <code>ArrayIndexOutOfBoundsException</code> ab, die auftreten kann wenn
-                    // durch die Korrektur eine Zeile zurückgegeben wird, die aber nicht in der Tabelle
+                    // durch die Korrektur eine Zeile zurï¿½ckgegeben wird, die aber nicht in der Tabelle
                     // besteht.
                     try {
                         businessPartnerId = ((IdKeyItem) getTableModel().getValueAt(row, 0)).getId();
@@ -260,7 +260,7 @@ public class BusinessPartnerTable extends AbstractTablePanel {
         TableModelListener[] tableModelListeners = new TableModelListener[1];
 
         /*
-            // Ein <code>TableModelListener</code> um die Änderungen der Tabellendaten in der
+            // Ein <code>TableModelListener</code> um die ï¿½nderungen der Tabellendaten in der
             // Datenbank zu persistieren.
             tableModelListeners[0] = new TableModelListener() {
 
@@ -269,10 +269,10 @@ public class BusinessPartnerTable extends AbstractTablePanel {
              *
             public void tableChanged(TableModelEvent e) {
 
-                // Überprüfe das <code>TableModelEvent</code> auf UPDATE.
+                // ï¿½berprï¿½fe das <code>TableModelEvent</code> auf UPDATE.
                 if (e.getType() == TableModelEvent.UPDATE) {
 
-                    // Die Reihe und Spalte des zu verändernden Wertes.
+                    // Die Reihe und Spalte des zu verï¿½ndernden Wertes.
                     int row = e.getFirstRow();
                     int col = e.getColumn();
 
@@ -282,11 +282,11 @@ public class BusinessPartnerTable extends AbstractTablePanel {
                         // Lade betreffenden Artikel von der Datenbank.
                         Article article = (Article) baseService.load(Article.class, articleId);
 
-                        // Veränderter Wert.
+                        // Verï¿½nderter Wert.
                         Object value = tableModel.getValueAt(row, col);
 
-                        // Der übersetzte Name der Spalte um herauszufinden welcher Wert überhaupt
-                        // geändert werden muss.
+                        // Der ï¿½bersetzte Name der Spalte um herauszufinden welcher Wert ï¿½berhaupt
+                        // geï¿½ndert werden muss.
                         String columnName = tableModel.getColumnName(col);
 
                         if (columnName.equals(WorkArea.getMessage(Constants.ARTICLE_NR))) {
@@ -326,7 +326,7 @@ public class BusinessPartnerTable extends AbstractTablePanel {
                         baseService.saveOrUpdate(article);
 
                         if (LOG.isDebugEnabled()) {
-                            //LOG.debug("In der Spalte [" + col + "] und Zeile [" + row + "] wurde für den Artikel [id=\"" + articleId + "\"] der Wert auf \"" + tableModel.getValueAt(row, col) + "\" geändert.");
+                            //LOG.debug("In der Spalte [" + col + "] und Zeile [" + row + "] wurde fï¿½r den Artikel [id=\"" + articleId + "\"] der Wert auf \"" + tableModel.getValueAt(row, col) + "\" geï¿½ndert.");
                         }
 
                         renewArticleTableModel();

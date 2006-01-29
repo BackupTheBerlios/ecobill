@@ -32,7 +32,7 @@ import java.util.Set;
  * Time: 17:49:23
  *
  * @author Sebastian Gath
- * @version $Id: OrderTable.java,v 1.6 2005/12/11 17:16:01 raedler Exp $
+ * @version $Id: OrderTable.java,v 1.7 2006/01/29 23:16:46 raedler Exp $
  * @since EcoBill 1.0
  */
 public class OrderTable extends AbstractTablePanel {
@@ -56,7 +56,7 @@ public class OrderTable extends AbstractTablePanel {
     }
 
     public OrderTable(BaseService baseService, boolean notPreparedBill) {
-        super(baseService);
+        super(baseService, true);
 
         this.notPreparedBill = notPreparedBill;
     }

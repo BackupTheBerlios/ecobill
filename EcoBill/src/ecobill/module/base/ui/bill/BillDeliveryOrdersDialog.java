@@ -26,7 +26,7 @@ import java.awt.event.ActionEvent;
  * Time: 00:48:35
  *
  * @author Roman R&auml;dle
- * @version $Id: BillDeliveryOrdersDialog.java,v 1.1 2005/12/11 17:17:12 raedler Exp $
+ * @version $Id: BillDeliveryOrdersDialog.java,v 1.2 2006/01/29 23:16:45 raedler Exp $
  * @since EcoBill 1.1
  */
 public class BillDeliveryOrdersDialog extends JDialog implements Internationalization {
@@ -37,7 +37,7 @@ public class BillDeliveryOrdersDialog extends JDialog implements Internationaliz
     private BaseService baseService;
 
     /**
-     * Gibt den <code>BaseService</code> und somit die Business Logik zurück.
+     * Gibt den <code>BaseService</code> und somit die Business Logik zurï¿½ck.
      *
      * @return Der <code>BaseService</code>.
      */
@@ -46,7 +46,7 @@ public class BillDeliveryOrdersDialog extends JDialog implements Internationaliz
     }
 
     /**
-     * Setzt den <code>BaseService</code> der die komplette Business Logik enthält
+     * Setzt den <code>BaseService</code> der die komplette Business Logik enthï¿½lt
      * um bspw Daten aus der Datenbank zu laden und dorthin auch wieder abzulegen.
      *
      * @param baseService Der <code>BaseService</code>.
@@ -167,7 +167,6 @@ public class BillDeliveryOrdersDialog extends JDialog implements Internationaliz
      * @see ecobill.core.system.Internationalization#reinitI18N()
      */
     public void reinitI18N() {
-
         closeB.setText(WorkArea.getMessage(Constants.CLOSE));
         applyB.setText(WorkArea.getMessage(Constants.APPLY));
     }

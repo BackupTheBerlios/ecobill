@@ -28,7 +28,7 @@ import java.awt.event.*;
  * Time: 15:25:23
  *
  * @author Roman R&auml;dle
- * @version $Id: TextBlockTable.java,v 1.1 2005/12/11 19:57:33 raedler Exp $
+ * @version $Id: TextBlockTable.java,v 1.2 2006/01/29 23:16:46 raedler Exp $
  * @since EcoBill 1.1
  */
 public class TextBlockTable extends AbstractTablePanel {
@@ -38,7 +38,7 @@ public class TextBlockTable extends AbstractTablePanel {
     private Long textBlockId;
 
     public TextBlockTable(TextBlockDialog textBlockDialog, BaseService baseService) {
-        super(baseService);
+        super(baseService, false);
 
         this.textBlockDialog = textBlockDialog;
     }
@@ -114,11 +114,11 @@ public class TextBlockTable extends AbstractTablePanel {
              */
             public void keyPressed(KeyEvent e) {
 
-                // Hole den KeyCode der gedrückten Taste.
+                // Hole den KeyCode der gedrï¿½ckten Taste.
                 int keyCode = e.getKeyCode();
 
-                // Es soll nur diese Aktion ausgeführt werden wenn entweder Key UP oder Key DOWN
-                // gedrückt wurde.
+                // Es soll nur diese Aktion ausgefï¿½hrt werden wenn entweder Key UP oder Key DOWN
+                // gedrï¿½ckt wurde.
                 if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_DOWN) {
 
                     // Hole die selektierte Reihe.
@@ -133,7 +133,7 @@ public class TextBlockTable extends AbstractTablePanel {
                     }
 
                     // Fange die <code>ArrayIndexOutOfBoundsException</code> ab, die auftreten kann wenn
-                    // durch die Korrektur eine Zeile zurückgegeben wird, die aber nicht in der Tabelle
+                    // durch die Korrektur eine Zeile zurï¿½ckgegeben wird, die aber nicht in der Tabelle
                     // besteht.
                     try {
                         textBlockId = ((IdValueItem) getTableModel().getValueAt(row, 0)).getId();

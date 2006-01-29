@@ -39,7 +39,7 @@ import java.io.FileOutputStream;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.18 2005/12/22 12:53:06 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.19 2006/01/29 23:16:45 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JPanel implements InitializingBean, Internationalization, DisposableBean {

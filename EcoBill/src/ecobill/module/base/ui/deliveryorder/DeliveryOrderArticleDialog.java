@@ -24,7 +24,7 @@ import org.jdesktop.layout.LayoutStyle;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderArticleDialog.java,v 1.1 2005/12/11 17:16:01 raedler Exp $
+ * @version $Id: DeliveryOrderArticleDialog.java,v 1.2 2006/01/29 23:16:45 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderArticleDialog extends JDialog implements Internationalization {
@@ -152,6 +152,7 @@ public class DeliveryOrderArticleDialog extends JDialog implements International
                 reduplicatedArticle.setPrice((Double) price.getValue());
                 reduplicatedArticle.setUnit(unit.getText());
                 reduplicatedArticle.setQuantity((Double) quantity.getValue());
+                reduplicatedArticle.setOrderPosition(deliveryOrderUI.getNextOrderPosition());
 
                 deliveryOrderUI.addReduplicatedArticle(reduplicatedArticle);
 

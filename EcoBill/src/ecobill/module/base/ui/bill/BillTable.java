@@ -25,32 +25,29 @@ import java.util.*;
  * Time: 17:49:23
  *
  * @author Sebastian Gath
- * @version $Id: BillTable.java,v 1.3 2005/11/06 23:32:32 raedler Exp $
+ * @version $Id: BillTable.java,v 1.4 2006/01/29 23:16:45 raedler Exp $
  * @since EcoBill 1.0
  */
-
-
-
 public class BillTable extends AbstractTablePanel {
 
     /**
-     * Die id eines Geschäftspartners.
+     * Die id eines Geschï¿½ftspartners.
      */
     private Long businessPartnerId;
 
     /**
-     * Gibt die Geschäftspartner Id zurück.
+     * Gibt die Geschï¿½ftspartner Id zurï¿½ck.
      *
-     * @return Die Geschäftspartner Id.
+     * @return Die Geschï¿½ftspartner Id.
      */
     public Long getBusinessPartnerId() {
         return businessPartnerId;
     }
 
     /**
-     * Setzt die Geschäftspartner Id.
+     * Setzt die Geschï¿½ftspartner Id.
      *
-     * @param businessPartnerId Die Geschäftspartner Id.
+     * @param businessPartnerId Die Geschï¿½ftspartner Id.
      */
     public void setBusinessPartnerId(Long businessPartnerId) {
         this.businessPartnerId = businessPartnerId;
@@ -60,14 +57,14 @@ public class BillTable extends AbstractTablePanel {
      * Creates new form BusinessPartnerTable
      */
     public BillTable(BaseService baseService) {
-        super(baseService);
+        super(baseService, true);
     }
 
     /**
      * Creates new form BusinessPartnerTable
      */
     public BillTable(Long businessPartnerId, BaseService baseService) {
-        super(baseService);
+        super(baseService, false);
 
         this.businessPartnerId = businessPartnerId;
     }
@@ -94,31 +91,18 @@ public class BillTable extends AbstractTablePanel {
     }
 
     /**
-     * die Datacollection
-     */
-    private Collection<Bill> dataCollection;
-
-    /**
      * @see ecobill.module.base.ui.component.AbstractTablePanel#getDataCollection()
      */
     protected Collection<Bill> getDataCollection() {
 
         if (businessPartnerId != null) {
+
             BusinessPartner businessPartner = (BusinessPartner) getBaseService().load(BusinessPartner.class, businessPartnerId);
 
             return businessPartner.getBills();
         }
 
         return Collections.EMPTY_SET;
-    }
-
-    /**
-     * Setzt die Datacollection
-     *
-     * @param dataCollection
-     */
-    public void setDataCollection(Collection<Bill> dataCollection) {
-        this.dataCollection = dataCollection;
     }
 
     /**
@@ -137,7 +121,7 @@ public class BillTable extends AbstractTablePanel {
                 String key = order.getKey();
 
                 if (Constants.BILL_NUMBER.equals(key)) {
-                    line.add(new IdValueItem(bill.getId(), bill.getBillNumber().toString()));
+                    line.add(new IdValueItem(bill.getId(), bill.getBillNumber(), bill));
                 }
                 else if (Constants.BILL_DATE.equals(key)) {
                     line.add(bill.getBillDate());
@@ -151,24 +135,22 @@ public class BillTable extends AbstractTablePanel {
                     line.add(deliveryOrderNumbers);
                 }
             }
-
-            line.add(bill);
         }
 
         return line;
     }
 
     /**
-     * Lädt die Rechnungsdaten aus der Datenbank neu, zu der Businesspartner Id
-     * @param id
+     * Gibt den aktuell selektierten/markierte <code>Bill</code> zurï¿½ck.
+     *
+     * @return Der aktuell selektierten/markierte <code>Bill</code>.
      */
-    public void updateDataCollectionFromDB(long id) {
-        businessPartnerId = id;
-        System.out.println("bpid:" + id);
-        Collection<Bill> c;
-        c = getDataCollection();
-        System.out.println("sizze:" + c.size());
-        setDataCollection(c);
-    }
+    public Bill getSelectedBill() {
 
+        int selectedRow = getTable().getSelectedRow();
+
+        IdValueItem idValueItem = (IdValueItem) getTable().getValueAt(selectedRow, 0);
+
+        return (Bill) idValueItem.getOriginalValue();
+    }
 }

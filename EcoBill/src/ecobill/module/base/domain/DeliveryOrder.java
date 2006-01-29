@@ -1,5 +1,7 @@
 package ecobill.module.base.domain;
 
+import ecobill.module.base.hbm.sort.OrderPositionComparator;
+
 import java.util.*;
 
 /**
@@ -13,7 +15,7 @@ import java.util.*;
  * Time: 19:51:39
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrder.java,v 1.5 2005/10/06 14:07:17 raedler Exp $
+ * @version $Id: DeliveryOrder.java,v 1.6 2006/01/29 23:16:45 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrder extends AbstractDomain {
@@ -206,6 +208,11 @@ public class DeliveryOrder extends AbstractDomain {
      * @return Ein <code>Set</code> mit <code>ReduplicatedArticle</code>.
      */
     public Set<ReduplicatedArticle> getArticles() {
+
+        if (articles == null) {
+            articles = new TreeSet<ReduplicatedArticle>(new OrderPositionComparator());
+        }
+
         return articles;
     }
 

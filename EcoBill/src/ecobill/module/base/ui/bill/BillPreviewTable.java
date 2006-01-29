@@ -2,6 +2,9 @@ package ecobill.module.base.ui.bill;
 
 import ecobill.module.base.ui.component.AbstractTablePanel;
 import ecobill.module.base.service.BaseService;
+import ecobill.module.base.domain.Bill;
+import ecobill.module.base.domain.DeliveryOrder;
+import ecobill.module.base.domain.ReduplicatedArticle;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import ecobill.core.util.I18NItem;
@@ -15,15 +18,15 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
- * Die <code>BillPreviewTable</code> enthält alle Daten, zur Vorschau der Lieferscheindaten  zur Rechnungsvor
- * schau auf dem Rechnungsübersichtstab
+ * Die <code>BillPreviewTable</code> enthï¿½lt alle Daten, zur Vorschau der Lieferscheindaten  zur Rechnungsvor
+ * schau auf dem Rechnungsï¿½bersichtstab
  * <p/>
  * User: sega
  * Date: 10.10.2005
  * Time: 17:49:23
  *
  * @author Sebastian Gath
- * @version $Id: BillPreviewTable.java,v 1.3 2005/11/06 23:32:32 raedler Exp $
+ * @version $Id: BillPreviewTable.java,v 1.4 2006/01/29 23:16:45 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BillPreviewTable extends AbstractTablePanel {
@@ -32,8 +35,7 @@ public class BillPreviewTable extends AbstractTablePanel {
      * Creates new form BusinessPartnerTable
      */
     public BillPreviewTable(BaseService baseService) {
-        super(baseService);
-
+        super(baseService, false);
     }
 
     /**
@@ -111,4 +113,21 @@ public class BillPreviewTable extends AbstractTablePanel {
         return line;
     }
 
+    public void setBill(Bill bill) {
+
+        java.util.List<BillPreviewCollection> bpcCollection = new java.util.ArrayList<BillPreviewCollection>();
+        for (DeliveryOrder deliveryOrder : bill.getDeliveryOrders()) {
+
+            double sum = 0;
+            for (ReduplicatedArticle article : deliveryOrder.getArticles()) {
+                sum += article.getPrice() * article.getQuantity();
+            }
+
+            BillPreviewCollection bpc = new BillPreviewCollection(deliveryOrder.getDeliveryOrderNumber(), deliveryOrder.getDeliveryOrderDate(), sum);
+            bpcCollection.add(bpc);
+        }
+
+        setDataCollection(bpcCollection);
+        renewTableModel();
+    }
 }

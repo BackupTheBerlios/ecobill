@@ -33,23 +33,23 @@ import java.awt.event.MouseEvent;
 public class OrderTableWithCB extends AbstractTablePanel {
 
     /**
-     * Die id eines Geschäftspartners.
+     * Die id eines Geschï¿½ftspartners.
      */
     private Long businessPartnerId;
 
     /**
-     * Gibt die Geschäftspartner Id zurück.
+     * Gibt die Geschï¿½ftspartner Id zurï¿½ck.
      *
-     * @return Die Geschäftspartner Id.
+     * @return Die Geschï¿½ftspartner Id.
      */
     public Long getBusinessPartnerId() {
         return businessPartnerId;
     }
 
     /**
-     * Setzt die Geschäftspartner Id.
+     * Setzt die Geschï¿½ftspartner Id.
      *
-     * @param businessPartnerId Die Geschäftspartner Id.
+     * @param businessPartnerId Die Geschï¿½ftspartner Id.
      */
     public void setBusinessPartnerId(Long businessPartnerId) {
         this.businessPartnerId = businessPartnerId;
@@ -59,7 +59,7 @@ public class OrderTableWithCB extends AbstractTablePanel {
      * Creates new form BusinessPartnerTable
      */
     public OrderTableWithCB(BaseService baseService) {
-        super(baseService);
+        super(baseService, false);
      }
 
     /**
@@ -67,7 +67,7 @@ public class OrderTableWithCB extends AbstractTablePanel {
      */
     public OrderTableWithCB(Long businessPartnerId, BaseService baseService) {
 
-        super(baseService);
+        super(baseService, false);
 
         this.businessPartnerId = businessPartnerId;
 
@@ -96,9 +96,6 @@ public class OrderTableWithCB extends AbstractTablePanel {
         return tableColumnOrder;
     }
 
-    private Collection<DeliveryOrder> dataCollection;
-    //private Collection<Object> dataCollection;
-
     /**
      * @see ecobill.module.base.ui.component.AbstractTablePanel#getDataCollection()
      */
@@ -108,18 +105,10 @@ public class OrderTableWithCB extends AbstractTablePanel {
 
             BusinessPartner businessPartner = (BusinessPartner) getBaseService().load(BusinessPartner.class, businessPartnerId);
 
-            System.out.println("OPEN: " + businessPartner.getOpenDeliveryOrders().size());
-
             return businessPartner.getOpenDeliveryOrders();
         }
 
-        System.out.println("NOT_OPEN");
-
         return Collections.EMPTY_SET;
-    }
-
-    public void setDataCollection(Collection<DeliveryOrder> dataCollection) {
-        this.dataCollection = dataCollection;
     }
 
     /**
@@ -138,7 +127,7 @@ public class OrderTableWithCB extends AbstractTablePanel {
 
                 String key = order.getKey();
                 if (Constants.CHECKBOX_NEEDED.equals(key)) {
-                    line.add(new Boolean(deliveryOrder.isPreparedBill()));
+                    line.add(deliveryOrder.isPreparedBill());
                 }
                 if (Constants.DELIVERY_ORDER_NUMBER.equals(key)) {
                     line.add(new IdValueItem(deliveryOrder.getId(), deliveryOrder.getDeliveryOrderNumber()));
@@ -162,24 +151,4 @@ public class OrderTableWithCB extends AbstractTablePanel {
 
         return line;
     }
-
-/*
-    public class Renderer extends JCheckBox implements TableCellRenderer {
-
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-
-            this.setBackground(Color.WHITE);
-
-            if (value instanceof Boolean) {
-
-                Boolean booleanValue = (Boolean) value;
-
-                this.setSelected(booleanValue);
-            }
-
-
-            return this;
-        }
-    }
-*/
 }

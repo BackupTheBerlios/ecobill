@@ -5,59 +5,44 @@ import org.apache.commons.logging.LogFactory;
 import org.jdesktop.layout.GroupLayout;
 import org.jdesktop.layout.LayoutStyle;
 
-import javax.swing.*;
 import javax.swing.event.TableModelListener;
 import javax.swing.border.Border;
-import javax.swing.table.*;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.TableRowSorter;
 
 import ecobill.core.util.I18NItem;
 import ecobill.core.util.IdKeyItem;
 import ecobill.core.util.IdValueItem;
 import ecobill.core.system.Internationalization;
 import ecobill.module.base.service.BaseService;
-import ecobill.util.VectorUtils;
 
 import java.util.*;
 import java.awt.*;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.*;
-
-import com.sun.java.swing.plaf.motif.MotifGraphicsUtils;
 
 /**
  * Das <code>AbstractTablePanel</code> ist eine abstrakte Klasse um auf einfache Art und Weise
- * Tabellen für EcoBill zu erstellen.
+ * Tabellen fï¿½r EcoBill zu erstellen.
  * <p/>
  * User: rro
  * Date: 02.10.2005
  * Time: 12:33:23
  *
  * @author Roman R&auml;dle
- * @version $Id: AbstractTablePanel.java,v 1.13 2005/12/11 17:16:01 raedler Exp $
+ * @version $Id: AbstractTablePanel.java,v 1.14 2006/01/29 23:16:45 raedler Exp $
  * @since EcoBill 1.0
  */
 public abstract class AbstractTablePanel extends JPanel implements Internationalization {
 
     /**
-     * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
-     * Diese Ausgaben können in einem separaten File spezifiziert werden.
+     * In diesem <code>Log</code> kï¿½nnen Fehler, Info oder sonstige Ausgaben erfolgen.
+     * Diese Ausgaben kï¿½nnen in einem separaten File spezifiziert werden.
      */
     protected final Log LOG = LogFactory.getLog(getClass());
-
-    /**
-     * Das Icon für die aufsteigend sortierte Tabelle.
-     */
-    private final ImageIcon UP_ICON = new ImageIcon(MotifGraphicsUtils.class
-            .getResource("icons/ScrollUpArrow.gif"));
-
-    /**
-     * Das Icon für die absteigend sortierte Tabelle.
-     */
-    private final ImageIcon DOWN_ICON = new ImageIcon(MotifGraphicsUtils.class
-            .getResource("icons/ScrollDownArrow.gif"));
 
     /**
      * Der <code>Border</code> der um das gesamte <code>JPanel</code> gelegt wird.
@@ -65,7 +50,7 @@ public abstract class AbstractTablePanel extends JPanel implements International
     private Border panelBorder;
 
     /**
-     * Gibt den <code>Border</code>, der um das gesamte <code>JPanel</code> gelegt wird, zurück.
+     * Gibt den <code>Border</code>, der um das gesamte <code>JPanel</code> gelegt wird, zurï¿½ck.
      *
      * @return Der <code>Border</code> der um das gesamte <code>JPanel</code> gelegt wird.
      */
@@ -80,7 +65,7 @@ public abstract class AbstractTablePanel extends JPanel implements International
     private Vector<I18NItem> tableColumnOrder;
 
     /**
-     * Gibt die Reihenfolge wie die Spalten angezeigt werden sollen, zurück.
+     * Gibt die Reihenfolge wie die Spalten angezeigt werden sollen, zurï¿½ck.
      *
      * @return Die Reihenfolge wie die Spalten angezeigt werden sollen.
      */
@@ -92,72 +77,7 @@ public abstract class AbstractTablePanel extends JPanel implements International
      * Das <code>TableModel</code> beinhaltet die eigentlichen Daten, die zur Anzeige verwendet werden
      * sollen.
      */
-    private SortableTableModel tableModel = new SortableTableModel();
-
-    public class SortableTableModel extends DefaultTableModel {
-
-        private boolean sortColumnDesc;
-
-        private int currentSortColumn = 0;
-
-        public int getCurrentSortColumn() {
-            return currentSortColumn;
-        }
-
-        public SortableTableModel() {
-            super();
-            sortColumnDesc = true;
-        }
-
-        private Comparator comparator = new Comparator() {
-            public int compare(Object o1, Object o2) {
-                Vector v1 = (Vector) o1;
-                Vector v2 = (Vector) o2;
-
-                int size1 = v1.size();
-                if (currentSortColumn >= size1)
-                    throw new IllegalArgumentException("max column idx: "
-                                                       + size1);
-
-                System.out.println("CURR_COL: " + currentSortColumn);
-
-                Comparable c1 = (Comparable) v1.get(currentSortColumn);
-                Comparable c2 = (Comparable) v2.get(currentSortColumn);
-
-                System.out.println("C1: " + c1);
-                System.out.println("C2: " + c2);
-
-                int cmp = -1;
-                if (c1 != null) {
-                    cmp = c1.compareTo(c2);
-                }
-
-                if (sortColumnDesc) {
-                    cmp *= -1;
-                }
-
-                return cmp;
-            }
-        };
-
-        public void sortByColumn(final int clm) {
-
-            Vector v = AbstractTablePanel.this.getTableModel().getDataVector();
-
-            System.out.println("V: " + v);
-
-            this.currentSortColumn = clm;
-
-            Collections.sort(v, comparator);
-
-
-            if (clm != currentSortColumn) {
-                this.sortColumnDesc = true;
-            }
-            else {
-                this.sortColumnDesc ^= true;
-            }
-        }
+    private DefaultTableModel tableModel = new DefaultTableModel() {
 
         /**
          * @see DefaultTableModel#getColumnClass(int)
@@ -170,21 +90,37 @@ public abstract class AbstractTablePanel extends JPanel implements International
                 return super.getColumnClass(columnIndex);
             }
         }
-    }
+    };
 
-    private boolean filteredModelInUse;
+    private TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<DefaultTableModel>(tableModel);
 
-    public boolean isFilteredModelVisible() {
-        return filteredModelInUse;
-    }
+    private RowFilter<DefaultTableModel, Integer> filter = new RowFilter<DefaultTableModel, Integer>() {
+
+        public boolean include(Entry<? extends DefaultTableModel, ? extends Integer> entry) {
+
+            if (filterField.getText() != null && !"".equals(filterField.getText())) {
+
+                if (filterBox.getSelectedItem().toString().equals(entry.getModel().getColumnName(filterBox.getSelectedIndex()))) {
+                    return entry.getStringValue(filterBox.getSelectedIndex()).startsWith(filterField.getText());
+                }
+            }
+
+            return true;
+        }
+    };
 
     /**
-     * Gibt das <code>TableModel</code> der Tabelle zurück.
+     * Gibt das <code>TableModel</code> der Tabelle zurï¿½ck.
      *
      * @return Das <code>TableModel</code> der Tabelle.
      */
-    public SortableTableModel getTableModel() {
+    public DefaultTableModel getTableModel() {
         return tableModel;
+    }
+
+    // TODO: document me!!!
+    public int getRealSelectedRow() {
+        return tableRowSorter.convertRowIndexToModel(table.getSelectedRow());
     }
 
     /**
@@ -193,7 +129,7 @@ public abstract class AbstractTablePanel extends JPanel implements International
     private JTable table = new JTable(getTableModel());
 
     /**
-     * Gibt die eigentliche <code>JTable</code> mit ihrem <code>TableModel</code>, zurück.
+     * Gibt die eigentliche <code>JTable</code> mit ihrem <code>TableModel</code>, zurï¿½ck.
      *
      * @return Die eigentliche <code>JTable</code> mit ihrem <code>TableModel</code>.
      */
@@ -202,18 +138,18 @@ public abstract class AbstractTablePanel extends JPanel implements International
     }
 
     /**
-     * Eine <code>JScrollPane</code> um zu ermöglichen, dass die Tabelle gescrollt werden kann und der
+     * Eine <code>JScrollPane</code> um zu ermï¿½glichen, dass die Tabelle gescrollt werden kann und der
      * Tabellen Header angezeigt wird.
      */
     private JScrollPane tableSP = new JScrollPane();
 
     /**
-     * Die <code>JComboBox</code> enthält die möglichen Filterfelder.
+     * Die <code>JComboBox</code> enthï¿½lt die mï¿½glichen Filterfelder.
      */
     private JComboBox filterBox = new JComboBox();
 
     /**
-     * Das <code>JTextField</code> enthält den zu suchenden Text.
+     * Das <code>JTextField</code> enthï¿½lt den zu suchenden Text.
      */
     private JTextField filterField = new JTextField();
 
@@ -223,7 +159,7 @@ public abstract class AbstractTablePanel extends JPanel implements International
     private JPopupMenu popupMenu = new JPopupMenu();
 
     /**
-     * Gibt das <code>JPopupMenu</code> zurück, das auf reagieren der rechten Maustaste eingerichtet
+     * Gibt das <code>JPopupMenu</code> zurï¿½ck, das auf reagieren der rechten Maustaste eingerichtet
      * ist.
      *
      * @return Das <code>JPopupMenu</code> reagiert auf die rechte Maustaste.
@@ -233,8 +169,8 @@ public abstract class AbstractTablePanel extends JPanel implements International
     }
 
     /**
-     * Gibt die <code>JScrollPane</code> zurück, in der die Tabelle liegt. Diese <code>JScrollPane</code>
-     * ist nötig um den Tabellen Header anzuzeigen und auch um die Tabelle scrollbar zu gestallten.
+     * Gibt die <code>JScrollPane</code> zurï¿½ck, in der die Tabelle liegt. Diese <code>JScrollPane</code>
+     * ist nï¿½tig um den Tabellen Header anzuzeigen und auch um die Tabelle scrollbar zu gestallten.
      *
      * @return Die <code>JScrollPane</code>, in der die Tabelle liegt.
      */
@@ -243,13 +179,13 @@ public abstract class AbstractTablePanel extends JPanel implements International
     }
 
     /**
-     * Der <code>BaseService</code> ist die Business Logik. Unter anderem können hierdurch Daten
+     * Der <code>BaseService</code> ist die Business Logik. Unter anderem kï¿½nnen hierdurch Daten
      * aus der Datenbank ausgelesen und gespeichert werden.
      */
     private BaseService baseService;
 
     /**
-     * Gibt den <code>BaseService</code> und somit die Business Logik zurück.
+     * Gibt den <code>BaseService</code> und somit die Business Logik zurï¿½ck.
      *
      * @return Der <code>BaseService</code>.
      */
@@ -258,7 +194,7 @@ public abstract class AbstractTablePanel extends JPanel implements International
     }
 
     /**
-     * Setzt den <code>BaseService</code> der die komplette Business Logik enthält
+     * Setzt den <code>BaseService</code> der die komplette Business Logik enthï¿½lt
      * um bspw Daten aus der Datenbank zu laden und dorthin auch wieder abzulegen.
      *
      * @param baseService Der <code>BaseService</code>.
@@ -267,13 +203,13 @@ public abstract class AbstractTablePanel extends JPanel implements International
         this.baseService = baseService;
     }
 
-    protected AbstractTablePanel(BaseService baseService) {
+    protected AbstractTablePanel(BaseService baseService, boolean sortable) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("Erzeuge TablePanel.");
         }
 
-        // Der <code>BaseService</code> um den Zugriff auf die Datenbank zu ermöglichen.
+        // Der <code>BaseService</code> um den Zugriff auf die Datenbank zu ermï¿½glichen.
         this.baseService = baseService;
 
         // Erzeugt den Panel <code>Border</code> und setzt die Reihenfolge der Spalten.
@@ -284,17 +220,17 @@ public abstract class AbstractTablePanel extends JPanel implements International
         initComponents();
         initLayout();
 
-        // Fügt der <code>JTable</code> und dem <code>TableModel</code> die Listener hinzu.
+        // Fï¿½gt der <code>JTable</code> und dem <code>TableModel</code> die Listener hinzu.
         addKeyListeners(createKeyListeners());
         addMouseListeners(createMouseListeners());
         addTableModelListeners(createTableModelListeners());
 
-        // Fügt der Filter <code>JComboBox</code> die Elemente des Tabelle Headers hinzu.
+        // Fï¿½gt der Filter <code>JComboBox</code> die Elemente des Tabelle Headers hinzu.
         for (I18NItem item : tableColumnOrder) {
             filterBox.addItem(item);
         }
 
-        // Füge das <code>JPopupMenu</code> nur hinzu wenn es gebraucht wird.
+        // Fï¿½ge das <code>JPopupMenu</code> nur hinzu wenn es gebraucht wird.
         if ((popupMenu = createPopupMenu(popupMenu)) != null) {
             initPopupMenu();
             table.add(popupMenu);
@@ -306,51 +242,19 @@ public abstract class AbstractTablePanel extends JPanel implements International
         // Setzt die Reihenfolge der Spalten.
         tableModel.setColumnIdentifiers(getTableColumnOrder());
 
-        // Dieser renew wird ausgeführt um die Tabelle beim ersten Laden mit Daten zu
-        // füllen.
+        // Dieser renew wird ausgefï¿½hrt um die Tabelle beim ersten Laden mit Daten zu
+        // fï¿½llen.
         renewTableModel();
 
         // Ruft die Methode auch beim ersten Start um das <code>TableColumnModel</code> zu
         // initialisieren.
         createEditoredColumnModelAfterUnpersist(table.getColumnModel());
 
-        table.getTableHeader().setDefaultRenderer(
-                new DefaultTableCellRenderer() {
+        if (sortable) {
+            table.setRowSorter(tableRowSorter);
+        }
 
-                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-
-                        JTableHeader header = table.getTableHeader();
-                        setForeground(header.getForeground());
-                        setBackground(header.getBackground());
-                        setFont(header.getFont());
-
-                        setText(value == null ? "" : value.toString());
-                        setBorder(UIManager.getBorder("TableHeader.cellBorder"));
-                        //setHorizontalAlignment(SwingConstants.CENTER);
-                        setHorizontalTextPosition(SwingConstants.LEFT);
-
-                        //if (tableModel.sortColumnDesc[column]) {
-                        if (AbstractTablePanel.this.getTableModel().getCurrentSortColumn() == column) {
-                            if (tableModel.sortColumnDesc) {
-                                setIcon(UP_ICON);
-                            }
-                            else {
-                                setIcon(DOWN_ICON);
-                            }
-                        }
-                        else {
-                            setIcon(null);
-                        }
-
-                        return this;
-                    }
-                });
-
-        table.getTableHeader().addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent evt) {
-                tableModel.sortByColumn(table.columnAtPoint(evt.getPoint()));
-            }
-        });
+        tableRowSorter.setRowFilter(filter);
     }
 
     /**
@@ -367,6 +271,13 @@ public abstract class AbstractTablePanel extends JPanel implements International
 
         // Schaltet das Tabellengitter aus.
         table.setShowGrid(false);
+
+        filterField.addKeyListener(new KeyAdapter() {
+
+            public void keyReleased(KeyEvent e) {
+                tableRowSorter.sort();
+            }
+        });
     }
 
     /**
@@ -379,32 +290,32 @@ public abstract class AbstractTablePanel extends JPanel implements International
         setLayout(layout);
 
         layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .add(layout.createParallelGroup(GroupLayout.TRAILING)
-                    .add(GroupLayout.LEADING, tableSP, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
-                    .add(GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .add(filterBox, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.RELATED)
-                        .add(filterField, GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)))
-                .addContainerGap())
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(layout.createParallelGroup(GroupLayout.TRAILING)
+                                .add(GroupLayout.LEADING, tableSP, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
+                                .add(GroupLayout.TRAILING, layout.createSequentialGroup()
+                                .add(filterBox, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.RELATED)
+                                .add(filterField, GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)))
+                        .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                .add(layout.createParallelGroup(GroupLayout.TRAILING, false)
-                    .add(filterBox)
-                    .add(GroupLayout.LEADING, filterField))
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(tableSP, GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
-                .addContainerGap())
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                        .add(layout.createParallelGroup(GroupLayout.TRAILING, false)
+                                .add(filterBox)
+                                .add(GroupLayout.LEADING, filterField))
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(tableSP, GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+                        .addContainerGap())
         );
     }
 
     /**
      * Initialisieren des <code>JPopupMenu</code>. Hier wird der Klick der rechten Maustaste
-     * hinzugefügt.
+     * hinzugefï¿½gt.
      */
     private void initPopupMenu() {
 
@@ -416,14 +327,14 @@ public abstract class AbstractTablePanel extends JPanel implements International
              */
             public void mousePressed(MouseEvent e) {
 
-                // Überprüfe of die rechte Maustaste gedrückt wurde um die
+                // ï¿½berprï¿½fe of die rechte Maustaste gedrï¿½ckt wurde um die
                 // Reihe zu markieren.
                 if (SwingUtilities.isRightMouseButton(e)) {
 
-                    // Der Punkt an dem gedrückt wurde.
+                    // Der Punkt an dem gedrï¿½ckt wurde.
                     Point p = e.getPoint();
 
-                    // Die Reihe in der Tabelle, auf die gedrückt wurde.
+                    // Die Reihe in der Tabelle, auf die gedrï¿½ckt wurde.
                     int row = table.rowAtPoint(p);
 
                     // Setze die Reihe markiert.
@@ -450,7 +361,7 @@ public abstract class AbstractTablePanel extends JPanel implements International
     }
 
     /**
-     * Fügt der Tabelle alle <code>KeyListener</code> aus diesem Array hinzu.
+     * Fï¿½gt der Tabelle alle <code>KeyListener</code> aus diesem Array hinzu.
      *
      * @param keyListeners Ein Array mit <code>KeyListener</code>.
      */
@@ -464,7 +375,7 @@ public abstract class AbstractTablePanel extends JPanel implements International
     }
 
     /**
-     * Fügt der Tabelle alle <code>MouseListener</code> aus diesem Array hinzu.
+     * Fï¿½gt der Tabelle alle <code>MouseListener</code> aus diesem Array hinzu.
      *
      * @param mouseListeners Ein Array mit <code>MouseListener</code>.
      */
@@ -478,7 +389,7 @@ public abstract class AbstractTablePanel extends JPanel implements International
     }
 
     /**
-     * Fügt der Tabelle alle <code>TableModelListener</code> aus diesem Array hinzu.
+     * Fï¿½gt der Tabelle alle <code>TableModelListener</code> aus diesem Array hinzu.
      *
      * @param tableModelListeners Ein Array mit <code>TableModelListener</code>.
      */
@@ -493,32 +404,33 @@ public abstract class AbstractTablePanel extends JPanel implements International
 
     /**
      * Erneuert das <code>TableModel</code> und somit die Daten die darin enthalten sind.
-     * Es müssen dazu die Methoden {@link this#createLineVector(Object)} und
+     * Es mï¿½ssen dazu die Methoden {@link this#createLineVector(Object)} und
      * {@link this#getDataCollection()} richtig implementiert werden.
      */
     public void renewTableModel() {
         // Entfernt alle schon vorhandenen Zeilen aus dem <code>TableModel</code>.
-        // Dies muss gemacht werden, das sonst alle Einträge die schon vorhanden
+        // Dies muss gemacht werden, das sonst alle Eintrï¿½ge die schon vorhanden
         // sind auch nochmal angezeigt werden.
         Vector dataVector = tableModel.getDataVector();
         dataVector.removeAllElements();
 
         // Holt die in der Methode implementierte <code>Collection</code> um diese
-        // später dem <code>TableModel</code> hinzufügen zu können.
+        // spï¿½ter dem <code>TableModel</code> hinzufï¿½gen zu kï¿½nnen.
         Collection dataCollection = getDataCollection();
 
-        // Iteriert über die <code>Collection</code> und fügt jedes <code>Object</code>
+        // Iteriert ï¿½ber die <code>Collection</code> und fï¿½gt jedes <code>Object</code>
         // als Zeile dem Datenvektor hinzu. Dazu muss die Methode createLineVector(Object)
         // richtig implementiert werden.
         for (Object o : dataCollection) {
 
-            // Fügt den erzeugten <code>Vector</code> als Zeile dem Datenvektor hinzu.
+            // F\u00fcgt den erzeugten <code>Vector</code> als Zeile dem Datenvektor hinzu.
             dataVector.add(createLineVector(o));
-
         }
 
-        // Zeichnet die Tabelle nach hinzufügen aller Objekte neu.
+        // Zeichnet die Tabelle nach hinzuf\u00fcgen aller Objekte neu.
         table.repaint();
+        table.updateUI();
+
         tableSP.setViewportView(table);
     }
 
@@ -543,7 +455,7 @@ public abstract class AbstractTablePanel extends JPanel implements International
             // Entferne alle Daten aus dem Datenvektor.
             tableModel.getDataVector().removeAllElements();
 
-            // Beugt einer NotSerializableException vor. Der genaue Grund für diese
+            // Beugt einer NotSerializableException vor. Der genaue Grund fï¿½r diese
             // Exception ist nicht bekannt. Es handelt sich hier lediglich um einen Hook.
             TableColumnModel tableColumnModel = table.getColumnModel();
             table.setColumnModel(new DefaultTableColumnModel());
@@ -577,7 +489,7 @@ public abstract class AbstractTablePanel extends JPanel implements International
             // Lade das persistierte <code>TableColumnModel</code>.
             TableColumnModel columnModel = (TableColumnModel) ois.readObject();
 
-            // Abschließend wird das geladene <code>TableColumnModel</code> wieder in der Tabelle
+            // Abschlieï¿½end wird das geladene <code>TableColumnModel</code> wieder in der Tabelle
             // gesetzt.
             table.setColumnModel(createEditoredColumnModelAfterUnpersist(columnModel));
         }
@@ -610,11 +522,11 @@ public abstract class AbstractTablePanel extends JPanel implements International
     }
 
     /**
-     * Gibt die Id des Selektierten Datensatzes zurück.
+     * Gibt die Id des Selektierten Datensatzes zurï¿½ck.
      *
      * @return Die Id des aktuell selektierten Datensatzes.
      * @throws IllegalStateException Diese <code>Exception</code> wird geworfen wenn entweder keine
-     *                               Reihe ausgewählt ist oder die Tabelle kein Identifier Objekt hat.
+     *                               Reihe ausgewï¿½hlt ist oder die Tabelle kein Identifier Objekt hat.
      */
     public Long getIdOfSelectedRow() throws IllegalStateException {
 
@@ -622,7 +534,7 @@ public abstract class AbstractTablePanel extends JPanel implements International
         int row = table.getSelectedRow();
 
         if (row < 0) {
-            throw new IllegalStateException("Es wurde keine Reihe ausgewählt.");
+            throw new IllegalStateException("Es wurde keine Reihe ausgewï¿½hlt.");
         }
 
         // Das aktuell selektierte Identifier Objekt.
@@ -640,20 +552,20 @@ public abstract class AbstractTablePanel extends JPanel implements International
 
     /**
      * Diese Methode kann dazu verwendet werden, um dem <code>TableColumnModel</code> nach einem
-     * {@link this#unpersist(java.io.InputStream)}, wieder Editoren hinzuzufügen.
+     * {@link this#unpersist(java.io.InputStream)}, wieder Editoren hinzuzufï¿½gen.
      *
      * @param tableColumnModel Das <code>TableColumnModel</code> der Tabelle.
-     * @return Das <code>TableColumnModel</code> dem Editoren hinzugefügt worden sein können.
+     * @return Das <code>TableColumnModel</code> dem Editoren hinzugefï¿½gt worden sein kï¿½nnen.
      */
     protected TableColumnModel createEditoredColumnModelAfterUnpersist(TableColumnModel tableColumnModel) {
         return tableColumnModel;
     }
 
     /**
-     * Durch Überschreiben dieser Methode ist es möglich der <code>JTable</code> <code>KeyListener</code>
-     * hinzuzufügen.
+     * Durch ï¿½berschreiben dieser Methode ist es mï¿½glich der <code>JTable</code> <code>KeyListener</code>
+     * hinzuzufï¿½gen.
      *
-     * @return Ein Array mit <code>KeyListener</code> die der <code>JTable</code> hinzugefügt
+     * @return Ein Array mit <code>KeyListener</code> die der <code>JTable</code> hinzugefï¿½gt
      *         werden sollen.
      */
     protected KeyListener[] createKeyListeners() {
@@ -661,10 +573,10 @@ public abstract class AbstractTablePanel extends JPanel implements International
     }
 
     /**
-     * Durch Überschreiben dieser Methode ist es möglich der <code>JTable</code> <code>MouseListener</code>
-     * hinzuzufügen.
+     * Durch ï¿½berschreiben dieser Methode ist es mï¿½glich der <code>JTable</code> <code>MouseListener</code>
+     * hinzuzufï¿½gen.
      *
-     * @return Ein Array mit <code>MouseListener</code> die der <code>JTable</code> hinzugefügt
+     * @return Ein Array mit <code>MouseListener</code> die der <code>JTable</code> hinzugefï¿½gt
      *         werden sollen.
      */
     protected MouseListener[] createMouseListeners() {
@@ -672,10 +584,10 @@ public abstract class AbstractTablePanel extends JPanel implements International
     }
 
     /**
-     * Durch Überschreiben dieser Methode ist es möglich dem <code>TableModel</code>
-     * <code>TableModelListener</code> hinzuzufügen.
+     * Durch ï¿½berschreiben dieser Methode ist es mï¿½glich dem <code>TableModel</code>
+     * <code>TableModelListener</code> hinzuzufï¿½gen.
      *
-     * @return Ein Array mit <code>TableModelListener</code> die dem <code>TableModel</code> hinzugefügt
+     * @return Ein Array mit <code>TableModelListener</code> die dem <code>TableModel</code> hinzugefï¿½gt
      *         werden sollen.
      */
     protected TableModelListener[] createTableModelListeners() {
@@ -683,12 +595,12 @@ public abstract class AbstractTablePanel extends JPanel implements International
     }
 
     /**
-     * Durch überschreiben dieser Methode ist es möglich der <code>JTable</code> ein
-     * <code>JPopupMenu</code> hinzuzufügen.
+     * Durch ï¿½berschreiben dieser Methode ist es mï¿½glich der <code>JTable</code> ein
+     * <code>JPopupMenu</code> hinzuzufï¿½gen.
      *
      * @param popupMenu Das <code>JPopupMenu</code> das auf Klick der rechten Maustaste
      *                  bereits reagieren kann.
-     * @return Das <code>JPopupMenu</code>, das der <code>JTable</code> hinzugefügt
+     * @return Das <code>JPopupMenu</code>, das der <code>JTable</code> hinzugefï¿½gt
      *         werden soll.
      */
     protected JPopupMenu createPopupMenu(JPopupMenu popupMenu) {
@@ -713,11 +625,11 @@ public abstract class AbstractTablePanel extends JPanel implements International
     protected abstract Vector<I18NItem> createTableColumnOrder();
 
     /**
-     * Es wird hier eine <code>Collection</code> zurückgeliefert. Diese <code>Collection</code>
-     * enthält <code>Object</code> die später bei {@link this#createLineVector(Object)}
-     * ankommen und dort entsprechend behandelt werden können.
+     * Es wird hier eine <code>Collection</code> zurï¿½ckgeliefert. Diese <code>Collection</code>
+     * enthï¿½lt <code>Object</code> die spï¿½ter bei {@link this#createLineVector(Object)}
+     * ankommen und dort entsprechend behandelt werden kï¿½nnen.
      *
-     * @return Eine <code>Collection</code> die alle Daten enthält die in der Tabelle angezeigt
+     * @return Eine <code>Collection</code> die alle Daten enthï¿½lt die in der Tabelle angezeigt
      *         werden sollen.
      */
     protected abstract Collection getDataCollection();
@@ -726,9 +638,9 @@ public abstract class AbstractTablePanel extends JPanel implements International
      * Erzeugt einen <code>Vector</code>, der als Zeile in der Tabelle angezeigt wird.
      *
      * @param o Ein <code>Object</code> aus der <code>Collection</code> das bei
-     *          {@link this#getDataCollection()} zurückgeliefert wird.
+     *          {@link this#getDataCollection()} zurï¿½ckgeliefert wird.
      * @return Der erzeugte <code>Vector</code> wird als Zeilenvektor dem Datenvektor
-     *         hinzugefügt.
+     *         hinzugefï¿½gt.
      */
     protected abstract Vector createLineVector(Object o);
 }

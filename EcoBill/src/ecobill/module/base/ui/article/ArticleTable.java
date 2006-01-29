@@ -32,33 +32,33 @@ import java.util.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleTable.java,v 1.15 2005/12/11 17:16:01 raedler Exp $
+ * @version $Id: ArticleTable.java,v 1.16 2006/01/29 23:16:45 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleTable extends AbstractTablePanel {
 
     /**
-     * Die <code>ArtikelUI</code> um den Artikel anzeigen zu können.
+     * Die <code>ArtikelUI</code> um den Artikel anzeigen zu kï¿½nnen.
      */
     private ArticleUI articleUI;
 
     /**
-     * Die id des <code>Article</code> der in der aktuell ausgewählt ist.
+     * Die id des <code>Article</code> der in der aktuell ausgewï¿½hlt ist.
      */
     private Long articleId;
 
     /**
-     * Erzeugt eine neues Article Table Panel für Artikel.
+     * Erzeugt eine neues Article Table Panel fï¿½r Artikel.
      */
     public ArticleTable(BaseService baseService) {
         this(null, baseService);
     }
 
     /**
-     * Erzeugt eine neues Article Table Panel für Artikel.
+     * Erzeugt eine neues Article Table Panel fï¿½r Artikel.
      */
     public ArticleTable(ArticleUI articleUI, BaseService baseService) {
-        super(baseService);
+        super(baseService, false);
 
         this.articleUI = articleUI;
     }
@@ -162,15 +162,15 @@ public class ArticleTable extends AbstractTablePanel {
              */
             public void keyPressed(KeyEvent e) {
 
-                // Hole den KeyCode der gedrückten Taste.
+                // Hole den KeyCode der gedrï¿½ckten Taste.
                 int keyCode = e.getKeyCode();
 
-                // Es soll nur diese Aktion ausgeführt werden wenn entweder Key UP oder Key DOWN
-                // gedrückt wurde.
+                // Es soll nur diese Aktion ausgefï¿½hrt werden wenn entweder Key UP oder Key DOWN
+                // gedrï¿½ckt wurde.
                 if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_DOWN) {
 
                     // Hole die selektierte Reihe.
-                    int row = getTable().getSelectedRow();
+                    int row = getRealSelectedRow();
 
                     // Korrigiere die Key UP oder die Key DOWN Verschiebung.
                     if (keyCode == KeyEvent.VK_UP) {
@@ -181,10 +181,10 @@ public class ArticleTable extends AbstractTablePanel {
                     }
 
                     // Fange die <code>ArrayIndexOutOfBoundsException</code> ab, die auftreten kann wenn
-                    // durch die Korrektur eine Zeile zurückgegeben wird, die aber nicht in der Tabelle
+                    // durch die Korrektur eine Zeile zurï¿½ckgegeben wird, die aber nicht in der Tabelle
                     // besteht.
                     try {
-                        articleId = ((IdValueItem) getTableModel().getValueAt(row, 0)).getId();
+                        articleId = ((IdValueItem) getTableModel().getValueAt(getRealSelectedRow(), 0)).getId();
                     }
                     catch (ArrayIndexOutOfBoundsException aioobe) {
                         if (LOG.isDebugEnabled()) {
@@ -220,9 +220,7 @@ public class ArticleTable extends AbstractTablePanel {
             public void mouseClicked(MouseEvent e) {
 
                 if (e.getButton() == MouseEvent.BUTTON1) {
-                    int row = getTable().getSelectedRow();
-
-                    articleId = ((IdValueItem) getTableModel().getValueAt(row, 0)).getId();
+                    articleId = ((IdValueItem) getTableModel().getValueAt(getRealSelectedRow(), 0)).getId();
 
                     // Zeige selektierten Artikel an.
                     if (articleUI != null) {
@@ -242,7 +240,7 @@ public class ArticleTable extends AbstractTablePanel {
 
         TableModelListener[] tableModelListeners = new TableModelListener[1];
 
-        // Ein <code>TableModelListener</code> um die Änderungen der Tabellendaten in der
+        // Ein <code>TableModelListener</code> um die ï¿½nderungen der Tabellendaten in der
         // Datenbank zu persistieren.
         tableModelListeners[0] = new TableModelListener() {
 
@@ -251,12 +249,12 @@ public class ArticleTable extends AbstractTablePanel {
              */
             public void tableChanged(TableModelEvent e) {
 
-                // Überprüfe das <code>TableModelEvent</code> auf UPDATE.
+                // ï¿½berprï¿½fe das <code>TableModelEvent</code> auf UPDATE.
                 if (e.getType() == TableModelEvent.UPDATE) {
 
                     if (articleId != null) {
                         
-                        // Die Reihe und Spalte des zu verändernden Wertes.
+                        // Die Reihe und Spalte des zu verï¿½ndernden Wertes.
                         int row = e.getFirstRow();
                         int col = e.getColumn();
 
@@ -266,11 +264,11 @@ public class ArticleTable extends AbstractTablePanel {
                             // Lade betreffenden Artikel von der Datenbank.
                             Article article = (Article) getBaseService().load(Article.class, articleId);
 
-                            // Veränderter Wert.
+                            // Verï¿½nderter Wert.
                             Object value = getTableModel().getValueAt(row, col);
 
-                            // Der übersetzte Name der Spalte um herauszufinden welcher Wert überhaupt
-                            // geändert werden muss.
+                            // Der ï¿½bersetzte Name der Spalte um herauszufinden welcher Wert ï¿½berhaupt
+                            // geï¿½ndert werden muss.
                             String columnName = getTableModel().getColumnName(col);
 
                             if (columnName.equals(WorkArea.getMessage(Constants.ARTICLE_NR))) {
@@ -310,7 +308,7 @@ public class ArticleTable extends AbstractTablePanel {
                             getBaseService().saveOrUpdate(article);
 
                             if (LOG.isDebugEnabled()) {
-                                LOG.debug("In der Spalte [" + col + "] und Zeile [" + row + "] wurde für den Artikel [id=\"" + articleId + "\"] der Wert auf \"" + getTableModel().getValueAt(row, col) + "\" geändert.");
+                                LOG.debug("In der Spalte [" + col + "] und Zeile [" + row + "] wurde fï¿½r den Artikel [id=\"" + articleId + "\"] der Wert auf \"" + getTableModel().getValueAt(row, col) + "\" geï¿½ndert.");
                             }
 
                             if (articleUI != null) {
@@ -354,7 +352,7 @@ public class ArticleTable extends AbstractTablePanel {
     }
 
     /**
-     * Gibt den aktuell selektierten/markierte <code>Article</code> zurück.
+     * Gibt den aktuell selektierten/markierte <code>Article</code> zurï¿½ck.
      *
      * @return Der aktuell selektierten/markierte <code>Article</code>.
      */

@@ -24,14 +24,14 @@ import java.awt.*;
  * Time: 16:06:51
  *
  * @author Roman R&auml;dle
- * @version $Id: AbstractJasperViewerDialog.java,v 1.1 2005/12/11 17:17:12 raedler Exp $
+ * @version $Id: AbstractJasperViewerDialog.java,v 1.2 2006/01/29 23:16:45 raedler Exp $
  * @since EcoBill 1.1
  */
 public abstract class AbstractJasperViewerDialog extends JDialog implements Internationalization {
 
     /**
-     * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
-     * Diese Ausgaben können in einem separaten File spezifiziert werden.
+     * In diesem <code>Log</code> k\u00f6nnen Fehler, Info oder sonstige Ausgaben erfolgen.
+     * Diese Ausgaben k\u00f6nnen in einem separaten File spezifiziert werden.
      */
     private final Log LOG = LogFactory.getLog(getClass());
 
@@ -41,7 +41,7 @@ public abstract class AbstractJasperViewerDialog extends JDialog implements Inte
     private MainFrame mainFrame;
 
     /**
-     * Gibt den Hauptframe der Anwendung zur zurück.
+     * Gibt den Hauptframe der Anwendung zur zurï¿½ck.
      *
      * @return Der Hauptframe der Anwendung.
      */
@@ -55,7 +55,7 @@ public abstract class AbstractJasperViewerDialog extends JDialog implements Inte
     private BaseService baseService;
 
     /**
-     * Gibt den <code>BaseService</code>, die Business Logik, zurück.
+     * Gibt den <code>BaseService</code>, die Business Logik, zurï¿½ck.
      *
      * @return Der <code>BaseService</code> ist die Business Logik.
      */
@@ -69,15 +69,15 @@ public abstract class AbstractJasperViewerDialog extends JDialog implements Inte
     private JPanel viewerPanel = new JPanel(new BorderLayout());
 
     /**
-     * Der <code>JasperViewer</code> enthält die Logik zum Füllen und zur Anzeige eines Reports.
+     * Der <code>JasperViewer</code> enthï¿½lt die Logik zum Fï¿½llen und zur Anzeige eines Reports.
      */
     private JasperViewer jasperViewer = new JasperViewer(viewerPanel);
 
     /**
-     * Gibt den <code>JasperViewer</code> zurück, der die die Logik zum Füllen und zur Anzeige
-     * eines Reports, enthält.
+     * Gibt den <code>JasperViewer</code> zurï¿½ck, der die die Logik zum Fï¿½llen und zur Anzeige
+     * eines Reports, enthï¿½lt.
      *
-     * @return Der <code>JasperViewer</code> enthält die Logik zum Füllen und zur Anzeige eines
+     * @return Der <code>JasperViewer</code> enthï¿½lt die Logik zum Fï¿½llen und zur Anzeige eines
      *         Reports.
      */
     public JasperViewer getJasperViewer() {
@@ -138,20 +138,20 @@ public abstract class AbstractJasperViewerDialog extends JDialog implements Inte
      */
     public void doJasper(Long id) throws Exception {
 
-        // TODO: Hier wäre es auch möglich direkt von Thread abzuleiten. SINNVOLL?!?
-        // Starte nebenläufigen <code>JasperThread</code>.
+        // TODO: Hier wï¿½re es auch mï¿½glich direkt von Thread abzuleiten. SINNVOLL?!?
+        // Starte nebenlï¿½ufigen <code>JasperThread</code>.
         new Thread(new JasperThread(id)).start();
     }
 
     /**
-     * Löscht den Inhalt des Viewer <code>JPanel</code>.
+     * Lï¿½scht den Inhalt des Viewer <code>JPanel</code>.
      */
     public void clearViewerPanel() {
         jasperViewer.remove();
     }
 
     /**
-     * Gibt den Rahmen zurück der um das <code>JPanel</code> viewerPanel liegt.
+     * Gibt den Rahmen zurï¿½ck der um das <code>JPanel</code> viewerPanel liegt.
      *
      * @return Der Rahmen um das <code>JPanel</code> viewerPanel.
      */
@@ -161,10 +161,10 @@ public abstract class AbstractJasperViewerDialog extends JDialog implements Inte
 
     /**
      * In dieser Methode werden die spezifischen Jasperdaten geladen und dem <code>JasperViewer</code>
-     * übergeben.
+     * ï¿½bergeben.
      *
      * @param id Eine Id zum Laden der anzuzeigenden Daten.
-     * @throws Exception Diese <code>Exception</code> tritt evtl. während des Jasper Vorganges
+     * @throws Exception Diese <code>Exception</code> tritt evtl. wï¿½hrend des Jasper Vorganges
      *                   auf.
      */
     protected abstract void jasper(Long id) throws Exception;
@@ -178,7 +178,7 @@ public abstract class AbstractJasperViewerDialog extends JDialog implements Inte
 
     /**
      * Dieser <code>Thread</code> erzeugt die Report Seiten und zeigt diese auf
-     * dem <code>JPanel</code> an. Er ist nebenläufig zum eigentlichen Programm.
+     * dem <code>JPanel</code> an. Er ist nebenlï¿½ufig zum eigentlichen Programm.
      */
     private class JasperThread implements Runnable {
 
@@ -188,7 +188,7 @@ public abstract class AbstractJasperViewerDialog extends JDialog implements Inte
         private Long id;
 
         /**
-         * Ein neuer <code>JasperThread</code> der eine id zum Laden eines, für den
+         * Ein neuer <code>JasperThread</code> der eine id zum Laden eines, fï¿½r den
          * <code>JasperViewer</code> vorgesehenen, <code>Object</code>.
          *
          * @param id Die id zum Laden des <code>Object</code>.

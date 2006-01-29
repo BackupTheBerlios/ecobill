@@ -38,20 +38,20 @@ import java.awt.event.*;
  * Time: 16:57:16
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderUI.java,v 1.22 2005/12/22 12:53:07 raedler Exp $
+ * @version $Id: DeliveryOrderUI.java,v 1.23 2006/01/29 23:16:45 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
 
     /**
-     * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
-     * Diese Ausgaben können in einem separaten File spezifiziert werden.
+     * In diesem <code>Log</code> kï¿½nnen Fehler, Info oder sonstige Ausgaben erfolgen.
+     * Diese Ausgaben kï¿½nnen in einem separaten File spezifiziert werden.
      */
     private static final Log LOG = LogFactory.getLog(DeliveryOrderUI.class);
 
     /**
      * Der <code>ApplicationContext</code> beinhaltet alle Beans die darin angegeben sind
-     * und ermöglicht wahlfreien Zugriff auf diese.
+     * und ermï¿½glicht wahlfreien Zugriff auf diese.
      */
     protected ApplicationContext applicationContext;
 
@@ -68,7 +68,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
     private BaseService baseService;
 
     /**
-     * Gibt den <code>BaseService</code> und somit die Business Logik zurück.
+     * Gibt den <code>BaseService</code> und somit die Business Logik zurï¿½ck.
      *
      * @return Der <code>BaseService</code>.
      */
@@ -77,7 +77,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
     }
 
     /**
-     * Setzt den <code>BaseService</code> der die komplette Business Logik enthält
+     * Setzt den <code>BaseService</code> der die komplette Business Logik enthï¿½lt
      * um bspw Daten aus der Datenbank zu laden und dorthin auch wieder abzulegen.
      *
      * @param baseService Der <code>BaseService</code>.
@@ -87,14 +87,14 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
     }
 
     /**
-     * Enthält die Pfade an denen die bestimmten Objekte serialisiert werden
+     * Enthï¿½lt die Pfade an denen die bestimmten Objekte serialisiert werden
      * sollen.
      */
     private Properties serializeIdentifiers;
 
     /**
      * Gibt die Pfade, an denen die bestimmten Objekte serialisiert werden
-     * sollen, zurück.
+     * sollen, zurï¿½ck.
      *
      * @return Die Pfade an denen die bestimmten Objekte serialisiert werden
      *         sollen.
@@ -142,11 +142,11 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
     public void destroy() throws Exception {
 
         if (LOG.isInfoEnabled()) {
-            LOG.info("Schließe DeliveryOrderUI und speichere die Daten.");
+            LOG.info("Schlie\u00dfe DeliveryOrderUI und speichere die Daten.");
         }
 
         // Serialisiere diese Objekte um sie bei einem neuen Start des Programmes wieder laden
-        // zu können.
+        // zu kï¿½nnen.
         deliveryOrderTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("delivery_order_table"))));
     }
 
@@ -167,6 +167,12 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
     private JToolBarButton viewDeliveryOrderB;
 
+
+    /**
+     * TODO: document me!!!
+     *
+     * @return
+     */
     private JToolBar createDeliveryOrderToolBar() {
 
         JToolBar toolBar = new JToolBar();
@@ -185,9 +191,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
                 deliveryOrderTable.clearDataCollection();
 
-                NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.DELIVERY_ORDER);
-
-                resetInput(numberSequence.getNextNumber());
+                resetInput();
             }
         });
 
@@ -200,7 +204,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
             public void actionPerformed(ActionEvent e) {
                 saveOrUpdateDeliveryOrder();
 
-                // Setzt den Lieferschein Anzeigeknopf auf enabled da nach dem Speichern oder Ändern
+                // Setzt den Lieferschein Anzeigeknopf auf enabled da nach dem Speichern oder ï¿½ndern
                 // der Lieferschein View bereitsteht.
                 viewDeliveryOrderB.setEnabled(true);
 
@@ -212,9 +216,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
                     numberSequence.setNumber(deliveryOrderNumber);
                     baseService.saveOrUpdate(numberSequence);
                 }
-
-                deliveryOrderTable.getTableModel().getDataVector().removeAllElements();
-                resetInput(numberSequence.getNextNumber());
             }
         });
 
@@ -226,25 +227,47 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
              */
             public void actionPerformed(ActionEvent e) {
 
+                int selection = JOptionPane.showConfirmDialog((MainFrame) applicationContext.getBean("mainFrame"), "Lieferschein wirklich lï¿½schen?", "Lï¿½schen Abfrage", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+                if (JOptionPane.YES_OPTION == selection) {
+                    baseService.delete(deliveryOrder);
+
+                    resetInput();
+                }
             }
         });
 
-        JToolBarButton editDeliveryOrderB = new JToolBarButton(new ImageIcon("images/delivery_order_edit.png"));
+        JToolBarButton editDeliveryOrderB = new JToolBarButton(new ImageIcon("images/delivery_order_open_editable.png"));
         editDeliveryOrderB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
              */
             public void actionPerformed(ActionEvent e) {
-                new DeliveryOrderChooseDialog((MainFrame) applicationContext.getBean("mainFrame"), true, DeliveryOrderUI.this, baseService, businessPartnerId, false);
+                new DeliveryOrderChooseDialog((MainFrame) applicationContext.getBean("mainFrame"), true, DeliveryOrderUI.this, baseService, businessPartner.getId(), true);
+            }
+        });
+
+        JToolBarButton openDeliveryOrderB = new JToolBarButton(new ImageIcon("images/delivery_order_open_all.png"));
+        openDeliveryOrderB.addActionListener(new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+                new DeliveryOrderChooseDialog((MainFrame) applicationContext.getBean("mainFrame"), true, DeliveryOrderUI.this, baseService, businessPartner.getId(), false);
             }
         });
 
         viewDeliveryOrderB = new JToolBarButton(new ImageIcon("images/jasper_view.png"));
         viewDeliveryOrderB.addActionListener(new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
             public void actionPerformed(ActionEvent e) {
                 try {
-                    new DeliveryOrderViewerDialog((MainFrame) applicationContext.getBean("mainFrame"), true, baseService, deliveryOrderId);
+                    new DeliveryOrderViewerDialog((MainFrame) applicationContext.getBean("mainFrame"), true, baseService, deliveryOrder.getId());
                 }
                 catch (Exception e1) {
                     e1.printStackTrace();
@@ -301,6 +324,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         toolBar.add(deleteDeliveryOrderB);
         toolBar.add(new JToolBar.Separator());
         toolBar.add(editDeliveryOrderB);
+        toolBar.add(openDeliveryOrderB);
         toolBar.add(viewDeliveryOrderB);
         toolBar.add(new JToolBar.Separator());
         toolBar.add(prefixTextBlockB);
@@ -362,52 +386,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
         tabbedPane.addTab(WorkArea.getMessage(Constants.OVERVIEW), overview);
 
-        /*
-        JToolBarButton viewDeliveryOrderB = new JToolBarButton(new ImageIcon("images/jasper_view.png"));
-        viewDeliveryOrderB.addActionListener(new ActionListener() {
-
-            /**
-             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
-             *
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    int row = orderTable.getTable().getSelectedRow();
-
-                    if (row != -1) {
-                        deliveryOrderViewerDialogOverview.doJasper(((IdValueItem) orderTable.getTable().getValueAt(row,0)).getId());
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(DeliveryOrderUI.this, "Datensatz auswählen", "Nachricht", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                }
-                catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-            }
-        });
-
-        JToolBarButton deleteDeliveryOrder = new JToolBarButton(new ImageIcon("images/delivery_order_delete.png"));
-        deleteDeliveryOrder.addActionListener(new ActionListener() {
-
-            /**
-             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
-             *
-            public void actionPerformed(ActionEvent e) {
-                Long deliveryOrderId = orderTable.getIdOfSelectedRow();
-
-                DeliveryOrder deliveryOrder = (DeliveryOrder) baseService.load(DeliveryOrder.class, deliveryOrderId);
-                baseService.delete(deliveryOrder);
-
-                orderTable.renewTableModel();
-                orderTable.repaint();
-
-                if (deliveryOrderViewerDialogOverview != null) {
-                    deliveryOrderViewerDialogOverview.clearViewerPanel();
-                }
-            }
-        });
-        */
-
         add(tabbedPane, BorderLayout.CENTER);
     }
 
@@ -441,7 +419,10 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
     private TitleBorderedTextAreaPanel prefixPanel;
     private TitleBorderedTextAreaPanel suffixPanel;
 
+    private BusinessPartner businessPartner;
+
     public void setBusinessPartner(BusinessPartner businessPartner) {
+        this.businessPartner = businessPartner;
         addressPanel.setBusinessPartner(businessPartner);
     }
 
@@ -458,14 +439,12 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
     }
 
     public void addReduplicatedArticle(ReduplicatedArticle reduplicatedArticle) {
-        // TODO: hier liegt der fehler für erneutes erscheinen des artikels.
+        // TODO: hier liegt der fehler fï¿½r erneutes erscheinen des artikels.
 
         deliveryOrderTable.addReduplicatedArticle(reduplicatedArticle);
     }
 
     private void saveOrUpdateDeliveryOrder() {
-
-        DeliveryOrder deliveryOrder = new DeliveryOrder();
 
         deliveryOrder.setBusinessPartner(addressPanel.getBusinessPartner());
         deliveryOrder.setCharacterisationType("delivery_order");
@@ -473,9 +452,8 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         deliveryOrder.setDeliveryOrderDate(formularDataPanel.getDate());
         deliveryOrder.setPrefixFreetext(prefixPanel.getTextArea().getText());
         deliveryOrder.setSuffixFreetext(suffixPanel.getTextArea().getText());
-        deliveryOrder.setPreparedBill(false);
 
-        Vector dataVector = ((DefaultTableModel) deliveryOrderTable.getTable().getModel()).getDataVector();
+        Vector dataVector = deliveryOrderTable.getTableModel().getDataVector();
 
         ReduplicatedArticle article;
 
@@ -484,30 +462,21 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
             Vector line = (Vector) lines.nextElement();
 
-            article = new ReduplicatedArticle();
+            article = (ReduplicatedArticle) ((IdValueItem) line.get(0)).getOriginalValue();
 
-            article.setArticleNumber((String) ((IdValueItem) line.get(0)).getValue());
-            article.setDescription((String) line.get(1));
-            article.setQuantity((Double) line.get(2));
-            article.setUnit((String) line.get(3));
-            article.setPrice((Double) line.get(4));
-
-            //ReduplicatedArticle reduplicatedArticle = (ReduplicatedArticle) line.get(6);
             article.setOrderPosition(i);
-
-            deliveryOrder.addArticle(article);
         }
 
+        System.out.println("DELIVERY_ARTICLES: " + deliveryOrder.getArticles().size());
+
         baseService.saveOrUpdate(deliveryOrder);
-
-        this.deliveryOrderId = deliveryOrder.getId();
-
-        deliveryOrderTable.clearDataCollection();
     }
 
-    public void resetInput(String deliveryOrderNumber) {
+    public void resetInput() {
 
-        formularDataPanel.setNumber(deliveryOrderNumber);
+        NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.DELIVERY_ORDER);
+
+        formularDataPanel.setNumber(numberSequence.getNextNumber());
         formularDataPanel.setDate(new Date());
         prefixPanel.getTextArea().setText("");
         suffixPanel.getTextArea().setText("");
@@ -517,28 +486,29 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         table.updateUI();
     }
 
-    private Long businessPartnerId;
-
-    // TODO: Brauchen wir das noch?!? Reicht doch eigentlich setBusinessPartner oder umgekehrt.
-    public void setActualBusinessPartnerId(Long actualBusinessPartnerId) {
-        businessPartnerId = actualBusinessPartnerId;
-    }
-
-    private Long deliveryOrderId;
+    private DeliveryOrder deliveryOrder;
 
     public void setDeliveryOrder(DeliveryOrder deliveryOrder) {
 
         // Setzt den Lieferschein Anzeigeknopf auf enabled da nach dem Aufruf eines gespeicherten
-        // Lieferscheines der View dafür bereitsteht.
+        // Lieferscheines der View dafï¿½r bereitsteht.
         viewDeliveryOrderB.setEnabled(true);
 
-        this.deliveryOrderId = deliveryOrder.getId();
+        this.deliveryOrder = deliveryOrder;
+        deliveryOrderTable.setDeliveryOrder(deliveryOrder);
+
+        if (deliveryOrder.getId() == null) {
+            resetInput();
+            return;
+        }
 
         formularDataPanel.setNumber(deliveryOrder.getDeliveryOrderNumber());
         formularDataPanel.setDate(deliveryOrder.getDeliveryOrderDate());
         prefixPanel.getTextArea().setText(deliveryOrder.getPrefixFreetext());
         suffixPanel.getTextArea().setText(deliveryOrder.getSuffixFreetext());
+    }
 
-        deliveryOrderTable.setDataCollection(deliveryOrder.getArticles());
+    public Integer getNextOrderPosition() {
+        return deliveryOrderTable.getTableModel().getRowCount() + 1;
     }
 }

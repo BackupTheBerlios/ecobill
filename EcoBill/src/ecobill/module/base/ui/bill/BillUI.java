@@ -10,9 +10,13 @@ import org.springframework.context.ApplicationContextAware;
 import org.jdesktop.layout.GroupLayout;
 import org.jdesktop.layout.LayoutStyle;
 import ecobill.module.base.service.BaseService;
-import ecobill.module.base.ui.component.*;
+import ecobill.module.base.ui.component.AddressPanel;
+import ecobill.module.base.ui.component.FormularDataPanel;
+import ecobill.module.base.ui.component.TitleBorderedTextAreaPanel;
+import ecobill.module.base.ui.component.JToolBarButton;
 import ecobill.module.base.ui.deliveryorder.OrderTableWithCB;
-import ecobill.module.base.ui.deliveryorder.OrderTable;
+import ecobill.module.base.ui.deliveryorder.DeliveryOrderViewerDialog;
+import ecobill.module.base.ui.deliveryorder.DeliveryOrderChooseDialog;
 import ecobill.module.base.ui.textblock.TextBlockDialog;
 import ecobill.module.base.domain.*;
 import ecobill.core.util.IdValueItem;
@@ -34,20 +38,20 @@ import java.awt.event.*;
  * Time: 16:57:16
  *
  * @author Sebastian Gath
- * @version $Id: BillUI.java,v 1.19 2005/12/22 12:53:06 raedler Exp $
+ * @version $Id: BillUI.java,v 1.20 2006/01/29 23:16:45 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BillUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
 
     /**
-     * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
-     * Diese Ausgaben können in einem separaten File spezifiziert werden.
+     * In diesem <code>Log</code> kï¿½nnen Fehler, Info oder sonstige Ausgaben erfolgen.
+     * Diese Ausgaben kï¿½nnen in einem separaten File spezifiziert werden.
      */
     private static final Log LOG = LogFactory.getLog(BillUI.class);
 
     /**
      * Der <code>ApplicationContext</code> beinhaltet alle Beans die darin angegeben sind
-     * und ermöglicht wahlfreien Zugriff auf diese.
+     * und ermï¿½glicht wahlfreien Zugriff auf diese.
      */
     protected ApplicationContext applicationContext;
 
@@ -64,7 +68,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
     private BaseService baseService;
 
     /**
-     * Gibt den <code>BaseService</code> und somit die Business Logik zurück.
+     * Gibt den <code>BaseService</code> und somit die Business Logik zurï¿½ck.
      *
      * @return Der <code>BaseService</code>.
      */
@@ -73,7 +77,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
     }
 
     /**
-     * Setzt den <code>BaseService</code> der die komplette Business Logik enthält
+     * Setzt den <code>BaseService</code> der die komplette Business Logik enthï¿½lt
      * um bspw Daten aus der Datenbank zu laden und dorthin auch wieder abzulegen.
      *
      * @param baseService Der <code>BaseService</code>.
@@ -83,14 +87,14 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
     }
 
     /**
-     * Enthält die Pfade an denen die bestimmten Objekte serialisiert werden
+     * Enthï¿½lt die Pfade an denen die bestimmten Objekte serialisiert werden
      * sollen.
      */
     private Properties serializeIdentifiers;
 
     /**
      * Gibt die Pfade, an denen die bestimmten Objekte serialisiert werden
-     * sollen, zurück.
+     * sollen, zurï¿½ck.
      *
      * @return Die Pfade an denen die bestimmten Objekte serialisiert werden
      *         sollen.
@@ -142,11 +146,11 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
         /*
         if (LOG.isInfoEnabled()) {
-            LOG.info("Schließe BillUI und speichere die Daten.");
+            LOG.info("Schlieï¿½e BillUI und speichere die Daten.");
         }
 
         // Serialisiere diese Objekte um sie bei einem neuen Start des Programmes wieder laden
-        // zu können.
+        // zu kï¿½nnen.
         billTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("delivery_order_table"))));
         articleTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("article_table"))));
         */
@@ -186,11 +190,13 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         deliveryOrderTableCB = new OrderTableWithCB(baseService);
     }
 
+    private JToolBarButton viewBillB;
+
     private JToolBar createBillToolBar() {
 
         JToolBar toolBar = new JToolBar();
 
-        // Button zum Speichern des aktuellen Lieferscheins hinzufügen
+        // Button zum Speichern des aktuellen Lieferscheins hinzufï¿½gen
         JToolBarButton okBill = new JToolBarButton(new ImageIcon("images/delivery_order_ok.png"));
         okBill.addActionListener(new ActionListener() {
 
@@ -211,6 +217,38 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
                 if (numberSequence.compareWithNumber(billNumber) <= -1) {
                     numberSequence.setNumber(billNumber);
                     baseService.saveOrUpdate(numberSequence);
+                }
+            }
+        });
+
+        JToolBarButton selectBillB = new JToolBarButton(new ImageIcon("images/bill_new.png"));
+        selectBillB.addActionListener(new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    new BillChooseDialog((MainFrame) applicationContext.getBean("mainFrame"), true, BillUI.this, baseService, actualBusinessPartnerId);
+                }
+                catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
+        viewBillB = new JToolBarButton(new ImageIcon("images/jasper_view.png"));
+        viewBillB.addActionListener(new ActionListener() {
+
+            /**
+             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    new BillViewerDialog((MainFrame) applicationContext.getBean("mainFrame"), true, baseService, bill.getId());
+                }
+                catch (Exception e1) {
+                    e1.printStackTrace();
                 }
             }
         });
@@ -249,6 +287,9 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         });
 
         toolBar.add(okBill);
+        toolBar.add(new JToolBar.Separator());
+        toolBar.add(selectBillB);
+        toolBar.add(viewBillB);
         toolBar.add(new JToolBar.Separator());
         toolBar.add(prefixTextBlock);
         toolBar.add(suffixTextBlock);
@@ -388,8 +429,8 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
      *
      * @param deliveryOrderNumber
      */
-    public void resetInput(String deliveryOrderNumber) {
-        formularDataPanel.setNumber(deliveryOrderNumber);
+    public void resetInput(String billNumber) {
+        formularDataPanel.setNumber(billNumber);
         formularDataPanel.setDate(new Date());
         prefixPanel.getTextArea().setText("");
         suffixPanel.getTextArea().setText("");
@@ -397,6 +438,8 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         billPreviewTable.getTableModel().getDataVector().removeAllElements();
         billPreviewTable.renewTableModel();
     }
+
+    private Bill bill;
 
     /**
      * Erstellt eine neue Rechnung aus der markierten Lieferscheinen.
@@ -407,7 +450,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
         Bill bill = new Bill();
 
-        // über alle Zeilen der Lieferscheintabelle gehen
+        // ï¿½ber alle Zeilen der Lieferscheintabelle gehen
         for (int i = 0; i < deliveryOrderTableCB.getTable().getRowCount(); i++) {
 
             // Checkbox markiert ??
@@ -433,16 +476,16 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
                         sum = sum + article.getPrice() * article.getQuantity();
                     }
 
-                    // Collection für die Vorschautabelle erzeugen
+                    // Collection fï¿½r die Vorschautabelle erzeugen
                     BillPreviewCollection bpc = new BillPreviewCollection(deliveryOrder.getDeliveryOrderNumber(), deliveryOrder.getDeliveryOrderDate(), sum);
 
                     // Die Lieferung als in einen Lieferschein eingengangen markieren
                     deliveryOrder.setPreparedBill(true);
 
-                    // Lieferschein der Rechnung anhängen
+                    // Lieferschein der Rechnung anhï¿½ngen
                     bill.addDeliveryOrder(deliveryOrder);
 
-                    // Collection der Vorschautabelle Übergeben
+                    // Collection der Vorschautabelle ï¿½bergeben
                     billPreviewCollections.add(bpc);
                 }
             }
@@ -451,7 +494,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         billPreviewTable.setDataCollection(billPreviewCollections);
         billPreviewTable.renewTableModel();
 
-        // Rechnungsobjekt füllen
+        // Rechnungsobjekt fï¿½llen
         bill.setBusinessPartner((BusinessPartner) baseService.load(BusinessPartner.class, actualBusinessPartnerId));
         bill.setBillNumber(formularDataPanel.getNumber());
         bill.setBillDate(formularDataPanel.getDate());
@@ -460,6 +503,8 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
         // Rechnungsobjekt speichern
         baseService.saveOrUpdate(bill);
+
+        this.bill = bill;
 
         billPreviewCollections.clear();
     }
@@ -480,5 +525,23 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
         billTable.renewTableModel();
         deliveryOrderTableCB.renewTableModel();
+    }
+
+    public void setBill(Bill bill) {
+
+        viewBillB.setEnabled(true);
+
+        this.bill = bill;
+        billPreviewTable.setBill(bill);
+
+        if (bill.getId() == null) {
+            resetInput(bill.getBillNumber());
+            return;
+        }
+
+        formularDataPanel.setNumber(bill.getBillNumber());
+        formularDataPanel.setDate(bill.getBillDate());
+        prefixPanel.getTextArea().setText(bill.getPrefixFreetext());
+        suffixPanel.getTextArea().setText(bill.getSuffixFreetext());
     }
 }

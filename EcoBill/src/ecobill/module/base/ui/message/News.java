@@ -29,7 +29,7 @@ import org.jdesktop.layout.LayoutStyle;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.7 2005/12/07 18:13:41 raedler Exp $
+ * @version $Id: News.java,v 1.8 2006/01/29 23:16:46 raedler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -290,7 +290,7 @@ public class News extends JPanel implements Internationalization {
      */
     public void initTree() {
 
-        newsTree = new JTree(new DefaultMutableTreeNode("Übersicht"));
+        newsTree = new JTree(new DefaultMutableTreeNode("\u00dcbersicht"));
 
         List messages = baseService.loadAll(Message.class);
 
@@ -326,7 +326,7 @@ public class News extends JPanel implements Internationalization {
     }
 
     /**
-     * Methode um eine Nachricht zum JTree hinzuzufügen
+     * Methode um eine Nachricht zum JTree hinzuzufï¿½gen
      * @param message
      */
     public void addMessageToTree(Message message) {
@@ -362,7 +362,7 @@ public class News extends JPanel implements Internationalization {
     }
 
     /**
-     * Methode um eine aus dem Baum ausgewählte Nachricht in den Textfeldern anzuzeigen
+     * Methode um eine aus dem Baum ausgewï¿½hlte Nachricht in den Textfeldern anzuzeigen
      * @param message
      */
     public void showMessage(Message message) {
@@ -373,7 +373,7 @@ public class News extends JPanel implements Internationalization {
     }
 
     /**
-     * Methode um eine Nachricht zu löschen
+     * Methode um eine Nachricht zu lï¿½schen
      */
     public void deleteMessage() {
 
@@ -403,7 +403,7 @@ public class News extends JPanel implements Internationalization {
         }
         }
         catch(NullPointerException e) {
-            JOptionPane.showMessageDialog(this, "Bitte eine Nachricht zum löschen wählen", "Information", 1);
+            JOptionPane.showMessageDialog(this, "Bitte eine Nachricht zum lï¿½schen wï¿½hlen", "Information", 1);
         }
     }
 
