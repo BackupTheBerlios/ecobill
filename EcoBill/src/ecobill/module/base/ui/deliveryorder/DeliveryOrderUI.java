@@ -38,7 +38,7 @@ import java.awt.event.*;
  * Time: 16:57:16
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderUI.java,v 1.23 2006/01/29 23:16:45 raedler Exp $
+ * @version $Id: DeliveryOrderUI.java,v 1.24 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -125,7 +125,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
         // Versuche evtl. abgelegte/serialisierte Objekte zu laden.
         try {
-            deliveryOrderTable.unpersist(new FileInputStream(serializeIdentifiers.getProperty("delivery_order_table")));
+            deliveryOrderArticleTable.unpersist(new FileInputStream(serializeIdentifiers.getProperty("delivery_order_table")));
         }
         catch (FileNotFoundException fnfe) {
             if (LOG.isErrorEnabled()) {
@@ -147,7 +147,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
         // Serialisiere diese Objekte um sie bei einem neuen Start des Programmes wieder laden
         // zu k�nnen.
-        deliveryOrderTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("delivery_order_table"))));
+        deliveryOrderArticleTable.persist(new FileOutputStream(FileUtils.createPathForFile(serializeIdentifiers.getProperty("delivery_order_table"))));
     }
 
     /**
@@ -158,7 +158,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         tabbedPane = new JTabbedPane();
         overview = new JPanel();
 
-        deliveryOrderTable = new DeliveryOrderTable(baseService);
+        deliveryOrderArticleTable = new DeliveryOrderArticleTable(baseService);
         addressPanel = new AddressPanel();
         formularDataPanel = new FormularDataPanel(Constants.DATA, Constants.DELIVERY_ORDER_NUMBER, Constants.DATE);
         prefixPanel = new TitleBorderedTextAreaPanel(Constants.PREFIX_FREE_TEXT);
@@ -189,7 +189,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
                 // noch kein View bereit steht.
                 viewDeliveryOrderB.setEnabled(false);
 
-                deliveryOrderTable.clearDataCollection();
+                deliveryOrderArticleTable.clearDataCollection();
 
                 resetInput();
             }
@@ -204,7 +204,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
             public void actionPerformed(ActionEvent e) {
                 saveOrUpdateDeliveryOrder();
 
-                // Setzt den Lieferschein Anzeigeknopf auf enabled da nach dem Speichern oder �ndern
+                // Setzt den Lieferschein Anzeigeknopf auf enabled da nach dem Speichern oder aendern
                 // der Lieferschein View bereitsteht.
                 viewDeliveryOrderB.setEnabled(true);
 
@@ -227,7 +227,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
              */
             public void actionPerformed(ActionEvent e) {
 
-                int selection = JOptionPane.showConfirmDialog((MainFrame) applicationContext.getBean("mainFrame"), "Lieferschein wirklich l�schen?", "L�schen Abfrage", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                int selection = JOptionPane.showConfirmDialog((MainFrame) applicationContext.getBean("mainFrame"), "Lieferschein wirklich l\u00f6schen?", "L\u00f6schen Abfrage", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
                 if (JOptionPane.YES_OPTION == selection) {
                     baseService.delete(deliveryOrder);
@@ -350,35 +350,35 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         GroupLayout createDeliveryOrderPanelLayout = new GroupLayout(createDeliveryOrderPanel);
         createDeliveryOrderPanel.setLayout(createDeliveryOrderPanelLayout);
         createDeliveryOrderPanelLayout.setHorizontalGroup(
-            createDeliveryOrderPanelLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, createDeliveryOrderPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(createDeliveryOrderPanelLayout.createParallelGroup(GroupLayout.TRAILING)
-                    .add(GroupLayout.LEADING, deliveryOrderTable, GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
-                    .add(GroupLayout.LEADING, createDeliveryOrderPanelLayout.createSequentialGroup()
+                createDeliveryOrderPanelLayout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, createDeliveryOrderPanelLayout.createSequentialGroup()
+                        .addContainerGap()
                         .add(createDeliveryOrderPanelLayout.createParallelGroup(GroupLayout.TRAILING)
-                            .add(GroupLayout.LEADING, prefixPanel, 0, 300, Short.MAX_VALUE)
-                            .add(addressPanel, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
-                        .addPreferredGap(LayoutStyle.RELATED)
-                        .add(createDeliveryOrderPanelLayout.createParallelGroup(GroupLayout.LEADING)
-                            .add(suffixPanel, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                            .add(formularDataPanel, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))))
-                .add(10, 10, 10))
+                                .add(GroupLayout.LEADING, deliveryOrderArticleTable, GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
+                                .add(GroupLayout.LEADING, createDeliveryOrderPanelLayout.createSequentialGroup()
+                                .add(createDeliveryOrderPanelLayout.createParallelGroup(GroupLayout.TRAILING)
+                                        .add(GroupLayout.LEADING, prefixPanel, 0, 300, Short.MAX_VALUE)
+                                        .add(addressPanel, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
+                                .addPreferredGap(LayoutStyle.RELATED)
+                                .add(createDeliveryOrderPanelLayout.createParallelGroup(GroupLayout.LEADING)
+                                .add(suffixPanel, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                .add(formularDataPanel, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))))
+                        .add(10, 10, 10))
         );
         createDeliveryOrderPanelLayout.setVerticalGroup(
-            createDeliveryOrderPanelLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, createDeliveryOrderPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(createDeliveryOrderPanelLayout.createParallelGroup(GroupLayout.TRAILING, false)
-                    .add(addressPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(formularDataPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(createDeliveryOrderPanelLayout.createParallelGroup(GroupLayout.LEADING)
-                    .add(prefixPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .add(suffixPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(deliveryOrderTable, GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
-                .addContainerGap())
+                createDeliveryOrderPanelLayout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, createDeliveryOrderPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(createDeliveryOrderPanelLayout.createParallelGroup(GroupLayout.TRAILING, false)
+                                .add(addressPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(formularDataPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(createDeliveryOrderPanelLayout.createParallelGroup(GroupLayout.LEADING)
+                                .add(prefixPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .add(suffixPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(deliveryOrderArticleTable, GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
+                        .addContainerGap())
         );
 
         overview.add(createDeliveryOrderToolBar(), BorderLayout.NORTH);
@@ -397,9 +397,9 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         tabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.OVERVIEW));
 
         addressPanel.reinitI18N();
-        deliveryOrderTable.reinitI18N();
+        deliveryOrderArticleTable.reinitI18N();
 
-        ((TitledBorder) deliveryOrderTable.getPanelBorder()).setTitle(WorkArea.getMessage(Constants.DELIVERY_ORDER));
+        ((TitledBorder) deliveryOrderArticleTable.getPanelBorder()).setTitle(WorkArea.getMessage(Constants.DELIVERY_ORDER));
 
         /* TODO: repair me!!!
         verticalButton.reinitI18N();
@@ -414,7 +414,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
     private JPanel overview;
 
     private AddressPanel addressPanel;
-    private DeliveryOrderTable deliveryOrderTable;
+    private DeliveryOrderArticleTable deliveryOrderArticleTable;
     private FormularDataPanel formularDataPanel;
     private TitleBorderedTextAreaPanel prefixPanel;
     private TitleBorderedTextAreaPanel suffixPanel;
@@ -441,7 +441,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
     public void addReduplicatedArticle(ReduplicatedArticle reduplicatedArticle) {
         // TODO: hier liegt der fehler f�r erneutes erscheinen des artikels.
 
-        deliveryOrderTable.addReduplicatedArticle(reduplicatedArticle);
+        deliveryOrderArticleTable.addReduplicatedArticle(reduplicatedArticle);
     }
 
     private void saveOrUpdateDeliveryOrder() {
@@ -453,7 +453,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         deliveryOrder.setPrefixFreetext(prefixPanel.getTextArea().getText());
         deliveryOrder.setSuffixFreetext(suffixPanel.getTextArea().getText());
 
-        Vector dataVector = deliveryOrderTable.getTableModel().getDataVector();
+        Vector dataVector = deliveryOrderArticleTable.getTableModel().getDataVector();
 
         ReduplicatedArticle article;
 
@@ -481,7 +481,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         prefixPanel.getTextArea().setText("");
         suffixPanel.getTextArea().setText("");
 
-        JTable table = deliveryOrderTable.getTable();
+        JTable table = deliveryOrderArticleTable.getTable();
         ((DefaultTableModel) table.getModel()).getDataVector().removeAllElements();
         table.updateUI();
     }
@@ -495,7 +495,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         viewDeliveryOrderB.setEnabled(true);
 
         this.deliveryOrder = deliveryOrder;
-        deliveryOrderTable.setDeliveryOrder(deliveryOrder);
+        deliveryOrderArticleTable.setDeliveryOrder(deliveryOrder);
 
         if (deliveryOrder.getId() == null) {
             resetInput();
@@ -509,6 +509,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
     }
 
     public Integer getNextOrderPosition() {
-        return deliveryOrderTable.getTableModel().getRowCount() + 1;
+        return deliveryOrderArticleTable.getTableModel().getRowCount() + 1;
     }
 }

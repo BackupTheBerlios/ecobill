@@ -1,17 +1,19 @@
 package ecobill.core.ui;
 
 /**
- * @author  Roman Georg Rädle
+ * @author Roman Georg Rädle
  */
 public class StatePanel extends javax.swing.JPanel {
 
-    /** Creates new form StatePanel */
+    /**
+     * Creates new form StatePanel
+     */
     public StatePanel() {
         initComponents();
     }
 
     private void initComponents() {
-        progressBar = new javax.swing.JProgressBar(0, 0 ,100);
+        progressBar = new javax.swing.JProgressBar(0, 0, 100);
 
         setLayout(null);
 

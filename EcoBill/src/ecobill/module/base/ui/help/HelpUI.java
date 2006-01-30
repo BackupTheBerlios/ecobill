@@ -16,7 +16,7 @@ import java.awt.*;
  * Time: 16:16:40
  *
  * @author Andreas Weiler
- * @version $Id: HelpUI.java,v 1.26 2005/11/08 16:32:09 jfuckerweiler Exp $
+ * @version $Id: HelpUI.java,v 1.27 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.0
  */
 public class HelpUI extends JFrame {
@@ -65,7 +65,7 @@ public class HelpUI extends JFrame {
         deliveryOrder.setIconAt(0, new ImageIcon("images/help.png"));
         deliveryOrder.setIconAt(1, new ImageIcon("images/help.png"));
 
-       // fügt die einzelnen Panels den Tabs hinzu
+        // fügt die einzelnen Panels den Tabs hinzu
         billTabbedPane.add(rBrowser1);
         billTabbedPane.add(rBrowser2);
 

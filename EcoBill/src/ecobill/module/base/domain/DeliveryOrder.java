@@ -15,7 +15,7 @@ import java.util.*;
  * Time: 19:51:39
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrder.java,v 1.6 2006/01/29 23:16:45 raedler Exp $
+ * @version $Id: DeliveryOrder.java,v 1.7 2006/01/30 23:43:13 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrder extends AbstractDomain {
@@ -253,9 +253,12 @@ public class DeliveryOrder extends AbstractDomain {
 
         if (preparedBill != that.preparedBill) return false;
         if (articles != null ? !articles.equals(that.articles) : that.articles != null) return false;
-        if (businessPartner != null ? !businessPartner.equals(that.businessPartner) : that.businessPartner != null) return false;
-        if (characterisationType != null ? !characterisationType.equals(that.characterisationType) : that.characterisationType != null) return false;
-        if (deliveryOrderDate != null ? !deliveryOrderDate.equals(that.deliveryOrderDate) : that.deliveryOrderDate != null) return false;
+        if (businessPartner != null ? !businessPartner.equals(that.businessPartner) : that.businessPartner != null)
+            return false;
+        if (characterisationType != null ? !characterisationType.equals(that.characterisationType) : that.characterisationType != null)
+            return false;
+        if (deliveryOrderDate != null ? !deliveryOrderDate.equals(that.deliveryOrderDate) : that.deliveryOrderDate != null)
+            return false;
         return !(deliveryOrderNumber != null ? !deliveryOrderNumber.equals(that.deliveryOrderNumber) : that.deliveryOrderNumber != null);
     }
 

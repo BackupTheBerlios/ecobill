@@ -26,7 +26,7 @@ import org.jdesktop.layout.LayoutStyle;
  * Time: 14:34:47
  *
  * @author Roman R&auml;dle
- * @version $Id: BillChooseDialog.java,v 1.1 2006/01/29 23:16:45 raedler Exp $
+ * @version $Id: BillChooseDialog.java,v 1.2 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.1
  */
 public class BillChooseDialog extends JDialog {
@@ -141,31 +141,31 @@ public class BillChooseDialog extends JDialog {
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                .addContainerGap()
-                .add(billTable, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .add(GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(289, Short.MAX_VALUE)
-                .add(applyB)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(closeB)
-                .addContainerGap())
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .add(billTable, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .add(GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(289, Short.MAX_VALUE)
+                        .add(applyB)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(closeB)
+                        .addContainerGap())
         );
 
-        layout.linkSize(new java.awt.Component[] {closeB, applyB}, GroupLayout.HORIZONTAL);
+        layout.linkSize(new java.awt.Component[]{closeB, applyB}, GroupLayout.HORIZONTAL);
 
         layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                .addContainerGap()
-                .add(billTable, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(GroupLayout.BASELINE)
-                    .add(closeB)
-                    .add(applyB))
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(billTable, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(GroupLayout.BASELINE)
+                                .add(closeB)
+                                .add(applyB))
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }
 

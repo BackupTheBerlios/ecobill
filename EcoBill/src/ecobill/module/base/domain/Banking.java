@@ -11,7 +11,7 @@ import java.text.Collator;
  * Time: 13:37:24
  *
  * @author Roman R&auml;dle
- * @version $Id: Banking.java,v 1.2 2005/09/28 15:44:18 raedler Exp $
+ * @version $Id: Banking.java,v 1.3 2006/01/30 23:43:13 raedler Exp $
  * @since EcoBill 1.0
  */
 public class Banking extends AbstractDomain {
@@ -103,8 +103,10 @@ public class Banking extends AbstractDomain {
 
         final Banking banking = (Banking) o;
 
-        if (this.getAccountNumber() != null ? !this.getAccountNumber().equals(banking.getAccountNumber()) : banking.getAccountNumber() != null) return false;
-        if (this.getBankEstablishment() != null ? !this.getBankEstablishment().equals(banking.getBankEstablishment()) : banking.getBankEstablishment() != null) return false;
+        if (this.getAccountNumber() != null ? !this.getAccountNumber().equals(banking.getAccountNumber()) : banking.getAccountNumber() != null)
+            return false;
+        if (this.getBankEstablishment() != null ? !this.getBankEstablishment().equals(banking.getBankEstablishment()) : banking.getBankEstablishment() != null)
+            return false;
         return !(this.getBankIdentificationNumber() != null ? !this.getBankIdentificationNumber().equals(banking.getBankIdentificationNumber()) : banking.getBankIdentificationNumber() != null);
     }
 

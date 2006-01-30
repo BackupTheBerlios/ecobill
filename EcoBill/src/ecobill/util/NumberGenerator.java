@@ -9,7 +9,7 @@ package ecobill.util;
  * Time: 09:50:57
  *
  * @author Roman R&auml;dle
- * @version $Id: NumberGenerator.java,v 1.1 2005/10/25 08:07:55 raedler Exp $
+ * @version $Id: NumberGenerator.java,v 1.2 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.0
  */
 public class NumberGenerator {
@@ -20,7 +20,7 @@ public class NumberGenerator {
      * Nummer angegeben werden.
      *
      * @param actualNumber Die aktuelle, mit Nullen gefüllte, Nummer.
-     * @param length Die Länge der Nummer die zurückgegeben wird.
+     * @param length       Die Länge der Nummer die zurückgegeben wird.
      * @return Die nächste fortlaufende, mit Nullen gefüllte, Nummer.
      */
     public static String createNextZerofilledNumber(String actualNumber, int length) {

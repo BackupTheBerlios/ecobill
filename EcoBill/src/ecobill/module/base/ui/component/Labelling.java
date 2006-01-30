@@ -20,7 +20,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: Labelling.java,v 1.1 2005/10/05 23:42:17 raedler Exp $
+ * @version $Id: Labelling.java,v 1.2 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.0
  */
 public class Labelling extends JPanel implements Internationalization {
@@ -65,17 +65,17 @@ public class Labelling extends JPanel implements Internationalization {
         setLayout(layout);
 
         layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                .addContainerGap()
-                .add(descriptionSP, GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
-                .addContainerGap())
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(descriptionSP, GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
+                        .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.TRAILING, layout.createSequentialGroup()
-                .add(descriptionSP, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                .addContainerGap())
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .add(descriptionSP, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                        .addContainerGap())
         );
     }
 

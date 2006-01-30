@@ -32,7 +32,7 @@ import java.util.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleTable.java,v 1.16 2006/01/29 23:16:45 raedler Exp $
+ * @version $Id: ArticleTable.java,v 1.17 2006/01/30 23:43:13 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleTable extends AbstractTablePanel {
@@ -58,13 +58,13 @@ public class ArticleTable extends AbstractTablePanel {
      * Erzeugt eine neues Article Table Panel f�r Artikel.
      */
     public ArticleTable(ArticleUI articleUI, BaseService baseService) {
-        super(baseService, false);
+        super(baseService, true);
 
         this.articleUI = articleUI;
     }
 
     /**
-     * @see ecobill.module.base.ui.component.AbstractTablePanel#createPanelBorder() 
+     * @see ecobill.module.base.ui.component.AbstractTablePanel#createPanelBorder()
      */
     protected Border createPanelBorder() {
         return BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), WorkArea.getMessage(Constants.ARTICLE), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 11), new Color(0, 0, 0));
@@ -140,7 +140,7 @@ public class ArticleTable extends AbstractTablePanel {
     }
 
     /**
-     * @see ecobill.module.base.ui.component.AbstractTablePanel#reinitI18N() 
+     * @see ecobill.module.base.ui.component.AbstractTablePanel#reinitI18N()
      */
     public void reinitI18N() {
         super.reinitI18N();
@@ -253,7 +253,7 @@ public class ArticleTable extends AbstractTablePanel {
                 if (e.getType() == TableModelEvent.UPDATE) {
 
                     if (articleId != null) {
-                        
+
                         // Die Reihe und Spalte des zu ver�ndernden Wertes.
                         int row = e.getFirstRow();
                         int col = e.getColumn();

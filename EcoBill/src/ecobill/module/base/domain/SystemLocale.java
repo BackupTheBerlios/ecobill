@@ -14,7 +14,7 @@ import java.text.Collator;
  * Time: 16:09:34
  *
  * @author Roman R&auml;dle
- * @version $Id: SystemLocale.java,v 1.5 2005/10/04 09:21:29 raedler Exp $
+ * @version $Id: SystemLocale.java,v 1.6 2006/01/30 23:43:13 raedler Exp $
  * @since EcoBill 1.0
  */
 public class SystemLocale extends AbstractDomain {
@@ -201,12 +201,12 @@ public class SystemLocale extends AbstractDomain {
      */
     public int compareTo(Locale locale) {
         if (locale.getLanguage().equals(this.getLanguage()) &&
-            locale.getCountry().equals(this.getCountry()) &&
-            locale.getVariant().equals(this.getVariant())) {
+                locale.getCountry().equals(this.getCountry()) &&
+                locale.getVariant().equals(this.getVariant())) {
             return LANGUAGE_COUNTRY_VARIANT;
         }
         else if (locale.getLanguage().equals(this.getLanguage()) &&
-                 locale.getCountry().equals(this.getCountry())) {
+                locale.getCountry().equals(this.getCountry())) {
             return LANGUAGE_COUNTRY;
         }
         else if (locale.getLanguage().equals(this.getLanguage())) {
@@ -229,8 +229,8 @@ public class SystemLocale extends AbstractDomain {
     public boolean equalsLocale(Locale locale) {
 
         return locale.getLanguage().equals(this.getLanguage()) &&
-               locale.getCountry().equals(this.getCountry()) &&
-               locale.getVariant().equals(this.getVariant());
+                locale.getCountry().equals(this.getCountry()) &&
+                locale.getVariant().equals(this.getVariant());
 
     }
 
@@ -246,9 +246,11 @@ public class SystemLocale extends AbstractDomain {
 
         final SystemLocale that = (SystemLocale) o;
 
-        if (this.getCountry() != null ? !this.getCountry().equals(that.getCountry()) : that.getCountry() != null) return false;
+        if (this.getCountry() != null ? !this.getCountry().equals(that.getCountry()) : that.getCountry() != null)
+            return false;
         if (this.getKey() != null ? !this.getKey().equals(that.getKey()) : that.getKey() != null) return false;
-        if (this.getLanguage() != null ? !this.getLanguage().equals(that.getLanguage()) : that.getLanguage() != null) return false;
+        if (this.getLanguage() != null ? !this.getLanguage().equals(that.getLanguage()) : that.getLanguage() != null)
+            return false;
         return !(this.getVariant() != null ? !this.getVariant().equals(that.getVariant()) : that.getVariant() != null);
     }
 

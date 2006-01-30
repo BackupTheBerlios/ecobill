@@ -25,29 +25,29 @@ import java.util.*;
  * Time: 17:49:23
  *
  * @author Sebastian Gath
- * @version $Id: BillTable.java,v 1.4 2006/01/29 23:16:45 raedler Exp $
+ * @version $Id: BillTable.java,v 1.5 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BillTable extends AbstractTablePanel {
 
     /**
-     * Die id eines Gesch�ftspartners.
+     * Die id eines Geschäftspartners.
      */
     private Long businessPartnerId;
 
     /**
-     * Gibt die Gesch�ftspartner Id zur�ck.
+     * Gibt die Geschäftspartner Id zur�ck.
      *
-     * @return Die Gesch�ftspartner Id.
+     * @return Die Geschäftspartner Id.
      */
     public Long getBusinessPartnerId() {
         return businessPartnerId;
     }
 
     /**
-     * Setzt die Gesch�ftspartner Id.
+     * Setzt die Geschäftspartner Id.
      *
-     * @param businessPartnerId Die Gesch�ftspartner Id.
+     * @param businessPartnerId Die Geschäftspartner Id.
      */
     public void setBusinessPartnerId(Long businessPartnerId) {
         this.businessPartnerId = businessPartnerId;
@@ -64,7 +64,7 @@ public class BillTable extends AbstractTablePanel {
      * Creates new form BusinessPartnerTable
      */
     public BillTable(Long businessPartnerId, BaseService baseService) {
-        super(baseService, false);
+        super(baseService, true);
 
         this.businessPartnerId = businessPartnerId;
     }

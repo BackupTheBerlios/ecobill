@@ -29,7 +29,7 @@ import java.util.HashSet;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: InputLabelling.java,v 1.2 2005/11/05 12:17:18 raedler Exp $
+ * @version $Id: InputLabelling.java,v 1.3 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.0
  */
 public class InputLabelling extends JPanel implements Internationalization {
@@ -106,7 +106,7 @@ public class InputLabelling extends JPanel implements Internationalization {
 
         Set systemCountries = null;
         if (systemLanguage != null) {
-             systemCountries = systemLanguage.getSystemCountries();
+            systemCountries = systemLanguage.getSystemCountries();
         }
 
         if (systemCountries == null) {
@@ -137,31 +137,31 @@ public class InputLabelling extends JPanel implements Internationalization {
         setLayout(layout);
 
         layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                .addContainerGap()
-                .add(layout.createParallelGroup(GroupLayout.LEADING)
-                    .add(languageL)
-                    .add(language, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
-                    .add(countryL)
-                    .add(country, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE))
-                    /*
-                    .add(variantL)
-                    .add(variant, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
-                    */
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(layout.createParallelGroup(GroupLayout.LEADING)
+                                .add(languageL)
+                                .add(language, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
+                                .add(countryL)
+                                .add(country, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE))
+                        /*
+                        .add(variantL)
+                        .add(variant, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
+                        */
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                .add(languageL)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(language, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(countryL)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(country, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                        .add(languageL)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(language, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(countryL)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(country, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 /*
                 .add(variantL)
                 .addPreferredGap(LayoutStyle.RELATED)
@@ -193,7 +193,7 @@ public class InputLabelling extends JPanel implements Internationalization {
     public void setLanguage(JComboBox language) {
         this.language = language;
     }
-    
+
     public JComboBox getCountry() {
         return country;
     }

@@ -8,10 +8,7 @@ import org.jdesktop.layout.LayoutStyle;
 import javax.swing.event.TableModelListener;
 import javax.swing.border.Border;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
-import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.TableRowSorter;
+import javax.swing.table.*;
 
 import ecobill.core.util.I18NItem;
 import ecobill.core.util.IdKeyItem;
@@ -33,7 +30,7 @@ import java.io.*;
  * Time: 12:33:23
  *
  * @author Roman R&auml;dle
- * @version $Id: AbstractTablePanel.java,v 1.14 2006/01/29 23:16:45 raedler Exp $
+ * @version $Id: AbstractTablePanel.java,v 1.15 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.0
  */
 public abstract class AbstractTablePanel extends JPanel implements Internationalization {
@@ -100,8 +97,9 @@ public abstract class AbstractTablePanel extends JPanel implements International
 
             if (filterField.getText() != null && !"".equals(filterField.getText())) {
 
-                if (filterBox.getSelectedItem().toString().equals(entry.getModel().getColumnName(filterBox.getSelectedIndex()))) {
-                    return entry.getStringValue(filterBox.getSelectedIndex()).startsWith(filterField.getText());
+                if (filterBox.getSelectedItem().toString().equals(entry.getModel().getColumnName(filterBox.getSelectedIndex())))
+                {
+                    return entry.getStringValue(filterBox.getSelectedIndex()).toUpperCase().startsWith(filterField.getText().toUpperCase());
                 }
             }
 
@@ -220,17 +218,17 @@ public abstract class AbstractTablePanel extends JPanel implements International
         initComponents();
         initLayout();
 
-        // F�gt der <code>JTable</code> und dem <code>TableModel</code> die Listener hinzu.
+        // Fügt der <code>JTable</code> und dem <code>TableModel</code> die Listener hinzu.
         addKeyListeners(createKeyListeners());
         addMouseListeners(createMouseListeners());
         addTableModelListeners(createTableModelListeners());
 
-        // F�gt der Filter <code>JComboBox</code> die Elemente des Tabelle Headers hinzu.
+        // Fügt der Filter <code>JComboBox</code> die Elemente des Tabelle Headers hinzu.
         for (I18NItem item : tableColumnOrder) {
             filterBox.addItem(item);
         }
 
-        // F�ge das <code>JPopupMenu</code> nur hinzu wenn es gebraucht wird.
+        // Füge das <code>JPopupMenu</code> nur hinzu wenn es gebraucht wird.
         if ((popupMenu = createPopupMenu(popupMenu)) != null) {
             initPopupMenu();
             table.add(popupMenu);
@@ -242,10 +240,6 @@ public abstract class AbstractTablePanel extends JPanel implements International
         // Setzt die Reihenfolge der Spalten.
         tableModel.setColumnIdentifiers(getTableColumnOrder());
 
-        // Dieser renew wird ausgef�hrt um die Tabelle beim ersten Laden mit Daten zu
-        // f�llen.
-        renewTableModel();
-
         // Ruft die Methode auch beim ersten Start um das <code>TableColumnModel</code> zu
         // initialisieren.
         createEditoredColumnModelAfterUnpersist(table.getColumnModel());
@@ -255,6 +249,13 @@ public abstract class AbstractTablePanel extends JPanel implements International
         }
 
         tableRowSorter.setRowFilter(filter);
+
+        // Dieser renew wird ausgeführt um die Tabelle beim ersten Laden mit Daten zu
+        // füllen.
+        renewTableModel();
+
+        // The <code>TableModel</code> structure has been changed.
+        tableRowSorter.modelStructureChanged();
     }
 
     /**
@@ -289,33 +290,29 @@ public abstract class AbstractTablePanel extends JPanel implements International
 
         setLayout(layout);
 
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(GroupLayout.LEADING)
+        layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.LEADING)
+                .add(GroupLayout.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .add(layout.createParallelGroup(GroupLayout.TRAILING)
+                        .add(GroupLayout.LEADING, tableSP, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
                         .add(GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(layout.createParallelGroup(GroupLayout.TRAILING)
-                                .add(GroupLayout.LEADING, tableSP, GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
-                                .add(GroupLayout.TRAILING, layout.createSequentialGroup()
-                                .add(filterBox, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.RELATED)
-                                .add(filterField, GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)))
-                        .addContainerGap())
-        );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(GroupLayout.LEADING)
-                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(GroupLayout.TRAILING, false)
-                                .add(filterBox)
-                                .add(GroupLayout.LEADING, filterField))
+                        .add(filterBox, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(LayoutStyle.RELATED)
-                        .add(tableSP, GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
-                        .addContainerGap())
-        );
+                        .add(filterField, GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)))
+                .addContainerGap()));
+        layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.LEADING)
+                .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                .add(layout.createParallelGroup(GroupLayout.TRAILING, false)
+                        .add(filterBox)
+                        .add(GroupLayout.LEADING, filterField))
+                .addPreferredGap(LayoutStyle.RELATED)
+                .add(tableSP, GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+                .addContainerGap()));
     }
 
     /**
      * Initialisieren des <code>JPopupMenu</code>. Hier wird der Klick der rechten Maustaste
-     * hinzugef�gt.
+     * hinzugefügt.
      */
     private void initPopupMenu() {
 
@@ -327,7 +324,7 @@ public abstract class AbstractTablePanel extends JPanel implements International
              */
             public void mousePressed(MouseEvent e) {
 
-                // �berpr�fe of die rechte Maustaste gedr�ckt wurde um die
+                // Überprüfe of die rechte Maustaste gedr�ckt wurde um die
                 // Reihe zu markieren.
                 if (SwingUtilities.isRightMouseButton(e)) {
 
@@ -404,30 +401,33 @@ public abstract class AbstractTablePanel extends JPanel implements International
 
     /**
      * Erneuert das <code>TableModel</code> und somit die Daten die darin enthalten sind.
-     * Es m�ssen dazu die Methoden {@link this#createLineVector(Object)} und
+     * Es müssen dazu die Methoden {@link this#createLineVector(Object)} und
      * {@link this#getDataCollection()} richtig implementiert werden.
      */
     public void renewTableModel() {
         // Entfernt alle schon vorhandenen Zeilen aus dem <code>TableModel</code>.
-        // Dies muss gemacht werden, das sonst alle Eintr�ge die schon vorhanden
+        // Dies muss gemacht werden, das sonst alle Einträge die schon vorhanden
         // sind auch nochmal angezeigt werden.
         Vector dataVector = tableModel.getDataVector();
         dataVector.removeAllElements();
 
         // Holt die in der Methode implementierte <code>Collection</code> um diese
-        // sp�ter dem <code>TableModel</code> hinzuf�gen zu k�nnen.
+        // später dem <code>TableModel</code> hinzufügen zu k�nnen.
         Collection dataCollection = getDataCollection();
 
-        // Iteriert �ber die <code>Collection</code> und f�gt jedes <code>Object</code>
+        // Iteriert über die <code>Collection</code> und fügt jedes <code>Object</code>
         // als Zeile dem Datenvektor hinzu. Dazu muss die Methode createLineVector(Object)
         // richtig implementiert werden.
         for (Object o : dataCollection) {
 
-            // F\u00fcgt den erzeugten <code>Vector</code> als Zeile dem Datenvektor hinzu.
+            // Fügt den erzeugten <code>Vector</code> als Zeile dem Datenvektor hinzu.
             dataVector.add(createLineVector(o));
         }
 
-        // Zeichnet die Tabelle nach hinzuf\u00fcgen aller Objekte neu.
+        // The <code>DefaultTableModel</code> structure has been changed.
+        tableRowSorter.modelStructureChanged();
+
+        // Zeichnet die Tabelle nach hinzufügen aller Objekte neu.
         table.repaint();
         table.updateUI();
 

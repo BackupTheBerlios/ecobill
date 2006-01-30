@@ -12,7 +12,7 @@ import java.util.Date;
  * Time: 17:49:23
  *
  * @author Sebastian Gath
- * @version $Id: BillPreviewCollection.java,v 1.2 2005/11/05 19:34:42 gath Exp $
+ * @version $Id: BillPreviewCollection.java,v 1.3 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BillPreviewCollection {
@@ -38,12 +38,14 @@ public class BillPreviewCollection {
         this.sum = sum;
 
     }
+
     public String getDeliveryOrderNumber() {
         return deliveryOrderNumber;
     }
 
     /**
      * Setzt die Lieferscheinnummer
+     *
      * @param deliveryOrderNumber
      */
     public void setDeliveryOrderNumber(String deliveryOrderNumber) {

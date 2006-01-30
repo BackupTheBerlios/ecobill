@@ -26,7 +26,7 @@ import java.util.Collections;
  * Time: 17:49:23
  *
  * @author Sebastian Gath
- * @version $Id: BillPreviewTable.java,v 1.4 2006/01/29 23:16:45 raedler Exp $
+ * @version $Id: BillPreviewTable.java,v 1.5 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BillPreviewTable extends AbstractTablePanel {
@@ -35,7 +35,7 @@ public class BillPreviewTable extends AbstractTablePanel {
      * Creates new form BusinessPartnerTable
      */
     public BillPreviewTable(BaseService baseService) {
-        super(baseService, false);
+        super(baseService, true);
     }
 
     /**

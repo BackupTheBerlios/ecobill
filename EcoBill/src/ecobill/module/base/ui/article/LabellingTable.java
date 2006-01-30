@@ -205,7 +205,7 @@ public class LabellingTable extends JPanel implements Internationalization, Pers
      * Erzeugt einen <code>Vector</code> der Artikel Beschreibung.
      *
      * @param description Eine <code>ArticleDescription</code> die in einen <code>Vector</code> umgewandelt
-     *                werden soll.
+     *                    werden soll.
      * @return Gibt den <code>Vector</code> zurück der aus der <code>ArticleDescription</code> erzeugt wurde.
      */
     private Vector<Object> createVectorOfArticleDescription(ArticleDescription description) {

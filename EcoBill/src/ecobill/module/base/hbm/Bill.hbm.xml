@@ -9,7 +9,7 @@
  Time: 13:37:24
 
  @author Roman R&auml;dle
- @version $Id: Bill.hbm.xml,v 1.7 2005/11/08 21:44:42 raedler Exp $
+ @version $Id: Bill.hbm.xml,v 1.8 2006/01/30 23:43:13 raedler Exp $
  @since EcoBill 1.0
 -->
 
@@ -22,7 +22,8 @@
             <generator class="native"/>
         </id>
 
-        <many-to-one name="businessPartner" class="ecobill.module.base.domain.BusinessPartner" column="BUSINESS_PARTNER_ID" lazy="false"/>
+        <many-to-one name="businessPartner" class="ecobill.module.base.domain.BusinessPartner"
+                     column="BUSINESS_PARTNER_ID" lazy="false"/>
 
         <property name="billNumber" type="string">
             <column name="BILL_NUMBER" not-null="true"/>

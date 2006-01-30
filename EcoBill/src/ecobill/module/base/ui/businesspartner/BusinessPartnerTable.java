@@ -29,7 +29,7 @@ import java.io.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerTable.java,v 1.6 2006/01/29 23:16:45 raedler Exp $
+ * @version $Id: BusinessPartnerTable.java,v 1.7 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerTable extends AbstractTablePanel {
@@ -48,7 +48,7 @@ public class BusinessPartnerTable extends AbstractTablePanel {
      * Creates new form BusinessPartnerTable
      */
     public BusinessPartnerTable(BusinessPartnerUI businessPartnerUI, BaseService baseService) {
-        super(baseService, false);
+        super(baseService, true);
 
         this.businessPartnerUI = businessPartnerUI;
     }
@@ -256,7 +256,7 @@ public class BusinessPartnerTable extends AbstractTablePanel {
      * @see ecobill.module.base.ui.component.AbstractTablePanel#createTableModelListeners()
      */
     protected TableModelListener[] createTableModelListeners() {
-                                       
+
         TableModelListener[] tableModelListeners = new TableModelListener[1];
 
         /*

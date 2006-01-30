@@ -19,7 +19,7 @@ import java.io.Serializable;
  * Time: 12:29:43
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDaoImpl.java,v 1.15 2005/11/06 01:46:15 raedler Exp $
+ * @version $Id: BaseDaoImpl.java,v 1.16 2006/01/30 23:43:13 raedler Exp $
  * @see BaseDao
  * @since EcoBill 1.0
  */
@@ -111,7 +111,8 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
     public NumberSequence getNumberSequenceByKey(String sequenceKey) {
         List sequenceList = getHibernateTemplate().find("from " + NumberSequence.class.getName() + " as numberSequence where numberSequence.key = ?", new Object[]{sequenceKey});
 
-        if (sequenceList.size() > 1) throw new NonUniqueHibernateResultException("Es wurde keine eindeutige Nummern Sequenz gefunden.");
+        if (sequenceList.size() > 1)
+            throw new NonUniqueHibernateResultException("Es wurde keine eindeutige Nummern Sequenz gefunden.");
 
         return (NumberSequence) sequenceList.get(0);
     }
@@ -137,8 +138,10 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
     public SystemLocale getSystemLocaleBySystemLocaleKey(String systemLocaleKey) throws DataAccessException, NoSuchSystemLocaleException, NonUniqueHibernateResultException {
         List systemLocaleList = getHibernateTemplate().find("from " + SystemLocale.class.getName() + " as systemLocale where systemLocale.key = ?", new Object[]{systemLocaleKey});
 
-        if (systemLocaleList.size() < 1) throw new NoSuchSystemLocaleException("Es wurde keine SystemLocale mit dem Schlüssel [key = " + systemLocaleKey + "] gefunden.");
-        if (systemLocaleList.size() > 1) throw new NonUniqueHibernateResultException("Es wurde keine eideutige SystemLocale mit dem Schlüssel [key = " + systemLocaleKey + "] gefunden. Bitte überprüfen Sie Ihren Datenbankbestand.");
+        if (systemLocaleList.size() < 1)
+            throw new NoSuchSystemLocaleException("Es wurde keine SystemLocale mit dem Schlüssel [key = " + systemLocaleKey + "] gefunden.");
+        if (systemLocaleList.size() > 1)
+            throw new NonUniqueHibernateResultException("Es wurde keine eideutige SystemLocale mit dem Schlüssel [key = " + systemLocaleKey + "] gefunden. Bitte überprüfen Sie Ihren Datenbankbestand.");
 
         return (SystemLocale) systemLocaleList.get(0);
     }
@@ -151,7 +154,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
      * @return Eine <code>List</code> mit <code>SystemUnit</code> einer bestimmten Kategorie.
      * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
      *                             auftritt.
-     * @see ecobill.module.base.dao.BaseDao#getSystemUnitsByCategory(String) 
+     * @see ecobill.module.base.dao.BaseDao#getSystemUnitsByCategory(String)
      */
     public List getSystemUnitsByCategory(String category) throws DataAccessException {
         return getHibernateTemplate().find("from " + SystemUnit.class.getName() + " as systemUnit where systemUnit.category = ?", new Object[]{category});
@@ -192,14 +195,14 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
      * @param articleNumber Die eindeutitge Artikelnummer unter der ein Artikel in der
      *                      Datenbank abgelegt ist.
      * @return Der <code>Article</code> der unter dieser Artikelnummer gefunden wurde.
-     * @throws DataAccessException org.springframework.dao.DataAccessException
-     *                             Diese wird geworfen falls ein Fehler beim Datenzugriff
-     *                             aufgetritt.
+     * @throws DataAccessException    org.springframework.dao.DataAccessException
+     *                                Diese wird geworfen falls ein Fehler beim Datenzugriff
+     *                                aufgetritt.
      * @throws NoSuchArticleException Diese wird geworfen falls kein <code>Article</code>
-     *                                     unter dieser articleNumber gefunden wurde.
+     *                                unter dieser articleNumber gefunden wurde.
      * @throws NonUniqueHibernateResultException
-     *                                     Diese wird geworfen falls mehr als ein <code>Article</code>
-     *                                     zurückgeliefert wird und das Ergebnis somit nicht eindeutig ist.
+     *                                Diese wird geworfen falls mehr als ein <code>Article</code>
+     *                                zurückgeliefert wird und das Ergebnis somit nicht eindeutig ist.
      * @see NoSuchArticleException
      * @see NonUniqueHibernateResultException
      * @see BaseDao#getArticleByArticleNumber(String)
@@ -207,8 +210,10 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
     public Article getArticleByArticleNumber(String articleNumber) throws DataAccessException, NoSuchArticleException, NonUniqueHibernateResultException {
         List articleList = getHibernateTemplate().find("from " + Article.class.getName() + " as article where article.articleNumber = ?", new Object[]{articleNumber});
 
-        if (articleList.size() < 1) throw new NoSuchArticleException("Es wurde kein Article mit der Artikelnummer [articleNumber = " + articleNumber + "] gefunden.");
-        if (articleList.size() > 1) throw new NonUniqueHibernateResultException("Es wurde kein eideutiger Article mit der Artikelnummer [articleNumber = " + articleNumber + "] gefunden. Bitte überprüfen Sie Ihren Datenbankbestand.");
+        if (articleList.size() < 1)
+            throw new NoSuchArticleException("Es wurde kein Article mit der Artikelnummer [articleNumber = " + articleNumber + "] gefunden.");
+        if (articleList.size() > 1)
+            throw new NonUniqueHibernateResultException("Es wurde kein eideutiger Article mit der Artikelnummer [articleNumber = " + articleNumber + "] gefunden. Bitte überprüfen Sie Ihren Datenbankbestand.");
 
         return (Article) articleList.get(0);
     }
@@ -218,8 +223,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
      * sind zurück.
      *
      * @param id Die <code>DeliveryOrder</code> die in der Datenbank gespeichert oder geändert werden
-     *                soll.
-
+     *           soll.
      * @return Eine <code>List</code> mit allen <code>DerliveryOrder</code> in der Datenbank.
      * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
      *                             auftritt.
@@ -227,7 +231,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
      */
     public List getAllDeliveryOrderByBPID(Long id) throws DataAccessException {
         return getHibernateTemplate().find("select do.id from ecobill.module.base.domain.DeliveryOrder as do where do.businessPartner = ?", new Object[]{id});
-   }
+    }
 
 
     /**
@@ -235,13 +239,13 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
      * sind zurück.
      *
      * @param id Die <code>Bills</code> die in der Datenbank gespeichert oder geändert werden
-     *                soll.
+     *           soll.
      * @return Eine <code>List</code> mit allen <code>Bills</code> in der Datenbank.
      * @throws DataAccessException Diese wird geworfen falls ein Fehler beim Datenzugriff
      *                             auftritt.
      * @see ecobill.module.base.dao.BaseDao#getAllBillsByBPID(Long)
      */
-   public List getAllBillsByBPID(Long id) throws DataAccessException {
-       return getHibernateTemplate().find("from ecobill.module.base.domain.Bill as bill where bill.businessPartner.id = ?", new Object[]{id});
-  }
+    public List getAllBillsByBPID(Long id) throws DataAccessException {
+        return getHibernateTemplate().find("from ecobill.module.base.domain.Bill as bill where bill.businessPartner.id = ?", new Object[]{id});
+    }
 }

@@ -30,7 +30,7 @@ import java.awt.event.MouseEvent;
  * Time: 12:35:44
  * To change this template use File | Settings | File Templates.
  */
-public class OrderTableWithCB extends AbstractTablePanel {
+public class DeliveryOrderTableWithCB extends AbstractTablePanel {
 
     /**
      * Die id eines Gesch�ftspartners.
@@ -58,21 +58,21 @@ public class OrderTableWithCB extends AbstractTablePanel {
     /**
      * Creates new form BusinessPartnerTable
      */
-    public OrderTableWithCB(BaseService baseService) {
-        super(baseService, false);
-     }
+    public DeliveryOrderTableWithCB(BaseService baseService) {
+        super(baseService, true);
+    }
 
     /**
      * Creates new form BusinessPartnerTable
      */
-    public OrderTableWithCB(Long businessPartnerId, BaseService baseService) {
+    public DeliveryOrderTableWithCB(Long businessPartnerId, BaseService baseService) {
 
         super(baseService, false);
 
         this.businessPartnerId = businessPartnerId;
 
         renewTableModel();
-     }
+    }
 
     /**
      * AbstractTablePanel#createPanelBorder

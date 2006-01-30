@@ -20,7 +20,7 @@ import java.util.*;
  * Time: 00:37:27
  *
  * @author Roman R&auml;dle
- * @version $Id: Article.java,v 1.7 2005/10/04 09:21:29 raedler Exp $
+ * @version $Id: Article.java,v 1.8 2006/01/30 23:43:13 raedler Exp $
  * @since EcoBill 1.0
  */
 public class Article extends AbstractDomain {
@@ -108,7 +108,7 @@ public class Article extends AbstractDomain {
      * Einheit wie bspw. (unit) Stück.
      *
      * @param systemUnit Die <code>SystemUnit</code> dessen Key auf den landesspezifischen
-     *         Wert in einem <code>ResourceBundle</code> zeigen kann.
+     *                   Wert in einem <code>ResourceBundle</code> zeigen kann.
      */
     public void setUnit(SystemUnit unit) {
         this.unit = unit;
@@ -302,9 +302,11 @@ public class Article extends AbstractDomain {
         if (Double.compare(article.bundleCapacity, bundleCapacity) != 0) return false;
         if (Double.compare(article.inStock, inStock) != 0) return false;
         if (Double.compare(article.price, price) != 0) return false;
-        if (articleNumber != null ? !articleNumber.equals(article.articleNumber) : article.articleNumber != null) return false;
+        if (articleNumber != null ? !articleNumber.equals(article.articleNumber) : article.articleNumber != null)
+            return false;
         if (bundleUnit != null ? !bundleUnit.equals(article.bundleUnit) : article.bundleUnit != null) return false;
-        if (descriptions != null ? !descriptions.equals(article.descriptions) : article.descriptions != null) return false;
+        if (descriptions != null ? !descriptions.equals(article.descriptions) : article.descriptions != null)
+            return false;
         return !(unit != null ? !unit.equals(article.unit) : article.unit != null);
     }
 

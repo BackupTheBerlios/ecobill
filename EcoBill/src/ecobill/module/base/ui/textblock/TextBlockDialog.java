@@ -28,7 +28,7 @@ import java.awt.event.ActionEvent;
  * Time: 15:24:42
  *
  * @author Roman R&auml;dle
- * @version $Id: TextBlockDialog.java,v 1.2 2005/12/22 12:53:07 raedler Exp $
+ * @version $Id: TextBlockDialog.java,v 1.3 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.1
  */
 public class TextBlockDialog extends JDialog implements Internationalization {
@@ -133,33 +133,33 @@ public class TextBlockDialog extends JDialog implements Internationalization {
         textBlockPanel.setLayout(textBlockPanelLayout);
 
         textBlockPanelLayout.setHorizontalGroup(
-            textBlockPanelLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, textBlockPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(textBlockPanelLayout.createParallelGroup(GroupLayout.LEADING)
-                    .add(GroupLayout.TRAILING, textBlockPanelLayout.createSequentialGroup()
-                        .add(pasteB)
-                        .addPreferredGap(LayoutStyle.RELATED)
-                        .add(closeB))
-                    .add(textBlockTable, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(input, GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE))
-                .addContainerGap())
+                textBlockPanelLayout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, textBlockPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(textBlockPanelLayout.createParallelGroup(GroupLayout.LEADING)
+                                .add(GroupLayout.TRAILING, textBlockPanelLayout.createSequentialGroup()
+                                        .add(pasteB)
+                                        .addPreferredGap(LayoutStyle.RELATED)
+                                        .add(closeB))
+                                .add(textBlockTable, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(input, GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE))
+                        .addContainerGap())
         );
 
-        textBlockPanelLayout.linkSize(new Component[] {closeB, pasteB}, GroupLayout.HORIZONTAL);
+        textBlockPanelLayout.linkSize(new Component[]{closeB, pasteB}, GroupLayout.HORIZONTAL);
 
         textBlockPanelLayout.setVerticalGroup(
-            textBlockPanelLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, textBlockPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(input, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(textBlockTable, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(textBlockPanelLayout.createParallelGroup(GroupLayout.BASELINE)
-                    .add(closeB)
-                    .add(pasteB))
-                .addContainerGap())
+                textBlockPanelLayout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, textBlockPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(input, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(textBlockTable, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(textBlockPanelLayout.createParallelGroup(GroupLayout.BASELINE)
+                                .add(closeB)
+                                .add(pasteB))
+                        .addContainerGap())
         );
         getContentPane().add(textBlockPanel, BorderLayout.CENTER);
         getContentPane().add(createToolBar(), BorderLayout.NORTH);

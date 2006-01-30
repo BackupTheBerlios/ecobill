@@ -17,13 +17,14 @@ import java.awt.*;
  * Time: 15:23:11
  *
  * @author Roman R&auml;dle
- * @version $Id: Input.java,v 1.1 2005/12/11 19:57:33 raedler Exp $
+ * @version $Id: Input.java,v 1.2 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.1
  */
 public class Input extends JPanel {
 
     private JLabel nameL = new JLabel();
-    private JTextField textBlockName = new JTextField();;
+    private JTextField textBlockName = new JTextField();
+    ;
 
     private JLabel textL = new JLabel();
     private JTextArea textBlockText = new JTextArea();
@@ -60,27 +61,27 @@ public class Input extends JPanel {
         GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                .addContainerGap()
-                .add(layout.createParallelGroup(GroupLayout.LEADING)
-                    .add(GroupLayout.TRAILING, textBlockName, GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
-                    .add(nameL)
-                    .add(textL)
-                    .add(textSP, GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE))
-                .addContainerGap())
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(layout.createParallelGroup(GroupLayout.LEADING)
+                                .add(GroupLayout.TRAILING, textBlockName, GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                                .add(nameL)
+                                .add(textL)
+                                .add(textSP, GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE))
+                        .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                .add(nameL)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(textBlockName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(textL)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(textSP, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                        .add(nameL)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(textBlockName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(textL)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(textSP, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }
 

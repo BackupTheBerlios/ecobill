@@ -10,7 +10,7 @@ import ecobill.core.system.WorkArea;
  * Time: 13:31:22
  *
  * @author Roman R&auml;dle
- * @version $Id: Person.java,v 1.5 2005/12/11 17:16:01 raedler Exp $
+ * @version $Id: Person.java,v 1.6 2006/01/30 23:43:13 raedler Exp $
  * @since EcoBill 1.0
  */
 public class Person extends AbstractDomain {
@@ -227,13 +227,19 @@ public class Person extends AbstractDomain {
 
         final Person person = (Person) o;
 
-        if (this.getAcademicTitle() != null ? !this.getAcademicTitle().equals(person.getAcademicTitle()) : person.getAcademicTitle() != null) return false;
-        if (this.getAddress() != null ? !this.getAddress().equals(person.getAddress()) : person.getAddress() != null) return false;
-        if (this.getEmail() != null ? !this.getEmail().equals(person.getEmail()) : person.getEmail() != null) return false;
+        if (this.getAcademicTitle() != null ? !this.getAcademicTitle().equals(person.getAcademicTitle()) : person.getAcademicTitle() != null)
+            return false;
+        if (this.getAddress() != null ? !this.getAddress().equals(person.getAddress()) : person.getAddress() != null)
+            return false;
+        if (this.getEmail() != null ? !this.getEmail().equals(person.getEmail()) : person.getEmail() != null)
+            return false;
         if (this.getFax() != null ? !this.getFax().equals(person.getFax()) : person.getFax() != null) return false;
-        if (this.getFirstname() != null ? !this.getFirstname().equals(person.getFirstname()) : person.getFirstname() != null) return false;
-        if (this.getLastname() != null ? !this.getLastname().equals(person.getLastname()) : person.getLastname() != null) return false;
-        if (this.getPhone() != null ? !this.getPhone().equals(person.getPhone()) : person.getPhone() != null) return false;
+        if (this.getFirstname() != null ? !this.getFirstname().equals(person.getFirstname()) : person.getFirstname() != null)
+            return false;
+        if (this.getLastname() != null ? !this.getLastname().equals(person.getLastname()) : person.getLastname() != null)
+            return false;
+        if (this.getPhone() != null ? !this.getPhone().equals(person.getPhone()) : person.getPhone() != null)
+            return false;
         return !(this.getTitle() != null ? !this.getTitle().equals(person.getTitle()) : person.getTitle() != null);
     }
 

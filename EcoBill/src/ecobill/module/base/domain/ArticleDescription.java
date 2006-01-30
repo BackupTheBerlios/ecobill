@@ -13,7 +13,7 @@ import ecobill.util.Localizable;
  * Time: 14:53:14
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleDescription.java,v 1.2 2005/09/28 15:44:18 raedler Exp $
+ * @version $Id: ArticleDescription.java,v 1.3 2006/01/30 23:43:13 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleDescription extends AbstractDomain implements Localizable {
@@ -78,7 +78,8 @@ public class ArticleDescription extends AbstractDomain implements Localizable {
 
         final ArticleDescription that = (ArticleDescription) o;
 
-        if (this.getDescription() != null ? !this.getDescription().equals(that.getDescription()) : that.getDescription() != null) return false;
+        if (this.getDescription() != null ? !this.getDescription().equals(that.getDescription()) : that.getDescription() != null)
+            return false;
         return !(this.getSystemLocale() != null ? !this.getSystemLocale().equals(that.getSystemLocale()) : that.getSystemLocale() != null);
     }
 

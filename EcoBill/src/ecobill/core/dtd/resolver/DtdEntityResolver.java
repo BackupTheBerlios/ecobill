@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 // @todo document me!
+
 /**
  * DtdEntityResolver.
  * <p/>
@@ -19,7 +20,7 @@ import java.io.InputStream;
  * Time: 14:01:14
  *
  * @author Roman R&auml;dle
- * @version $Id: DtdEntityResolver.java,v 1.1 2005/07/29 13:21:15 raedler Exp $
+ * @version $Id: DtdEntityResolver.java,v 1.2 2006/01/30 23:43:13 raedler Exp $
  */
 public class DtdEntityResolver implements EntityResolver {
     private static final Log LOG = LogFactory.getLog(DtdEntityResolver.class);

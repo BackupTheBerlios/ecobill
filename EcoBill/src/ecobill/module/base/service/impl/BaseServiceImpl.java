@@ -20,7 +20,7 @@ import java.io.Serializable;
  * Time: 12:31:05
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseServiceImpl.java,v 1.18 2005/11/06 01:46:15 raedler Exp $
+ * @version $Id: BaseServiceImpl.java,v 1.19 2006/01/30 23:43:13 raedler Exp $
  * @see BaseService
  * @since EcoBill 1.0
  */
@@ -94,7 +94,7 @@ public class BaseServiceImpl implements BaseService {
      * um es danach aus dieser zu löschen.
      *
      * @param clazz Die Klasse des <code>Object</code>.
-     * @param id Die Id des <code>Object</code>.
+     * @param id    Die Id des <code>Object</code>.
      * @see BaseService#delete(Class, java.io.Serializable)
      */
     public void delete(Class clazz, Serializable id) {

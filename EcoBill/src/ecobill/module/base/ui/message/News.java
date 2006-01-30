@@ -29,7 +29,7 @@ import org.jdesktop.layout.LayoutStyle;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: News.java,v 1.8 2006/01/29 23:16:46 raedler Exp $
+ * @version $Id: News.java,v 1.9 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.0
  */
 public class News extends JPanel implements Internationalization {
@@ -131,17 +131,17 @@ public class News extends JPanel implements Internationalization {
 
                 .add(jPanel2Layout.createParallelGroup(GroupLayout.LEADING)
 
-                .add(newsScrollPane, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                        .add(newsScrollPane, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
 
-                .add(subjectTextField, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                        .add(subjectTextField, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
 
-                .add(addresserTextField, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                        .add(addresserTextField, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
 
-                .add(addresserLabel)
+                        .add(addresserLabel)
 
-                .add(subjectLabel)
+                        .add(subjectLabel)
 
-                .add(messageLabel))
+                        .add(messageLabel))
 
                 .addContainerGap()));
 
@@ -200,7 +200,7 @@ public class News extends JPanel implements Internationalization {
 
                 .add(layout.createParallelGroup(GroupLayout.LEADING)
 
-                .add(GroupLayout.TRAILING, newsTreeSplitPanel, GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE))
+                        .add(GroupLayout.TRAILING, newsTreeSplitPanel, GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE))
 
                 .addContainerGap()));
 
@@ -230,7 +230,7 @@ public class News extends JPanel implements Internationalization {
 
     private JTree newsTree;
 
-     /**
+    /**
      * @see ecobill.core.system.Internationalization#reinitI18N()
      */
     public void reinitI18N() {
@@ -249,8 +249,10 @@ public class News extends JPanel implements Internationalization {
         addresserLabel.setText(WorkArea.getMessage(Constants.ADDRESSER));
         newsBorder.setTitle(WorkArea.getMessage(Constants.NEWS));
     }
+
     /**
      * Getter und Setter werden initialisiert
+     *
      * @return die jeweiligen Komponenten
      */
     public JTextArea getNewsTextArea() {
@@ -327,6 +329,7 @@ public class News extends JPanel implements Internationalization {
 
     /**
      * Methode um eine Nachricht zum JTree hinzuzuf�gen
+     *
      * @param message
      */
     public void addMessageToTree(Message message) {
@@ -363,6 +366,7 @@ public class News extends JPanel implements Internationalization {
 
     /**
      * Methode um eine aus dem Baum ausgew�hlte Nachricht in den Textfeldern anzuzeigen
+     *
      * @param message
      */
     public void showMessage(Message message) {
@@ -381,28 +385,29 @@ public class News extends JPanel implements Internationalization {
 
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) o;
 
-        try { if (node.isLeaf()) {
+        try {
+            if (node.isLeaf()) {
 
-            DefaultMutableTreeNode parent = (DefaultMutableTreeNode) node.getParent();
+                DefaultMutableTreeNode parent = (DefaultMutableTreeNode) node.getParent();
 
-            node.removeFromParent();
+                node.removeFromParent();
 
-            if (parent.getChildCount() < 1) {
-                parent.removeFromParent();
+                if (parent.getChildCount() < 1) {
+                    parent.removeFromParent();
+                }
+
+                IdValueItem idValueItem = (IdValueItem) node.getUserObject();
+
+                Long diaId = idValueItem.getId();
+
+                baseService.delete(Message.class, diaId);
+
+                addresserTextField.setText(null);
+                subjectTextField.setText(null);
+                newsTextArea.setText(null);
             }
-
-            IdValueItem idValueItem = (IdValueItem) node.getUserObject();
-
-            Long diaId = idValueItem.getId();
-
-            baseService.delete(Message.class, diaId);
-
-            addresserTextField.setText(null);
-            subjectTextField.setText(null);
-            newsTextArea.setText(null);
         }
-        }
-        catch(NullPointerException e) {
+        catch (NullPointerException e) {
             JOptionPane.showMessageDialog(this, "Bitte eine Nachricht zum l�schen w�hlen", "Information", 1);
         }
     }

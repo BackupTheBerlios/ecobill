@@ -23,7 +23,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: AddressPanel.java,v 1.2 2005/12/11 20:25:19 raedler Exp $
+ * @version $Id: AddressPanel.java,v 1.3 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.0
  */
 public class AddressPanel extends JPanel implements Internationalization {
@@ -111,15 +111,15 @@ public class AddressPanel extends JPanel implements Internationalization {
         sequentialGroup.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE);
 
         layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                .addContainerGap()
-                .add(parallelGroup)
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(parallelGroup)
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, sequentialGroup)
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, sequentialGroup)
         );
     }
 

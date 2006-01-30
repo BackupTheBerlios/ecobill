@@ -19,7 +19,7 @@ import org.jdesktop.layout.GroupLayout;
  * Time: 20:45:55
  *
  * @author Roman R&auml;dle
- * @version $Id: TitleBorderedTextAreaPanel.java,v 1.1 2005/12/11 17:17:12 raedler Exp $
+ * @version $Id: TitleBorderedTextAreaPanel.java,v 1.2 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.1
  */
 public class TitleBorderedTextAreaPanel extends JPanel implements Internationalization {
@@ -45,7 +45,9 @@ public class TitleBorderedTextAreaPanel extends JPanel implements Internationali
      */
     private JTextArea textArea = new JTextArea();
 
-    /** Creates new form TitleBorderedTextAreaPanel */
+    /**
+     * Creates new form TitleBorderedTextAreaPanel
+     */
     public TitleBorderedTextAreaPanel(final String BORDER_TITLE_KEY) {
 
         // Setzt den Konstanten BORDER_TITLE_KEY.
@@ -86,17 +88,17 @@ public class TitleBorderedTextAreaPanel extends JPanel implements Internationali
         setLayout(layout);
 
         layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                .addContainerGap()
-                .add(textAreaSP, GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
-                .addContainerGap())
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(textAreaSP, GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
+                        .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                .add(textAreaSP, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                        .add(textAreaSP, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }
 

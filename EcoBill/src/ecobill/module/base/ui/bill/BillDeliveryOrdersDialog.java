@@ -1,6 +1,6 @@
 package ecobill.module.base.ui.bill;
 
-import ecobill.module.base.ui.deliveryorder.OrderTableWithCB;
+import ecobill.module.base.ui.deliveryorder.DeliveryOrderTableWithCB;
 import ecobill.module.base.service.BaseService;
 import ecobill.core.system.Internationalization;
 import ecobill.core.system.WorkArea;
@@ -26,7 +26,7 @@ import java.awt.event.ActionEvent;
  * Time: 00:48:35
  *
  * @author Roman R&auml;dle
- * @version $Id: BillDeliveryOrdersDialog.java,v 1.2 2006/01/29 23:16:45 raedler Exp $
+ * @version $Id: BillDeliveryOrdersDialog.java,v 1.3 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.1
  */
 public class BillDeliveryOrdersDialog extends JDialog implements Internationalization {
@@ -65,7 +65,7 @@ public class BillDeliveryOrdersDialog extends JDialog implements Internationaliz
      */
     private Long businessPartnerId;
 
-    private OrderTableWithCB orderTableWithCB;
+    private DeliveryOrderTableWithCB deliveryOrderTableWithCB;
     private JButton closeB = new JButton();
     private JButton applyB = new JButton();
 
@@ -101,7 +101,7 @@ public class BillDeliveryOrdersDialog extends JDialog implements Internationaliz
      * TODO: document me!!!
      */
     private void initComponents() {
-        orderTableWithCB = new OrderTableWithCB(businessPartnerId, baseService);
+        deliveryOrderTableWithCB = new DeliveryOrderTableWithCB(businessPartnerId, baseService);
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -121,7 +121,7 @@ public class BillDeliveryOrdersDialog extends JDialog implements Internationaliz
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
              */
             public void actionPerformed(ActionEvent e) {
-                billUI.saveOrUpdateBill(orderTableWithCB);
+                billUI.saveOrUpdateBill(deliveryOrderTableWithCB);
                 BillDeliveryOrdersDialog.this.dispose();
             }
         });
@@ -135,31 +135,31 @@ public class BillDeliveryOrdersDialog extends JDialog implements Internationaliz
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                .addContainerGap()
-                .add(orderTableWithCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .add(GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(289, Short.MAX_VALUE)
-                .add(applyB)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(closeB)
-                .addContainerGap())
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .add(deliveryOrderTableWithCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .add(GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(289, Short.MAX_VALUE)
+                        .add(applyB)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(closeB)
+                        .addContainerGap())
         );
 
-        layout.linkSize(new java.awt.Component[] {closeB, applyB}, GroupLayout.HORIZONTAL);
+        layout.linkSize(new java.awt.Component[]{closeB, applyB}, GroupLayout.HORIZONTAL);
 
         layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                .addContainerGap()
-                .add(orderTableWithCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(GroupLayout.BASELINE)
-                    .add(closeB)
-                    .add(applyB))
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(deliveryOrderTableWithCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(GroupLayout.BASELINE)
+                                .add(closeB)
+                                .add(applyB))
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }
 

@@ -16,7 +16,7 @@ import java.text.Collator;
  * Time: 13:29:28
  *
  * @author Roman R&auml;dle
- * @version $Id: Bill.java,v 1.5 2005/11/07 00:01:26 raedler Exp $
+ * @version $Id: Bill.java,v 1.6 2006/01/30 23:43:13 raedler Exp $
  * @since DAPS INTRA 1.0
  */
 public class Bill extends AbstractDomain {
@@ -224,9 +224,12 @@ public class Bill extends AbstractDomain {
 
         final Bill bill = (Bill) o;
 
-        if (this.getBillDate() != null ? !this.getBillDate().equals(bill.getBillDate()) : bill.getBillDate() != null) return false;
-        if (this.getBillNumber() != null ? !this.getBillNumber().equals(bill.getBillNumber()) : bill.getBillNumber() != null) return false;
-        if (this.getBusinessPartner() != null ? !this.getBusinessPartner().equals(bill.getBusinessPartner()) : bill.getBusinessPartner() != null) return false;
+        if (this.getBillDate() != null ? !this.getBillDate().equals(bill.getBillDate()) : bill.getBillDate() != null)
+            return false;
+        if (this.getBillNumber() != null ? !this.getBillNumber().equals(bill.getBillNumber()) : bill.getBillNumber() != null)
+            return false;
+        if (this.getBusinessPartner() != null ? !this.getBusinessPartner().equals(bill.getBusinessPartner()) : bill.getBusinessPartner() != null)
+            return false;
         return !(this.getDeliveryOrders() != null ? !this.getDeliveryOrders().equals(bill.getDeliveryOrders()) : bill.getDeliveryOrders() != null);
     }
 

@@ -417,7 +417,7 @@ public class TableSorter extends DefaultTableModel {
             int column = e.getColumn();
 
             System.out.println("AD: " + (getSortingStatus(column) == NOT_SORTED
-                && modelToView != null));
+                    && modelToView != null));
 
             if (/*e.getFirstRow() == e.getLastRow()
                 && column != TableModelEvent.ALL_COLUMNS
@@ -428,8 +428,8 @@ public class TableSorter extends DefaultTableModel {
 
                 int viewIndex = getModelToView()[e.getFirstRow()];
                 fireTableChanged(new TableModelEvent(TableSorter.this,
-                                                     viewIndex, viewIndex,
-                                                     column, e.getType()));
+                        viewIndex, viewIndex,
+                        column, e.getType()));
                 return;
             }
 
@@ -537,7 +537,7 @@ public class TableSorter extends DefaultTableModel {
                                                        int column) {
 
             Component c = tableCellRenderer.getTableCellRendererComponent(table,
-                                                                          value, isSelected, hasFocus, row, column);
+                    value, isSelected, hasFocus, row, column);
             if (c instanceof JLabel) {
                 JLabel l = (JLabel) c;
                 l.setHorizontalTextPosition(JLabel.LEFT);

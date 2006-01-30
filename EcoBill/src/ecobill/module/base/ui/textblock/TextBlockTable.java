@@ -28,7 +28,7 @@ import java.awt.event.*;
  * Time: 15:25:23
  *
  * @author Roman R&auml;dle
- * @version $Id: TextBlockTable.java,v 1.2 2006/01/29 23:16:46 raedler Exp $
+ * @version $Id: TextBlockTable.java,v 1.3 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.1
  */
 public class TextBlockTable extends AbstractTablePanel {
@@ -38,7 +38,7 @@ public class TextBlockTable extends AbstractTablePanel {
     private Long textBlockId;
 
     public TextBlockTable(TextBlockDialog textBlockDialog, BaseService baseService) {
-        super(baseService, false);
+        super(baseService, true);
 
         this.textBlockDialog = textBlockDialog;
     }

@@ -11,7 +11,7 @@ import ecobill.core.system.WorkArea;
  * Time: 17:19:20
  *
  * @author Roman R&auml;dle
- * @version $Id: AbstractI18NDomain.java,v 1.3 2005/12/11 17:16:01 raedler Exp $
+ * @version $Id: AbstractI18NDomain.java,v 1.4 2006/01/30 23:43:13 raedler Exp $
  * @since EcoBill 1.0
  */
 public abstract class AbstractI18NDomain extends AbstractDomain implements Comparable {
@@ -27,7 +27,7 @@ public abstract class AbstractI18NDomain extends AbstractDomain implements Compa
      * zugehörige landesspezifische Wert gefunden werden kann, zurück.
      *
      * @return Der i18n Schlüssel unter dem in einem <code>ResourceBundle</code> der
-     * zugehörige landesspezifische Wert gefunden werden kann.
+     *         zugehörige landesspezifische Wert gefunden werden kann.
      */
     public String getKey() {
         return key;
@@ -38,7 +38,7 @@ public abstract class AbstractI18NDomain extends AbstractDomain implements Compa
      * zugehörige landesspezifische Wert gefunden werden soll.
      *
      * @param key Der i18n Schlüssel unter dem in einem <code>ResourceBundle</code> der
-     * zugehörige landesspezifische Wert gefunden werden kann.
+     *            zugehörige landesspezifische Wert gefunden werden kann.
      */
     public void setKey(String key) {
         this.key = key;

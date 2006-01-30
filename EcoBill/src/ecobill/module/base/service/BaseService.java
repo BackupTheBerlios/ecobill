@@ -18,7 +18,7 @@ import java.io.Serializable;
  * Time: 12:30:55
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseService.java,v 1.16 2005/11/06 01:46:15 raedler Exp $
+ * @version $Id: BaseService.java,v 1.17 2006/01/30 23:43:13 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface BaseService extends Service {
@@ -55,7 +55,7 @@ public interface BaseService extends Service {
     public void evict(Object entity);
 
     /**
-     * @see BaseDao#saveOrUpdate(Object) 
+     * @see BaseDao#saveOrUpdate(Object)
      */
     public void saveOrUpdate(Object entity);
 
@@ -69,7 +69,7 @@ public interface BaseService extends Service {
      * um es danach aus dieser zu löschen.
      *
      * @param clazz Die Klasse des <code>Object</code>.
-     * @param id Die Id des <code>Object</code>.
+     * @param id    Die Id des <code>Object</code>.
      */
     public void delete(Class clazz, Serializable id);
 
@@ -105,7 +105,7 @@ public interface BaseService extends Service {
     public SystemLocale getSystemLocaleByLocale(Locale locale);
 
     /**
-     * @see BaseDao#getSystemUnitsByCategory(String) 
+     * @see BaseDao#getSystemUnitsByCategory(String)
      */
     public List getSystemUnitsByCategory(String category);
 

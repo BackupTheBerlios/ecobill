@@ -2,21 +2,21 @@
 <!DOCTYPE hibernate-mapping PUBLIC
         "-//Hibernate/Hibernate Mapping DTD//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-        
+
 <!--
  User: rro
  Date: 10.12.2005
  Time: 16:33:48
  
  @author Roman R&auml;dle
- @version $Id: TextBlock.hbm.xml,v 1.1 2005/12/11 17:17:12 raedler Exp $
+ @version $Id: TextBlock.hbm.xml,v 1.2 2006/01/30 23:43:13 raedler Exp $
  @since EcoBill 1.1
 -->
 
 <hibernate-mapping default-lazy="false">
 
     <class name="ecobill.module.base.domain.TextBlock" table="BASE_SYSTEM_TEXT_BLOCK">
-    
+
         <id name="id" type="long" unsaved-value="-1">
             <column name="ID" not-null="true"/>
             <generator class="native"/>
@@ -29,7 +29,7 @@
         <property name="text" type="string">
             <column name="TEXT_BLOCK_TEXT" length="4000"/>
         </property>
-    
+
     </class>
 
 </hibernate-mapping>

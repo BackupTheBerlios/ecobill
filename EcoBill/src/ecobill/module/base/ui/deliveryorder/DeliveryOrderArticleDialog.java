@@ -24,7 +24,7 @@ import org.jdesktop.layout.LayoutStyle;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderArticleDialog.java,v 1.2 2006/01/29 23:16:45 raedler Exp $
+ * @version $Id: DeliveryOrderArticleDialog.java,v 1.3 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderArticleDialog extends JDialog implements Internationalization {
@@ -171,55 +171,55 @@ public class DeliveryOrderArticleDialog extends JDialog implements International
         this.getContentPane().setLayout(layout);
 
         layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                .addContainerGap()
-                .add(layout.createParallelGroup(GroupLayout.LEADING, false)
-                    .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(GroupLayout.LEADING)
-                            .add(quantityL)
-                            .add(quantity, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
-                        .add(6, 6, 6)
-                        .add(layout.createParallelGroup(GroupLayout.LEADING)
-                            .add(unitL)
-                            .add(unit, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(GroupLayout.LEADING)
-                            .add(priceL)
-                            .add(price, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)))
-                    .add(GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .add(ok)
-                        .addPreferredGap(LayoutStyle.RELATED)
-                        .add(cancel))
-                    .add(labellingL)
-                    .add(labellingScrollPane))
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(layout.createParallelGroup(GroupLayout.LEADING, false)
+                                .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                                        .add(layout.createParallelGroup(GroupLayout.LEADING)
+                                                .add(quantityL)
+                                                .add(quantity, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
+                                        .add(6, 6, 6)
+                                        .add(layout.createParallelGroup(GroupLayout.LEADING)
+                                                .add(unitL)
+                                                .add(unit, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(LayoutStyle.RELATED)
+                                        .add(layout.createParallelGroup(GroupLayout.LEADING)
+                                        .add(priceL)
+                                        .add(price, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)))
+                                .add(GroupLayout.TRAILING, layout.createSequentialGroup()
+                                        .add(ok)
+                                        .addPreferredGap(LayoutStyle.RELATED)
+                                        .add(cancel))
+                                .add(labellingL)
+                                .add(labellingScrollPane))
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        layout.linkSize(new java.awt.Component[] {cancel, ok}, GroupLayout.HORIZONTAL);
+        layout.linkSize(new java.awt.Component[]{cancel, ok}, GroupLayout.HORIZONTAL);
 
         layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                .addContainerGap()
-                .add(layout.createParallelGroup(GroupLayout.LEADING)
-                    .add(quantityL)
-                    .add(unitL)
-                    .add(priceL))
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(GroupLayout.LEADING)
-                    .add(quantity, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-                    .add(price, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-                    .add(unit, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
-                .add(20, 20, 20)
-                .add(labellingL)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(labellingScrollPane, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-                .add(25, 25, 25)
-                .add(layout.createParallelGroup(GroupLayout.BASELINE)
-                    .add(cancel)
-                    .add(ok))
-                .addContainerGap(13, Short.MAX_VALUE))
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(layout.createParallelGroup(GroupLayout.LEADING)
+                                .add(quantityL)
+                                .add(unitL)
+                                .add(priceL))
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(GroupLayout.LEADING)
+                                .add(quantity, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+                                .add(price, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+                                .add(unit, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+                        .add(20, 20, 20)
+                        .add(labellingL)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(labellingScrollPane, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+                        .add(25, 25, 25)
+                        .add(layout.createParallelGroup(GroupLayout.BASELINE)
+                                .add(cancel)
+                                .add(ok))
+                        .addContainerGap(13, Short.MAX_VALUE))
         );
 
         this.setPreferredSize(new Dimension(280, 275));

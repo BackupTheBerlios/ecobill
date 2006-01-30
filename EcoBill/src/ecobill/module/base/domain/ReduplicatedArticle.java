@@ -12,7 +12,7 @@ import ecobill.module.base.hbm.sort.OrderPositionComparable;
  * Time: 22:23:14
  *
  * @author Roman R&auml;dle
- * @version $Id: ReduplicatedArticle.java,v 1.7 2005/11/07 00:01:26 raedler Exp $
+ * @version $Id: ReduplicatedArticle.java,v 1.8 2006/01/30 23:43:13 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ReduplicatedArticle extends AbstractDomain implements OrderPositionComparable, Comparable<ReduplicatedArticle> {
@@ -206,8 +206,10 @@ public class ReduplicatedArticle extends AbstractDomain implements OrderPosition
 
         final ReduplicatedArticle that = (ReduplicatedArticle) o;
 
-        if (this.getQuantity() != null ? !this.getQuantity().equals(that.getQuantity()) : that.getQuantity() != null) return false;
-        if (this.getDescription() != null ? !this.getDescription().equals(that.getDescription()) : that.getDescription() != null) return false;
+        if (this.getQuantity() != null ? !this.getQuantity().equals(that.getQuantity()) : that.getQuantity() != null)
+            return false;
+        if (this.getDescription() != null ? !this.getDescription().equals(that.getDescription()) : that.getDescription() != null)
+            return false;
         return !(this.getPrice() != null ? !this.getPrice().equals(that.getPrice()) : that.getPrice() != null);
     }
 

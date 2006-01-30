@@ -15,7 +15,7 @@ import java.text.Collator;
  * Time: 11:05:11
  *
  * @author Roman R&auml;dle
- * @version $Id: SystemLocaleComparator.java,v 1.1 2005/07/28 21:03:52 raedler Exp $
+ * @version $Id: SystemLocaleComparator.java,v 1.2 2006/01/30 23:43:13 raedler Exp $
  * @since EcoBill 1.0
  */
 public class SystemLocaleComparator implements Comparator {
@@ -30,11 +30,10 @@ public class SystemLocaleComparator implements Comparator {
      * Hier werden zwei Objekte, die beide das Interface <code>SystemLocaleComparable</code> implementieren
      * müssen, auf die Reihenfolge (Rangfolge) überprüft.
      *
-     * @see Comparator#compare(Object, Object)
-     *
      * @param o1 Ein Objekt das das Interface <code>SystemLocaleComparable</code> implementiert.
      * @param o2 Ein Objekt das das Interface <code>SystemLocaleComparable</code> implementiert.
      * @return Der int Wert der Reihenfolge der beiden Objekte.
+     * @see Comparator#compare(Object, Object)
      */
     public int compare(Object o1, Object o2) {
         if (o1 instanceof SystemLocaleComparable && o2 instanceof SystemLocaleComparable) {

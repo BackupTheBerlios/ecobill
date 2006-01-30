@@ -10,7 +10,7 @@ package ecobill.core.system;
  * Time: 19:21:53
  *
  * @author Roman R&auml;dle
- * @version $Id: Constants.java,v 1.49 2006/01/29 23:16:45 raedler Exp $
+ * @version $Id: Constants.java,v 1.50 2006/01/30 23:43:13 raedler Exp $
  * @since EcoBill 1.0
  */
 public interface Constants {
@@ -57,7 +57,7 @@ public interface Constants {
     public final static String CAPACITY = "capacity";
     public final static String CAPACITY_TOOLTIP = "capacity.tooltip";
     public final static String CHARACTERISATION_TYP = "characterisation_type";
-    public final static String CHECKBOX_NEEDED ="checkbox_needed";
+    public final static String CHECKBOX_NEEDED = "checkbox_needed";
     public final static String CLOSE = "close";
     public final static String CLOSE_TOOLTIP = "close.tooltip";
     public final static String COUNTRY = "country";
@@ -78,7 +78,7 @@ public interface Constants {
     public final static String DELIVERY_ORDER_NUMBER_TOOLTIP = "delivery_order_number.tooltip";
     public final static String DELIVERY_ORDERS = "delivery_orders";
     public final static String DELIVERY_ORDERS_TOOLTIP = "delivery_orders.tooltip";
-    public final static String DELIVERY_ORDER_AMOUNT ="delivery_order_amount";
+    public final static String DELIVERY_ORDER_AMOUNT = "delivery_order_amount";
     public final static String DESCRIPTION = "description";
     public final static String DESCRIPTION_TOOLTIP = "description.tooltip";
     public final static String DESCRIPTIONS = "descriptions";
@@ -242,17 +242,6 @@ public interface Constants {
     public final static String BILL_NUMBER = "bill_number";
     public final static String BILL_DATE = "bill_date";
     public final static String MAX_OVERVIEW = "maxoverview";
-
-
-
-
-
-
-
-
-
-
-
 
 
     /**

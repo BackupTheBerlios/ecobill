@@ -22,7 +22,7 @@ import ecobill.core.system.WorkArea;
  * Time: 20:46:47
  *
  * @author Roman R&auml;dle
- * @version $Id: FormularDataPanel.java,v 1.1 2005/12/11 17:17:12 raedler Exp $
+ * @version $Id: FormularDataPanel.java,v 1.2 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.1
  */
 public class FormularDataPanel extends JPanel implements Internationalization {
@@ -50,12 +50,14 @@ public class FormularDataPanel extends JPanel implements Internationalization {
     /**
      * Das <code>JLabel</code> für das Datum.
      */
-    private JLabel dateL = new JLabel();;
+    private JLabel dateL = new JLabel();
+    ;
 
     /**
      * Das <code>JSpinner</code> Feld für Datum Angaben.
      */
-    private JSpinner dateS = new JSpinner();;
+    private JSpinner dateS = new JSpinner();
+    ;
 
     /**
      * Das <code>JLabel</code> für die Formularnummer.
@@ -109,27 +111,27 @@ public class FormularDataPanel extends JPanel implements Internationalization {
         GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                .addContainerGap()
-                .add(layout.createParallelGroup(GroupLayout.LEADING, false)
-                    .add(numberL)
-                    .add(GroupLayout.TRAILING, dateL, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(numberTF, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(dateS, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(layout.createParallelGroup(GroupLayout.LEADING, false)
+                                .add(numberL)
+                                .add(GroupLayout.TRAILING, dateL, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(numberTF, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(dateS, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                .add(numberL)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(numberTF, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(dateL)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(dateS, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                        .add(numberL)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(numberTF, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(dateL)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(dateS, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }
 

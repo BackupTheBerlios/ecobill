@@ -23,7 +23,7 @@ import java.awt.event.ActionEvent;
  * Time: 22:49:46
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderArticlesDialog.java,v 1.1 2005/12/11 17:17:12 raedler Exp $
+ * @version $Id: DeliveryOrderArticlesDialog.java,v 1.2 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.1
  */
 public class DeliveryOrderArticlesDialog extends JDialog {
@@ -139,31 +139,31 @@ public class DeliveryOrderArticlesDialog extends JDialog {
         getContentPane().setLayout(layout);
 
         layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                .addContainerGap()
-                .add(articleTable, GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
-                .addContainerGap())
-            .add(GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(285, Short.MAX_VALUE)
-                .add(chooseB)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(closeB)
-                .addContainerGap())
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .add(articleTable, GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
+                                .addContainerGap())
+                        .add(GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(285, Short.MAX_VALUE)
+                        .add(chooseB)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(closeB)
+                        .addContainerGap())
         );
 
-        layout.linkSize(new Component[] {chooseB, closeB}, GroupLayout.HORIZONTAL);
+        layout.linkSize(new Component[]{chooseB, closeB}, GroupLayout.HORIZONTAL);
 
         layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                .addContainerGap()
-                .add(articleTable, GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(GroupLayout.BASELINE)
-                    .add(closeB)
-                    .add(chooseB))
-                .addContainerGap())
+                layout.createParallelGroup(GroupLayout.LEADING)
+                        .add(GroupLayout.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(articleTable, GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
+                        .addPreferredGap(LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(GroupLayout.BASELINE)
+                                .add(closeB)
+                                .add(chooseB))
+                        .addContainerGap())
         );
     }
 }

@@ -10,7 +10,7 @@ package ecobill.module.base.domain;
  * Time: 13:33:34
  *
  * @author Roman R&auml;dle
- * @version $Id: Address.java,v 1.4 2005/12/11 17:16:01 raedler Exp $
+ * @version $Id: Address.java,v 1.5 2006/01/30 23:43:13 raedler Exp $
  * @since EcoBill 1.0
  */
 public class Address extends AbstractDomain {
@@ -142,10 +142,14 @@ public class Address extends AbstractDomain {
 
         final Address address = (Address) o;
 
-        if (this.getCity() != null ? !this.getCity().equals(address.getCity()) : address.getCity() != null) return false;
-        if (this.getCountry() != null ? !this.getCountry().equals(address.getCountry()) : address.getCountry() != null) return false;
-        if (this.getCounty() != null ? !this.getCounty().equals(address.getCounty()) : address.getCounty() != null) return false;
-        if (this.getStreet() != null ? !this.getStreet().equals(address.getStreet()) : address.getStreet() != null) return false;
+        if (this.getCity() != null ? !this.getCity().equals(address.getCity()) : address.getCity() != null)
+            return false;
+        if (this.getCountry() != null ? !this.getCountry().equals(address.getCountry()) : address.getCountry() != null)
+            return false;
+        if (this.getCounty() != null ? !this.getCounty().equals(address.getCounty()) : address.getCounty() != null)
+            return false;
+        if (this.getStreet() != null ? !this.getStreet().equals(address.getStreet()) : address.getStreet() != null)
+            return false;
         return !(this.getZipCode() != null ? !this.getZipCode().equals(address.getZipCode()) : address.getZipCode() != null);
     }
 

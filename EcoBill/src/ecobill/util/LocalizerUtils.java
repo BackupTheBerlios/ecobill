@@ -15,7 +15,7 @@ import java.util.Locale;
  * Time: 16:07:00
  *
  * @author Roman R&auml;dle
- * @version $Id: LocalizerUtils.java,v 1.4 2005/10/04 09:20:57 raedler Exp $
+ * @version $Id: LocalizerUtils.java,v 1.5 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.0
  */
 public class LocalizerUtils {
@@ -45,7 +45,8 @@ public class LocalizerUtils {
          * Wird kein Objekt gefunden das der Default <code>Locale</code> ähnelt wird eine
          * <code>LocalizerException</code> geworfen.
          */
-        if (localizedObject == null) throw new LocalizerException("Es ist kein localizedObject in der Collection vorhanden.");
+        if (localizedObject == null)
+            throw new LocalizerException("Es ist kein localizedObject in der Collection vorhanden.");
 
         return localizedObject;
     }

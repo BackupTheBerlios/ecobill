@@ -17,44 +17,43 @@ import java.io.File;
  * Time: 17:00:54
  *
  * @author Andreas Weiler
- * @version $Id: HelpBrowser.java,v 1.15 2005/11/07 21:49:30 raedler Exp $
+ * @version $Id: HelpBrowser.java,v 1.16 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.0
  */
 public class HelpBrowser extends JPanel {
 
     // Initialisierung der Komponenten
-        private JEditorPane browser = new JEditorPane();
-        private JScrollPane sp = new JScrollPane();
+    private JEditorPane browser = new JEditorPane();
+    private JScrollPane sp = new JScrollPane();
 
-        /**
-         * Konstruktor der den String page übergeben bekommt
-         */
-        public HelpBrowser(String page) {
+    /**
+     * Konstruktor der den String page übergeben bekommt
+     */
+    public HelpBrowser(String page) {
 
-            createBrowser(page);
+        createBrowser(page);
+    }
+
+    /**
+     * Methode wird im Konstruktor aufgerufen um
+     * den Browser zu generieren
+     */
+    public void createBrowser(String page) {
+
+        File localFile = new File(page);
+
+        try {
+            browser = new JEditorPane(localFile.toURL());
+            browser.setEditable(false);
         }
-        /**
-         * Methode wird im Konstruktor aufgerufen um
-         * den Browser zu generieren
-         */
-        public void createBrowser(String page) {
-
-            File localFile = new File(page);
-
-            try
-            {
-               browser = new JEditorPane(localFile.toURL());
-               browser.setEditable(false);
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-
-            browser.setPreferredSize(new Dimension(600, 400));
-            sp.setPreferredSize(new Dimension(600,400));
-            sp.setViewportView(browser);
-
-            this.add(sp);
+        catch (IOException e) {
+            e.printStackTrace();
         }
+
+        browser.setPreferredSize(new Dimension(600, 400));
+        sp.setPreferredSize(new Dimension(600, 400));
+        sp.setViewportView(browser);
+
+        this.add(sp);
+    }
 }

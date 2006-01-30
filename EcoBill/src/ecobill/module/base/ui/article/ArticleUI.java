@@ -1,4 +1,5 @@
 package ecobill.module.base.ui.article;
+
 import ecobill.module.base.ui.component.Labelling;
 import ecobill.module.base.ui.component.JToolBarButton;
 import ecobill.module.base.service.BaseService;
@@ -39,7 +40,7 @@ import java.io.FileOutputStream;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.19 2006/01/29 23:16:45 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.20 2006/01/30 23:43:14 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JPanel implements InitializingBean, Internationalization, DisposableBean {
