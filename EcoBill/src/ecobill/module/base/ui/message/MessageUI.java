@@ -10,6 +10,7 @@ import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.Message;
 import ecobill.module.base.ui.component.JToolBarButton;
 import ecobill.core.util.IdValueItem;
+import ecobill.core.system.WorkArea;
 
 
 import javax.swing.*;
@@ -28,20 +29,32 @@ import java.awt.event.ActionEvent;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: MessageUI.java,v 1.9 2005/12/22 12:53:07 raedler Exp $
+ * @version $Id: MessageUI.java,v 1.10 2006/02/01 12:00:48 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MessageUI extends JPanel implements InitializingBean {
 
+    // Icons used in this message user interface.
+    private final Icon ICON_NEW_MESSAGE = new ImageIcon("images/message/message_new.png");
+    private final Icon ICON_SAVE_MESSAGE = new ImageIcon("images/message/message_save.png");
+    private final Icon ICON_DELETE_MESSAGE = new ImageIcon("images/message/message_delete.png");
+    private final Icon ICON_REFRESH = new ImageIcon("images/message/refresh.png");
+
+    // Buttons used in this message user interface.
+    private JToolBarButton newMessageB = new JToolBarButton(ICON_NEW_MESSAGE);
+    private JToolBarButton saveMessageB = new JToolBarButton(ICON_SAVE_MESSAGE);
+    private JToolBarButton deleteMessageB = new JToolBarButton(ICON_DELETE_MESSAGE);
+    private JToolBarButton refreshMessageB = new JToolBarButton(ICON_REFRESH);
+
     /**
-     * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
-     * Diese Ausgaben können in einem separaten File spezifiziert werden.
+     * In diesem <code>Log</code> kï¿½nnen Fehler, Info oder sonstige Ausgaben erfolgen.
+     * Diese Ausgaben kï¿½nnen in einem separaten File spezifiziert werden.
      */
     private static final Log LOG = LogFactory.getLog(MessageUI.class);
 
     /**
      * Der <code>ApplicationContext</code> beinhaltet alle Beans die darin angegeben sind
-     * und ermöglicht wahlfreien Zugriff auf diese.
+     * und ermï¿½glicht wahlfreien Zugriff auf diese.
      */
     protected ApplicationContext applicationContext;
 
@@ -58,7 +71,7 @@ public class MessageUI extends JPanel implements InitializingBean {
     private BaseService baseService;
 
     /**
-     * Gibt den <code>BaseService</code> und somit die Business Logik zurück.
+     * Gibt den <code>BaseService</code> und somit die Business Logik zurï¿½ck.
      *
      * @return Der <code>BaseService</code>.
      */
@@ -67,7 +80,7 @@ public class MessageUI extends JPanel implements InitializingBean {
     }
 
     /**
-     * Setzt den <code>BaseService</code> der die komplette Business Logik enthält
+     * Setzt den <code>BaseService</code> der die komplette Business Logik enthï¿½lt
      * um bspw Daten aus der Datenbank zu laden und dorthin auch wieder abzulegen.
      *
      * @param baseService Der <code>BaseService</code>.
@@ -77,14 +90,14 @@ public class MessageUI extends JPanel implements InitializingBean {
     }
 
     /**
-     * Enthält die Pfade an denen die bestimmten Objekte serialisiert werden
+     * Enthï¿½lt die Pfade an denen die bestimmten Objekte serialisiert werden
      * sollen.
      */
     private Properties serializeIdentifiers;
 
     /**
      * Gibt die Pfade, an denen die bestimmten Objekte serialisiert werden
-     * sollen, zurück.
+     * sollen, zurï¿½ck.
      *
      * @return Die Pfade an denen die bestimmten Objekte serialisiert werden
      *         sollen.
@@ -111,16 +124,6 @@ public class MessageUI extends JPanel implements InitializingBean {
 
         initComponents();
         initLayout();
-
-        // Versuche evtl. abgelegte/serialisierte Objekte zu laden.
-        /**try {
-         overviewBusinessPartnerTable.unpersist(new FileInputStream(serializeIdentifiers.getProperty("business_partner_table")));
-         }
-         catch (FileNotFoundException fnfe) {
-         if (LOG.isErrorEnabled()) {
-         LOG.error(fnfe.getMessage(), fnfe);
-         }
-         }*/
 
         reinitI18N();
     }
@@ -150,8 +153,7 @@ public class MessageUI extends JPanel implements InitializingBean {
 
         JToolBar toolBar = new JToolBar();
 
-        JToolBarButton newMessage = new JToolBarButton(new ImageIcon("images/news_new.png"));
-        newMessage.addActionListener(new ActionListener() {
+        newMessageB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -161,8 +163,7 @@ public class MessageUI extends JPanel implements InitializingBean {
             }
         });
 
-        JToolBarButton okMessage = new JToolBarButton(new ImageIcon("images/news_ok.png"));
-        okMessage.addActionListener(new ActionListener() {
+        saveMessageB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -178,8 +179,7 @@ public class MessageUI extends JPanel implements InitializingBean {
             }
         });
 
-        JToolBarButton deleteMessage = new JToolBarButton(new ImageIcon("images/news_delete.png"));
-        deleteMessage.addActionListener(new ActionListener() {
+        deleteMessageB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -190,8 +190,7 @@ public class MessageUI extends JPanel implements InitializingBean {
             }
         });
 
-        JToolBarButton refreshMessage = new JToolBarButton(new ImageIcon("images/refresh.png"));
-        refreshMessage.addActionListener(new ActionListener() {
+        refreshMessageB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -201,11 +200,11 @@ public class MessageUI extends JPanel implements InitializingBean {
             }
         });
 
-        toolBar.add(newMessage);
-        toolBar.add(okMessage);
-        toolBar.add(deleteMessage);
+        toolBar.add(newMessageB);
+        toolBar.add(saveMessageB);
+        toolBar.add(deleteMessageB);
         toolBar.add(new JToolBar.Separator());
-        toolBar.add(refreshMessage);
+        toolBar.add(refreshMessageB);
 
         return toolBar;
     }
@@ -214,11 +213,20 @@ public class MessageUI extends JPanel implements InitializingBean {
      * @see ecobill.core.system.Internationalization#reinitI18N()
      */
     public void reinitI18N() {
+
+        // Tooltips of each button in this message user interface.
+        newMessageB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.message.MessageUI.newMessageB"));
+        saveMessageB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.message.MessageUI.saveMessageB"));
+        deleteMessageB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.message.MessageUI.deleteMessageB"));
+        refreshMessageB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.message.MessageUI.refreshMessageB"));
+
+        // Cascading reinitialization of known <code>Internationalization</code>
+        // subclasses.
         newsOverview.reinitI18N();
     }
 
     /**
-     * Methode um eine Nachricht abzuspeichern oder eine Nachricht zu ändern wird aufgerufen
+     * Methode um eine Nachricht abzuspeichern oder eine Nachricht zu ï¿½ndern wird aufgerufen
      * aus Klasse News
      */
     public void saveOrUpdateMessage() {
@@ -250,7 +258,7 @@ public class MessageUI extends JPanel implements InitializingBean {
     }
 
     /**
-     * Methode um eine Nachricht zu löschen wird aufgerufen aus Klasse News
+     * Methode um eine Nachricht zu lï¿½schen wird aufgerufen aus Klasse News
      */
     public void deleteMessage() {
         newsOverview.deleteMessage();
@@ -271,8 +279,8 @@ public class MessageUI extends JPanel implements InitializingBean {
     }
 
     /**
-     * Methode um zu überprüfen ob die Textfelder ausgefüllt sind
-     * wenn Textfelder gefüllt kommt boolean true zurück, sonst false
+     * Methode um zu ï¿½berprï¿½fen ob die Textfelder ausgefï¿½llt sind
+     * wenn Textfelder gefï¿½llt kommt boolean true zurï¿½ck, sonst false
      */
     public boolean checkIfFilled() {
 

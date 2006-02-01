@@ -28,19 +28,31 @@ import java.awt.event.ActionEvent;
  * Time: 15:24:42
  *
  * @author Roman R&auml;dle
- * @version $Id: TextBlockDialog.java,v 1.3 2006/01/30 23:43:14 raedler Exp $
+ * @version $Id: TextBlockDialog.java,v 1.4 2006/02/01 12:00:48 raedler Exp $
  * @since EcoBill 1.1
  */
 public class TextBlockDialog extends JDialog implements Internationalization {
 
+    // Icons used in this text block user interface.
+    private final Icon ICON_NEW_TEXT_BLOCK = new ImageIcon("images/textblock/textblock_new.png");
+    private final Icon ICON_SAVE_TEXT_BLOCK = new ImageIcon("images/textblock/textblock_save.png");
+    private final Icon ICON_DELETE_TEXT_BLOCK = new ImageIcon("images/textblock/textblock_delete.png");
+    private final Icon ICON_REFRESH = new ImageIcon("images/textblock/refresh.png");
+
+    // Buttons used in this text block user interface.
+    JToolBarButton newTextBlockB = new JToolBarButton(ICON_NEW_TEXT_BLOCK);
+    JToolBarButton saveTextBlockB = new JToolBarButton(ICON_SAVE_TEXT_BLOCK);
+    JToolBarButton deleteTextBlockB = new JToolBarButton(ICON_DELETE_TEXT_BLOCK);
+    JToolBarButton refreshTextBlockB = new JToolBarButton(ICON_REFRESH);
+
     /**
-     * Der <code>BaseService</code> ist die Business Logik. Unter anderem können hierdurch Daten
+     * Der <code>BaseService</code> ist die Business Logik. Unter anderem kï¿½nnen hierdurch Daten
      * aus der Datenbank ausgelesen und gespeichert werden.
      */
     private BaseService baseService;
 
     /**
-     * Gibt den <code>BaseService</code> und somit die Business Logik zurück.
+     * Gibt den <code>BaseService</code> und somit die Business Logik zurï¿½ck.
      *
      * @return Der <code>BaseService</code>.
      */
@@ -49,7 +61,7 @@ public class TextBlockDialog extends JDialog implements Internationalization {
     }
 
     /**
-     * Setzt den <code>BaseService</code> der die komplette Business Logik enthält
+     * Setzt den <code>BaseService</code> der die komplette Business Logik enthï¿½lt
      * um bspw Daten aus der Datenbank zu laden und dorthin auch wieder abzulegen.
      *
      * @param baseService Der <code>BaseService</code>.
@@ -169,19 +181,27 @@ public class TextBlockDialog extends JDialog implements Internationalization {
      * @see ecobill.core.system.Internationalization#reinitI18N()
      */
     public void reinitI18N() {
+
+        // The content of each text button in this text block user
+        // interface.
         closeB.setText(WorkArea.getMessage(Constants.CLOSE));
         pasteB.setText(WorkArea.getMessage(Constants.PASTE));
+
+        // Tooltips of each button in this text block user interface.
+        newTextBlockB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.textblock.TextBlockDialog.newTextBlockB"));
+        saveTextBlockB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.textblock.TextBlockDialog.saveTextBlockB"));
+        deleteTextBlockB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.textblock.TextBlockDialog.deleteTextBlockB"));
+        refreshTextBlockB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.textblock.TextBlockDialog.refreshTextBlockB"));
     }
 
     /**
-     * Erzeugt die <code>JToolBar</code> für dieses User Interface.
+     * Erzeugt die <code>JToolBar</code> fï¿½r dieses User Interface.
      */
     private JToolBar createToolBar() {
 
         JToolBar toolBar = new JToolBar();
 
-        JToolBarButton newTextBlock = new JToolBarButton(new ImageIcon("images/textblock_new.png"));
-        newTextBlock.addActionListener(new ActionListener() {
+        newTextBlockB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -191,8 +211,7 @@ public class TextBlockDialog extends JDialog implements Internationalization {
             }
         });
 
-        JToolBarButton okTextBlock = new JToolBarButton(new ImageIcon("images/textblock_ok.png"));
-        okTextBlock.addActionListener(new ActionListener() {
+        saveTextBlockB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -202,8 +221,7 @@ public class TextBlockDialog extends JDialog implements Internationalization {
             }
         });
 
-        JToolBarButton deleteTextBlock = new JToolBarButton(new ImageIcon("images/textblock_delete.png"));
-        deleteTextBlock.addActionListener(new ActionListener() {
+        deleteTextBlockB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -219,8 +237,7 @@ public class TextBlockDialog extends JDialog implements Internationalization {
             }
         });
 
-        JToolBarButton refreshTextBlock = new JToolBarButton(new ImageIcon("images/refresh.png"));
-        refreshTextBlock.addActionListener(new ActionListener() {
+        refreshTextBlockB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -230,11 +247,11 @@ public class TextBlockDialog extends JDialog implements Internationalization {
             }
         });
 
-        toolBar.add(newTextBlock);
-        toolBar.add(okTextBlock);
-        toolBar.add(deleteTextBlock);
+        toolBar.add(newTextBlockB);
+        toolBar.add(saveTextBlockB);
+        toolBar.add(deleteTextBlockB);
         toolBar.add(new JToolBar.Separator());
-        toolBar.add(refreshTextBlock);
+        toolBar.add(refreshTextBlockB);
 
         return toolBar;
     }

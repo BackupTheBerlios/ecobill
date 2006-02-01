@@ -28,6 +28,7 @@
                 <value>ecobill/config/bundle/base/businesspartner</value>
                 <value>ecobill/config/bundle/base/deliveryorder</value>
                 <value>ecobill/config/bundle/base/bill</value>
+                <value>ecobill/config/bundle/base/message</value>
                 <value>ecobill/config/bundle/base/textblock</value>
                 <value>ecobill/config/bundle/base/reports</value>
             </list>

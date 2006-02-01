@@ -31,10 +31,15 @@ import java.util.LinkedHashSet;
  * Time: 16:57:16
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderArticleTable.java,v 1.1 2006/01/30 23:43:14 raedler Exp $
+ * @version $Id: DeliveryOrderArticleTable.java,v 1.2 2006/02/01 12:00:48 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderArticleTable extends AbstractTablePanel {
+
+    // Icons used in this delivery order user interface.
+    private final Icon ICON_ARTICLE_UP = new ImageIcon("images/deliveryorder/article_up.png");
+    private final Icon ICON_ARTICLE_DOWN = new ImageIcon("images/deliveryorder/article_down.png");
+    private final Icon ICON_DELETE = new ImageIcon("images/deliveryorder/delete.png");
 
     /**
      * Die id eines Lieferscheines.
@@ -175,29 +180,24 @@ public class DeliveryOrderArticleTable extends AbstractTablePanel {
                             switch (e.getColumn()) {
 
                                 case 0:
-                                    System.out.println("ARTICLE_NUMBER");
                                     article.setArticleNumber((String) o);
                                     break;
                                 case 1:
-                                    System.out.println("DESCRIPTION");
                                     article.setDescription((String) o);
                                     break;
                                 case 2:
-                                    System.out.println("QUANTITY");
                                     article.setQuantity((Double) o);
                                     break;
                                 case 3:
-                                    System.out.println("UNIT");
                                     article.setUnit((String) o);
                                     break;
                                 case 4:
-                                    System.out.println("PRICE");
                                     article.setPrice((Double) o);
                                     break;
                             }
                         }
                         catch (ArrayIndexOutOfBoundsException aioobe) {
-                            //aioobe.printStackTrace();
+                            LOG.error(aioobe.getMessage(), aioobe);
                         }
                     }
                 }
@@ -212,7 +212,7 @@ public class DeliveryOrderArticleTable extends AbstractTablePanel {
      */
     protected JPopupMenu createPopupMenu(JPopupMenu popupMenu) {
 
-        JMenuItem upArticle = new JMenuItem(WorkArea.getMessage(Constants.UP), new ImageIcon("./images/delivery_order_article_up.png"));
+        JMenuItem upArticle = new JMenuItem(WorkArea.getMessage(Constants.UP), ICON_ARTICLE_UP);
         upArticle.addActionListener(new ActionListener() {
 
             /**
@@ -252,7 +252,7 @@ public class DeliveryOrderArticleTable extends AbstractTablePanel {
             }
         });
 
-        JMenuItem downArticle = new JMenuItem(WorkArea.getMessage(Constants.DOWN), new ImageIcon("./images/delivery_order_article_down.png"));
+        JMenuItem downArticle = new JMenuItem(WorkArea.getMessage(Constants.DOWN), ICON_ARTICLE_DOWN);
         downArticle.addActionListener(new ActionListener() {
 
             /**
@@ -292,7 +292,7 @@ public class DeliveryOrderArticleTable extends AbstractTablePanel {
             }
         });
 
-        JMenuItem delete = new JMenuItem(WorkArea.getMessage(Constants.DELETE), new ImageIcon("./images/delete.png"));
+        JMenuItem delete = new JMenuItem(WorkArea.getMessage(Constants.DELETE), ICON_DELETE);
         delete.addActionListener(new ActionListener() {
 
             /**
@@ -304,7 +304,7 @@ public class DeliveryOrderArticleTable extends AbstractTablePanel {
 
                 IdValueItem idValueItem = (IdValueItem) getTableModel().getValueAt(selectedRow, 0);
 
-                // Löscht die markierte Zeile.
+                // Lï¿½scht die markierte Zeile.
                 getTableModel().removeRow(selectedRow);
 
                 getDataCollection().remove(idValueItem.getOriginalValue());

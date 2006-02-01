@@ -18,15 +18,15 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
- * Die <code>BillPreviewTable</code> enthält alle Daten, zur Vorschau der Lieferscheindaten  zur Rechnungsvor
- * schau auf dem Rechnungsübersichtstab
+ * Die <code>BillPreviewTable</code> enthï¿½lt alle Daten, zur Vorschau der Lieferscheindaten  zur Rechnungsvor
+ * schau auf dem Rechnungsï¿½bersichtstab
  * <p/>
  * User: sega
  * Date: 09.10.2005
  * Time: 17:49:23
  *
  * @author Sebastian Gath
- * @version $Id: DeliveryOrderTable.java,v 1.8 2006/01/30 23:43:14 raedler Exp $
+ * @version $Id: DeliveryOrderTable.java,v 1.9 2006/02/01 12:00:48 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderTable extends AbstractTablePanel {
@@ -152,7 +152,7 @@ public class DeliveryOrderTable extends AbstractTablePanel {
   */
 
     /**
-     * Gibt den aktuell selektierten/markierte <code>DeliveryOrder</code> zurück.
+     * Gibt den aktuell selektierten/markierte <code>DeliveryOrder</code> zurï¿½ck.
      *
      * @return Der aktuell selektierten/markierte <code>DeliveryOrder</code>.
      */

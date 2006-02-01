@@ -32,12 +32,15 @@ import java.util.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleTable.java,v 1.18 2006/02/01 01:06:47 raedler Exp $
+ * @version $Id: ArticleTable.java,v 1.19 2006/02/01 12:00:47 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleTable extends AbstractTablePanel {
 
-    private final Icon ICON_DELETE = new ImageIcon("./images/delete.png");
+    // Icons used in this article table user interface.
+    private final Icon ICON_ARTICLE_UP = new ImageIcon("images/article_up.png");
+    private final Icon ICON_ARTICLE_DOWN = new ImageIcon("images/article_down.png");
+    private final Icon ICON_DELETE = new ImageIcon("images/delete.png");
 
     /**
      * Die <code>ArtikelUI</code> um den Artikel anzeigen zu k�nnen.
