@@ -35,7 +35,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: Input.java,v 1.10 2005/12/11 17:16:01 raedler Exp $
+ * @version $Id: Input.java,v 1.11 2006/02/01 01:06:47 raedler Exp $
  * @since EcoBill 1.0
  */
 public class Input extends JPanel implements Internationalization {
@@ -135,43 +135,15 @@ public class Input extends JPanel implements Internationalization {
 
         countryModel = new DefaultComboBoxModel(ComboBoxUtils.createNullLeadingItems(baseService.loadAll(SystemCountry.class)));
         country.setModel(countryModel);
-
-        // TODO: Nochmal über den Code blicken!!!
-        if (countryModel.getSelectedItem() != null) {
-
-            Set counties = ((SystemCountry) countryModel.getSelectedItem()).getSystemCounties();
-
-            List countiesList = new ArrayList(counties);
-
-            Collections.sort(countiesList);
-
-            countiesList.add(0, null);
-
-            countyModel = new DefaultComboBoxModel(countiesList.toArray());
-            county.setModel(countyModel);
-        }
+        fireCountryStateChanged();
 
         country.addItemListener(new ItemListener() {
 
+            /**
+             * @see ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+             */
             public void itemStateChanged(ItemEvent e) {
-
-                // TODO: Redundanter Code - siehe darüber!!!
-                if (countryModel.getSelectedItem() != null) {
-
-                    Set counties = ((SystemCountry) countryModel.getSelectedItem()).getSystemCounties();
-
-                    List countiesList = new ArrayList(counties);
-
-                    Collections.sort(countiesList);
-
-                    countiesList.add(0, null);
-
-                    countyModel = new DefaultComboBoxModel(countiesList.toArray());
-                    county.setModel(countyModel);
-                }
-                else {
-                    county.removeAllItems();
-                }
+                fireCountryStateChanged();
             }
         });
 
@@ -348,6 +320,29 @@ public class Input extends JPanel implements Internationalization {
             if (LOG.isErrorEnabled()) {
                 LOG.error(e.getMessage(), e);
             }
+        }
+    }
+
+    /**
+     * This method should be fired if the country state has
+     * been changed.
+     */
+    private void fireCountryStateChanged() {
+        if (countryModel.getSelectedItem() != null) {
+
+            Set<SystemCounty> counties = ((SystemCountry) countryModel.getSelectedItem()).getSystemCounties();
+
+            List<SystemCounty> countiesList = new ArrayList<SystemCounty>(counties);
+
+            Collections.sort(countiesList);
+
+            countiesList.add(0, null);
+
+            countyModel = new DefaultComboBoxModel(countiesList.toArray());
+            county.setModel(countyModel);
+        }
+        else {
+            county.removeAllItems();
         }
     }
 

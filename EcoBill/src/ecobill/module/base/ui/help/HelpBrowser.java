@@ -17,7 +17,7 @@ import java.io.File;
  * Time: 17:00:54
  *
  * @author Andreas Weiler
- * @version $Id: HelpBrowser.java,v 1.16 2006/01/30 23:43:14 raedler Exp $
+ * @version $Id: HelpBrowser.java,v 1.17 2006/02/01 01:06:47 raedler Exp $
  * @since EcoBill 1.0
  */
 public class HelpBrowser extends JPanel {
@@ -43,7 +43,7 @@ public class HelpBrowser extends JPanel {
         File localFile = new File(page);
 
         try {
-            browser = new JEditorPane(localFile.toURL());
+            browser = new JEditorPane(localFile.toURI().toURL());
             browser.setEditable(false);
         }
         catch (IOException e) {

@@ -32,10 +32,12 @@ import java.util.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleTable.java,v 1.17 2006/01/30 23:43:13 raedler Exp $
+ * @version $Id: ArticleTable.java,v 1.18 2006/02/01 01:06:47 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleTable extends AbstractTablePanel {
+
+    private final Icon ICON_DELETE = new ImageIcon("./images/delete.png");
 
     /**
      * Die <code>ArtikelUI</code> um den Artikel anzeigen zu k�nnen.
@@ -308,7 +310,7 @@ public class ArticleTable extends AbstractTablePanel {
                             getBaseService().saveOrUpdate(article);
 
                             if (LOG.isDebugEnabled()) {
-                                LOG.debug("In der Spalte [" + col + "] und Zeile [" + row + "] wurde f�r den Artikel [id=\"" + articleId + "\"] der Wert auf \"" + getTableModel().getValueAt(row, col) + "\" ge�ndert.");
+                                LOG.debug("In der Spalte [" + col + "] und Zeile [" + row + "] wurde für den Artikel [id=\"" + articleId + "\"] der Wert auf \"" + getTableModel().getValueAt(row, col) + "\" geändert.");
                             }
 
                             if (articleUI != null) {
@@ -329,7 +331,7 @@ public class ArticleTable extends AbstractTablePanel {
      */
     protected JPopupMenu createPopupMenu(JPopupMenu popupMenu) {
 
-        JMenuItem delete = new JMenuItem(WorkArea.getMessage(Constants.DELETE), new ImageIcon("./images/delete.png"));
+        JMenuItem delete = new JMenuItem(WorkArea.getMessage(Constants.DELETE), ICON_DELETE);
         delete.addActionListener(new ArticleAction(articleUI).DELETE_ACTION);
 
         popupMenu.add(delete);

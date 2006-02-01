@@ -40,10 +40,29 @@ import java.io.FileOutputStream;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.20 2006/01/30 23:43:14 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.21 2006/02/01 01:06:47 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JPanel implements InitializingBean, Internationalization, DisposableBean {
+
+    // Icons used in this article user interface.
+    private final Icon ICON_NEW_ARTICLE = new ImageIcon("images/article/article_new.png");
+    private final Icon ICON_SAVE_ARTICLE = new ImageIcon("images/article/article_save.png");
+    private final Icon ICON_DELETE_ARTICLE = new ImageIcon("images/article/article_delete.png");
+    private final Icon ICON_REFRESH = new ImageIcon("images/article/refresh.png");
+    private final Icon ICON_NEW_ARTICLE_LABELLING = new ImageIcon("images/article/article_labelling_new.png");
+    private final Icon ICON_SAVE_ARTICLE_LABELLING = new ImageIcon("images/article/article_labelling_save.png");
+    private final Icon ICON_DELETE_ARTICLE_LABELLING = new ImageIcon("images/article/article_labelling_delete.png");
+
+    // Buttons used in this article user interface.
+    private JToolBarButton newArticleB = new JToolBarButton(ICON_NEW_ARTICLE);
+    private JToolBarButton saveArticleB = new JToolBarButton(ICON_SAVE_ARTICLE);
+    private JToolBarButton deleteArticleB = new JToolBarButton(ICON_DELETE_ARTICLE);
+    private JToolBarButton refreshArticleB = new JToolBarButton(ICON_REFRESH);
+    private JToolBarButton newLabellingB = new JToolBarButton(ICON_NEW_ARTICLE_LABELLING);
+    private JToolBarButton saveLabellingB = new JToolBarButton(ICON_SAVE_ARTICLE_LABELLING);
+    private JToolBarButton deleteLabellingB = new JToolBarButton(ICON_DELETE_ARTICLE_LABELLING);
+    private JToolBarButton refreshLabellingB = new JToolBarButton(ICON_REFRESH);
 
     /**
      * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
@@ -196,8 +215,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
 
         JToolBar toolBar = new JToolBar();
 
-        JToolBarButton newArticle = new JToolBarButton(new ImageIcon("images/article_new.png"));
-        newArticle.addActionListener(new ActionListener() {
+        newArticleB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -211,8 +229,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
             }
         });
 
-        JToolBarButton okArticle = new JToolBarButton(new ImageIcon("images/article_ok.png"));
-        okArticle.addActionListener(new ActionListener() {
+        saveArticleB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -234,11 +251,9 @@ public class ArticleUI extends JPanel implements InitializingBean, International
             }
         });
 
-        JToolBarButton deleteArticle = new JToolBarButton(new ImageIcon("images/article_delete.png"));
-        deleteArticle.addActionListener(new ArticleAction(this).DELETE_ACTION);
+        deleteArticleB.addActionListener(new ArticleAction(this).DELETE_ACTION);
 
-        JToolBarButton refreshArticle = new JToolBarButton(new ImageIcon("images/refresh.png"));
-        refreshArticle.addActionListener(new ActionListener() {
+        refreshArticleB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -255,36 +270,36 @@ public class ArticleUI extends JPanel implements InitializingBean, International
             }
         });
 
-        toolBar.add(newArticle);
-        toolBar.add(okArticle);
-        toolBar.add(deleteArticle);
+        toolBar.add(newArticleB);
+        toolBar.add(saveArticleB);
+        toolBar.add(deleteArticleB);
         toolBar.add(new JToolBar.Separator());
-        toolBar.add(refreshArticle);
+        toolBar.add(refreshArticleB);
 
         return toolBar;
     }
 
+    /**
+     * TODO: document me!!!
+     */
     private JToolBar createLabellingToolBar() {
 
         JToolBar toolBar = new JToolBar();
 
-        JToolBarButton newLabelling = new JToolBarButton(new ImageIcon("images/article_labelling_new.png"));
-        newLabelling.addActionListener(new ActionListener() {
+        newLabellingB.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
                 labellingLabelling.setDescription("");
             }
         });
 
-        JToolBarButton okLabelling = new JToolBarButton(new ImageIcon("images/article_labelling_ok.png"));
-        okLabelling.addActionListener(new ActionListener() {
+        saveLabellingB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 saveOrUpdateArticleDescription();
             }
         });
 
-        JToolBarButton deleteLabelling = new JToolBarButton(new ImageIcon("images/article_labelling_delete.png"));
-        deleteLabelling.addActionListener(new ActionListener() {
+        deleteLabellingB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
                 Article article = (Article) baseService.load(Article.class, actualArticleId);
@@ -307,8 +322,7 @@ public class ArticleUI extends JPanel implements InitializingBean, International
             }
         });
 
-        JToolBarButton refreshLabelling = new JToolBarButton(new ImageIcon("images/refresh.png"));
-        refreshLabelling.addActionListener(new ActionListener() {
+        refreshLabellingB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
                 Article article = (Article) baseService.load(Article.class, actualArticleId);
@@ -317,11 +331,11 @@ public class ArticleUI extends JPanel implements InitializingBean, International
             }
         });
 
-        toolBar.add(newLabelling);
-        toolBar.add(okLabelling);
-        toolBar.add(deleteLabelling);
+        toolBar.add(newLabellingB);
+        toolBar.add(saveLabellingB);
+        toolBar.add(deleteLabellingB);
         toolBar.add(new JToolBar.Separator());
-        toolBar.add(refreshLabelling);
+        toolBar.add(refreshLabellingB);
 
         return toolBar;
     }
@@ -520,20 +534,18 @@ public class ArticleUI extends JPanel implements InitializingBean, International
         tabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.OVERVIEW));
         tabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.LABELLING));
 
-        /* TODO: repair me!!!
-        verticalButtonOverview.reinitI18N();
-        verticalButtonOverview.getButton1().setToolTipText(WorkArea.getMessage(Constants.BUTTON1_ARTICLE_TOOLTIP));
-        verticalButtonOverview.getButton2().setToolTipText(WorkArea.getMessage(Constants.BUTTON2_ARTICLE_TOOLTIP));
-        verticalButtonOverview.getButton3().setToolTipText(WorkArea.getMessage(Constants.BUTTON3_ARTICLE_TOOLTIP));
-        verticalButtonOverview.getButton4().setToolTipText(WorkArea.getMessage(Constants.BUTTON4_ARTICLE_TOOLTIP));
+        // Tooltips of each button in this article user interface.
+        newArticleB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.article.ArticleUI.newArticleB"));
+        saveArticleB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.article.ArticleUI.saveArticleB"));
+        deleteArticleB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.article.ArticleUI.deleteArticleB"));
+        refreshArticleB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.article.ArticleUI.refreshArticleB"));
+        newLabellingB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.article.ArticleUI.newLabellingB"));
+        saveLabellingB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.article.ArticleUI.saveLabellingB"));
+        deleteLabellingB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.article.ArticleUI.deleteLabellingB"));
+        refreshLabellingB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.article.ArticleUI.refreshLabellingB"));
 
-        verticalButtonLabelling.reinitI18N();
-        verticalButtonLabelling.getButton1().setToolTipText(WorkArea.getMessage(Constants.BUTTON1_LABELLING_TOOLTIP));
-        verticalButtonLabelling.getButton2().setToolTipText(WorkArea.getMessage(Constants.BUTTON2_LABELLING_TOOLTIP));
-        verticalButtonLabelling.getButton3().setToolTipText(WorkArea.getMessage(Constants.BUTTON3_LABELLING_TOOLTIP));
-        verticalButtonLabelling.getButton4().setToolTipText(WorkArea.getMessage(Constants.BUTTON4_LABELLING_TOOLTIP));
-        */
-
+        // Cascading reinitialization of known <code>Internationalization</code>
+        // subclasses.
         overviewArticleTable.reinitI18N();
         labellingLabelling.reinitI18N();
         labellingOverview.reinitI18N();

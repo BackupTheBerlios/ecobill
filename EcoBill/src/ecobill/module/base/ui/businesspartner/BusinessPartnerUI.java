@@ -37,10 +37,26 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerUI.java,v 1.21 2006/01/29 23:16:45 raedler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.22 2006/02/01 01:06:47 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
+
+    // Icons used in this business partner user interface.
+    private final Icon ICON_NEW_BUSINESS_PARTNER = new ImageIcon("images/businesspartner/business_partner_new.png");
+    private final Icon ICON_SAVE_BUSINESS_PARTNER = new ImageIcon("images/businesspartner/business_partner_save.png");
+    private final Icon ICON_DELETE_BUSINESS_PARTNER = new ImageIcon("images/businesspartner/business_partner_delete.png");
+    private final Icon ICON_REFRESH = new ImageIcon("images/businesspartner/refresh.png");
+    private final Icon ICON_DELIVERY_ORDER = new ImageIcon("images/businesspartner/delivery_order.png");
+    private final Icon ICON_BILL = new ImageIcon("images/businesspartner/bill.png");
+
+    // Buttons used in this business partner user interface.
+    private JToolBarButton newBusinessPartnerB = new JToolBarButton(ICON_NEW_BUSINESS_PARTNER);
+    private JToolBarButton saveBusinessPartnerB = new JToolBarButton(ICON_SAVE_BUSINESS_PARTNER);
+    private JToolBarButton deleteBusinessPartnerB = new JToolBarButton(ICON_DELETE_BUSINESS_PARTNER);
+    private JToolBarButton refreshBusinessPartnerB = new JToolBarButton(ICON_REFRESH);
+    private JToolBarButton deliveryOrderB = new JToolBarButton(ICON_DELIVERY_ORDER);
+    private JToolBarButton billB = new JToolBarButton(ICON_BILL);
 
     /**
      * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
@@ -175,9 +191,6 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
         resetInput(numberSequence.getNextNumber());
     }
 
-    JToolBarButton deliveryOrderB = new JToolBarButton(new ImageIcon("images/delivery_order_new.png"));
-    JToolBarButton newBill = new JToolBarButton(new ImageIcon("images/bill_new.png"));
-
     /**
      * Erzeugt die <code>JToolBar</code> für dieses User Interface.
      */
@@ -185,8 +198,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
 
         JToolBar toolBar = new JToolBar();
 
-        JToolBarButton newBusinessPartner = new JToolBarButton(new ImageIcon("images/business_partner_new.png"));
-        newBusinessPartner.addActionListener(new ActionListener() {
+        newBusinessPartnerB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -203,8 +215,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
             }
         });
 
-        JToolBarButton okBusinessPartner = new JToolBarButton(new ImageIcon("images/business_partner_ok.png"));
-        okBusinessPartner.addActionListener(new ActionListener() {
+        saveBusinessPartnerB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -234,8 +245,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
             }
         });
 
-        JToolBarButton deleteBusinessPartner = new JToolBarButton(new ImageIcon("images/business_partner_delete.png"));
-        deleteBusinessPartner.addActionListener(new ActionListener() {
+        deleteBusinessPartnerB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -250,7 +260,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
 
                 // Setzt den Lieferschein Button disabled.
                 deliveryOrderB.setEnabled(false);
-                newBill.setEnabled(false);
+                billB.setEnabled(false);
 
                 // Löscht die Felder nach dem Löschen des Kunden und setzt die
                 // nächste Kundennummer.
@@ -259,8 +269,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
             }
         });
 
-        JToolBarButton refreshBusinessPartner = new JToolBarButton(new ImageIcon("images/refresh.png"));
-        refreshBusinessPartner.addActionListener(new ActionListener() {
+        refreshBusinessPartnerB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -295,7 +304,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
         });
         deliveryOrderB.setEnabled(false);
 
-        newBill.addActionListener(new ActionListener() {
+        billB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -320,16 +329,16 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
                 mainFrame.setSelectedTab(4);
             }
         });
-        newBill.setEnabled(false);
+        billB.setEnabled(false);
 
-        toolBar.add(newBusinessPartner);
-        toolBar.add(okBusinessPartner);
-        toolBar.add(deleteBusinessPartner);
+        toolBar.add(newBusinessPartnerB);
+        toolBar.add(saveBusinessPartnerB);
+        toolBar.add(deleteBusinessPartnerB);
         toolBar.add(new JToolBar.Separator());
-        toolBar.add(refreshBusinessPartner);
+        toolBar.add(refreshBusinessPartnerB);
         toolBar.add(new JToolBar.Separator());
         toolBar.add(deliveryOrderB);
-        toolBar.add(newBill);
+        toolBar.add(billB);
 
         return toolBar;
     }
@@ -389,21 +398,20 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
 
         tabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.OVERVIEW));
 
+        // Tooltips of each button in this business partner user interface.
+        newBusinessPartnerB.setToolTipText(WorkArea.getMessage("ecobill.module.base.businesspartner.BusinessPartnerUI.newBusinessPartnerB"));
+        saveBusinessPartnerB.setToolTipText(WorkArea.getMessage("ecobill.module.base.businesspartner.BusinessPartnerUI.saveBusinessPartnerB"));
+        deleteBusinessPartnerB.setToolTipText(WorkArea.getMessage("ecobill.module.base.businesspartner.BusinessPartnerUI.deleteBusinessPartnerB"));
+        refreshBusinessPartnerB.setToolTipText(WorkArea.getMessage("ecobill.module.base.businesspartner.BusinessPartnerUI.refreshBusinessPartnerB"));
+        deliveryOrderB.setToolTipText(WorkArea.getMessage("ecobill.module.base.businesspartner.BusinessPartnerUI.deliveryOrderB"));
+        billB.setToolTipText(WorkArea.getMessage("ecobill.module.base.businesspartner.BusinessPartnerUI.billB"));
+
+        // Cascading reinitialization of known <code>Internationalization</code>
+        // subclasses.
         overviewInput.reinitI18N();
         overviewInputBanking.reinitI18N();
         overviewInputContact.reinitI18N();
         overviewInputFirm.reinitI18N();
-
-        /* TODO: repair me!!!
-        overviewVerticalButton.reinitI18N();
-
-        overviewVerticalButton.getButton1().setToolTipText(WorkArea.getMessage(Constants.BUTTON1_CUSTOMER_TOOLTIP));
-        overviewVerticalButton.getButton2().setToolTipText(WorkArea.getMessage(Constants.BUTTON2_CUSTOMER_TOOLTIP));
-        overviewVerticalButton.getButton3().setToolTipText(WorkArea.getMessage(Constants.BUTTON3_CUSTOMER_TOOLTIP));
-        overviewVerticalButton.getButton4().setToolTipText(WorkArea.getMessage(Constants.BUTTON4_CUSTOMER_TOOLTIP));
-        overviewVerticalButton.getButton6().setToolTipText(WorkArea.getMessage(Constants.BUTTON6_CUSTOMER_TOOLTIP));
-        overviewVerticalButton.getButton7().setToolTipText(WorkArea.getMessage(Constants.BUTTON7_CUSTOMER_TOOLTIP));
-        */
     }
 
     /**
@@ -487,7 +495,7 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
         }
 
         deliveryOrderB.setEnabled(true);
-        newBill.setEnabled(true);
+        billB.setEnabled(true);
     }
 
     private void saveOrUpdateBusinessPartner() {

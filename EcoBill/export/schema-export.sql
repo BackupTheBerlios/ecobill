@@ -26,6 +26,7 @@ drop table if exists BASE_SYSTEM_COUNTY;
 drop table if exists BASE_SYSTEM_LANGUAGE;
 drop table if exists BASE_SYSTEM_LOCALE;
 drop table if exists BASE_SYSTEM_MESSAGE;
+drop table if exists BASE_SYSTEM_TEXT_BLOCK;
 drop table if exists BASE_SYSTEM_UNIT;
 create table BASE_ADDRESS (
     ID bigint not null auto_increment,
@@ -116,7 +117,7 @@ create table BASE_REDUPLICATED_ARTICLE (
     ID bigint not null auto_increment,
     DELIVERY_ORDER_ID bigint,
     ORDER_POSITION integer not null,
-    ARTICLE_NUMBER varchar(255) not null,
+    ARTICLE_NUMBER varchar(255),
     QUANTITY double precision not null,
     UNIT varchar(255) not null,
     PRICE double precision not null,
@@ -153,6 +154,12 @@ create table BASE_SYSTEM_MESSAGE (
     ADDRESSER varchar(255) not null,
     SUBJECT varchar(255) not null,
     MESSAGE varchar(255) not null,
+    primary key (ID)
+) type=InnoDB;
+create table BASE_SYSTEM_TEXT_BLOCK (
+    ID bigint not null auto_increment,
+    TEXT_BLOCK_NAME varchar(200),
+    TEXT_BLOCK_TEXT text,
     primary key (ID)
 ) type=InnoDB;
 create table BASE_SYSTEM_UNIT (

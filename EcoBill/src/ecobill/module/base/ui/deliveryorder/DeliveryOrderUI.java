@@ -38,10 +38,34 @@ import java.awt.event.*;
  * Time: 16:57:16
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderUI.java,v 1.24 2006/01/30 23:43:14 raedler Exp $
+ * @version $Id: DeliveryOrderUI.java,v 1.25 2006/02/01 01:06:47 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
+
+    // Icons used in this delivery order user interface.
+    private final Icon ICON_NEW_DELIVERY_ORDER = new ImageIcon("images/deliveryorder/delivery_order_new.png");
+    private final Icon ICON_SAVE_DELIVERY_ORDER = new ImageIcon("images/deliveryorder/delivery_order_save.png");
+    private final Icon ICON_DELETE_DELIVERY_ORDER = new ImageIcon("images/deliveryorder/delivery_order_delete.png");
+    private final Icon ICON_OPEN_EDITABLE_DELIVERY_ORDER = new ImageIcon("images/deliveryorder/delivery_order_open_editable.png");
+    private final Icon ICON_OPEN_DELIVERY_ORDER = new ImageIcon("images/deliveryorder/delivery_order_open_all.png");
+    private final Icon ICON_VIEW_DELIVERY_ORDER = new ImageIcon("images/deliveryorder/delivery_order_view.png");
+    private final Icon ICON_PREFIX_TEXT_BLOCK = new ImageIcon("images/deliveryorder/textblock_prefix.png");
+    private final Icon ICON_SUFFIX_TEXT_BLOCK = new ImageIcon("images/deliveryorder/textblock_suffix.png");
+    private final Icon ICON_ADD_EXISTING_ARTICLE = new ImageIcon("images/deliveryorder/article_add.png");
+    private final Icon ICON_ADD_NOT_EXISTING_ARTICLE = new ImageIcon("images/deliveryorder/article_add_new.png");
+
+    // Buttons used in this delivery order user interface.
+    private JToolBarButton newDeliveryOrderB = new JToolBarButton(ICON_NEW_DELIVERY_ORDER);
+    private JToolBarButton saveDeliveryOrderB = new JToolBarButton(ICON_SAVE_DELIVERY_ORDER);
+    private JToolBarButton deleteDeliveryOrderB = new JToolBarButton(ICON_DELETE_DELIVERY_ORDER);
+    private JToolBarButton openEditableDeliveryOrderB = new JToolBarButton(ICON_OPEN_EDITABLE_DELIVERY_ORDER);
+    private JToolBarButton openDeliveryOrderB = new JToolBarButton(ICON_OPEN_DELIVERY_ORDER);
+    private JToolBarButton viewDeliveryOrderB = new JToolBarButton(ICON_VIEW_DELIVERY_ORDER);
+    private JToolBarButton prefixTextBlockB = new JToolBarButton(ICON_PREFIX_TEXT_BLOCK);
+    private JToolBarButton suffixTextBlockB = new JToolBarButton(ICON_SUFFIX_TEXT_BLOCK);
+    private JToolBarButton addExistingArticleB = new JToolBarButton(ICON_ADD_EXISTING_ARTICLE);
+    private JToolBarButton addNotExistingArtilceB = new JToolBarButton(ICON_ADD_NOT_EXISTING_ARTICLE);
 
     /**
      * In diesem <code>Log</code> k�nnen Fehler, Info oder sonstige Ausgaben erfolgen.
@@ -165,9 +189,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         suffixPanel = new TitleBorderedTextAreaPanel(Constants.SUFFIX_FREE_TEXT);
     }
 
-    private JToolBarButton viewDeliveryOrderB;
-
-
     /**
      * TODO: document me!!!
      *
@@ -177,7 +198,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
         JToolBar toolBar = new JToolBar();
 
-        JToolBarButton newDeliveryOrderB = new JToolBarButton(new ImageIcon("images/delivery_order_new.png"));
         newDeliveryOrderB.addActionListener(new ActionListener() {
 
             /**
@@ -195,8 +215,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
             }
         });
 
-        JToolBarButton okDeliveryOrderB = new JToolBarButton(new ImageIcon("images/delivery_order_ok.png"));
-        okDeliveryOrderB.addActionListener(new ActionListener() {
+        saveDeliveryOrderB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -219,7 +238,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
             }
         });
 
-        JToolBarButton deleteDeliveryOrderB = new JToolBarButton(new ImageIcon("images/delivery_order_delete.png"));
         deleteDeliveryOrderB.addActionListener(new ActionListener() {
 
             /**
@@ -237,8 +255,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
             }
         });
 
-        JToolBarButton editDeliveryOrderB = new JToolBarButton(new ImageIcon("images/delivery_order_open_editable.png"));
-        editDeliveryOrderB.addActionListener(new ActionListener() {
+        openEditableDeliveryOrderB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -248,7 +265,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
             }
         });
 
-        JToolBarButton openDeliveryOrderB = new JToolBarButton(new ImageIcon("images/delivery_order_open_all.png"));
         openDeliveryOrderB.addActionListener(new ActionListener() {
 
             /**
@@ -259,7 +275,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
             }
         });
 
-        viewDeliveryOrderB = new JToolBarButton(new ImageIcon("images/jasper_view.png"));
         viewDeliveryOrderB.addActionListener(new ActionListener() {
 
             /**
@@ -275,7 +290,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
             }
         });
 
-        JToolBarButton prefixTextBlockB = new JToolBarButton(new ImageIcon("images/textblock_prefix.png"));
         prefixTextBlockB.addActionListener(new ActionListener() {
 
             /**
@@ -286,7 +300,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
             }
         });
 
-        JToolBarButton suffixTextBlockB = new JToolBarButton(new ImageIcon("images/textblock_suffix.png"));
         suffixTextBlockB.addActionListener(new ActionListener() {
 
             /**
@@ -297,7 +310,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
             }
         });
 
-        JToolBarButton addExistingArticleB = new JToolBarButton(new ImageIcon("images/article_add.png"));
         addExistingArticleB.addActionListener(new ActionListener() {
 
             /**
@@ -308,7 +320,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
             }
         });
 
-        JToolBarButton addNotExistingArtilceB = new JToolBarButton(new ImageIcon("images/article_add_new.png"));
         addNotExistingArtilceB.addActionListener(new ActionListener() {
 
             /**
@@ -320,10 +331,10 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
         });
 
         toolBar.add(newDeliveryOrderB);
-        toolBar.add(okDeliveryOrderB);
+        toolBar.add(saveDeliveryOrderB);
         toolBar.add(deleteDeliveryOrderB);
         toolBar.add(new JToolBar.Separator());
-        toolBar.add(editDeliveryOrderB);
+        toolBar.add(openEditableDeliveryOrderB);
         toolBar.add(openDeliveryOrderB);
         toolBar.add(viewDeliveryOrderB);
         toolBar.add(new JToolBar.Separator());
@@ -396,18 +407,24 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
         tabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.OVERVIEW));
 
-        addressPanel.reinitI18N();
-        deliveryOrderArticleTable.reinitI18N();
-
         ((TitledBorder) deliveryOrderArticleTable.getPanelBorder()).setTitle(WorkArea.getMessage(Constants.DELIVERY_ORDER));
 
-        /* TODO: repair me!!!
-        verticalButton.reinitI18N();
-        verticalButton.getButton1().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON1_TOOLTIP));
-        verticalButton.getButton2().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON2_TOOLTIP));
-        verticalButton.getButton3().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON3_TOOLTIP));
-        verticalButton.getButton4().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON4_TOOLTIP));
-        */
+        // Tooltips of each button in this delivery order user interface.
+        newDeliveryOrderB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.deliveryorder.DeliveryOrderUI.newDeliveryOrderB"));
+        saveDeliveryOrderB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.deliveryorder.DeliveryOrderUI.saveDeliveryOrderB"));
+        deleteDeliveryOrderB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.deliveryorder.DeliveryOrderUI.deleteDeliveryOrderB"));
+        openEditableDeliveryOrderB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.deliveryorder.DeliveryOrderUI.openEditableDeliveryOrderB"));
+        openDeliveryOrderB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.deliveryorder.DeliveryOrderUI.openDeliveryOrderB"));
+        viewDeliveryOrderB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.deliveryorder.DeliveryOrderUI.viewDeliveryOrderB"));
+        prefixTextBlockB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.deliveryorder.DeliveryOrderUI.prefixTextBlockB"));
+        suffixTextBlockB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.deliveryorder.DeliveryOrderUI.suffixTextBlockB"));
+        addExistingArticleB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.deliveryorder.DeliveryOrderUI.addExistingArticleB"));
+        addNotExistingArtilceB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.deliveryorder.DeliveryOrderUI.addNotExistingArticleB"));
+
+        // Cascading reinitialization of known <code>Internationalization</code>
+        // subclasses.
+        addressPanel.reinitI18N();
+        deliveryOrderArticleTable.reinitI18N();
     }
 
     private JTabbedPane tabbedPane;
@@ -466,8 +483,6 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
 
             article.setOrderPosition(i);
         }
-
-        System.out.println("DELIVERY_ARTICLES: " + deliveryOrder.getArticles().size());
 
         baseService.saveOrUpdate(deliveryOrder);
     }

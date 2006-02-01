@@ -11,7 +11,7 @@ import ecobill.core.system.WorkArea;
  * Time: 17:19:20
  *
  * @author Roman R&auml;dle
- * @version $Id: AbstractI18NDomain.java,v 1.4 2006/01/30 23:43:13 raedler Exp $
+ * @version $Id: AbstractI18NDomain.java,v 1.5 2006/02/01 01:06:47 raedler Exp $
  * @since EcoBill 1.0
  */
 public abstract class AbstractI18NDomain extends AbstractDomain implements Comparable {
@@ -63,6 +63,7 @@ public abstract class AbstractI18NDomain extends AbstractDomain implements Compa
      *
      * @see Object#equals(Object)
      */
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -75,6 +76,7 @@ public abstract class AbstractI18NDomain extends AbstractDomain implements Compa
     /**
      * @see Object#hashCode()
      */
+    @Override
     public int hashCode() {
         return (key != null ? key.hashCode() : 0);
     }

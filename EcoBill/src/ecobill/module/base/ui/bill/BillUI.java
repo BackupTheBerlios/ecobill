@@ -31,15 +31,35 @@ import java.awt.event.*;
 /**
  * DeliveryOrderUI.
  * <p/>
- * User: gs
+ * User: raedler
  * Date: 05.10.2005
  * Time: 16:57:16
  *
- * @author Sebastian Gath
- * @version $Id: BillUI.java,v 1.21 2006/01/30 23:43:14 raedler Exp $
+ * @author R&auml;dle Roman
+ * @version $Id: BillUI.java,v 1.22 2006/02/01 01:06:47 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BillUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
+
+    // Icons used in this bill user interface.
+    private final Icon ICON_NEW_BILL = new ImageIcon("images/bill/bill_new.png");
+    private final Icon ICON_SAVE_BILL = new ImageIcon("images/bill/bill_save.png");
+    private final Icon ICON_DELETE_BILL = new ImageIcon("images/bill/bill_delete.png");
+    private final Icon ICON_OPEN_BILL = new ImageIcon("images/bill/bill_open_all.png");
+    private final Icon ICON_VIEW_BILL = new ImageIcon("images/bill/bill_view.png");
+    private final Icon ICON_PREFIX_TEXT_BLOCK = new ImageIcon("images/bill/textblock_prefix.png");
+    private final Icon ICON_SUFFIX_TEXT_BLOCK = new ImageIcon("images/bill/textblock_suffix.png");
+    private final Icon ICON_ADD_DELIVERY_ORDER = new ImageIcon("images/bill/delivery_order_add.png");
+
+    // Buttons used in this bill user interface.
+    private JToolBarButton newBillB = new JToolBarButton(ICON_NEW_BILL);
+    private JToolBarButton saveBillB = new JToolBarButton(ICON_SAVE_BILL);
+    private JToolBarButton deleteBillB = new JToolBarButton(ICON_DELETE_BILL);
+    private JToolBarButton openBillB = new JToolBarButton(ICON_OPEN_BILL);
+    private JToolBarButton viewBillB = new JToolBarButton(ICON_VIEW_BILL);
+    private JToolBarButton prefixTextBlockB = new JToolBarButton(ICON_PREFIX_TEXT_BLOCK);
+    private JToolBarButton suffixTextBlockB = new JToolBarButton(ICON_SUFFIX_TEXT_BLOCK);
+    private JToolBarButton deliveryOrderAddB = new JToolBarButton(ICON_ADD_DELIVERY_ORDER);
 
     /**
      * In diesem <code>Log</code> k�nnen Fehler, Info oder sonstige Ausgaben erfolgen.
@@ -188,15 +208,12 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         deliveryOrderTableCB = new DeliveryOrderTableWithCB(baseService);
     }
 
-    private JToolBarButton viewBillB;
-
     private JToolBar createBillToolBar() {
 
         JToolBar toolBar = new JToolBar();
 
         // Button zum erzeugen einer neuen Rechnung.
-        JToolBarButton newBill = new JToolBarButton(new ImageIcon("images/bill_new.png"));
-        newBill.addActionListener(new ActionListener() {
+        newBillB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -217,7 +234,6 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         });
 
         // Button zum Löschen der Rechnung.
-        JToolBarButton deleteBillB = new JToolBarButton(new ImageIcon("images/bill_delete.png"));
         deleteBillB.addActionListener(new ActionListener() {
 
             /**
@@ -247,8 +263,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         });
 
         // Button zum Speichern des aktuellen Lieferscheins hinzufuegen
-        JToolBarButton okBill = new JToolBarButton(new ImageIcon("images/delivery_order_ok.png"));
-        okBill.addActionListener(new ActionListener() {
+        saveBillB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -271,8 +286,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
             }
         });
 
-        JToolBarButton selectBillB = new JToolBarButton(new ImageIcon("images/bill_open_all.png"));
-        selectBillB.addActionListener(new ActionListener() {
+        openBillB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -287,7 +301,6 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
             }
         });
 
-        viewBillB = new JToolBarButton(new ImageIcon("images/jasper_view.png"));
         viewBillB.addActionListener(new ActionListener() {
 
             /**
@@ -303,8 +316,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
             }
         });
 
-        JToolBarButton prefixTextBlock = new JToolBarButton(new ImageIcon("images/textblock_prefix.png"));
-        prefixTextBlock.addActionListener(new ActionListener() {
+        prefixTextBlockB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -314,8 +326,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
             }
         });
 
-        JToolBarButton suffixTextBlock = new JToolBarButton(new ImageIcon("images/textblock_suffix.png"));
-        suffixTextBlock.addActionListener(new ActionListener() {
+        suffixTextBlockB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -325,8 +336,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
             }
         });
 
-        JToolBarButton deliveryOrderAdd = new JToolBarButton(new ImageIcon("images/delivery_order_add.png"));
-        deliveryOrderAdd.addActionListener(new ActionListener() {
+        deliveryOrderAddB.addActionListener(new ActionListener() {
 
             /**
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -336,17 +346,17 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
             }
         });
 
-        toolBar.add(newBill);
-        toolBar.add(okBill);
+        toolBar.add(newBillB);
+        toolBar.add(saveBillB);
         toolBar.add(deleteBillB);
         toolBar.add(new JToolBar.Separator());
-        toolBar.add(selectBillB);
+        toolBar.add(openBillB);
         toolBar.add(viewBillB);
         toolBar.add(new JToolBar.Separator());
-        toolBar.add(prefixTextBlock);
-        toolBar.add(suffixTextBlock);
+        toolBar.add(prefixTextBlockB);
+        toolBar.add(suffixTextBlockB);
         toolBar.add(new JToolBar.Separator());
-        toolBar.add(deliveryOrderAdd);
+        toolBar.add(deliveryOrderAddB);
 
         return toolBar;
     }
@@ -364,80 +374,38 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
         GroupLayout createBillPanelLayout = new GroupLayout(createBillPanel);
         createBillPanel.setLayout(createBillPanelLayout);
-        createBillPanelLayout.setHorizontalGroup(
-                createBillPanelLayout.createParallelGroup(GroupLayout.LEADING)
+        createBillPanelLayout.setHorizontalGroup(createBillPanelLayout.createParallelGroup(GroupLayout.LEADING)
+                .add(GroupLayout.LEADING, createBillPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(createBillPanelLayout.createParallelGroup(GroupLayout.TRAILING)
+                        .add(GroupLayout.LEADING, billPreviewTable, GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
                         .add(GroupLayout.LEADING, createBillPanelLayout.createSequentialGroup()
-                        .addContainerGap()
                         .add(createBillPanelLayout.createParallelGroup(GroupLayout.TRAILING)
-                                .add(GroupLayout.LEADING, billPreviewTable, GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
-                                .add(GroupLayout.LEADING, createBillPanelLayout.createSequentialGroup()
-                                .add(createBillPanelLayout.createParallelGroup(GroupLayout.TRAILING)
-                                        .add(GroupLayout.LEADING, prefixPanel, 0, 300, Short.MAX_VALUE)
-                                        .add(addressPanel, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
-                                .addPreferredGap(LayoutStyle.RELATED)
-                                .add(createBillPanelLayout.createParallelGroup(GroupLayout.LEADING)
-                                .add(suffixPanel, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                                .add(formularDataPanel, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))))
-                        .add(10, 10, 10))
-        );
-        createBillPanelLayout.setVerticalGroup(
-                createBillPanelLayout.createParallelGroup(GroupLayout.LEADING)
-                        .add(GroupLayout.LEADING, createBillPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(createBillPanelLayout.createParallelGroup(GroupLayout.TRAILING, false)
-                                .add(addressPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(formularDataPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .add(GroupLayout.LEADING, prefixPanel, 0, 300, Short.MAX_VALUE)
+                                .add(addressPanel, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
                         .addPreferredGap(LayoutStyle.RELATED)
                         .add(createBillPanelLayout.createParallelGroup(GroupLayout.LEADING)
-                                .add(prefixPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .add(suffixPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(LayoutStyle.RELATED)
-                        .add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
-                        .addContainerGap())
-        );
+                        .add(suffixPanel, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                        .add(formularDataPanel, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))))
+                .add(10, 10, 10)));
+        createBillPanelLayout.setVerticalGroup(createBillPanelLayout.createParallelGroup(GroupLayout.LEADING)
+                .add(GroupLayout.LEADING, createBillPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(createBillPanelLayout.createParallelGroup(GroupLayout.TRAILING, false)
+                        .add(addressPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(formularDataPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(LayoutStyle.RELATED)
+                .add(createBillPanelLayout.createParallelGroup(GroupLayout.LEADING)
+                        .add(prefixPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .add(suffixPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(LayoutStyle.RELATED)
+                .add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
+                .addContainerGap()));
 
         overview.add(createBillToolBar(), BorderLayout.NORTH);
         overview.add(createBillPanel, BorderLayout.CENTER);
 
         tabbedPane.addTab(WorkArea.getMessage(Constants.OVERVIEW), overview);
-
-        /*
-        JToolBarButton viewBill = new JToolBarButton(new ImageIcon("images/jasper_view.png"));
-        viewBill.addActionListener(new ActionListener() {
-
-            /**
-             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
-             *
-            public void actionPerformed(ActionEvent e) {
-                try {
-                      billViewerDialogOverview.doJasper(billTable.getIdOfSelectedRow());
-                }
-                catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-            }
-        });
-
-        JToolBarButton deleteBill = new JToolBarButton(new ImageIcon("images/delivery_order_delete.png"));
-        deleteBill.addActionListener(new ActionListener() {
-
-            /**
-             * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
-             *
-            public void actionPerformed(ActionEvent e) {
-
-                Long billId = billTable.getIdOfSelectedRow();
-
-                Bill bill = (Bill) baseService.load(Bill.class, billId);
-                baseService.delete(bill);
-
-                billTable.renewTableModel();
-                 if (billViewerDialogOverview != null) {
-                    billViewerDialogOverview.clearViewerPanel();
-                }
-            }
-        });
-        */
 
         add(tabbedPane, BorderLayout.CENTER);
     }
@@ -449,14 +417,15 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
         tabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.OVERVIEW));
 
-        /* TODO: fix me!!!
-        verticalButton.reinitI18N();
-
-        verticalButton.getButton1().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON1_TOOLTIP));
-        verticalButton.getButton2().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON2_TOOLTIP));
-        verticalButton.getButton3().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON3_TOOLTIP));
-        verticalButton.getButton4().setToolTipText(WorkArea.getMessage(Constants.DORDER_BUTTON4_TOOLTIP));
-        */
+        // Tooltips of each button in this bill user interface.
+        newBillB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.bill.BillUI.newBillB"));
+        saveBillB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.bill.BillUI.saveBillB"));
+        deleteBillB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.bill.BillUI.deleteBillB"));
+        openBillB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.bill.BillUI.openBillB"));
+        viewBillB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.bill.BillUI.viewBillB"));
+        prefixTextBlockB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.bill.BillUI.prefixTextBlockB"));
+        suffixTextBlockB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.bill.BillUI.suffixTextBlockB"));
+        deliveryOrderAddB.setToolTipText(WorkArea.getMessage("ecobill.module.base.ui.bill.BillUI.deliveryOrderAddB"));
     }
 
     /**
@@ -506,8 +475,8 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         for (int i = 0; i < deliveryOrderTableCB.getTable().getRowCount(); i++) {
 
             // Checkbox markiert ??
-            if ((deliveryOrderTableCB.getTable().getValueAt(i, 0) instanceof Boolean)
-                    && ((Boolean) (deliveryOrderTableCB.getTable().getValueAt(i, 0))).booleanValue()) {
+            if ((deliveryOrderTableCB.getTable().getValueAt(i, 0) instanceof Boolean) && ((Boolean) (deliveryOrderTableCB.getTable().getValueAt(i, 0))).booleanValue())
+            {
 
                 // das DeliveryOrder Object zu der Zeile aus der orderTable laden
                 Object o = baseService.load(DeliveryOrder.class, ((IdValueItem) deliveryOrderTableCB.getTable().getValueAt(i, 1)).getId());
