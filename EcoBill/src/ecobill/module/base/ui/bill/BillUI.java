@@ -36,7 +36,7 @@ import java.awt.event.*;
  * Time: 16:57:16
  *
  * @author R&auml;dle Roman
- * @version $Id: BillUI.java,v 1.22 2006/02/01 01:06:47 raedler Exp $
+ * @version $Id: BillUI.java,v 1.23 2006/02/01 22:20:32 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BillUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -63,7 +63,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
     /**
      * In diesem <code>Log</code> k�nnen Fehler, Info oder sonstige Ausgaben erfolgen.
-     * Diese Ausgaben k�nnen in einem separaten File spezifiziert werden.
+     * Diese Ausgaben können in einem separaten File spezifiziert werden.
      */
     private static final Log LOG = LogFactory.getLog(BillUI.class);
 
@@ -519,6 +519,9 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         bill.setBusinessPartner((BusinessPartner) baseService.load(BusinessPartner.class, actualBusinessPartnerId));
         bill.setBillNumber(formularDataPanel.getNumber());
         bill.setBillDate(formularDataPanel.getDate());
+
+        System.out.println("PREFIX: " + prefixPanel.getTextArea().getText());
+
         bill.setPrefixFreetext(prefixPanel.getTextArea().getText());
         bill.setSuffixFreetext(suffixPanel.getTextArea().getText());
 
