@@ -15,9 +15,9 @@ import ecobill.module.base.ui.component.FormularDataPanel;
 import ecobill.module.base.ui.component.TitleBorderedTextAreaPanel;
 import ecobill.module.base.ui.component.JToolBarButton;
 import ecobill.module.base.ui.deliveryorder.DeliveryOrderTableWithCB;
+import ecobill.module.base.ui.deliveryorder.BillArticleTable;
 import ecobill.module.base.ui.textblock.TextBlockDialog;
 import ecobill.module.base.domain.*;
-import ecobill.core.util.IdValueItem;
 import ecobill.core.system.Internationalization;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
@@ -36,7 +36,7 @@ import java.awt.event.*;
  * Time: 16:57:16
  *
  * @author R&auml;dle Roman
- * @version $Id: BillUI.java,v 1.23 2006/02/01 22:20:32 raedler Exp $
+ * @version $Id: BillUI.java,v 1.24 2006/02/02 22:18:27 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BillUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -141,6 +141,25 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         initComponents();
         initLayout();
 
+        addComponentListener(new ComponentAdapter() {
+
+            public void componentHidden(ComponentEvent e) {
+
+                // TODO: equivalent to newBillB ActionListener
+
+                // Setzt den Lieferschein Anzeigeknopf auf disabled da bei einem neuen Lieferschein
+                // noch kein View bereit steht.
+                viewBillB.setEnabled(false);
+
+                bill = null;
+                billArticleTable.clearDataCollection();
+
+                NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.BILL);
+
+                resetInput(numberSequence.getNextNumber());
+            }
+        });
+
         // Versuche evtl. abgelegte/serialisierte Objekte zu laden.
         /*
         try {
@@ -184,7 +203,9 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
     private JPanel overview;
 
     private AddressPanel addressPanel;
-    private BillPreviewTable billPreviewTable;
+
+    private BillArticleTable billArticleTable;
+
     private FormularDataPanel formularDataPanel;
     private TitleBorderedTextAreaPanel prefixPanel;
     private TitleBorderedTextAreaPanel suffixPanel;
@@ -203,7 +224,8 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         prefixPanel = new TitleBorderedTextAreaPanel(Constants.PREFIX_FREE_TEXT);
         suffixPanel = new TitleBorderedTextAreaPanel(Constants.SUFFIX_FREE_TEXT);
 
-        billPreviewTable = new BillPreviewTable(baseService);
+        //billArticleTable = new BillPreviewTable(baseService);
+        billArticleTable = new BillArticleTable(baseService);
 
         deliveryOrderTableCB = new DeliveryOrderTableWithCB(baseService);
     }
@@ -224,8 +246,8 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
                 // noch kein View bereit steht.
                 viewBillB.setEnabled(false);
 
-                billPreviewTable.getDataCollection().clear();
-                billPreviewTable.renewTableModel();
+                bill = null;
+                billArticleTable.clearDataCollection();
 
                 NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.BILL);
 
@@ -251,9 +273,10 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
                     }
 
                     baseService.delete(bill);
+                    bill = null;
 
-                    billPreviewTable.getDataCollection().clear();
-                    billPreviewTable.renewTableModel();
+                    billArticleTable.clearDataCollection();
+                    billArticleTable.renewTableModel();
 
                     NumberSequence numberSequence = baseService.getNumberSequenceByKey(Constants.BILL);
 
@@ -270,7 +293,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
              */
             public void actionPerformed(ActionEvent e) {
 
-                //saveOrUpdateBill();
+                saveOrUpdateBill();
 
                 billTable.renewTableModel();
                 deliveryOrderTableCB.renewTableModel();
@@ -283,6 +306,8 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
                     numberSequence.setNumber(billNumber);
                     baseService.saveOrUpdate(numberSequence);
                 }
+
+                viewBillB.setEnabled(true);
             }
         });
 
@@ -378,7 +403,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
                 .add(GroupLayout.LEADING, createBillPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(createBillPanelLayout.createParallelGroup(GroupLayout.TRAILING)
-                        .add(GroupLayout.LEADING, billPreviewTable, GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
+                        .add(GroupLayout.LEADING, billArticleTable, GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
                         .add(GroupLayout.LEADING, createBillPanelLayout.createSequentialGroup()
                         .add(createBillPanelLayout.createParallelGroup(GroupLayout.TRAILING)
                                 .add(GroupLayout.LEADING, prefixPanel, 0, 300, Short.MAX_VALUE)
@@ -399,7 +424,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
                         .add(prefixPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .add(suffixPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(LayoutStyle.RELATED)
-                .add(billPreviewTable, GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
+                .add(billArticleTable, GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
                 .addContainerGap()));
 
         overview.add(createBillToolBar(), BorderLayout.NORTH);
@@ -431,8 +456,12 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
     /**
      * Erneuert das <code>TableModel</code> der Artikel Tabelle.
      */
-    public void renewArticleTableModel() {
-        billTable.renewTableModel();
+    public void renewBillArticleTableModel() {
+
+        System.out.println("BILL: " + bill);
+
+        billArticleTable.setBill(bill);
+        billArticleTable.renewTableModel();
     }
 
 
@@ -456,81 +485,40 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         prefixPanel.getTextArea().setText("");
         suffixPanel.getTextArea().setText("");
 
-        billPreviewTable.getTableModel().getDataVector().removeAllElements();
-        billPreviewTable.renewTableModel();
+        billArticleTable.getTableModel().getDataVector().removeAllElements();
+        billArticleTable.renewTableModel();
     }
 
     private Bill bill;
 
+    public Bill getBill() {
+
+        if (bill == null) {
+            bill = new Bill();
+        }
+
+        return bill;
+    }
+
     /**
      * Erstellt eine neue Rechnung aus der markierten Lieferscheinen.
      */
-    public void saveOrUpdateBill(DeliveryOrderTableWithCB deliveryOrderTableCB) {
+    public void saveOrUpdateBill() {
 
-        Set<BillPreviewCollection> billPreviewCollections = new HashSet<BillPreviewCollection>();
-
-        Bill bill = new Bill();
-
-        // �ber alle Zeilen der Lieferscheintabelle gehen
-        for (int i = 0; i < deliveryOrderTableCB.getTable().getRowCount(); i++) {
-
-            // Checkbox markiert ??
-            if ((deliveryOrderTableCB.getTable().getValueAt(i, 0) instanceof Boolean) && ((Boolean) (deliveryOrderTableCB.getTable().getValueAt(i, 0))).booleanValue())
-            {
-
-                // das DeliveryOrder Object zu der Zeile aus der orderTable laden
-                Object o = baseService.load(DeliveryOrder.class, ((IdValueItem) deliveryOrderTableCB.getTable().getValueAt(i, 1)).getId());
-
-                if (o instanceof DeliveryOrder) {
-
-                    DeliveryOrder deliveryOrder = (DeliveryOrder) o;
-
-                    // alle Artikel zu dem Lieferschein laden
-                    Set<ReduplicatedArticle> reduplicatedArticles = deliveryOrder.getArticles();
-
-                    // Rechnungsumme
-                    double sum = 0;
-
-                    // Rechnungsumme aus allen Preisen und Mengen der Artikel errechnen
-                    for (ReduplicatedArticle article : reduplicatedArticles) {
-
-                        sum = sum + article.getPrice() * article.getQuantity();
-                    }
-
-                    // Collection f�r die Vorschautabelle erzeugen
-                    BillPreviewCollection bpc = new BillPreviewCollection(deliveryOrder.getDeliveryOrderNumber(), deliveryOrder.getDeliveryOrderDate(), sum);
-
-                    // Die Lieferung als in einen Lieferschein eingengangen markieren
-                    deliveryOrder.setPreparedBill(true);
-
-                    // Lieferschein der Rechnung anh�ngen
-                    bill.addDeliveryOrder(deliveryOrder);
-
-                    // Collection der Vorschautabelle �bergeben
-                    billPreviewCollections.add(bpc);
-                }
-            }
+        for (DeliveryOrder deliveryOrder : bill.getDeliveryOrders()) {
+            deliveryOrder.setPreparedBill(true);
         }
 
-        billPreviewTable.setDataCollection(billPreviewCollections);
-        billPreviewTable.renewTableModel();
-
-        // Rechnungsobjekt f�llen
+        // Rechnungsobjekt füllen
         bill.setBusinessPartner((BusinessPartner) baseService.load(BusinessPartner.class, actualBusinessPartnerId));
         bill.setBillNumber(formularDataPanel.getNumber());
         bill.setBillDate(formularDataPanel.getDate());
-
-        System.out.println("PREFIX: " + prefixPanel.getTextArea().getText());
 
         bill.setPrefixFreetext(prefixPanel.getTextArea().getText());
         bill.setSuffixFreetext(suffixPanel.getTextArea().getText());
 
         // Rechnungsobjekt speichern
         baseService.saveOrUpdate(bill);
-
-        this.bill = bill;
-
-        billPreviewCollections.clear();
     }
 
     private Long actualBusinessPartnerId;
@@ -556,7 +544,7 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
         viewBillB.setEnabled(true);
 
         this.bill = bill;
-        billPreviewTable.setBill(bill);
+        billArticleTable.setBill(bill);
 
         if (bill.getId() == null) {
             resetInput(bill.getBillNumber());

@@ -29,7 +29,7 @@ import java.io.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerTable.java,v 1.7 2006/01/30 23:43:14 raedler Exp $
+ * @version $Id: BusinessPartnerTable.java,v 1.8 2006/02/02 22:18:27 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerTable extends AbstractTablePanel {
@@ -189,11 +189,11 @@ public class BusinessPartnerTable extends AbstractTablePanel {
                 int keyCode = e.getKeyCode();
 
                 // Es soll nur diese Aktion ausgef�hrt werden wenn entweder Key UP oder Key DOWN
-                // gedr�ckt wurde.
+                // gedrückt wurde.
                 if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_DOWN) {
 
                     // Hole die selektierte Reihe.
-                    int row = getTable().getSelectedRow();
+                    int row = getRealSelectedRow();
 
                     // Korrigiere die Key UP oder die Key DOWN Verschiebung.
                     if (keyCode == KeyEvent.VK_UP) {
@@ -203,9 +203,9 @@ public class BusinessPartnerTable extends AbstractTablePanel {
                         ++row;
                     }
 
-                    // Fange die <code>ArrayIndexOutOfBoundsException</code> ab, die auftreten kann wenn
-                    // durch die Korrektur eine Zeile zur�ckgegeben wird, die aber nicht in der Tabelle
-                    // besteht.
+                    // Fange die <code>ArrayIndexOutOfBoundsException</code> ab, die auftreten
+                    // kann wenn durch die Korrektur eine Zeile zurückgegeben wird, die aber nicht
+                    // in der Tabelle besteht.
                     try {
                         businessPartnerId = ((IdKeyItem) getTableModel().getValueAt(row, 0)).getId();
                     }
@@ -240,7 +240,7 @@ public class BusinessPartnerTable extends AbstractTablePanel {
             public void mouseClicked(MouseEvent e) {
 
                 if (e.getButton() == MouseEvent.BUTTON1) {
-                    int row = getTable().getSelectedRow();
+                    int row = getRealSelectedRow();
 
                     businessPartnerId = ((IdValueItem) getTableModel().getValueAt(row, 0)).getId();
 
@@ -250,93 +250,5 @@ public class BusinessPartnerTable extends AbstractTablePanel {
         };
 
         return mouseListeners;
-    }
-
-    /**
-     * @see ecobill.module.base.ui.component.AbstractTablePanel#createTableModelListeners()
-     */
-    protected TableModelListener[] createTableModelListeners() {
-
-        TableModelListener[] tableModelListeners = new TableModelListener[1];
-
-        /*
-            // Ein <code>TableModelListener</code> um die �nderungen der Tabellendaten in der
-            // Datenbank zu persistieren.
-            tableModelListeners[0] = new TableModelListener() {
-
-            /**
-             * @see TableModelListener#tableChanged(javax.swing.event.TableModelEvent)
-             *
-            public void tableChanged(TableModelEvent e) {
-
-                // �berpr�fe das <code>TableModelEvent</code> auf UPDATE.
-                if (e.getType() == TableModelEvent.UPDATE) {
-
-                    // Die Reihe und Spalte des zu ver�ndernden Wertes.
-                    int row = e.getFirstRow();
-                    int col = e.getColumn();
-
-                    // Sicherheitscheck.
-                    if (row > -1 && row < tableModel.getRowCount()) {
-
-                        // Lade betreffenden Artikel von der Datenbank.
-                        Article article = (Article) baseService.load(Article.class, articleId);
-
-                        // Ver�nderter Wert.
-                        Object value = tableModel.getValueAt(row, col);
-
-                        // Der �bersetzte Name der Spalte um herauszufinden welcher Wert �berhaupt
-                        // ge�ndert werden muss.
-                        String columnName = tableModel.getColumnName(col);
-
-                        if (columnName.equals(WorkArea.getMessage(Constants.ARTICLE_NR))) {
-                            article.setArticleNumber((String) value);
-                        }
-                        else if (columnName.equals(WorkArea.getMessage(Constants.UNIT))) {
-                            article.setUnit((SystemUnit) value);
-                        }
-                        else if (columnName.equals(WorkArea.getMessage(Constants.SINGLE_PRICE))) {
-                            article.setPrice(Double.valueOf((String) value));
-                        }
-                        else if (columnName.equals(WorkArea.getMessage(Constants.DESCRIPTION))) {
-                            try {
-                                article.getLocalizedArticleDescription().setDescription((String) value);
-                            }
-                            catch (LocalizerException le) {
-                                ArticleDescription articleDescription = new ArticleDescription();
-
-                                SystemLocale systemLocale = baseService.getSystemLocaleByLocale(WorkArea.getLocale());
-
-                                articleDescription.setDescription((String) value);
-                                articleDescription.setSystemLocale(systemLocale);
-
-                                article.addArticleDescription(articleDescription);
-                            }
-                        }
-                        else if (columnName.equals(WorkArea.getMessage(Constants.IN_STOCK))) {
-                            article.setInStock(Double.valueOf((String) value));
-                        }
-                        else if (columnName.equals(WorkArea.getMessage(Constants.BUNDLE_UNIT))) {
-                            article.setBundleUnit((SystemUnit) value);
-                        }
-                        else if (columnName.equals(WorkArea.getMessage(Constants.BUNDLE_CAPACITY))) {
-                            article.setBundleCapacity(Double.valueOf((String) value));
-                        }
-
-                        baseService.saveOrUpdate(article);
-
-                        if (LOG.isDebugEnabled()) {
-                            //LOG.debug("In der Spalte [" + col + "] und Zeile [" + row + "] wurde f�r den Artikel [id=\"" + articleId + "\"] der Wert auf \"" + tableModel.getValueAt(row, col) + "\" ge�ndert.");
-                        }
-
-                        renewArticleTableModel();
-                        articleUI.showArticle(articleId);
-                    }
-                }
-            }
-        });
-        */
-
-        return tableModelListeners;
     }
 }

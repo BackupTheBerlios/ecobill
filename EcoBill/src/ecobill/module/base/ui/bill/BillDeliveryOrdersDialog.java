@@ -2,6 +2,7 @@ package ecobill.module.base.ui.bill;
 
 import ecobill.module.base.ui.deliveryorder.DeliveryOrderTableWithCB;
 import ecobill.module.base.service.BaseService;
+import ecobill.module.base.domain.DeliveryOrder;
 import ecobill.core.system.Internationalization;
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
@@ -26,7 +27,7 @@ import java.awt.event.ActionEvent;
  * Time: 00:48:35
  *
  * @author Roman R&auml;dle
- * @version $Id: BillDeliveryOrdersDialog.java,v 1.3 2006/01/30 23:43:14 raedler Exp $
+ * @version $Id: BillDeliveryOrdersDialog.java,v 1.4 2006/02/02 22:18:27 raedler Exp $
  * @since EcoBill 1.1
  */
 public class BillDeliveryOrdersDialog extends JDialog implements Internationalization {
@@ -102,6 +103,7 @@ public class BillDeliveryOrdersDialog extends JDialog implements Internationaliz
      */
     private void initComponents() {
         deliveryOrderTableWithCB = new DeliveryOrderTableWithCB(businessPartnerId, baseService);
+        deliveryOrderTableWithCB.setBill(billUI.getBill());
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -121,7 +123,13 @@ public class BillDeliveryOrdersDialog extends JDialog implements Internationaliz
              * @see ActionListener#actionPerformed(java.awt.event.ActionEvent)
              */
             public void actionPerformed(ActionEvent e) {
-                billUI.saveOrUpdateBill(deliveryOrderTableWithCB);
+
+                for (DeliveryOrder deliveryOrder : deliveryOrderTableWithCB.getSelectedDeliveryOrders()) {
+                    billUI.getBill().addDeliveryOrder(deliveryOrder);
+                }
+
+                billUI.renewBillArticleTableModel();
+
                 BillDeliveryOrdersDialog.this.dispose();
             }
         });

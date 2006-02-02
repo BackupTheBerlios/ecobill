@@ -16,13 +16,13 @@ import java.text.Collator;
  * Time: 13:29:28
  *
  * @author Roman R&auml;dle
- * @version $Id: Bill.java,v 1.6 2006/01/30 23:43:13 raedler Exp $
+ * @version $Id: Bill.java,v 1.7 2006/02/02 22:18:27 raedler Exp $
  * @since DAPS INTRA 1.0
  */
 public class Bill extends AbstractDomain {
 
     /**
-     * Der Geschäftspartner dem diese Rechnung zugeordnet werden soll.
+     * Der Geschï¿½ftspartner dem diese Rechnung zugeordnet werden soll.
      */
     private BusinessPartner businessPartner;
 
@@ -61,27 +61,35 @@ public class Bill extends AbstractDomain {
      */
     private Set<DeliveryOrder> deliveryOrders;
 
+
     /**
-     * Gibt den zu dieser Rechnung dazugehörigen <code>BusinessPartner</code>
-     * zurück.
+     * A new bill with an empty delivery orders <code>Set</code>.
+     */
+    public Bill() {
+        deliveryOrders = new HashSet<DeliveryOrder>();
+    }
+
+    /**
+     * Gibt den zu dieser Rechnung dazugehï¿½rigen <code>BusinessPartner</code>
+     * zurï¿½ck.
      *
-     * @return Der zugehörige <code>BusinessPartner</code>.
+     * @return Der zugehï¿½rige <code>BusinessPartner</code>.
      */
     public BusinessPartner getBusinessPartner() {
         return businessPartner;
     }
 
     /**
-     * Setzt den <code>BusinessPartner</code> der zu dieser Rechnung gehört.
+     * Setzt den <code>BusinessPartner</code> der zu dieser Rechnung gehï¿½rt.
      *
-     * @param businessPartner Der zugehörige <code>BusinessPartner</code>.
+     * @param businessPartner Der zugehï¿½rige <code>BusinessPartner</code>.
      */
     public void setBusinessPartner(BusinessPartner businessPartner) {
         this.businessPartner = businessPartner;
     }
 
     /**
-     * Gibt die Rechnungsnummer zurück.
+     * Gibt die Rechnungsnummer zurï¿½ck.
      *
      * @return Die Rechnungsnummer.
      */
@@ -100,7 +108,7 @@ public class Bill extends AbstractDomain {
 
     /**
      * Gibt das Rechnungsdatum, an dem diese Rechnung ausgetellt wurde,
-     * zurück.
+     * zurï¿½ck.
      *
      * @return Das Rechnungsdatum.
      */
@@ -118,7 +126,7 @@ public class Bill extends AbstractDomain {
     }
 
     /**
-     * Gibt den <code>CharacterisationType</code> dieser Rechnung zurück.
+     * Gibt den <code>CharacterisationType</code> dieser Rechnung zurï¿½ck.
      *
      * @return Der Rechnungs <code>CharacterisationType</code>.
      */
@@ -138,7 +146,7 @@ public class Bill extends AbstractDomain {
     }
 
     /**
-     * Gibt den Freitext, der optional angegeben werden kann, zurück. Dieser Freitext
+     * Gibt den Freitext, der optional angegeben werden kann, zurï¿½ck. Dieser Freitext
      * kann bspw. an den Anfang eines Reports gesetzt werden.
      *
      * @return Der Freitext der optional angegeben werden kann.
@@ -158,7 +166,7 @@ public class Bill extends AbstractDomain {
     }
 
     /**
-     * Gibt den Freitext, der optional angegeben werden kann, zurück. Dieser Freitext
+     * Gibt den Freitext, der optional angegeben werden kann, zurï¿½ck. Dieser Freitext
      * kann bspw. ans Ende eines Reports gesetzt werden.
      *
      * @return Der Freitext der optional angegeben werden kann.
@@ -178,7 +186,7 @@ public class Bill extends AbstractDomain {
     }
 
     /**
-     * Gibt ein <code>Set</code> mit <code>DeliveryOrder</code> zurück.
+     * Gibt ein <code>Set</code> mit <code>DeliveryOrder</code> zurï¿½ck.
      * Von diesen Lieferscheinen wurde diese Rechnung erstellt.
      *
      * @return Ein <code>Set</code> von <code>DeliveryOrder</code>.
@@ -197,10 +205,10 @@ public class Bill extends AbstractDomain {
     }
 
     /**
-     * Fügt dem <code>Set</code> mit <code>DeliveryOrder</code> der Rechnung einen
+     * Fï¿½gt dem <code>Set</code> mit <code>DeliveryOrder</code> der Rechnung einen
      * Lieferschein hinzu.
      *
-     * @param deliveryOrder Eine <code>DeliveryOrder</code> die zur Rechnung hinzugefügt
+     * @param deliveryOrder Eine <code>DeliveryOrder</code> die zur Rechnung hinzugefï¿½gt
      *                      werden soll.
      */
     public void addDeliveryOrder(DeliveryOrder deliveryOrder) {
@@ -214,7 +222,7 @@ public class Bill extends AbstractDomain {
 
     /**
      * Es wird dieser <code>DeliveryOrder</code> mit dem eingehenden Objekt
-     * auf Gleichheit überprüft.
+     * auf Gleichheit ï¿½berprï¿½ft.
      *
      * @see Object#equals(Object)
      */

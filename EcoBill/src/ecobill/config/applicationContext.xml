@@ -5,7 +5,7 @@
 <beans>
 
     <!-- ======================================== BEGIN PROPERTY CONFIGURER ======================================== -->
-    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <bean id="propertyConfigurer" class="ecobill.core.springframework.PropertyPreferencesPlaceholderConfigurer">
         <property name="locations">
             <list>
                 <value>classpath:ecobill/config/hibernate.properties</value>

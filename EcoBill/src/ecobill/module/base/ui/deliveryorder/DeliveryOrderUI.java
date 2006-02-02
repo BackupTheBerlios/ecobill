@@ -38,7 +38,7 @@ import java.awt.event.*;
  * Time: 16:57:16
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderUI.java,v 1.26 2006/02/01 12:00:48 raedler Exp $
+ * @version $Id: DeliveryOrderUI.java,v 1.27 2006/02/02 22:18:27 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -456,7 +456,7 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
     }
 
     public void addReduplicatedArticle(ReduplicatedArticle reduplicatedArticle) {
-        // TODO: hier liegt der fehler f�r erneutes erscheinen des artikels.
+        // TODO: hier liegt der fehler für erneutes erscheinen des artikels.
 
         deliveryOrderArticleTable.addReduplicatedArticle(reduplicatedArticle);
     }

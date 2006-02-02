@@ -3,6 +3,7 @@ package ecobill.module.base.ui.deliveryorder;
 import ecobill.module.base.service.BaseService;
 import ecobill.module.base.domain.DeliveryOrder;
 import ecobill.module.base.domain.BusinessPartner;
+import ecobill.module.base.domain.Bill;
 import ecobill.module.base.ui.component.AbstractTablePanel;
 import ecobill.core.util.I18NItem;
 import ecobill.core.util.IdValueItem;
@@ -16,9 +17,7 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import java.util.Vector;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -96,6 +95,13 @@ public class DeliveryOrderTableWithCB extends AbstractTablePanel {
         return tableColumnOrder;
     }
 
+    private Bill bill;
+
+    public void setBill(Bill bill) {
+        this.bill = bill;
+        renewTableModel();
+    }
+
     /**
      * @see ecobill.module.base.ui.component.AbstractTablePanel#getDataCollection()
      */
@@ -105,7 +111,27 @@ public class DeliveryOrderTableWithCB extends AbstractTablePanel {
 
             BusinessPartner businessPartner = (BusinessPartner) getBaseService().load(BusinessPartner.class, businessPartnerId);
 
-            return businessPartner.getOpenDeliveryOrders();
+            Set<DeliveryOrder> openDeliveryOrders = businessPartner.getOpenDeliveryOrders();
+
+            // Whether a new created <code>Bill</code> exists all temporarily added
+            // <code>DeliveryOrder</code> will be removed from the selection. So you
+            // can't add the same <code>DeliveryOrder</code> twice.
+            if (bill != null) {
+
+                Set<DeliveryOrder> removableDeliveryOrders = new HashSet<DeliveryOrder>();
+
+                for (DeliveryOrder deliveryOrder : bill.getDeliveryOrders()) {
+                    for (DeliveryOrder openDeliveryOrder : openDeliveryOrders) {
+                        if (deliveryOrder.getDeliveryOrderNumber().equals(openDeliveryOrder.getDeliveryOrderNumber())) {
+                            removableDeliveryOrders.add(openDeliveryOrder);
+                        }
+                    }
+                }
+
+                openDeliveryOrders.removeAll(removableDeliveryOrders);
+            }
+
+            return openDeliveryOrders;
         }
 
         return Collections.EMPTY_SET;
@@ -129,7 +155,7 @@ public class DeliveryOrderTableWithCB extends AbstractTablePanel {
                 if (Constants.CHECKBOX_NEEDED.equals(key)) {
                     line.add(deliveryOrder.isPreparedBill());
                 }
-                if (Constants.DELIVERY_ORDER_NUMBER.equals(key)) {
+                else if (Constants.DELIVERY_ORDER_NUMBER.equals(key)) {
                     line.add(new IdValueItem(deliveryOrder.getId(), deliveryOrder.getDeliveryOrderNumber()));
                 }
                 else if (Constants.DELIVERY_ORDER_DATE.equals(key)) {
@@ -150,5 +176,25 @@ public class DeliveryOrderTableWithCB extends AbstractTablePanel {
         }
 
         return line;
+    }
+
+    public Set<DeliveryOrder> getSelectedDeliveryOrders() {
+
+        Set<DeliveryOrder> deliveryOrders = new HashSet<DeliveryOrder>();
+
+        // Über alle Zeilen der Lieferscheintabelle gehen
+        for (int i = 0; i < getTable().getRowCount(); i++) {
+
+            // Checkbox markiert ??
+            if ((getTable().getValueAt(i, 0) instanceof Boolean) && (Boolean) getTable().getValueAt(i, 0)) {
+
+                // Das DeliveryOrder Object zu der Zeile aus der orderTable laden
+                DeliveryOrder deliveryOrder = (DeliveryOrder) getBaseService().load(DeliveryOrder.class, ((IdValueItem) getTable().getValueAt(i, 1)).getId());
+
+                deliveryOrders.add(deliveryOrder);
+            }
+        }
+
+        return deliveryOrders;
     }
 }

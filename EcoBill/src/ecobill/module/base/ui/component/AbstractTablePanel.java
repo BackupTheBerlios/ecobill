@@ -30,7 +30,7 @@ import java.io.*;
  * Time: 12:33:23
  *
  * @author Roman R&auml;dle
- * @version $Id: AbstractTablePanel.java,v 1.15 2006/01/30 23:43:14 raedler Exp $
+ * @version $Id: AbstractTablePanel.java,v 1.16 2006/02/02 22:18:27 raedler Exp $
  * @since EcoBill 1.0
  */
 public abstract class AbstractTablePanel extends JPanel implements Internationalization {
@@ -89,8 +89,19 @@ public abstract class AbstractTablePanel extends JPanel implements International
         }
     };
 
+    // TODO: document me!!!
     private TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<DefaultTableModel>(tableModel);
 
+    /**
+     * TODO: document me!!!
+     *
+     * @return
+     */
+    public TableRowSorter<DefaultTableModel> getTableRowSorter() {
+        return tableRowSorter;
+    }
+
+    // TODO: document me!!!
     private RowFilter<DefaultTableModel, Integer> filter = new RowFilter<DefaultTableModel, Integer>() {
 
         public boolean include(Entry<? extends DefaultTableModel, ? extends Integer> entry) {

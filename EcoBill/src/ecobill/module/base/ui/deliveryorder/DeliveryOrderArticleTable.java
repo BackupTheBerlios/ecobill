@@ -31,7 +31,7 @@ import java.util.LinkedHashSet;
  * Time: 16:57:16
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderArticleTable.java,v 1.2 2006/02/01 12:00:48 raedler Exp $
+ * @version $Id: DeliveryOrderArticleTable.java,v 1.3 2006/02/02 22:18:27 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderArticleTable extends AbstractTablePanel {
@@ -170,34 +170,37 @@ public class DeliveryOrderArticleTable extends AbstractTablePanel {
 
                     if (e.getType() == TableModelEvent.UPDATE) {
 
-                        try {
-                            IdValueItem idValueItem = (IdValueItem) getTableModel().getValueAt(row, 0);
+                        if (row > -1) {
 
-                            ReduplicatedArticle article = (ReduplicatedArticle) idValueItem.getOriginalValue();
+                            try {
+                                IdValueItem idValueItem = (IdValueItem) getTableModel().getValueAt(row, 0);
 
-                            Object o = getTableModel().getValueAt(row, e.getColumn());
+                                ReduplicatedArticle article = (ReduplicatedArticle) idValueItem.getOriginalValue();
 
-                            switch (e.getColumn()) {
+                                Object o = getTableModel().getValueAt(row, e.getColumn());
 
-                                case 0:
-                                    article.setArticleNumber((String) o);
-                                    break;
-                                case 1:
-                                    article.setDescription((String) o);
-                                    break;
-                                case 2:
-                                    article.setQuantity((Double) o);
-                                    break;
-                                case 3:
-                                    article.setUnit((String) o);
-                                    break;
-                                case 4:
-                                    article.setPrice((Double) o);
-                                    break;
+                                switch (e.getColumn()) {
+
+                                    case 0:
+                                        article.setArticleNumber((String) o);
+                                        break;
+                                    case 1:
+                                        article.setDescription((String) o);
+                                        break;
+                                    case 2:
+                                        article.setQuantity((Double) o);
+                                        break;
+                                    case 3:
+                                        article.setUnit((String) o);
+                                        break;
+                                    case 4:
+                                        article.setPrice((Double) o);
+                                        break;
+                                }
                             }
-                        }
-                        catch (ArrayIndexOutOfBoundsException aioobe) {
-                            LOG.error(aioobe.getMessage(), aioobe);
+                            catch (ArrayIndexOutOfBoundsException aioobe) {
+                                LOG.error(aioobe.getMessage(), aioobe);
+                            }
                         }
                     }
                 }
