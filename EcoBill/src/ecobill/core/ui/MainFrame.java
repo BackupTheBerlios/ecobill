@@ -43,7 +43,7 @@ import java.net.MalformedURLException;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.108 2006/02/04 00:46:52 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.110 2006/02/04 18:01:02 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -534,7 +534,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             public void actionPerformed(ActionEvent e) {
                 URL remoteURL = null;
                 try {
-                    remoteURL = new URL("http://www.raedle.info/ecobill/netupdate_remote_v1.xml");
+                    remoteURL = new URL("http://ecobill.raedle.info/update/netupdate_remote_v1.xml");
                 }
                 catch (MalformedURLException murle) {
                     if (LOG.isErrorEnabled()) {
@@ -549,7 +549,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
                 if (remoteURL != null) {
                     try {
-                        NetUpdateProcessor updateProcessor = new NetUpdateProcessor(new NetUpdater(MainFrame.this), remoteURL, new File(appPath + File.separator + "netupdate_local_v1.xml"), new File(""));
+                        NetUpdateProcessor updateProcessor = new NetUpdateProcessor(new NetUpdater(MainFrame.this), remoteURL, new File(appPath + File.separator + "/netupdate/netupdate_local_v1.xml"), new File(""));
                         updateProcessor.update();
                     }
                     catch (NetUpdateException nue) {
@@ -631,7 +631,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // AusgabeStrings im PopUp Fenster About
         String ab = "About";
-        String ec = "Economy Bill Agenda" + LINE_SEPARATOR + "        Version 1.0";
+        String ec = "Economy Bill Agenda" + LINE_SEPARATOR + WorkArea.getMessage("applicationVersion");
 
         // erstellt PopUp About
         int aboutOption = JOptionPane.showConfirmDialog(this, ec, ab, JOptionPane.CLOSED_OPTION, 0, new ImageIcon("images/about.gif"));

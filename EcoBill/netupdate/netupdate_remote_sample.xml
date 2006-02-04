@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<netupdates-remote>
+
+    <netupdate-remote name="Version-1.1.0">
+        <resource info="Update spring-framework Library">
+            <remote url="http://ecobill.raedle.info/update/v-1.1.0/spring.jar"/>
+            <local subdir="/lib/" file="spring.jar" action="update"/>
+        </resource>
+    </netupdate-remote>
+
+    <netupdate-remote name="Version-1.1.1">
+        <resource info="Update spring-framework Library">
+            <remote url="http://ecobill.raedle.info/update/v-1.1.1/spring.jar"/>
+            <local subdir="/lib/" file="spring.jar" action="update"/>
+        </resource>
+        <resource info="Update hibernate Library">
+            <remote url="http://ecobill.raedle.info/update/v-1.1.1/hibernate3.jar"/>
+            <local subdir="/lib/" file="hibernate3.jar" action="update"/>
+        </resource>
+    </netupdate-remote>
+
+    <netupdate-remote name="Version-1.1.2">
+        <resource info="Delete swing-layout-0.7 Library">
+            <local subdir="/lib/" file="swing-layout-0.7.jar" action="delete"/>
+        </resource>
+        <resource info="Create swing-layout-1.0 Library">
+            <remote url="http://ecobill.raedle.info/update/v-1.1.2/swing-layout-0.7.jar"/>
+            <local subdir="/lib/" file="swing-layout-1.0.jar" action="update"/>
+        </resource>
+    </netupdate-remote>
+
+    <netupdate-remote name="Version-1.1.3">
+        <resource info="Update MainFrame">
+            <remote url="http://ecobill.raedle.info/update/v-1.1.3/MainFrame.class"/>
+            <local subdir="/classes/ecobill/core/ui/" file="MainFrame.class" action="update"/>
+        </resource>
+        <resource info="Update MainFrame$1">
+            <remote url="http://ecobill.raedle.info/update/v-1.1.3/MainFrame$1.class"/>
+            <local subdir="/classes/ecobill/core/ui/" file="MainFrame$1.class" action="update"/>
+        </resource>
+        <resource info="Update MainFrame$2">
+            <remote url="http://ecobill.raedle.info/update/v-1.1.3/MainFrame$2.class"/>
+            <local subdir="/classes/ecobill/core/ui/" file="MainFrame$2.class" action="update"/>
+        </resource>
+        <resource info="Update MainFrame$3">
+            <remote url="http://ecobill.raedle.info/update/v-1.1.3/MainFrame$3.class"/>
+            <local subdir="/classes/ecobill/core/ui/" file="MainFrame$3.class" action="update"/>
+        </resource>
+        <resource info="Update MainFrame$4">
+            <remote url="http://ecobill.raedle.info/update/v-1.1.3/MainFrame$4.class"/>
+            <local subdir="/classes/ecobill/core/ui/" file="MainFrame$4.class" action="update"/>
+        </resource>
+        <resource info="Update MainFrame$5">
+            <remote url="http://ecobill.raedle.info/update/v-1.1.3/MainFrame$5.class"/>
+            <local subdir="/classes/ecobill/core/ui/" file="MainFrame$5.class" action="update"/>
+        </resource>
+        <resource info="Update MainFrame$6">
+            <remote url="http://ecobill.raedle.info/update/v-1.1.3/MainFrame$6.class"/>
+            <local subdir="/classes/ecobill/core/ui/" file="MainFrame$6.class" action="update"/>
+        </resource>
+        <resource info="Update MainFrame$7">
+            <remote url="http://ecobill.raedle.info/update/v-1.1.3/MainFrame$7.class"/>
+            <local subdir="/classes/ecobill/core/ui/" file="MainFrame$7.class" action="update"/>
+        </resource>
+        <resource info="Update MainFrame$8">
+            <remote url="http://ecobill.raedle.info/update/v-1.1.3/MainFrame$8.class"/>
+            <local subdir="/classes/ecobill/core/ui/" file="MainFrame$8.class" action="update"/>
+        </resource>
+        <resource info="Update MainFrame$9">
+            <remote url="http://ecobill.raedle.info/update/v-1.1.3/MainFrame$9.class"/>
+            <local subdir="/classes/ecobill/core/ui/" file="MainFrame$9.class" action="update"/>
+        </resource>
+        <resource info="Update MainFrame$10">
+            <remote url="http://ecobill.raedle.info/update/v-1.1.3/MainFrame$10.class"/>
+            <local subdir="/classes/ecobill/core/ui/" file="MainFrame$10.class" action="update"/>
+        </resource>
+        <resource info="Update MainFrame$11">
+            <remote url="http://ecobill.raedle.info/update/v-1.1.3/MainFrame$11.class"/>
+            <local subdir="/classes/ecobill/core/ui/" file="MainFrame$11.class" action="update"/>
+        </resource>
+        <resource info="Update MainFrame$12">
+            <remote url="http://ecobill.raedle.info/update/v-1.1.3/MainFrame$12.class"/>
+            <local subdir="/classes/ecobill/core/ui/" file="MainFrame$12.class" action="update"/>
+        </resource>
+        <resource info="Update MainFrame$13">
+            <remote url="http://ecobill.raedle.info/update/v-1.1.3/MainFrame$13.class"/>
+            <local subdir="/classes/ecobill/core/ui/" file="MainFrame$13.class" action="update"/>
+        </resource>
+        <resource info="Update MainFrame$14">
+            <remote url="http://ecobill.raedle.info/update/v-1.1.3/MainFrame$14.class"/>
+            <local subdir="/classes/ecobill/core/ui/" file="MainFrame$14.class" action="update"/>
+        </resource>
+        <resource info="Update MainFrame$15">
+            <remote url="http://ecobill.raedle.info/update/v-1.1.3/MainFrame$15.class"/>
+            <local subdir="/classes/ecobill/core/ui/" file="MainFrame$15.class" action="update"/>
+        </resource>
+    </netupdate-remote>
+
+</netupdates-remote>

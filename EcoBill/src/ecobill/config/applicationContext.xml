@@ -19,6 +19,7 @@
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basenames">
             <list>
+                <value>ecobill/config/bundle/base/application</value>
                 <value>ecobill/config/bundle/base/gui</value>
                 <value>ecobill/config/bundle/base/system_unit</value>
                 <value>ecobill/config/bundle/base/language</value>

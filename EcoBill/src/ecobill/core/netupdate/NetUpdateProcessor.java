@@ -26,7 +26,7 @@ import ecobill.core.netupdate.ui.NetUpdater;
  * Time: 14:06:50
  *
  * @author Roman R&auml;dle
- * @version $Id: NetUpdateProcessor.java,v 1.1 2006/02/04 00:46:52 raedler Exp $
+ * @version $Id: NetUpdateProcessor.java,v 1.2 2006/02/04 18:01:02 raedler Exp $
  * @since EcoBill 1.1
  */
 public class NetUpdateProcessor implements Runnable {
@@ -157,17 +157,39 @@ public class NetUpdateProcessor implements Runnable {
         new Thread(this).start();
     }
 
+    /**
+     * The update process get its own thread to avoid
+     * restricting the application speed.
+     *
+     * @see Runnable#run()
+     */
     public void run() {
 
         List<String> necessaryUpdates = createNecessaryUpdates();
 
-        if (necessaryUpdates.size() < 1) {
+        // If there is no necessary update, the update will
+        // marked as up-to-date.
+        if (necessaryUpdates.size() == 0) {
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("All files are up-to-date.");
+            }
+
             feedback.upToDate();
         }
 
         for (String name : necessaryUpdates) {
 
-            feedback.start(docRemote.selectSingleNode("/netupdates-remote/netupdate-remote[@name=\"" + name + "\"]/@name").getText());
+            String name1 = docRemote.selectSingleNode("/netupdates-remote/netupdate-remote[@name=\"" + name + "\"]/@name").getText();
+
+            System.out.println("NAME: " + name);
+            System.out.println("NAME1: " + name1);
+
+            if (LOG.isDebugEnabled()) {
+                //LOG.debug()
+            }
+
+            feedback.start(name1);
 
             int size = docRemote.selectNodes("/netupdates-remote/netupdate-remote[@name=\"" + name + "\"]/resource").size();
 
@@ -195,7 +217,7 @@ public class NetUpdateProcessor implements Runnable {
 
                 String action = actionNode.getText();
 
-                feedback.startResource(info, action);
+                feedback.startResource(info, subDir + file, action);
 
                 if ("update".equals(action)) updateAction(remoteUrl, subDir, file);
                 else if ("delete".equals(action)) deleteAction(subDir, file);
@@ -246,6 +268,7 @@ public class NetUpdateProcessor implements Runnable {
 
             long deltaTime = 0;
             long time = -System.currentTimeMillis();
+            boolean firstRun = true;
 
             while ((length = bis.read(buffer)) > 0) {
 
@@ -255,12 +278,22 @@ public class NetUpdateProcessor implements Runnable {
                 bytesPerSecond += length;
                 absoluteLength += length;
 
+                if (firstRun) {
+                    firstRun = false;
+                    feedback.process(contentLength, absoluteLength, bytesPerSecond);
+                }
+
+                if (absoluteLength >= contentLength) {
+                    feedback.process(contentLength, absoluteLength, bytesPerSecond);
+                }
+
                 if (deltaTime > 1000) {
-                    feedback.process(subDir + fileName, contentLength, absoluteLength, bytesPerSecond);
+                    feedback.process(contentLength, absoluteLength, bytesPerSecond);
                     bytesPerSecond = 0;
                     deltaTime = 0;
                     time = -System.currentTimeMillis();
                 }
+
                 deltaTime += time + System.currentTimeMillis();
             }
 
@@ -276,7 +309,7 @@ public class NetUpdateProcessor implements Runnable {
     private void deleteAction(String subDir, String fileName) {
         File file = new File(appDir + subDir + fileName);
 
-        feedback.process(subDir + fileName, 100, 0, 0);
+        feedback.process(100, 0, 0);
 
         if (file.exists()) {
 
@@ -287,7 +320,7 @@ public class NetUpdateProcessor implements Runnable {
             file.delete();
         }
 
-        feedback.process(subDir + fileName, 100, 100, 0);
+        feedback.process(100, 100, 0);
     }
 
     public void serializetoXML(OutputStream out, String aEncodingScheme) throws Exception {
@@ -300,7 +333,7 @@ public class NetUpdateProcessor implements Runnable {
 
     public static void main(String[] args) {
         try {
-            new NetUpdateProcessor(new NetUpdater(), new URL("http://www.raedle.info/ecobill/netupdate_remote_v1.xml"), new File("C:/Dokumente und Einstellungen/Romsl/Desktop/EcoBill-1.1/netupdate_local_v1.xml"), new File("C:/Dokumente und Einstellungen/Romsl/Desktop/EcoBill-1.1")).update();
+            new NetUpdateProcessor(new NetUpdater(), new URL("http://ecobill.raedle.info/update/netupdate_remote_v1.xml"), new File("C:/Dokumente und Einstellungen/Romsl/Desktop/EcoBill-1.1/netupdate_local_v1.xml"), new File("C:/Dokumente und Einstellungen/Romsl/Desktop/EcoBill-1.1")).update();
         }
         catch (MalformedURLException e) {
             e.printStackTrace();

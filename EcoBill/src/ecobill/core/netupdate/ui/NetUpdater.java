@@ -3,8 +3,6 @@ package ecobill.core.netupdate.ui;
 import ecobill.core.netupdate.NetUpdateFeedback;
 import ecobill.core.util.ComponentUtils;
 import ecobill.core.ui.MainFrame;
-import ecobill.core.ui.ConnectionSettings;
-import ecobill.Start;
 
 import javax.swing.*;
 
@@ -24,7 +22,7 @@ import java.text.NumberFormat;
  * Time: 15:59:22
  *
  * @author Roman R&auml;dle
- * @version $Id: NetUpdater.java,v 1.1 2006/02/04 00:46:52 raedler Exp $
+ * @version $Id: NetUpdater.java,v 1.2 2006/02/04 18:01:02 raedler Exp $
  * @since EcoBill 1.1
  */
 public class NetUpdater extends JFrame implements NetUpdateFeedback {
@@ -169,18 +167,17 @@ public class NetUpdater extends JFrame implements NetUpdateFeedback {
     }
 
     public void start(String name) {
-
         updated = true;
-
         nameContentL.setText(name);
     }
 
-    public void startResource(String name, String action) {
-        infoContentL.setText(action + " " + name);
+    public void startResource(String info, String file, String action) {
+        infoContentL.setText(info);
+        fileContentL.setText(file);
         progressPB.setValue(0);
     }
 
-    public void process(String name, int total, int part, int rate) {
+    public void process(int total, int part, int rate) {
 
         progressPB.setMaximum(total);
         progressPB.setValue(part);
@@ -189,12 +186,18 @@ public class NetUpdater extends JFrame implements NetUpdateFeedback {
         String[] breakPart = createBreakedNumbers(part);
         String[] breakRate = createBreakedNumbers(rate);
 
-        fileContentL.setText(name);
         progressStateL.setText(breakPart[0] + " " + breakPart[1] + " von " + breakTotal[0] + " " + breakTotal[1] + " bei " + breakRate[0] + " " + breakRate[1]);
     }
 
     public void doneResource() {
         progressPB.setValue(progressPB.getMaximum());
+
+        try {
+            Thread.sleep(500);
+        }
+        catch (InterruptedException ie) {
+            ie.printStackTrace();
+        }
     }
 
     public void done() {
@@ -202,6 +205,10 @@ public class NetUpdater extends JFrame implements NetUpdateFeedback {
     }
 
     public void finished() {
+
+        nameContentL.setText("Update finished.");
+        if (updated) fileContentL.setText(" ");
+        progressStateL.setText(" ");
 
         progressPB.setMaximum(3);
         progressPB.setValue(0);
@@ -212,7 +219,6 @@ public class NetUpdater extends JFrame implements NetUpdateFeedback {
 
                 for (int i = 0; i < 4; i++) {
 
-                    nameContentL.setText("Update finished.");
                     infoContentL.setText("Fenster wird in " + (3 - i) + " Sekunden geschlossen.");
                     progressPB.setValue(i);
 

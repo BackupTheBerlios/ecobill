@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="ecobill" default="init">
+<project name="ecobill" default="build-dist">
 
     <property name="lib.dir" value="lib"/>
     <property name="src.dir" value="src"/>
@@ -85,5 +85,48 @@
             </fileset>
         </schemaupdate>
     </target>
+
+    <target name="build-dist">
+
+        <mkdir dir="build/classes"/>
+        <javac debug="off" target="1.5" source="1.5" srcdir="src" destdir="build/classes">
+            <compilerarg line="-Xlint:unchecked"/>
+            <classpath>
+                <fileset dir="lib" includes="**/*.jar"/>
+            </classpath>
+        </javac>
+        <copy todir="build/classes">
+            <fileset dir="src" includes="**/*.xml, **/*.properties, **/*.dtd"/>
+        </copy>
+        <copy todir="build">
+            <fileset dir="bin"/>
+        </copy>
+        <copy todir="build/html">
+            <fileset dir="html" includes="**/*.htm, **/*.html"/>
+        </copy>
+        <copy todir="build/images">
+            <fileset dir="images" includes="**/*.png, **/*.gif, **/*.ico"/>
+        </copy>
+        <copy todir="build/lib" flatten="true">
+            <fileset dir="lib" includes="**/*.jar"/>
+        </copy>
+        <copy todir="build/midi">
+            <fileset dir="midi"/>
+        </copy>
+        <copy todir="build/reports">
+            <fileset dir="reports"/>
+        </copy>
+        <copy todir="build/netupdate">
+            <fileset dir="netupdate" includes="netupdate_local_v*.xml"/>
+        </copy>
+        <mkdir dir="build/log"/>
+
+    </target>
+
+    <target name="build-clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="build-clean-dist" depends="build-clean,build-dist"/>
 
 </project>
