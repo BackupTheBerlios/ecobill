@@ -21,7 +21,7 @@ import java.util.Properties;
  * Time: 17:47:38
  *
  * @author Roman R&auml;dle
- * @version $Id: Start.java,v 1.1 2006/02/02 22:18:27 raedler Exp $
+ * @version $Id: Start.java,v 1.2 2006/02/04 00:46:52 raedler Exp $
  * @since Ecobill 1.0
  */
 public class Start {
@@ -46,7 +46,6 @@ public class Start {
 
         Class clazz = null;
         try {
-            //clazz = Thread.currentThread().getContextClassLoader().loadClass(className);
             clazz = getClass().getClassLoader().loadClass(className);
         }
         catch (ClassNotFoundException cnfe) {

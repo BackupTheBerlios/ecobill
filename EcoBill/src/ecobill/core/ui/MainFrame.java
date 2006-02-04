@@ -10,6 +10,9 @@ import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
 import ecobill.core.system.Internationalization;
 import ecobill.core.util.ComponentUtils;
+import ecobill.core.netupdate.NetUpdateProcessor;
+import ecobill.core.netupdate.NetUpdateException;
+import ecobill.core.netupdate.ui.NetUpdater;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.DisposableBean;
@@ -27,6 +30,8 @@ import java.awt.event.*;
 import java.util.Locale;
 import java.io.IOException;
 import java.io.File;
+import java.net.URL;
+import java.net.MalformedURLException;
 
 // @todo document me!
 
@@ -38,20 +43,20 @@ import java.io.File;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.107 2005/12/11 17:16:01 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.109 2006/02/04 00:48:33 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
 
     /**
-     * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
-     * Diese Ausgaben können in einem separaten File spezifiziert werden.
+     * In diesem <code>Log</code> kï¿½nnen Fehler, Info oder sonstige Ausgaben erfolgen.
+     * Diese Ausgaben kï¿½nnen in einem separaten File spezifiziert werden.
      */
     private static final Log LOG = LogFactory.getLog(MainFrame.class);
 
     /**
      * Der <code>ApplicationContext</code> beinhaltet alle Beans die darin angegeben sind
-     * und ermöglicht wahlfreien Zugriff auf diese.
+     * und ermï¿½glicht wahlfreien Zugriff auf diese.
      */
     protected ApplicationContext applicationContext;
 
@@ -68,7 +73,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     private MessageUI messageUI;
 
     /**
-     * Gibt die Instanz des Message User Interface zurück.
+     * Gibt die Instanz des Message User Interface zurï¿½ck.
      *
      * @return Die Instanz des <code>MessageUI</code>.
      */
@@ -91,7 +96,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     private ArticleUI articleUI;
 
     /**
-     * Gibt die Instanz des Article User Interface zurück.
+     * Gibt die Instanz des Article User Interface zurï¿½ck.
      *
      * @return Die Instanz des <code>ArticleUI</code>.
      */
@@ -114,7 +119,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     private BusinessPartnerUI businessPartnerUI;
 
     /**
-     * Gibt die Instanz des BusinessPartner User Interface zurück.
+     * Gibt die Instanz des BusinessPartner User Interface zurï¿½ck.
      *
      * @return Die Instanz des <code>BusinessPartnerUI</code>.
      */
@@ -137,7 +142,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     public DeliveryOrderUI deliveryOrderUI;
 
     /**
-     * Gibt die Instanz des DeliveryOrder User Interface zurück.
+     * Gibt die Instanz des DeliveryOrder User Interface zurï¿½ck.
      *
      * @return Die Instanz des <code>DeliveryOrderUI</code>.
      */
@@ -155,7 +160,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     }
 
     /**
-     * Gibt die Instanz des Bill User Interface zurück.
+     * Gibt die Instanz des Bill User Interface zurï¿½ck.
      *
      * @return Die Instanz des <code>BillUI2</code>.
      */
@@ -164,7 +169,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     }
 
     /**
-     * Setzt die Instanz des Bill User Interface zurück.
+     * Setzt die Instanz des Bill User Interface zurï¿½ck.
      */
     public void setBillUI(BillUI billUI) {
         this.billUI = billUI;
@@ -188,10 +193,10 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // Setzt das IconImage des <code>JFrame</code>.
         setIconImage(Toolkit.getDefaultToolkit().getImage("images/ico/currency_dollar.png"));
 
-        // Setzt Größe des <code>MainFrame</code>.
+        // Setzt Grï¿½ï¿½e des <code>MainFrame</code>.
         setSize(new Dimension(950, 700));
 
-        // Setzt den <code>LayoutManger</code> für das <code>JFrame</code>.
+        // Setzt den <code>LayoutManger</code> fï¿½r das <code>JFrame</code>.
         getContentPane().setLayout(new BorderLayout());
 
         // ruft Methode jMenuBar() auf die die MenuBar erstellt
@@ -233,16 +238,16 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     // erstellt MenuBarItems
     private JMenu file = new JMenu();
     private JMenu edit = new JMenu();
+    private JMenu settings = new JMenu();
     private JMenu help = new JMenu();
-    private JMenu language = new JMenu();
     // erstellt MenuItems
-    // erstellt DateiMenü
+    // erstellt DateiMenï¿½
     private JMenuItem open = new JMenuItem(new ImageIcon("images/open.png"));
     private JMenuItem save = new JMenuItem(new ImageIcon("images/save.png"));
     private JMenuItem saveAs = new JMenuItem(new ImageIcon("images/save_as.png"));
     private JMenuItem exit = new JMenuItem(new ImageIcon("images/exit.png"));
 
-    // erstellt BearbeitenMenü
+    // erstellt BearbeitenMenï¿½
     private JMenuItem undo = new JMenuItem(new ImageIcon("images/undo.png"));
     private JMenuItem redo = new JMenuItem(new ImageIcon("images/redo.png"));
     private JMenuItem cut = new JMenuItem(new ImageIcon("images/cut.png"));
@@ -250,7 +255,11 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     private JMenuItem paste = new JMenuItem(new ImageIcon("images/paste.png"));
     private JMenuItem delete = new JMenuItem(new ImageIcon("images/delete.png"));
 
-    // erstellt HilfeMenü
+    // erstellt Settings MenuItems
+    private JMenu language = new JMenu();
+    private JMenuItem update = new JMenuItem();
+
+    // erstellt HilfeMenï¿½
     private JMenuItem ht = new JMenuItem(new ImageIcon("images/help.png"));
     private JMenuItem about = new JMenuItem(new ImageIcon("images/about.png"));
 
@@ -269,14 +278,14 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     public void tabPane() {
 
         tabbedPane.addTab(null, new ImageIcon("images/home.png"), messageUI);
-        // hier wird die ArtikleUI als neuer Tab eingefügt
+        // hier wird die ArtikleUI als neuer Tab eingefï¿½gt
         tabbedPane.addTab(null, new ImageIcon("images/article.png"), articleUI);
-        // hier wird die BusinessPartnerUI als neuer Tab eingefügt
+        // hier wird die BusinessPartnerUI als neuer Tab eingefï¿½gt
         tabbedPane.addTab(null, new ImageIcon("images/business_partner.png"), businessPartnerUI);
-        // hier wird die LieferscheinUI als neuer Tab eingefügt
+        // hier wird die LieferscheinUI als neuer Tab eingefï¿½gt
         tabbedPane.addTab(null, new ImageIcon("images/delivery_order.png"), deliveryOrderUI);
         tabbedPane.setEnabledAt(3, false);
-        // hier wird die RechnungsUI als neuer Tab eingefügt
+        // hier wird die RechnungsUI als neuer Tab eingefï¿½gt
         tabbedPane.addTab(null, new ImageIcon("images/delivery_order.png"), billUI);
         tabbedPane.setEnabledAt(4, false);
 
@@ -298,7 +307,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             }
         });
 
-        // fügt Tabfeld hinzu
+        // fï¿½gt Tabfeld hinzu
         this.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
         statePanel.setPreferredSize(new Dimension(200, 19));
@@ -310,7 +319,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // definiert MenuBar
         MainFrame.this.setJMenuBar(menuBar);
-        // das FileMenu wird zur MenuBar zugefügt
+        // das FileMenu wird zur MenuBar zugefï¿½gt
         menuBar.add(file);
         // setzt FileMnemonic
         file.setMnemonic(KeyEvent.VK_F);
@@ -337,7 +346,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
                 if (e.getSource().equals(save))
 
-                    JOptionPane.showMessageDialog(tabbedPane, "Hier kann man ein geöffnetes Projekt schnell speichern", "Information", 1);
+                    JOptionPane.showMessageDialog(tabbedPane, "Hier kann man ein geï¿½ffnetes Projekt schnell speichern", "Information", 1);
 
             }
         });
@@ -355,16 +364,16 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             }
         });
 
-        // erstellt ShortCuts für MenüItems des DateiMenü
+        // erstellt ShortCuts fï¿½r Menï¿½Items des DateiMenï¿½
         open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
         save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
         saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
 
-        // fügt MenüItems dem DateiMenü hinzu
+        // fï¿½gt Menï¿½Items dem DateiMenï¿½ hinzu
         file.add(open);
         file.add(save);
         file.add(saveAs);
-        // fügt SeperatorLinie dem DateiMenü hinzu
+        // fï¿½gt SeperatorLinie dem DateiMenï¿½ hinzu
         file.addSeparator();
 
         // ExitMenuItem Action Listener
@@ -382,15 +391,15 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             }
         });
 
-        // fügt MenüItem exit zu DateiMenü hinzu
+        // fï¿½gt Menï¿½Item exit zu DateiMenï¿½ hinzu
         file.add(exit);
 
-        // fügt MenuItem Bearbeiten der MenuBar zu
+        // fï¿½gt MenuItem Bearbeiten der MenuBar zu
         menuBar.add(edit);
-        // setzt Mnemonic für Edit
+        // setzt Mnemonic fï¿½r Edit
         edit.setMnemonic(KeyEvent.VK_E);
 
-        // erstellt ShortCuts für BearbeitenMenü
+        // erstellt ShortCuts fï¿½r BearbeitenMenï¿½
         undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_MASK));
         redo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, InputEvent.CTRL_MASK));
         cut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
@@ -412,7 +421,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             }
         });
 
-        // fügt MenüItems zu BearbeitenMenü hinzu
+        // fï¿½gt Menï¿½Items zu BearbeitenMenï¿½ hinzu
         edit.add(undo);
         edit.add(redo);
 
@@ -444,14 +453,14 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             }
         });
 
-        // fügt SeperatorLinie zu BearbeitenMenü hinzu
+        // fï¿½gt SeperatorLinie zu BearbeitenMenï¿½ hinzu
         edit.addSeparator();
         edit.add(cut);
         edit.add(copy);
         edit.add(paste);
         edit.add(delete);
 
-        // Language wir zur MenuBar hinzugefügt
+        // Language wir zur MenuBar hinzugefï¿½gt
         menuBar.add(language);
 
         // setzt Language Mnemonic
@@ -460,7 +469,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // erstellt Gruppe der Checkboxen
         ButtonGroup lang = new ButtonGroup();
 
-        // setzt das German am Anfang ausgewählt ist
+        // setzt das German am Anfang ausgewï¿½hlt ist
         german.setState(true);
         // setzt Mnemonic bei German
         german.setMnemonic(KeyEvent.VK_G);
@@ -481,7 +490,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             }
         });
 
-        // setzt das English am Anfang nicht ausgewählt ist
+        // setzt das English am Anfang nicht ausgewï¿½hlt ist
         english.setState(false);
         // setzt EnglishMnemonic
         english.setMnemonic(KeyEvent.VK_E);
@@ -502,7 +511,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             }
         });
 
-        // fügt die CheckBoxItems German und English der Gruppe zu
+        // fï¿½gt die CheckBoxItems German und English der Gruppe zu
         lang.add(german);
         lang.add(english);
 
@@ -513,15 +522,52 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
             lang.setSelected(english.getModel(), true);
         }
 
-        // fügt LanguageMenüItems German und English dem LanguageMenü zu
+        // fï¿½gt LanguageMenï¿½Items German und English dem LanguageMenï¿½ zu
         language.add(german);
         language.add(english);
+
+        settings.add(language);
+        settings.add(update);
+
+        update.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                URL remoteURL = null;
+                try {
+                    remoteURL = new URL("http://www.raedle.info/ecobill/netupdate_remote_v1.xml");
+                }
+                catch (MalformedURLException murle) {
+                    if (LOG.isErrorEnabled()) {
+                        LOG.error(murle.getMessage(), murle);
+                    }
+                }
+
+                String appPath = new File("").getAbsolutePath();
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Application path [" + appPath + "].");
+                }
+
+                if (remoteURL != null) {
+                    try {
+                        NetUpdateProcessor updateProcessor = new NetUpdateProcessor(new NetUpdater(MainFrame.this), remoteURL, new File(appPath + File.separator + "netupdate_local_v1.xml"), new File(""));
+                        updateProcessor.update();
+                    }
+                    catch (NetUpdateException nue) {
+                        if (LOG.isErrorEnabled()) {
+                            LOG.error(nue.getMessage(), nue);
+                        }
+                    }
+                }
+            }
+        });
+
+        menuBar.add(settings);
 
         // setzt Mnemonic beim MenuItem Hilfe
         help.setMnemonic(KeyEvent.VK_H);
         // setzt ToolTip
         help.setToolTipText("Benutzen Sie ShortCuts um schneller zu navigieren");
-        // fügt HilfeMenuItem der MenuBar zu
+        // fï¿½gt HilfeMenuItem der MenuBar zu
         menuBar.add(help);
 
         // HelpTopic ActionListener
@@ -540,7 +586,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // setzt HelpTopic Shortcut
         ht.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_MASK));
-        // fügt HelpTopic zu Help hinzu
+        // fï¿½gt HelpTopic zu Help hinzu
         help.add(ht);
 
         // About ActionListener
@@ -571,9 +617,8 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         // setzt About ShortCut
         about.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_MASK));
 
-        // fügt About zu Help hinzu
+        // fï¿½gt About zu Help hinzu
         help.add(about);
-
     }
 
     // wird benutzt um neue Zeile zu erzeugen
@@ -586,7 +631,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         // AusgabeStrings im PopUp Fenster About
         String ab = "About";
-        String ec = "Economy Bill Agenda" + LINE_SEPARATOR + "        Version 1.0";
+        String ec = "Economy Bill Agenda" + LINE_SEPARATOR + "        Version 1.1";
 
         // erstellt PopUp About
         int aboutOption = JOptionPane.showConfirmDialog(this, ec, ab, JOptionPane.CLOSED_OPTION, 0, new ImageIcon("images/about.gif"));
@@ -619,7 +664,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     }
 
     /**
-     * Diese Methode kann später dazu verwendet werden um Dateien zu laden.
+     * Diese Methode kann spï¿½ter dazu verwendet werden um Dateien zu laden.
      */
     public void open() {
 
@@ -631,7 +676,7 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         if (filename != null) {
             if (LOG.isErrorEnabled()) {
-                LOG.error("Die selektierte Datei heißt " + filename);
+                LOG.error("Die selektierte Datei heiï¿½t " + filename);
             }
         }
 
@@ -643,14 +688,14 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
      * Interface <code>DisposableBean</code> implementiert. Gelingt dies wird die
      * Anwendung ohne Fehler beendet, ansonsten wird mit Fehlercode beendet.
      */
-    private void exit() {
+    public void exit() {
 
-        // Überprüft ob der <code>ApplicationContext</code> das Interface
+        // ï¿½berprï¿½ft ob der <code>ApplicationContext</code> das Interface
         // <code>DisposableBean</code> implementiert, um den gesamten
-        // applicationContext beim Schließen der Anwendung herunterzufahren.
+        // applicationContext beim Schlieï¿½en der Anwendung herunterzufahren.
         //
         // Dies ist notwendig um die gesamten Beans die auch dieses Interface
-        // implementieren herunterzufahren und somit zu gewährleisten, dass
+        // implementieren herunterzufahren und somit zu gewï¿½hrleisten, dass
         // evtl. Daten persistiert werden.
 
         int option = JOptionPane.showConfirmDialog(this, "Wollen Sie wirklich beenden?", "Beenden", JOptionPane.YES_NO_OPTION);
@@ -679,14 +724,14 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
     }
 
     /**
-     * Diese Methode kann später dazu verwendet werden um Text zu kopieren.
+     * Diese Methode kann spï¿½ter dazu verwendet werden um Text zu kopieren.
      */
     public void copy() {
         throw new RuntimeException("Diese Methode muss noch implementiert werden.");
     }
 
     /**
-     * Diese Methode kann später dazu verwendet werden um Text einzufügen.
+     * Diese Methode kann spï¿½ter dazu verwendet werden um Text einzufï¿½gen.
      */
     public void paste() {
         throw new RuntimeException("Diese Methode muss noch implementiert werden.");
@@ -719,6 +764,9 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
 
         ht.setText(WorkArea.getMessage(Constants.HT));
         about.setText(WorkArea.getMessage(Constants.ABOUT));
+
+        settings.setText(WorkArea.getMessage("ecobill.core.ui.MainFrame.settingsJM"));
+        update.setText(WorkArea.getMessage("ecobill.core.ui.MainFrame.updateJMI"));
 
         tabbedPane.setTitleAt(0, WorkArea.getMessage(Constants.MESSAGE));
         tabbedPane.setTitleAt(1, WorkArea.getMessage(Constants.ARTICLE));

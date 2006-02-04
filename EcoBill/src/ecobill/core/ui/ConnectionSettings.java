@@ -20,7 +20,7 @@ import ecobill.Start;
  * Time: 16:21:50
  *
  * @author Roman R&auml;dle
- * @version $Id: ConnectionSettings.java,v 1.1 2006/02/02 22:18:27 raedler Exp $
+ * @version $Id: ConnectionSettings.java,v 1.2 2006/02/04 00:46:52 raedler Exp $
  * @since EcoBill 1.1
  */
 public class ConnectionSettings extends JFrame {
@@ -91,7 +91,6 @@ public class ConnectionSettings extends JFrame {
 
             public void actionPerformed(ActionEvent e) {
                 ConnectionSettings.this.dispose();
-
                 System.exit(0);
             }
         });

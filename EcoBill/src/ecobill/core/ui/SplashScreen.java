@@ -19,6 +19,7 @@ import javax.swing.JFrame;
 
 import ecobill.core.system.WorkArea;
 import ecobill.core.system.Constants;
+import ecobill.core.util.ComponentUtils;
 
 /**
  *
@@ -26,14 +27,14 @@ import ecobill.core.system.Constants;
 public class SplashScreen extends JFrame implements InitializingBean, DisposableBean, Runnable {
 
     /**
-     * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
-     * Diese Ausgaben können in einem separaten File spezifiziert werden.
+     * In diesem <code>Log</code> kï¿½nnen Fehler, Info oder sonstige Ausgaben erfolgen.
+     * Diese Ausgaben kï¿½nnen in einem separaten File spezifiziert werden.
      */
     private static final Log LOG = LogFactory.getLog(MainFrame.class);
 
     /**
-     * Ein eigenständiger <code>Thread</code> der während des Ladens der eigentlichen Applikation
-     * läuft und sich nach vollständig geladener Anwendung zerstört.
+     * Ein eigenstï¿½ndiger <code>Thread</code> der wï¿½hrend des Ladens der eigentlichen Applikation
+     * lï¿½uft und sich nach vollstï¿½ndig geladener Anwendung zerstï¿½rt.
      */
     private Thread thread;
 
@@ -69,7 +70,7 @@ public class SplashScreen extends JFrame implements InitializingBean, Disposable
 
         setTitle(WorkArea.getMessage(Constants.APPLICATION_TITLE));
 
-        // Setze die für einen SplashScreen üblichen Einstellungen.
+        // Setze die fï¿½r einen SplashScreen ï¿½blichen Einstellungen.
         setUndecorated(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -80,36 +81,19 @@ public class SplashScreen extends JFrame implements InitializingBean, Disposable
             e.printStackTrace();
         }
 
-        center();
+        setAlwaysOnTop(true);
 
         thread = new Thread(this);
         thread.start();
+
+        ComponentUtils.centerComponentOnScreen(this);
 
         setVisible(true);
     }
 
     /**
-     * Zentriert die <code>SplashScreen</code> im sichtbaren Bereich des Bildschirms.
-     */
-    private void center() {
-
-        // Größe der eingestellten Bildschirmauflösung.
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-        double width = screenSize.getWidth();
-        double height = screenSize.getHeight();
-
-        width -= image.getWidth();
-        height -= image.getHeight();
-
-        setSize(new Dimension(image.getWidth(), image.getHeight()));
-
-        setLocation((int) width / 2, (int) height / 2);
-    }
-
-    /**
      * Diese Methode wird nur verwendet um, nach dem Setzen des <code>Splashable</code>, das
-     * <code>SplashScreen</code> zu schließen.
+     * <code>SplashScreen</code> zu schlieï¿½en.
      *
      * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
      */
@@ -119,7 +103,7 @@ public class SplashScreen extends JFrame implements InitializingBean, Disposable
 
     /**
      * Diese Methode wird nur verwendet um, nach dem Setzen des <code>Splashable</code>, das
-     * <code>SplashScreen</code> zu schließen. -> Nur im Fehlerfall.
+     * <code>SplashScreen</code> zu schlieï¿½en. -> Nur im Fehlerfall.
      *
      * @throws Exception - sollte nicht auftreten.
      */
