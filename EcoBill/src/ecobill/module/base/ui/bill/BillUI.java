@@ -36,7 +36,7 @@ import java.awt.event.*;
  * Time: 16:57:16
  *
  * @author R&auml;dle Roman
- * @version $Id: BillUI.java,v 1.24 2006/02/02 22:18:27 raedler Exp $
+ * @version $Id: BillUI.java,v 1.25 2006/02/04 19:02:59 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BillUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -273,7 +273,9 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
                     }
 
                     baseService.delete(bill);
+
                     bill = null;
+                    viewBillB.setEnabled(false);
 
                     billArticleTable.clearDataCollection();
                     billArticleTable.renewTableModel();
@@ -297,6 +299,8 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
 
                 billTable.renewTableModel();
                 deliveryOrderTableCB.renewTableModel();
+
+                viewBillB.setEnabled(true);
 
                 String billNumber = formularDataPanel.getNumber();
 

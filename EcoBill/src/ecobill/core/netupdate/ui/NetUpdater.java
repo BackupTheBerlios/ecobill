@@ -22,7 +22,7 @@ import java.text.NumberFormat;
  * Time: 15:59:22
  *
  * @author Roman R&auml;dle
- * @version $Id: NetUpdater.java,v 1.2 2006/02/04 18:01:02 raedler Exp $
+ * @version $Id: NetUpdater.java,v 1.3 2006/02/04 19:02:59 raedler Exp $
  * @since EcoBill 1.1
  */
 public class NetUpdater extends JFrame implements NetUpdateFeedback {
@@ -206,7 +206,7 @@ public class NetUpdater extends JFrame implements NetUpdateFeedback {
 
     public void finished() {
 
-        nameContentL.setText("Update finished.");
+        nameContentL.setText("Update beendet.");
         if (updated) fileContentL.setText(" ");
         progressStateL.setText(" ");
 
