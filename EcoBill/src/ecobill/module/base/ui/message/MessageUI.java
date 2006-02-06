@@ -29,7 +29,7 @@ import java.awt.event.ActionEvent;
  * Time: 17:49:23
  *
  * @author Andreas Weiler
- * @version $Id: MessageUI.java,v 1.10 2006/02/01 12:00:48 raedler Exp $
+ * @version $Id: MessageUI.java,v 1.11 2006/02/06 19:11:20 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MessageUI extends JPanel implements InitializingBean {
@@ -41,10 +41,10 @@ public class MessageUI extends JPanel implements InitializingBean {
     private final Icon ICON_REFRESH = new ImageIcon("images/message/refresh.png");
 
     // Buttons used in this message user interface.
-    private JToolBarButton newMessageB = new JToolBarButton(ICON_NEW_MESSAGE);
-    private JToolBarButton saveMessageB = new JToolBarButton(ICON_SAVE_MESSAGE);
-    private JToolBarButton deleteMessageB = new JToolBarButton(ICON_DELETE_MESSAGE);
-    private JToolBarButton refreshMessageB = new JToolBarButton(ICON_REFRESH);
+    private JButton newMessageB = new JToolBarButton(ICON_NEW_MESSAGE);
+    private JButton saveMessageB = new JToolBarButton(ICON_SAVE_MESSAGE);
+    private JButton deleteMessageB = new JToolBarButton(ICON_DELETE_MESSAGE);
+    private JButton refreshMessageB = new JToolBarButton(ICON_REFRESH);
 
     /**
      * In diesem <code>Log</code> k�nnen Fehler, Info oder sonstige Ausgaben erfolgen.

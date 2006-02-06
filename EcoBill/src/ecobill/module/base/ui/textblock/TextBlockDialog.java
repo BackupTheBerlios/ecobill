@@ -28,7 +28,7 @@ import java.awt.event.ActionEvent;
  * Time: 15:24:42
  *
  * @author Roman R&auml;dle
- * @version $Id: TextBlockDialog.java,v 1.4 2006/02/01 12:00:48 raedler Exp $
+ * @version $Id: TextBlockDialog.java,v 1.5 2006/02/06 19:11:20 raedler Exp $
  * @since EcoBill 1.1
  */
 public class TextBlockDialog extends JDialog implements Internationalization {
@@ -40,10 +40,10 @@ public class TextBlockDialog extends JDialog implements Internationalization {
     private final Icon ICON_REFRESH = new ImageIcon("images/textblock/refresh.png");
 
     // Buttons used in this text block user interface.
-    JToolBarButton newTextBlockB = new JToolBarButton(ICON_NEW_TEXT_BLOCK);
-    JToolBarButton saveTextBlockB = new JToolBarButton(ICON_SAVE_TEXT_BLOCK);
-    JToolBarButton deleteTextBlockB = new JToolBarButton(ICON_DELETE_TEXT_BLOCK);
-    JToolBarButton refreshTextBlockB = new JToolBarButton(ICON_REFRESH);
+    JButton newTextBlockB = new JToolBarButton(ICON_NEW_TEXT_BLOCK);
+    JButton saveTextBlockB = new JToolBarButton(ICON_SAVE_TEXT_BLOCK);
+    JButton deleteTextBlockB = new JToolBarButton(ICON_DELETE_TEXT_BLOCK);
+    JButton refreshTextBlockB = new JToolBarButton(ICON_REFRESH);
 
     /**
      * Der <code>BaseService</code> ist die Business Logik. Unter anderem k�nnen hierdurch Daten

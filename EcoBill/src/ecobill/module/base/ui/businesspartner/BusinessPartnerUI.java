@@ -37,7 +37,7 @@ import java.awt.*;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: BusinessPartnerUI.java,v 1.22 2006/02/01 01:06:47 raedler Exp $
+ * @version $Id: BusinessPartnerUI.java,v 1.23 2006/02/06 19:11:20 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BusinessPartnerUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -51,12 +51,12 @@ public class BusinessPartnerUI extends JPanel implements ApplicationContextAware
     private final Icon ICON_BILL = new ImageIcon("images/businesspartner/bill.png");
 
     // Buttons used in this business partner user interface.
-    private JToolBarButton newBusinessPartnerB = new JToolBarButton(ICON_NEW_BUSINESS_PARTNER);
-    private JToolBarButton saveBusinessPartnerB = new JToolBarButton(ICON_SAVE_BUSINESS_PARTNER);
-    private JToolBarButton deleteBusinessPartnerB = new JToolBarButton(ICON_DELETE_BUSINESS_PARTNER);
-    private JToolBarButton refreshBusinessPartnerB = new JToolBarButton(ICON_REFRESH);
-    private JToolBarButton deliveryOrderB = new JToolBarButton(ICON_DELIVERY_ORDER);
-    private JToolBarButton billB = new JToolBarButton(ICON_BILL);
+    private JButton newBusinessPartnerB = new JToolBarButton(ICON_NEW_BUSINESS_PARTNER);
+    private JButton saveBusinessPartnerB = new JToolBarButton(ICON_SAVE_BUSINESS_PARTNER);
+    private JButton deleteBusinessPartnerB = new JToolBarButton(ICON_DELETE_BUSINESS_PARTNER);
+    private JButton refreshBusinessPartnerB = new JToolBarButton(ICON_REFRESH);
+    private JButton deliveryOrderB = new JToolBarButton(ICON_DELIVERY_ORDER);
+    private JButton billB = new JToolBarButton(ICON_BILL);
 
     /**
      * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.

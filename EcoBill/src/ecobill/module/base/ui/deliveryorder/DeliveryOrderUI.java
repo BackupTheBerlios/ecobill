@@ -38,7 +38,7 @@ import java.awt.event.*;
  * Time: 16:57:16
  *
  * @author Roman R&auml;dle
- * @version $Id: DeliveryOrderUI.java,v 1.27 2006/02/02 22:18:27 raedler Exp $
+ * @version $Id: DeliveryOrderUI.java,v 1.28 2006/02/06 19:11:20 raedler Exp $
  * @since EcoBill 1.0
  */
 public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -56,16 +56,16 @@ public class DeliveryOrderUI extends JPanel implements ApplicationContextAware, 
     private final Icon ICON_ADD_NOT_EXISTING_ARTICLE = new ImageIcon("images/deliveryorder/article_add_new.png");
 
     // Buttons used in this delivery order user interface.
-    private JToolBarButton newDeliveryOrderB = new JToolBarButton(ICON_NEW_DELIVERY_ORDER);
-    private JToolBarButton saveDeliveryOrderB = new JToolBarButton(ICON_SAVE_DELIVERY_ORDER);
-    private JToolBarButton deleteDeliveryOrderB = new JToolBarButton(ICON_DELETE_DELIVERY_ORDER);
-    private JToolBarButton openEditableDeliveryOrderB = new JToolBarButton(ICON_OPEN_EDITABLE_DELIVERY_ORDER);
-    private JToolBarButton openDeliveryOrderB = new JToolBarButton(ICON_OPEN_DELIVERY_ORDER);
-    private JToolBarButton viewDeliveryOrderB = new JToolBarButton(ICON_VIEW_DELIVERY_ORDER);
-    private JToolBarButton prefixTextBlockB = new JToolBarButton(ICON_PREFIX_TEXT_BLOCK);
-    private JToolBarButton suffixTextBlockB = new JToolBarButton(ICON_SUFFIX_TEXT_BLOCK);
-    private JToolBarButton addExistingArticleB = new JToolBarButton(ICON_ADD_EXISTING_ARTICLE);
-    private JToolBarButton addNotExistingArtilceB = new JToolBarButton(ICON_ADD_NOT_EXISTING_ARTICLE);
+    private JButton newDeliveryOrderB = new JToolBarButton(ICON_NEW_DELIVERY_ORDER);
+    private JButton saveDeliveryOrderB = new JToolBarButton(ICON_SAVE_DELIVERY_ORDER);
+    private JButton deleteDeliveryOrderB = new JToolBarButton(ICON_DELETE_DELIVERY_ORDER);
+    private JButton openEditableDeliveryOrderB = new JToolBarButton(ICON_OPEN_EDITABLE_DELIVERY_ORDER);
+    private JButton openDeliveryOrderB = new JToolBarButton(ICON_OPEN_DELIVERY_ORDER);
+    private JButton viewDeliveryOrderB = new JToolBarButton(ICON_VIEW_DELIVERY_ORDER);
+    private JButton prefixTextBlockB = new JToolBarButton(ICON_PREFIX_TEXT_BLOCK);
+    private JButton suffixTextBlockB = new JToolBarButton(ICON_SUFFIX_TEXT_BLOCK);
+    private JButton addExistingArticleB = new JToolBarButton(ICON_ADD_EXISTING_ARTICLE);
+    private JButton addNotExistingArtilceB = new JToolBarButton(ICON_ADD_NOT_EXISTING_ARTICLE);
 
     /**
      * In diesem <code>Log</code> k�nnen Fehler, Info oder sonstige Ausgaben erfolgen.

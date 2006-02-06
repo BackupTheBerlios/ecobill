@@ -13,7 +13,7 @@ import java.awt.*;
  * Time: 19:37:32
  *
  * @author Roman R&auml;dle
- * @version $Id: JToolBarButton.java,v 1.1 2005/12/22 12:52:54 raedler Exp $
+ * @version $Id: JToolBarButton.java,v 1.2 2006/02/06 19:11:20 raedler Exp $
  * @since EcoBill 1.1
  */
 public class JToolBarButton extends JButton {

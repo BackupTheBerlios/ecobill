@@ -36,7 +36,7 @@ import java.awt.event.*;
  * Time: 16:57:16
  *
  * @author R&auml;dle Roman
- * @version $Id: BillUI.java,v 1.25 2006/02/04 19:02:59 raedler Exp $
+ * @version $Id: BillUI.java,v 1.26 2006/02/06 19:11:20 raedler Exp $
  * @since EcoBill 1.0
  */
 public class BillUI extends JPanel implements ApplicationContextAware, InitializingBean, DisposableBean, Internationalization {
@@ -52,14 +52,14 @@ public class BillUI extends JPanel implements ApplicationContextAware, Initializ
     private final Icon ICON_ADD_DELIVERY_ORDER = new ImageIcon("images/bill/delivery_order_add.png");
 
     // Buttons used in this bill user interface.
-    private JToolBarButton newBillB = new JToolBarButton(ICON_NEW_BILL);
-    private JToolBarButton saveBillB = new JToolBarButton(ICON_SAVE_BILL);
-    private JToolBarButton deleteBillB = new JToolBarButton(ICON_DELETE_BILL);
-    private JToolBarButton openBillB = new JToolBarButton(ICON_OPEN_BILL);
-    private JToolBarButton viewBillB = new JToolBarButton(ICON_VIEW_BILL);
-    private JToolBarButton prefixTextBlockB = new JToolBarButton(ICON_PREFIX_TEXT_BLOCK);
-    private JToolBarButton suffixTextBlockB = new JToolBarButton(ICON_SUFFIX_TEXT_BLOCK);
-    private JToolBarButton deliveryOrderAddB = new JToolBarButton(ICON_ADD_DELIVERY_ORDER);
+    private JButton newBillB = new JToolBarButton(ICON_NEW_BILL);
+    private JButton saveBillB = new JToolBarButton(ICON_SAVE_BILL);
+    private JButton deleteBillB = new JToolBarButton(ICON_DELETE_BILL);
+    private JButton openBillB = new JToolBarButton(ICON_OPEN_BILL);
+    private JButton viewBillB = new JToolBarButton(ICON_VIEW_BILL);
+    private JButton prefixTextBlockB = new JToolBarButton(ICON_PREFIX_TEXT_BLOCK);
+    private JButton suffixTextBlockB = new JToolBarButton(ICON_SUFFIX_TEXT_BLOCK);
+    private JButton deliveryOrderAddB = new JToolBarButton(ICON_ADD_DELIVERY_ORDER);
 
     /**
      * In diesem <code>Log</code> k�nnen Fehler, Info oder sonstige Ausgaben erfolgen.

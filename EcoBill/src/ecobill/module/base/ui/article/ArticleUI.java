@@ -40,7 +40,7 @@ import java.io.FileOutputStream;
  * Time: 17:49:23
  *
  * @author Roman R&auml;dle
- * @version $Id: ArticleUI.java,v 1.21 2006/02/01 01:06:47 raedler Exp $
+ * @version $Id: ArticleUI.java,v 1.22 2006/02/06 19:11:20 raedler Exp $
  * @since EcoBill 1.0
  */
 public class ArticleUI extends JPanel implements InitializingBean, Internationalization, DisposableBean {
@@ -55,14 +55,14 @@ public class ArticleUI extends JPanel implements InitializingBean, International
     private final Icon ICON_DELETE_ARTICLE_LABELLING = new ImageIcon("images/article/article_labelling_delete.png");
 
     // Buttons used in this article user interface.
-    private JToolBarButton newArticleB = new JToolBarButton(ICON_NEW_ARTICLE);
-    private JToolBarButton saveArticleB = new JToolBarButton(ICON_SAVE_ARTICLE);
-    private JToolBarButton deleteArticleB = new JToolBarButton(ICON_DELETE_ARTICLE);
-    private JToolBarButton refreshArticleB = new JToolBarButton(ICON_REFRESH);
-    private JToolBarButton newLabellingB = new JToolBarButton(ICON_NEW_ARTICLE_LABELLING);
-    private JToolBarButton saveLabellingB = new JToolBarButton(ICON_SAVE_ARTICLE_LABELLING);
-    private JToolBarButton deleteLabellingB = new JToolBarButton(ICON_DELETE_ARTICLE_LABELLING);
-    private JToolBarButton refreshLabellingB = new JToolBarButton(ICON_REFRESH);
+    private JButton newArticleB = new JToolBarButton(ICON_NEW_ARTICLE);
+    private JButton saveArticleB = new JToolBarButton(ICON_SAVE_ARTICLE);
+    private JButton deleteArticleB = new JToolBarButton(ICON_DELETE_ARTICLE);
+    private JButton refreshArticleB = new JToolBarButton(ICON_REFRESH);
+    private JButton newLabellingB = new JToolBarButton(ICON_NEW_ARTICLE_LABELLING);
+    private JButton saveLabellingB = new JToolBarButton(ICON_SAVE_ARTICLE_LABELLING);
+    private JButton deleteLabellingB = new JToolBarButton(ICON_DELETE_ARTICLE_LABELLING);
+    private JButton refreshLabellingB = new JToolBarButton(ICON_REFRESH);
 
     /**
      * In diesem <code>Log</code> können Fehler, Info oder sonstige Ausgaben erfolgen.
