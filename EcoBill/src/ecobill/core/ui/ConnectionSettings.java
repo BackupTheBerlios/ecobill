@@ -21,7 +21,7 @@ import ecobill.Start;
  * Time: 16:21:50
  *
  * @author Roman R&auml;dle
- * @version $Id: ConnectionSettings.java,v 1.3 2006/02/08 01:25:54 raedler Exp $
+ * @version $Id: ConnectionSettings.java,v 1.4 2006/02/08 23:15:50 raedler Exp $
  * @since EcoBill 1.1
  */
 public class ConnectionSettings extends JFrame {
@@ -72,8 +72,8 @@ public class ConnectionSettings extends JFrame {
         Preferences prefs = Preferences.userNodeForPackage(PropertyPreferencesPlaceholderConfigurer.class);
         driverClassTF.setText(prefs.get(PropertyPreferencesPlaceholderConfigurer.HIBERNATE_CONNECTION_DRIVER_CLASS, "org.hsqldb.jdbcDriver"));
         urlTF.setText(prefs.get(PropertyPreferencesPlaceholderConfigurer.HIBERNATE_CONNECTION_URL, "jdbc:hsqldb:file:ecobilldb"));
-        usernameTF.setText(prefs.get(PropertyPreferencesPlaceholderConfigurer.HIBERNATE_CONNECTION_USERNAME, "ecobill"));
-        passwordPF.setText(prefs.get(PropertyPreferencesPlaceholderConfigurer.HIBERNATE_CONNECTION_PASSWORD, "x2kub2"));
+        usernameTF.setText(prefs.get(PropertyPreferencesPlaceholderConfigurer.HIBERNATE_CONNECTION_USERNAME, "sa"));
+        passwordPF.setText(prefs.get(PropertyPreferencesPlaceholderConfigurer.HIBERNATE_CONNECTION_PASSWORD, ""));
 
         applyB.addActionListener(new ActionListener() {
 

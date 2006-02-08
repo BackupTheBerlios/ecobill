@@ -8,7 +8,7 @@
   <chdir></chdir>
   <customProcName>false</customProcName>
   <stayAlive>false</stayAlive>
-  <icon>F:\Icons\Business and Data\ico-files\currency_dollar.ico</icon>
+  <icon>D:\Projects\EcoBill\images\ico\currency_euro.ico</icon>
   <jre>
     <path>jre1.6.0</path>
     <minVersion>1.6.0</minVersion>

@@ -13,6 +13,7 @@ import ecobill.core.util.ComponentUtils;
 import ecobill.core.netupdate.NetUpdateProcessor;
 import ecobill.core.netupdate.NetUpdateException;
 import ecobill.core.netupdate.ui.NetUpdater;
+import ecobill.core.springframework.PropertyPreferencesPlaceholderConfigurer;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.DisposableBean;
@@ -28,10 +29,15 @@ import javax.sound.midi.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Locale;
+import java.util.prefs.Preferences;
 import java.io.IOException;
 import java.io.File;
 import java.net.URL;
 import java.net.MalformedURLException;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Connection;
+import java.sql.Statement;
 
 // @todo document me!
 
@@ -43,7 +49,7 @@ import java.net.MalformedURLException;
  * Time: 17:43:36
  *
  * @author Roman R&auml;dle
- * @version $Id: MainFrame.java,v 1.110 2006/02/04 18:01:02 raedler Exp $
+ * @version $Id: MainFrame.java,v 1.111 2006/02/08 23:15:50 raedler Exp $
  * @since EcoBill 1.0
  */
 public class MainFrame extends JFrame implements ApplicationContextAware, InitializingBean, Splashable, Internationalization {
@@ -701,6 +707,40 @@ public class MainFrame extends JFrame implements ApplicationContextAware, Initia
         int option = JOptionPane.showConfirmDialog(this, "Wollen Sie wirklich beenden?", "Beenden", JOptionPane.YES_NO_OPTION);
 
         if (option == JOptionPane.YES_OPTION) {
+
+            Preferences prefs = Preferences.userNodeForPackage(PropertyPreferencesPlaceholderConfigurer.class);
+            String driverClass = prefs.get(PropertyPreferencesPlaceholderConfigurer.HIBERNATE_CONNECTION_DRIVER_CLASS, "org.hsqldb.jdbcDriver");
+            String url = prefs.get(PropertyPreferencesPlaceholderConfigurer.HIBERNATE_CONNECTION_URL, "jdbc:hsqldb:file:ecobilldb");
+            String username = prefs.get(PropertyPreferencesPlaceholderConfigurer.HIBERNATE_CONNECTION_USERNAME, "sa");
+            String password = prefs.get(PropertyPreferencesPlaceholderConfigurer.HIBERNATE_CONNECTION_PASSWORD, "");
+
+            if (driverClass.contains("org.hsqldb")) {
+                try {
+                    Class.forName(driverClass);
+                }
+                catch (ClassNotFoundException cnfe) {
+                    cnfe.printStackTrace();
+                }
+
+                Connection con = null;
+                try {
+                    con = DriverManager.getConnection(url, username, password);
+                }
+                catch (SQLException sqle) {
+                    sqle.printStackTrace();
+                }
+
+                if (con != null) {
+                    try {
+                        Statement stmt = con.createStatement();
+
+                        stmt.execute("SHUTDOWN");
+                    }
+                    catch (SQLException sqle) {
+                        sqle.printStackTrace();
+                    }
+                }
+            }
 
             if (applicationContext instanceof DisposableBean) {
                 try {

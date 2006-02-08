@@ -138,7 +138,7 @@
 
         <mkdir dir="installer"/>
 
-        <izpack input="installer-config/ecobill-install.xml" output="installer/ecobill-install.jar" installerType="standard" basedir="." izPackDir="installer-config/IzPack"/>
+        <izpack input="installer-config/ecobill-install.xml" output="installer/ecobill-setup.jar" installerType="standard" basedir="." izPackDir="installer-config/IzPack"/>
 
     </target>
 
