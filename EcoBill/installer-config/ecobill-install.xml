@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- DTD -->
+
+<installation version="1.0">
+
+    <info>
+        <appname>Economy Bill Agenda</appname>
+        <appversion>1.1.0</appversion>
+        <authors>
+            <author name="Roman Raedle" email="roman@raedle.info"/>
+        </authors>
+        <url>http://ecobill.raedle.info</url>
+        <javaversion>1.6</javaversion>
+    </info>
+
+    <guiprefs height="300" resizable="no" width="500">
+        <laf name="looks">
+            <os family="windows"/>
+            <param name="variant" value="extwin"/>
+        </laf>
+    </guiprefs>
+
+    <locale>
+    	<langpack iso3="deu"/>
+        <!--<langpack iso3="eng"/>-->
+    </locale>
+
+    <resources></resources>
+
+    <panels>
+        <panel classname="CheckedHelloPanel"/>
+        <!--<panel classname="HelloPanel"/>-->
+        <!--<panel classname="HTMLInfoPanel"/>-->
+        <!--<panel classname="LicencePanel"/>-->
+        <panel classname="PacksPanel"/>
+        <panel classname="TargetPanel"/>
+        <panel classname="ShortcutPanel"/>
+        <!--<panel classname="JDKPathPanel"/>-->
+        <panel classname="InstallPanel"/>
+        <panel classname="SimpleFinishPanel"/>
+    </panels>
+
+    <packs>
+        <pack name="Core" required="yes">
+            <description>Install the Economy Bill Agenda core files.</description>
+            <fileset dir="build" targetdir="$INSTALL_PATH">
+                <include name="bin/**/*"/>
+                <include name="classes/**/*"/>
+                <include name="html/**/*"/>
+                <include name="images/**/*"/>
+                <include name="lib/**/*"/>
+                <include name="log/"/>
+                <include name="midi/**/*"/>
+                <include name="netupdate/**/*"/>
+                <include name="reports/**/*"/>
+                <include name="EcoBill.bat"/>
+            </fileset>
+        </pack>
+        <pack name="Database" required="no">
+            <description>Install the Economy Bill Agenda database.</description>
+            <fileset dir="build/database" targetdir="$INSTALL_PATH">
+                <include name="**/*"/>
+            </fileset>
+        </pack>
+        <!--
+        <pack name="MySQL Installation" required="no">
+            <description>INSTALL help files.</description>
+            <executable type="bin" targetfile="$INSTALL_PATH/mysql-setup.exe" stage="postinstall" keep="false" failure="warn"/>
+        </pack>
+        -->
+    </packs>
+
+</installation>

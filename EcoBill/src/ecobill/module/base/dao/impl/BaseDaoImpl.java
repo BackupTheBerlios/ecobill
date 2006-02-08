@@ -19,7 +19,7 @@ import java.io.Serializable;
  * Time: 12:29:43
  *
  * @author Roman R&auml;dle
- * @version $Id: BaseDaoImpl.java,v 1.16 2006/01/30 23:43:13 raedler Exp $
+ * @version $Id: BaseDaoImpl.java,v 1.17 2006/02/08 01:25:54 raedler Exp $
  * @see BaseDao
  * @since EcoBill 1.0
  */
@@ -111,8 +111,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
     public NumberSequence getNumberSequenceByKey(String sequenceKey) {
         List sequenceList = getHibernateTemplate().find("from " + NumberSequence.class.getName() + " as numberSequence where numberSequence.key = ?", new Object[]{sequenceKey});
 
-        if (sequenceList.size() > 1)
-            throw new NonUniqueHibernateResultException("Es wurde keine eindeutige Nummern Sequenz gefunden.");
+        if (sequenceList.size() > 1) throw new NonUniqueHibernateResultException("Es wurde keine eindeutige Nummern Sequenz gefunden.");
 
         return (NumberSequence) sequenceList.get(0);
     }

@@ -4,8 +4,6 @@ import javax.swing.*;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.beans.BeansException;
-import ecobill.core.ui.MainFrame;
-import ecobill.core.ui.SplashScreen;
 import ecobill.core.ui.ConnectionSettings;
 
 import java.sql.Driver;
@@ -21,7 +19,7 @@ import java.util.Properties;
  * Time: 17:47:38
  *
  * @author Roman R&auml;dle
- * @version $Id: Start.java,v 1.2 2006/02/04 00:46:52 raedler Exp $
+ * @version $Id: Start.java,v 1.3 2006/02/08 01:25:54 raedler Exp $
  * @since Ecobill 1.0
  */
 public class Start {

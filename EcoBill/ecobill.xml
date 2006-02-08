@@ -7,6 +7,8 @@
     <property name="export.dir" value="export"/>
     <property name="class.dir" value="classes"/>
 
+    <taskdef name="izpack" classpath="installer-config/IzPack/lib/compiler.jar" classname="com.izforge.izpack.ant.IzPackTask"/>
+
     <path id="class.path">
         <fileset dir="${class.dir}">
             <include name="**/*.class"/>
@@ -119,6 +121,9 @@
         <copy todir="build/netupdate">
             <fileset dir="netupdate" includes="netupdate_local_v*.xml"/>
         </copy>
+        <copy todir="build/database">
+            <fileset dir="database"/>
+        </copy>
         <mkdir dir="build/log"/>
 
     </target>
@@ -128,5 +133,17 @@
     </target>
 
     <target name="build-clean-dist" depends="build-clean,build-dist"/>
+
+    <target name="installer">
+
+        <mkdir dir="installer"/>
+
+        <izpack input="installer-config/ecobill-install.xml" output="installer/ecobill-install.jar" installerType="standard" basedir="." izPackDir="installer-config/IzPack"/>
+
+    </target>
+
+    <target name="installer-clean">
+        <delete dir="installer"/>
+    </target>
 
 </project>

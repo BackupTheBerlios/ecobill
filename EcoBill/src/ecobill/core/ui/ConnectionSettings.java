@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.prefs.Preferences;
+import java.io.File;
 
 import ecobill.core.util.ComponentUtils;
 import ecobill.core.springframework.PropertyPreferencesPlaceholderConfigurer;
@@ -20,7 +21,7 @@ import ecobill.Start;
  * Time: 16:21:50
  *
  * @author Roman R&auml;dle
- * @version $Id: ConnectionSettings.java,v 1.2 2006/02/04 00:46:52 raedler Exp $
+ * @version $Id: ConnectionSettings.java,v 1.3 2006/02/08 01:25:54 raedler Exp $
  * @since EcoBill 1.1
  */
 public class ConnectionSettings extends JFrame {
@@ -69,10 +70,10 @@ public class ConnectionSettings extends JFrame {
         okB = new JButton();
 
         Preferences prefs = Preferences.userNodeForPackage(PropertyPreferencesPlaceholderConfigurer.class);
-        driverClassTF.setText(prefs.get(PropertyPreferencesPlaceholderConfigurer.HIBERNATE_CONNECTION_DRIVER_CLASS, "com.mysql.jdbc.Driver"));
-        urlTF.setText(prefs.get(PropertyPreferencesPlaceholderConfigurer.HIBERNATE_CONNECTION_URL, "jdbc:mysql://localhost:3306/ecobill"));
+        driverClassTF.setText(prefs.get(PropertyPreferencesPlaceholderConfigurer.HIBERNATE_CONNECTION_DRIVER_CLASS, "org.hsqldb.jdbcDriver"));
+        urlTF.setText(prefs.get(PropertyPreferencesPlaceholderConfigurer.HIBERNATE_CONNECTION_URL, "jdbc:hsqldb:file:ecobilldb"));
         usernameTF.setText(prefs.get(PropertyPreferencesPlaceholderConfigurer.HIBERNATE_CONNECTION_USERNAME, "ecobill"));
-        passwordPF.setText(prefs.get(PropertyPreferencesPlaceholderConfigurer.HIBERNATE_CONNECTION_PASSWORD, "ecobill"));
+        passwordPF.setText(prefs.get(PropertyPreferencesPlaceholderConfigurer.HIBERNATE_CONNECTION_PASSWORD, "x2kub2"));
 
         applyB.addActionListener(new ActionListener() {
 
