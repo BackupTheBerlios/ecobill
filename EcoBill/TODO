@@ -6,3 +6,5 @@ IMPROVING
 - More qualified human computer interaction for article, delivery order and bill.
 - A bill button in the delivery order user interface, maybe an bill acceleration button.
 - Implement a NumberRangeUI or NumberRangeDialog.
+- Additional attributes for the business partner or person.
+- Comparison between the last build and current version.
